@@ -21,10 +21,9 @@ NutshPlayingInterface::NutshPlayingInterface(NutshComunicator* corePath)
 
     //init & alloc controls
     tempsLabel = new QLabel("00:00");
-    avancement = new Phonon::SeekSlider(media);
 
     controls = new QHBoxLayout;
-    controls->addWidget(avancement);
+    controls->addWidget(media->getProgressbar());
     controls->addWidget(tempsLabel);
 
 

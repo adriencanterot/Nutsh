@@ -4,6 +4,7 @@ NutshLecteur::NutshLecteur() {
     sortieAudio = new Phonon::AudioOutput(Phonon::MusicCategory);
     sortieVideo = new Phonon::AudioOutput(Phonon::VideoCategory);
     Phonon::createPath(this, sortieAudio);
+    avancement = new Phonon::SeekSlider(this);
 }
 /*    //Jouer une musique directement
     this->setCurrentSource(source);
@@ -68,4 +69,6 @@ bool NutshLecteur::isPaused() {
         return false;
     }
 }
-
+Phonon::SeekSlider* NutshLecteur::getProgressbar() {
+    return avancement;
+}

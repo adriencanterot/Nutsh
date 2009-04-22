@@ -19,10 +19,12 @@ public:
     bool isPaused();
     void setSource(NutshMetaData&);
     void setSources(QList<NutshMetaData>);
+    Phonon::SeekSlider *getProgressbar();
 
 private :
     Phonon::AudioOutput *sortieAudio;
     Phonon::AudioOutput *sortieVideo;
+    Phonon::SeekSlider *avancement;
 };
 
 #endif // NUTSHLECTEUR_H

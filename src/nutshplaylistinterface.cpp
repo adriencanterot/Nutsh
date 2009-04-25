@@ -3,7 +3,7 @@
 NutshPlayListInterface::NutshPlayListInterface(NutshComunicator* corePath, QWidget *parent) : QWidget(parent)
 {
     core = corePath;
-    this->setFixedWidth(300);
+    this->setFixedWidth(250);
     layout = new QVBoxLayout;
     layoutBouton = new QHBoxLayout;
     liste = new QListWidget;
@@ -31,11 +31,11 @@ void NutshPlayListInterface::refresh() {
     }
 }
 void NutshPlayListInterface::initButtons() {
-    nouvelleListe = new QPushButton("nouvelle");
+    nouvelleListe = new QPushButton("new");
     nouvelleListe->setToolTip("creer une nouvelle playlist");
-    nouvelleListeMagique = new QPushButton("liste magique");
+    nouvelleListeMagique = new QPushButton("magic");
     nouvelleListeMagique->setToolTip("Cree une nouvelle liste magique");
-    importer = new QPushButton("Importer");
+    importer = new QPushButton("add");
 }
 void NutshPlayListInterface::addListe() {
     nommerListe = new QDialog(this);

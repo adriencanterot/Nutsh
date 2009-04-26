@@ -22,7 +22,7 @@ NutshPlayingInterface::NutshPlayingInterface(NutshComunicator* corePath)
     //init & alloc controls
     tempsLabel = new QLabel("00:00");
     controls = new QHBoxLayout;
-    controls->addWidget(media->getPos());
+    controls->addWidget(media->getPosSlider());
     controls->addWidget(tempsLabel);
 
 

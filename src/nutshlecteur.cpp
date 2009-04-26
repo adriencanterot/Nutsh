@@ -69,7 +69,7 @@ bool NutshLecteur::isPaused() {
         return false;
     }
 }
-Phonon::SeekSlider* NutshLecteur::getPos() {
+Phonon::SeekSlider* NutshLecteur::getPosSlider() {
     return avancement;
 }
 #endif
@@ -77,11 +77,11 @@ Phonon::SeekSlider* NutshLecteur::getPos() {
 #include "nutshlecteur.h"
 
 NutshLecteur::NutshLecteur() {
-    FSOUND_Init(44100, 32, 0);
+    FSOUND_Init(44100, 64, 0);
     m_channel = FSOUND_ALL;
     avancement = new QSlider(Qt::Horizontal);
     time = new QTimer;
-    m_state = false;
+    m_state = Stopped;
     m_media = NULL;
     m_updateFrequency = 1000;
     connect(time, SIGNAL(timeout()), this, SLOT(updateSlider()));
@@ -90,37 +90,54 @@ NutshLecteur::NutshLecteur() {
 void NutshLecteur::setSource(NutshMetaData& source) {
     if(m_media != NULL) {
         FSOUND_Stream_Close(m_media);
-        m_state = false;
-        avancement->setSliderPosition(0);
+        m_state = Stopped;
+        disconnect(avancement, SIGNAL(valueChanged(int)), this, SLOT(setPos(int)));
+        avancement->setValue(0);
         m_channel = 0;
         time->stop();
     }
     m_media = FSOUND_Stream_Open(source.getChemin().toAscii().constData(), 0, 0, 0);
     m_channel = FSOUND_Stream_Play(FSOUND_FREE, m_media);
-    m_state = true;
+    FSOUND_SetSurround(m_channel, true);
+    m_state = Stopped;
     avancement->setMaximum(FSOUND_Stream_GetLengthMs(m_media));
     time->start(m_updateFrequency);
     m_source = source.getChemin();
 }
 bool NutshLecteur::isPaused() {
-    return m_state;
+    if(m_state == Paused) {
+        return true;
+    }
+    else {
+        return false;
+    }
 }
 bool NutshLecteur::isPlaying() {
-    return m_state;
+    if(m_state == Playing) {
+        return true;
+    }
+    else {
+        return false;
+    }
 }
 void NutshLecteur::play() {
-    FSOUND_SetPaused(m_channel, false);
-    m_state = true;
+    if(m_state == Paused) {
+        FSOUND_SetPaused(m_channel, false);
+    }
+    else if(m_state == Stopped) {
+        m_channel = FSOUND_Stream_Play(FSOUND_FREE, m_media);
+    }
+    m_state = Playing;
     time->start(m_updateFrequency);
 }
 void NutshLecteur::pause() {
     time->stop();
     FSOUND_SetPaused(m_channel, true);
-    m_state = false;
+    m_state = Paused;
 }
 void NutshLecteur::stop() {
     FSOUND_Stream_Stop(m_media);
-    m_state = false;
+    m_state = Stopped;
     time->stop();
     avancement->setSliderPosition(0);
 }
@@ -128,11 +145,18 @@ QSlider* NutshLecteur::getPosSlider() {
     return avancement;
 }
 void NutshLecteur::updateSlider() {
+    QObject::disconnect(avancement, SIGNAL(valueChanged(int)), this, SLOT(setPos(int)));
     avancement->setSliderPosition(avancement->sliderPosition()+m_updateFrequency);
     emit tick(avancement->sliderPosition()+m_updateFrequency);
+    if(avancement->sliderPosition() == avancement->maximum()) {
+        emit finished();
+        emit aboutToFinish();
+    }
+    QObject::connect(avancement, SIGNAL(valueChanged(int)), this, SLOT(setPos(int)));
+
 }
 void NutshLecteur::setPos(int pos) {
-    FSOUND_Stream_SetTime(m_media, pos);
+        FSOUND_Stream_SetTime(m_media, pos);
 }
 
 #endif

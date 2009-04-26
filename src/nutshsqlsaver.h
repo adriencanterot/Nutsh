@@ -2,7 +2,6 @@
 #define NUTSHSQLSAVER_H
 
 #include <QtSql>
-#include <phonon>
 #include <QString>
 #include <QDir>
 #include <QDesktopServices>

@@ -7,7 +7,6 @@
 #include <QLabel>
 #include <QSplitter>
 #include "nutshmetadata.h"
-#include <phonon>
 #include "nutshlecteur.h"
 
 class NutshComunicator;
@@ -39,7 +38,6 @@ private:
     int currentItem;
     NutshMetaData current;
     NutshLecteur *media;
-    Phonon::SeekSlider *avancement;
 };
 
 #endif // NUTSHPLAYINGINTERFACE_H

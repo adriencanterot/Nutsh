@@ -21,7 +21,7 @@ NutshMetaData::NutshMetaData(const NutshMetaData &m) {
     derniereLecture = m.derniereLecture;
 }
 NutshMetaData::NutshMetaData(QString source) {
-    FileRef file(source.toAscii());
+    FileRef file(source.toAscii().constData());
     artiste = file.tag()->artist().toCString(true);
     album = file.tag()->album().toCString(true);
     titre = file.tag()->title().toCString(true);

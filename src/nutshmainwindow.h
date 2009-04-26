@@ -5,7 +5,6 @@
 #include <QtGui/QMessageBox>
 #include <QtGui/QFileDialog>
 #include <QtSql>
-#include <Phonon>
 #include <QToolBar>
 #include "nutshlecteur.h"
 #include "nutshindexer.h"

@@ -27,6 +27,7 @@ private :
     QDir* dir;
     QVBoxLayout *layout;
     QPushButton *boutonPrecedent;
+    int place;
 };
 
 #endif // NUTSHDRIVEINTERFACE_H

@@ -8,16 +8,21 @@ NutshDriveInterface::NutshDriveInterface(NutshComunicator* corePath)
     core = corePath;
     layout = new QVBoxLayout;
     deviceList = new QListWidget;
-    dir = new QDir("/Volumes/");
     boutonPrecedent = new QPushButton("Precedent");
+    dir = new QDir;
+    dir->setPath("/Volumes");
+#ifdef Q_WS_WIN
+    dir->setPath("C:\\");
+#endif
+    deviceList->addItems(dir->entryList(QDir::AllDirs|QDir::NoDotAndDotDot));
+    place = 0;
+
+
 
     //positionnement
     layout->addWidget(deviceList);
     layout->addWidget(boutonPrecedent);
     this->setLayout(layout);
-
-    //config
-    deviceList->addItems(dir->entryList(QDir::AllDirs|QDir::NoDotAndDotDot));
     boutonPrecedent->setDisabled(true);
     qDebug() << "NutshDriveInterface : initialized";
 
@@ -32,11 +37,14 @@ void NutshDriveInterface::changeDir(QModelIndex item) {
     dir->setPath(QDir::toNativeSeparators(dir->path()+"/"+itemValue));
     deviceList->addItems(dir->entryList(QDir::AllDirs|QDir::NoDotAndDotDot));
     boutonPrecedent->setEnabled(true);
+    place++;
+
 }
 void NutshDriveInterface::precedent(){
     dir->cdUp();
+    place--;
     this->refresh();
-    if(dir->path() == "/Volumes") {
+    if(place == 0) {
         boutonPrecedent->setDisabled(true);
     }
     core->metadatainterface()->reset();

@@ -1,11 +1,14 @@
 #ifndef NUTSHLECTEUR_H
 #define NUTSHLECTEUR_H
-#include <phonon>
 #include <QMessageBox>
 #include <QtDebug>
+#include <QSlider>
 #include "nutshmetadata.h"
+#include <QTimer>
+#include "preprocess.h"
 
 #ifdef Q_WS_MAC
+#include <phonon>
 /* Cree un lecteur heritant du media object (pour lui rajouter des options) */
 class NutshLecteur : public Phonon::MediaObject
 {
@@ -20,7 +23,7 @@ public:
     bool isPaused();
     void setSource(NutshMetaData&);
     void setSources(QList<NutshMetaData>);
-    Phonon::SeekSlider *getPos();
+    Phonon::SeekSlider *getPosSlider();
 
 private :
     Phonon::AudioOutput *sortieAudio;
@@ -30,6 +33,11 @@ private :
 #endif
 #ifdef Q_WS_WIN
 #include <fmod.h>
+enum State{
+    Playing, Paused, Stopped
+        };
+
+
 class NutshLecteur : public QObject
 {
     Q_OBJECT
@@ -54,16 +62,18 @@ private slots:
 
 signals:
     qint64 tick(qint64);
+    void aboutToFinish();
+    void finished();
 
 
 private :
     FSOUND_STREAM *m_media;
     int m_channel;
-    bool m_state;
     QString m_source;
     QTimer* time;
     QSlider *avancement;
     int m_updateFrequency;
+    State m_state;
 
 };
 #endif

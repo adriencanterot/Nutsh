@@ -2,12 +2,14 @@
 #define NUTSHMETADATA_H
 
 #include <QDateTime>
-#include <phonon>
 #include <fileref.h>
 #include <tag.h>
 #include <QUrl>
 #include <QString>
+#include <QStringList>
+#include <QDebug>
 #include <QDateTime>
+#include <QVariantList>
 
 class NutshMetaData
 {

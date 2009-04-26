@@ -5,15 +5,17 @@ QT += sql
 
 DESTDIR += bin \
 
+
 win32 {
 
 INCLUDEPATH += .\
-./3rdparty \
-./3rdparty/FMOD3/inc \
-./3rdparty/taglib/include/taglib
+./3rdparty/win \
+./3rdparty/win/FMOD3/inc \
+./3rdparty/win/taglib/include/taglib
 
 LIBS += -L3rdparty/win/taglib/lib -ltag \
--L3rdparty/FMOD3/win/lib -lfmod
+-L3rdparty/win/FMOD3/lib -lfmod
+
 }
 !win32 {
 LIBS += -F3rdparty/mac -framework TagLib

@@ -62,4 +62,17 @@ void NutshPlayListInterface::importWindow() {
     core->scannerAccess()->indexer(path);
     NutshSqlSaver::inserer(core->scannerAccess()->sortie(), "bibliotheque");
 }
+void NutshPlayingInterface::mousePressEvent(QMouseEvent *event)
+ {
+     if (event->button() == Qt::LeftButton
+         && this->geometry().contains(event->pos())) {
+
+         QDrag *drag = new QDrag(this);
+         QMimeData *mimeData = new QMimeData;
+
+         mimeData->setText("HELLO WORLD");
+
+         Qt::DropAction dropAction = drag->exec();
+     }
+ }
 

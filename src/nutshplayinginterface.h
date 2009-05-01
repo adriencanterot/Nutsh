@@ -7,6 +7,9 @@
 #include <QLabel>
 #include <QSplitter>
 #include "nutshmetadata.h"
+#include <QMouseEvent>
+#include <QDrag>
+
 #include "nutshlecteur.h"
 
 class NutshComunicator;
@@ -20,6 +23,7 @@ public:
     void load(QList<NutshMetaData>);
     void swapToPlay();
     void setStatus();
+    void mousePressEvent(QMouseEvent*);
 public slots:
     void next();
     void previous();

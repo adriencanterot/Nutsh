@@ -30,9 +30,8 @@ void NutshIndexer::indexer(QString chemin) {
     while(iterator->hasNext()) {
         i++;
         metaDataList.append(NutshMetaData(iterator->next()));
-        qDebug() << i;
     }
-    qDebug() << i;
+
 
 
 }

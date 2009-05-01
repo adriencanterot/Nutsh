@@ -21,12 +21,32 @@
   <value type="QString" >Qt4ProjectManager.Qt4RunConfiguration</value>
  </data>
  <data>
+  <variable>RunConfiguration1-CommandLineArguments</variable>
+  <valuelist type="QVariantList" />
+ </data>
+ <data>
+  <variable>RunConfiguration1-ProFile</variable>
+  <value type="QString" >C:/Documents and Settings/Lapin Malin/My Documents/My Projects/nutsh/Updater/Updater.pro</value>
+ </data>
+ <data>
+  <variable>RunConfiguration1-RunConfiguration.name</variable>
+  <value type="QString" >Updater</value>
+ </data>
+ <data>
+  <variable>RunConfiguration1-UserSetName</variable>
+  <value type="bool" >false</value>
+ </data>
+ <data>
+  <variable>RunConfiguration1-type</variable>
+  <value type="QString" >Qt4ProjectManager.Qt4RunConfiguration</value>
+ </data>
+ <data>
   <variable>activeRunConfiguration</variable>
-  <value type="int" >0</value>
+  <value type="int" >1</value>
  </data>
  <data>
   <variable>activebuildconfiguration</variable>
-  <value type="QString" >Debug</value>
+  <value type="QString" >Release</value>
  </data>
  <data>
   <variable>buildConfiguration-Debug</variable>
@@ -34,7 +54,7 @@
    <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString" >Debug</value>
    <value key="QtVersionId" type="int" >2</value>
    <value key="addQDumper" type="" ></value>
-   <value key="buildDirectory" type="QString" >/Developer/Projets/TheNutsh!Project/source/nutsh-05/Updater</value>
+   <value key="buildDirectory" type="QString" >C:\Documents and Settings\Lapin Malin\My Documents\My Projects\nutsh\Updater</value>
    <value key="useShadowBuild" type="bool" >false</value>
   </valuemap>
  </data>
@@ -44,6 +64,7 @@
    <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString" >Release</value>
    <value key="QtVersionId" type="int" >0</value>
    <value key="addQDumper" type="" ></value>
+   <value key="buildDirectory" type="QString" >C:\Documents and Settings\Lapin Malin\My Documents\My Projects\nutsh\Updater</value>
   </valuemap>
  </data>
  <data>
@@ -57,32 +78,48 @@
   <valuemap type="QVariantMap" >
    <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString" >Debug</value>
    <valuelist key="abstractProcess.Environment" type="QVariantList" >
-    <value type="QString" >Apple_PubSub_Socket_Render=/tmp/launch-c2uESd/Render</value>
-    <value type="QString" >COMMAND_MODE=legacy</value>
-    <value type="QString" >DISPLAY=/tmp/launch-VCYFuD/:0</value>
-    <value type="QString" >GL_ENABLE_DEBUG_ATTACH=YES</value>
-    <value type="QString" >HOME=/Users/Lapinou</value>
-    <value type="QString" >LOGNAME=Lapinou</value>
-    <value type="QString" >PATH=/Developer/Tools/Qt:/usr/bin:/bin:/usr/sbin:/sbin</value>
-    <value type="QString" >QTDIR=/usr</value>
-    <value type="QString" >SECURITYSESSIONID=a06420</value>
-    <value type="QString" >SHELL=/bin/bash</value>
-    <value type="QString" >SSH_AUTH_SOCK=/tmp/launch-FcQt33/Listeners</value>
-    <value type="QString" >TMPDIR=/var/folders/pm/pm9uMmuNF9iU8L++1xV0nk+++TI/-Tmp-/</value>
-    <value type="QString" >USER=Lapinou</value>
-    <value type="QString" >__CF_USER_TEXT_ENCODING=0x1F5:0:91
-</value>
+    <value type="QString" >ALLUSERSPROFILE=C:\Documents and Settings\All Users</value>
+    <value type="QString" >APPDATA=C:\Documents and Settings\Lapin Malin\Application Data</value>
+    <value type="QString" >CLIENTNAME=Console</value>
+    <value type="QString" >COMMONPROGRAMFILES=C:\Program Files\Common Files</value>
+    <value type="QString" >COMPUTERNAME=LAPINOU</value>
+    <value type="QString" >COMSPEC=C:\WINDOWS\system32\cmd.exe</value>
+    <value type="QString" >FP_NO_HOST_CHECK=NO</value>
+    <value type="QString" >HOMEDRIVE=C:</value>
+    <value type="QString" >HOMEPATH=\Documents and Settings\Lapin Malin</value>
+    <value type="QString" >LOGONSERVER=\\LAPINOU</value>
+    <value type="QString" >NUMBER_OF_PROCESSORS=2</value>
+    <value type="QString" >OS=Windows_NT</value>
+    <value type="QString" >PATH=c:\Qt\2009.01\mingw\bin;c:\Qt\2009.01\qt\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\Qt\4.4.3\bin\;C:\Program Files\TortoiseSVN\bin;C:\Program Files\CMake 2.6\bin</value>
+    <value type="QString" >PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH</value>
+    <value type="QString" >PROCESSOR_ARCHITECTURE=x86</value>
+    <value type="QString" >PROCESSOR_IDENTIFIER=x86 Family 6 Model 15 Stepping 6, GenuineIntel</value>
+    <value type="QString" >PROCESSOR_LEVEL=6</value>
+    <value type="QString" >PROCESSOR_REVISION=0f06</value>
+    <value type="QString" >PROGRAMFILES=C:\Program Files</value>
+    <value type="QString" >QMAKESPEC=win32-msvc2008</value>
+    <value type="QString" >QTDIR=c:/Qt/2009.01/qt</value>
+    <value type="QString" >SESSIONNAME=Console</value>
+    <value type="QString" >SYSTEMDRIVE=C:</value>
+    <value type="QString" >SYSTEMROOT=C:\WINDOWS</value>
+    <value type="QString" >TEMP=C:\DOCUME~1\LAPINM~1\LOCALS~1\Temp</value>
+    <value type="QString" >TMP=C:\DOCUME~1\LAPINM~1\LOCALS~1\Temp</value>
+    <value type="QString" >USERDOMAIN=LAPINOU</value>
+    <value type="QString" >USERNAME=Lapin Malin</value>
+    <value type="QString" >USERPROFILE=C:\Documents and Settings\Lapin Malin</value>
+    <value type="QString" >VS90COMNTOOLS=C:\Program Files\Microsoft Visual Studio 9.0\Common7\Tools\</value>
+    <value type="QString" >WINDIR=C:\WINDOWS</value>
    </valuelist>
    <valuelist key="abstractProcess.arguments" type="QVariantList" >
-    <value type="QString" >/Developer/Projets/TheNutsh!Project/source/nutsh-05/Updater/Updater.pro</value>
+    <value type="QString" >C:/Documents and Settings/Lapin Malin/My Documents/My Projects/nutsh/Updater/Updater.pro</value>
     <value type="QString" >-spec</value>
-    <value type="QString" >macx-g++</value>
+    <value type="QString" >win32-g++</value>
     <value type="QString" >-r</value>
     <value type="QString" >CONFIG+=debug_and_release</value>
    </valuelist>
-   <value key="abstractProcess.command" type="QString" >/usr/bin/qmake</value>
+   <value key="abstractProcess.command" type="QString" >C:/Qt/2009.01/qt/bin/qmake.exe</value>
    <value key="abstractProcess.enabled" type="bool" >false</value>
-   <value key="abstractProcess.workingDirectory" type="QString" >/Developer/Projets/TheNutsh!Project/source/nutsh-05/Updater</value>
+   <value key="abstractProcess.workingDirectory" type="QString" >C:/Documents and Settings/Lapin Malin/My Documents/My Projects/nutsh/Updater</value>
    <value key="buildConfiguration" type="int" >10</value>
   </valuemap>
  </data>
@@ -91,29 +128,45 @@
   <valuemap type="QVariantMap" >
    <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString" >Debug</value>
    <valuelist key="abstractProcess.Environment" type="QVariantList" >
-    <value type="QString" >Apple_PubSub_Socket_Render=/tmp/launch-c2uESd/Render</value>
-    <value type="QString" >COMMAND_MODE=legacy</value>
-    <value type="QString" >DISPLAY=/tmp/launch-VCYFuD/:0</value>
-    <value type="QString" >GL_ENABLE_DEBUG_ATTACH=YES</value>
-    <value type="QString" >HOME=/Users/Lapinou</value>
-    <value type="QString" >LOGNAME=Lapinou</value>
-    <value type="QString" >PATH=/Developer/Tools/Qt:/usr/bin:/bin:/usr/sbin:/sbin</value>
-    <value type="QString" >QTDIR=/usr</value>
-    <value type="QString" >SECURITYSESSIONID=a06420</value>
-    <value type="QString" >SHELL=/bin/bash</value>
-    <value type="QString" >SSH_AUTH_SOCK=/tmp/launch-FcQt33/Listeners</value>
-    <value type="QString" >TMPDIR=/var/folders/pm/pm9uMmuNF9iU8L++1xV0nk+++TI/-Tmp-/</value>
-    <value type="QString" >USER=Lapinou</value>
-    <value type="QString" >__CF_USER_TEXT_ENCODING=0x1F5:0:91
-</value>
+    <value type="QString" >ALLUSERSPROFILE=C:\Documents and Settings\All Users</value>
+    <value type="QString" >APPDATA=C:\Documents and Settings\Lapin Malin\Application Data</value>
+    <value type="QString" >CLIENTNAME=Console</value>
+    <value type="QString" >COMMONPROGRAMFILES=C:\Program Files\Common Files</value>
+    <value type="QString" >COMPUTERNAME=LAPINOU</value>
+    <value type="QString" >COMSPEC=C:\WINDOWS\system32\cmd.exe</value>
+    <value type="QString" >FP_NO_HOST_CHECK=NO</value>
+    <value type="QString" >HOMEDRIVE=C:</value>
+    <value type="QString" >HOMEPATH=\Documents and Settings\Lapin Malin</value>
+    <value type="QString" >LOGONSERVER=\\LAPINOU</value>
+    <value type="QString" >NUMBER_OF_PROCESSORS=2</value>
+    <value type="QString" >OS=Windows_NT</value>
+    <value type="QString" >PATH=c:\Qt\2009.01\mingw\bin;c:\Qt\2009.01\qt\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\Qt\4.4.3\bin\;C:\Program Files\TortoiseSVN\bin;C:\Program Files\CMake 2.6\bin</value>
+    <value type="QString" >PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH</value>
+    <value type="QString" >PROCESSOR_ARCHITECTURE=x86</value>
+    <value type="QString" >PROCESSOR_IDENTIFIER=x86 Family 6 Model 15 Stepping 6, GenuineIntel</value>
+    <value type="QString" >PROCESSOR_LEVEL=6</value>
+    <value type="QString" >PROCESSOR_REVISION=0f06</value>
+    <value type="QString" >PROGRAMFILES=C:\Program Files</value>
+    <value type="QString" >QMAKESPEC=win32-msvc2008</value>
+    <value type="QString" >QTDIR=c:/Qt/2009.01/qt</value>
+    <value type="QString" >SESSIONNAME=Console</value>
+    <value type="QString" >SYSTEMDRIVE=C:</value>
+    <value type="QString" >SYSTEMROOT=C:\WINDOWS</value>
+    <value type="QString" >TEMP=C:\DOCUME~1\LAPINM~1\LOCALS~1\Temp</value>
+    <value type="QString" >TMP=C:\DOCUME~1\LAPINM~1\LOCALS~1\Temp</value>
+    <value type="QString" >USERDOMAIN=LAPINOU</value>
+    <value type="QString" >USERNAME=Lapin Malin</value>
+    <value type="QString" >USERPROFILE=C:\Documents and Settings\Lapin Malin</value>
+    <value type="QString" >VS90COMNTOOLS=C:\Program Files\Microsoft Visual Studio 9.0\Common7\Tools\</value>
+    <value type="QString" >WINDIR=C:\WINDOWS</value>
    </valuelist>
    <valuelist key="abstractProcess.arguments" type="QVariantList" >
     <value type="QString" >debug</value>
     <value type="QString" >-w</value>
    </valuelist>
-   <value key="abstractProcess.command" type="QString" >/usr/bin/make</value>
+   <value key="abstractProcess.command" type="QString" >C:/Qt/2009.01/mingw/bin/mingw32-make.exe</value>
    <value key="abstractProcess.enabled" type="bool" >true</value>
-   <value key="abstractProcess.workingDirectory" type="QString" >/Developer/Projets/TheNutsh!Project/source/nutsh-05/Updater</value>
+   <value key="abstractProcess.workingDirectory" type="QString" >C:/Documents and Settings/Lapin Malin/My Documents/My Projects/nutsh/Updater</value>
    <valuelist key="makeargs" type="QVariantList" >
     <value type="QString" >debug</value>
    </valuelist>
@@ -141,6 +194,50 @@
   <variable>buildconfiguration-Release-buildstep1</variable>
   <valuemap type="QVariantMap" >
    <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString" >Release</value>
+   <valuelist key="abstractProcess.Environment" type="QVariantList" >
+    <value type="QString" >ALLUSERSPROFILE=C:\Documents and Settings\All Users</value>
+    <value type="QString" >APPDATA=C:\Documents and Settings\Lapin Malin\Application Data</value>
+    <value type="QString" >CLIENTNAME=Console</value>
+    <value type="QString" >COMMONPROGRAMFILES=C:\Program Files\Common Files</value>
+    <value type="QString" >COMPUTERNAME=LAPINOU</value>
+    <value type="QString" >COMSPEC=C:\WINDOWS\system32\cmd.exe</value>
+    <value type="QString" >FP_NO_HOST_CHECK=NO</value>
+    <value type="QString" >HOMEDRIVE=C:</value>
+    <value type="QString" >HOMEPATH=\Documents and Settings\Lapin Malin</value>
+    <value type="QString" >LOGONSERVER=\\LAPINOU</value>
+    <value type="QString" >NUMBER_OF_PROCESSORS=2</value>
+    <value type="QString" >OS=Windows_NT</value>
+    <value type="QString" >PATH=c:\Qt\2009.01\mingw\bin;c:\Qt\2009.01\qt\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\Qt\4.4.3\bin\;C:\Program Files\TortoiseSVN\bin;C:\Program Files\CMake 2.6\bin</value>
+    <value type="QString" >PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH</value>
+    <value type="QString" >PROCESSOR_ARCHITECTURE=x86</value>
+    <value type="QString" >PROCESSOR_IDENTIFIER=x86 Family 6 Model 15 Stepping 6, GenuineIntel</value>
+    <value type="QString" >PROCESSOR_LEVEL=6</value>
+    <value type="QString" >PROCESSOR_REVISION=0f06</value>
+    <value type="QString" >PROGRAMFILES=C:\Program Files</value>
+    <value type="QString" >QMAKESPEC=win32-msvc2008</value>
+    <value type="QString" >QTDIR=c:/Qt/2009.01/qt</value>
+    <value type="QString" >SESSIONNAME=Console</value>
+    <value type="QString" >SYSTEMDRIVE=C:</value>
+    <value type="QString" >SYSTEMROOT=C:\WINDOWS</value>
+    <value type="QString" >TEMP=C:\DOCUME~1\LAPINM~1\LOCALS~1\Temp</value>
+    <value type="QString" >TMP=C:\DOCUME~1\LAPINM~1\LOCALS~1\Temp</value>
+    <value type="QString" >USERDOMAIN=LAPINOU</value>
+    <value type="QString" >USERNAME=Lapin Malin</value>
+    <value type="QString" >USERPROFILE=C:\Documents and Settings\Lapin Malin</value>
+    <value type="QString" >VS90COMNTOOLS=C:\Program Files\Microsoft Visual Studio 9.0\Common7\Tools\</value>
+    <value type="QString" >WINDIR=C:\WINDOWS</value>
+   </valuelist>
+   <valuelist key="abstractProcess.arguments" type="QVariantList" >
+    <value type="QString" >C:/Documents and Settings/Lapin Malin/My Documents/My Projects/nutsh/Updater/Updater.pro</value>
+    <value type="QString" >-spec</value>
+    <value type="QString" >win32-g++</value>
+    <value type="QString" >-r</value>
+    <value type="QString" >CONFIG+=debug_and_release</value>
+    <value type="QString" >CONFIG+=release</value>
+   </valuelist>
+   <value key="abstractProcess.command" type="QString" >C:/Qt/2009.01/qt/bin/qmake.exe</value>
+   <value key="abstractProcess.enabled" type="bool" >false</value>
+   <value key="abstractProcess.workingDirectory" type="QString" >C:/Documents and Settings/Lapin Malin/My Documents/My Projects/nutsh/Updater</value>
    <value key="buildConfiguration" type="int" >8</value>
   </valuemap>
  </data>
@@ -148,6 +245,46 @@
   <variable>buildconfiguration-Release-buildstep2</variable>
   <valuemap type="QVariantMap" >
    <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString" >Release</value>
+   <valuelist key="abstractProcess.Environment" type="QVariantList" >
+    <value type="QString" >ALLUSERSPROFILE=C:\Documents and Settings\All Users</value>
+    <value type="QString" >APPDATA=C:\Documents and Settings\Lapin Malin\Application Data</value>
+    <value type="QString" >CLIENTNAME=Console</value>
+    <value type="QString" >COMMONPROGRAMFILES=C:\Program Files\Common Files</value>
+    <value type="QString" >COMPUTERNAME=LAPINOU</value>
+    <value type="QString" >COMSPEC=C:\WINDOWS\system32\cmd.exe</value>
+    <value type="QString" >FP_NO_HOST_CHECK=NO</value>
+    <value type="QString" >HOMEDRIVE=C:</value>
+    <value type="QString" >HOMEPATH=\Documents and Settings\Lapin Malin</value>
+    <value type="QString" >LOGONSERVER=\\LAPINOU</value>
+    <value type="QString" >NUMBER_OF_PROCESSORS=2</value>
+    <value type="QString" >OS=Windows_NT</value>
+    <value type="QString" >PATH=c:\Qt\2009.01\mingw\bin;c:\Qt\2009.01\qt\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\Qt\4.4.3\bin\;C:\Program Files\TortoiseSVN\bin;C:\Program Files\CMake 2.6\bin</value>
+    <value type="QString" >PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH</value>
+    <value type="QString" >PROCESSOR_ARCHITECTURE=x86</value>
+    <value type="QString" >PROCESSOR_IDENTIFIER=x86 Family 6 Model 15 Stepping 6, GenuineIntel</value>
+    <value type="QString" >PROCESSOR_LEVEL=6</value>
+    <value type="QString" >PROCESSOR_REVISION=0f06</value>
+    <value type="QString" >PROGRAMFILES=C:\Program Files</value>
+    <value type="QString" >QMAKESPEC=win32-msvc2008</value>
+    <value type="QString" >QTDIR=c:/Qt/2009.01/qt</value>
+    <value type="QString" >SESSIONNAME=Console</value>
+    <value type="QString" >SYSTEMDRIVE=C:</value>
+    <value type="QString" >SYSTEMROOT=C:\WINDOWS</value>
+    <value type="QString" >TEMP=C:\DOCUME~1\LAPINM~1\LOCALS~1\Temp</value>
+    <value type="QString" >TMP=C:\DOCUME~1\LAPINM~1\LOCALS~1\Temp</value>
+    <value type="QString" >USERDOMAIN=LAPINOU</value>
+    <value type="QString" >USERNAME=Lapin Malin</value>
+    <value type="QString" >USERPROFILE=C:\Documents and Settings\Lapin Malin</value>
+    <value type="QString" >VS90COMNTOOLS=C:\Program Files\Microsoft Visual Studio 9.0\Common7\Tools\</value>
+    <value type="QString" >WINDIR=C:\WINDOWS</value>
+   </valuelist>
+   <valuelist key="abstractProcess.arguments" type="QVariantList" >
+    <value type="QString" >release</value>
+    <value type="QString" >-w</value>
+   </valuelist>
+   <value key="abstractProcess.command" type="QString" >C:/Qt/2009.01/mingw/bin/mingw32-make.exe</value>
+   <value key="abstractProcess.enabled" type="bool" >true</value>
+   <value key="abstractProcess.workingDirectory" type="QString" >C:/Documents and Settings/Lapin Malin/My Documents/My Projects/nutsh/Updater</value>
    <valuelist key="makeargs" type="QVariantList" >
     <value type="QString" >release</value>
    </valuelist>

@@ -1,7 +1,8 @@
 # -------------------------------------------------
 # Project created by QtCreator 2009-01-24T16:01:49
 # -------------------------------------------------
-QT += sql network
+QT += sql \
+    network
 DESTDIR += bin
 win32 { 
     INCLUDEPATH += . \
@@ -34,7 +35,8 @@ SOURCES += src/main.cpp \
     src/nutshmetadatainterface.cpp \
     src/nutshmetadatalist.cpp \
     src/nutshplayinginterface.cpp \
-    src/nutshupdater.cpp
+    src/nutshupdater.cpp \
+    Updater/nutshmaj.cpp
 HEADERS += src/nutshmainwindow.h \
     src/nutshlecteur.h \
     src/nutshindexer.h \
@@ -48,4 +50,5 @@ HEADERS += src/nutshmainwindow.h \
     src/nutshmetadatainterface.h \
     src/nutshmetadatalist.h \
     src/nutshplayinginterface.h \
-    src/nutshupdater.h
+    src/nutshupdater.h \
+    Updater/nutshmaj.h

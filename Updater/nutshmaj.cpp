@@ -19,18 +19,20 @@ NutshMaJ::NutshMaJ(QWidget *parent)
 }
 
 void NutshMaJ::telecharger() {
-
+#ifdef Q_WS_MAC
     QUrl url("http://telecharger.nutsh.com/last/maj/nutsh-05");
+#endif
+#ifdef Q_WS_WIN
+    QUrl url("http://telecharger.nutsh.com/last/NutshInstaller.exe");
+#endif
     QFileInfo fileInfo(url.path());
     QString fileName = fileInfo.fileName();
 
-    if (QFile::exists("../../../nutsh-05")) {
-        QFile::remove("nutsh-05");
+    if (QFile::exists(PLATFORM_PATH)) {
+        QFile::remove(PLATFORM_PATH);
         qDebug() << "file removed";
     }
-
-    file = new QFile("../../../nutsh-05");
-    file->setPermissions(QFile::WriteOther);
+    file = new QFile(PLATFORM_PATH);
     if (!file->open(QIODevice::WriteOnly)) {
         QMessageBox::information(this, tr("HTTP"),
                                  tr("Unable to save the file %1: %2.")
@@ -39,21 +41,24 @@ void NutshMaJ::telecharger() {
         file = 0;
         return;
     }
+    qDebug("1");
     m_download = new QHttp;
+    qDebug("2");
     QHttp::ConnectionMode mode = url.scheme().toLower() == "https" ? QHttp::ConnectionModeHttps : QHttp::ConnectionModeHttp;
     m_download->setHost(url.host(), mode, url.port() == -1 ? 0 : url.port());
+    qDebug("3");
 
     QByteArray path = QUrl::toPercentEncoding(url.path(), "!$&'()*+,;=:@/");
     m_download->get(path, file);
+    qDebug("4");
     connect(m_download, SIGNAL(dataReadProgress(int,int)), this, SLOT(updProgress(int,int)));
+
     connect(m_download, SIGNAL(done(bool)), this, SLOT(quitAndStartNutsh()));
+    qDebug("5");
 
 }
 void NutshMaJ::updProgress(int current, int done) {
-    if(i <= current) {
-        i+= SIZE_LABEL;
-        m_dlInfos->setText(QString("%1ko / %2ko").arg(current/SIZE_LABEL).arg(done/SIZE_LABEL));
-    }
+    m_dlInfos->setText(QString("%1ko / %2ko").arg(current/SIZE_LABEL).arg(done/SIZE_LABEL));
     m_progress->setMaximum(done);
     m_progress->setValue(current);
 }
@@ -62,7 +67,19 @@ void NutshMaJ::quitAndStartNutsh() {
 #ifdef Q_WS_MAC
     file->setPermissions(QFile::ExeOwner);
     QProcess nutsh;
-    nutsh.startDetached("/Developer/Projets/TheNutsh!Project/source/nutsh-05/bin/nutsh-05.app/Contents/MacOS/nutsh-05");
+    nutsh.startDetached(PLATFORM_PATH);
     qDebug() << nutsh.error() << nutsh.state();
 #endif
+#ifdef Q_WS_WIN
+    QTimer timer;
+    QProcess nutsh;
+    nutsh.startDetached(PLATFORM_PATH);
+    qDebug() << nutsh.errorString();
+#endif
+}
+void NutshMaJ::done() {
+    QTimer time;
+    connect(&time, SIGNAL(timeout()), this, SLOT(quitAndStartNutsh()));
+    connect(&time, SIGNAL(timeout()), &time, SLOT(stop()));
+    time.start(1000);
 }

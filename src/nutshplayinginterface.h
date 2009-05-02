@@ -23,7 +23,6 @@ public:
     void load(QList<NutshMetaData>);
     void swapToPlay();
     void setStatus();
-    void mousePressEvent(QMouseEvent*);
 public slots:
     void next();
     void previous();

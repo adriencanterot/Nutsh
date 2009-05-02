@@ -4,14 +4,13 @@
 #include <QWidget>
 #include <QProgressDialog>
 #include <QDebug>
-#include <QHttp>
-#include <QFile>
 #include <QMessageBox>
 #include <QUrl>
 #include <QFileInfo>
 #include <QLayout>
 #include <QLabel>
 #include <QPushButton>
+#include "nutshmaj.h"
 
 class NutshUpdater : public QWidget
 {
@@ -28,8 +27,7 @@ private:
     QPushButton *m_oui, *m_non;
     QVBoxLayout *m_principal;
     QHBoxLayout *m_ouiNon, *m_progressLayout;
-    QProgressDialog *m_downloadProgress;
-    QHttp* m_download;
+    NutshMaJ* m_download;
     QFile* file;
     int i, o;
 };

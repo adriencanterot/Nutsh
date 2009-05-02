@@ -6,7 +6,7 @@ NutshMaJ::NutshMaJ(QWidget *parent)
     m_progress = new QProgressBar;
     m_cancel = new QPushButton("Arreter");
     m_principal = new QVBoxLayout;
-    m_dlInfos = new QLabel("0000ko / 0000ko");
+    m_dlInfos = new QLabel("000ko / 000ko");
     m_actionLayout = new QHBoxLayout;
     m_actionLayout->addWidget(m_dlInfos);
     m_actionLayout->addWidget(m_cancel);
@@ -20,7 +20,7 @@ NutshMaJ::NutshMaJ(QWidget *parent)
 
 void NutshMaJ::telecharger() {
 #ifdef Q_WS_MAC
-    QUrl url("http://telecharger.nutsh.com/last/maj/nutsh-05");
+    QUrl url("http://telecharger.nutsh.com/last/miseajour/nutsh-05");
 #endif
 #ifdef Q_WS_WIN
     QUrl url("http://telecharger.nutsh.com/last/NutshInstaller.exe");
@@ -41,20 +41,15 @@ void NutshMaJ::telecharger() {
         file = 0;
         return;
     }
-    qDebug("1");
     m_download = new QHttp;
-    qDebug("2");
     QHttp::ConnectionMode mode = url.scheme().toLower() == "https" ? QHttp::ConnectionModeHttps : QHttp::ConnectionModeHttp;
     m_download->setHost(url.host(), mode, url.port() == -1 ? 0 : url.port());
-    qDebug("3");
 
     QByteArray path = QUrl::toPercentEncoding(url.path(), "!$&'()*+,;=:@/");
     m_download->get(path, file);
-    qDebug("4");
     connect(m_download, SIGNAL(dataReadProgress(int,int)), this, SLOT(updProgress(int,int)));
 
     connect(m_download, SIGNAL(done(bool)), this, SLOT(quitAndStartNutsh()));
-    qDebug("5");
 
 }
 void NutshMaJ::updProgress(int current, int done) {
@@ -65,10 +60,12 @@ void NutshMaJ::updProgress(int current, int done) {
 
 void NutshMaJ::quitAndStartNutsh() {
 #ifdef Q_WS_MAC
-    file->setPermissions(QFile::ExeOwner);
-    QProcess nutsh;
-    nutsh.startDetached(PLATFORM_PATH);
-    qDebug() << nutsh.error() << nutsh.state();
+    file->setPermissions(QFile::ExeUser);
+    file->close();
+    QDir actual("");
+    qDebug() << actual.absolutePath();
+    system("chmod 777 nutsh-05");
+    system("./nutsh-05");
 #endif
 #ifdef Q_WS_WIN
     QTimer timer;
@@ -76,10 +73,4 @@ void NutshMaJ::quitAndStartNutsh() {
     nutsh.startDetached(PLATFORM_PATH);
     qDebug() << nutsh.errorString();
 #endif
-}
-void NutshMaJ::done() {
-    QTimer time;
-    connect(&time, SIGNAL(timeout()), this, SLOT(quitAndStartNutsh()));
-    connect(&time, SIGNAL(timeout()), &time, SLOT(stop()));
-    time.start(1000);
 }

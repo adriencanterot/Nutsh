@@ -7,6 +7,6 @@ NutshMainWindow::NutshMainWindow(QWidget *parent)
     this->setStatusBar(path->bar());
     this->setFixedSize(650, 300);
     setUnifiedTitleAndToolBarOnMac(true);
-    this->setWindowTitle("Nutsh!");
+    this->setWindowTitle("Nutsh! test ");
     qDebug("NutshMainWindow : Fin de l'initialisation de l'interface");
 }

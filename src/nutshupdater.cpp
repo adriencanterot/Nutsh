@@ -17,17 +17,11 @@ NutshUpdater::NutshUpdater()
     m_principal->addWidget(m_nouvelleMaj);
     m_principal->addLayout(m_ouiNon);
 
-    m_download = new QHttp(this);
-    m_downloadProgress = new QProgressDialog(this);
-    m_downloadProgress->setLabel(m_dlInfos);
-
     connect(m_oui, SIGNAL(clicked()), this, SLOT(launchUpdater()));
 
     this->setLayout(m_principal);
 }
 void NutshUpdater::launchUpdater() {
-#ifdef Q_WS_MAC
-    system("./Updater");
-
-#endif
+    m_download = new NutshMaJ;
+    m_download->show();
 }

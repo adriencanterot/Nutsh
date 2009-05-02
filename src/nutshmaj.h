@@ -13,10 +13,11 @@
 #include <QMessageBox>
 #include <QFile>
 #include <QProcess>
+#include <QDir>
 #include <QTimer>
 #define SIZE_LABEL 1000
 #ifdef Q_WS_MAC
-#define PLATFORM_PATH "../../../nutsh-05"
+#define PLATFORM_PATH "nutsh-05"
 #endif
 #ifdef Q_WS_WIN
 #define PLATFORM_PATH "NutshInstaller.exe"
@@ -31,7 +32,6 @@ public:
 public slots:
     void telecharger();
     void quitAndStartNutsh();
-    void done();
     void updProgress(int, int);
 private:
     QLabel *m_dlInfos;

@@ -67,7 +67,7 @@ void NutshUpdater::getResults(bool error) {
         file->close();
         file->open(QIODevice::ReadOnly);
         QString version = file->readLine();
-        version.left(16);
+        version.left(14);
         qDebug() << version;
         numeroVersion = version.toInt();
         qDebug() << numeroVersion;

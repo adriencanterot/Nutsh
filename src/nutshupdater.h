@@ -11,15 +11,18 @@
 #include <QLabel>
 #include <QPushButton>
 #include "nutshmaj.h"
+#include <QBuffer>
 
-class NutshUpdater : public QWidget
+
+class NutshUpdater : public QDialog
 {
     Q_OBJECT
 public:
     NutshUpdater();
-    static bool isUpdate();
+    bool isUpdate();
 public slots:
     void launchUpdater();
+    void getResults(bool);
 
 
 private:
@@ -28,7 +31,8 @@ private:
     QVBoxLayout *m_principal;
     QHBoxLayout *m_ouiNon, *m_progressLayout;
     NutshMaJ* m_download;
-    QFile* file;
+    QBuffer* file;
+    QHttp* maj;
     int i, o;
 };
 

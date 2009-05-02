@@ -15,6 +15,7 @@
 #include <QProcess>
 #include <QDir>
 #include <QTimer>
+#include <QApplication>
 #define SIZE_LABEL 1000
 #ifdef Q_WS_MAC
 #define PLATFORM_PATH "nutsh-05"

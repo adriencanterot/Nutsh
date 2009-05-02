@@ -23,7 +23,7 @@ void NutshMaJ::telecharger() {
     QUrl url("http://telecharger.nutsh.com/last/miseajour/nutsh-05");
 #endif
 #ifdef Q_WS_WIN
-    QUrl url("http://telecharger.nutsh.com/last/NutshInstaller.exe");
+    QUrl url("http://telecharger.nutsh.com/last/miseajour/nutsh-05.exe");
 #endif
     QFileInfo fileInfo(url.path());
     QString fileName = fileInfo.fileName();
@@ -68,9 +68,9 @@ void NutshMaJ::quitAndStartNutsh() {
     system("./nutsh-05");
 #endif
 #ifdef Q_WS_WIN
-    QTimer timer;
     QProcess nutsh;
-    nutsh.startDetached(PLATFORM_PATH);
-    qDebug() << nutsh.errorString();
+    qDebug() << QDir::toNativeSeparators(QDir::currentPath()+"/nutsh-05.exe");
+    nutsh.startDetached(QDir::toNativeSeparators("nutsh-05.exe"));
+    QApplication::exit(0);
 #endif
 }

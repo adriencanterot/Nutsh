@@ -8,7 +8,9 @@
 #include <QtCore/QDir>
 #include <QtCore/QDirIterator>
 #include <QtCore/QStringList>
+#include <QtGui/QProgressDialog>
 #include "nutshmetadata.h"
+#include "nutshsqlsaver.h"
 #include "preprocess.h"
 
 
@@ -17,7 +19,7 @@ class NutshIndexer
     public:
         NutshIndexer();
 	QList<NutshMetaData> sortie();
-        void indexer(QString);
+        void indexer(QString, QProgressDialog*, QString);
     protected :
 	bool trouver(QString, QStringList*);
 

@@ -20,6 +20,7 @@ NutshPlayListInterface::NutshPlayListInterface(NutshComunicator* corePath, QWidg
     layout->addLayout(layoutBouton);
     this->setLayout(layout);
     connect(nouvelleListe, SIGNAL(clicked()), this, SLOT(addListe()));
+    progression = new QProgressDialog(this);
     qDebug() << "NutshPlaylistInterface : initialized";
 
 }
@@ -31,11 +32,11 @@ void NutshPlayListInterface::refresh() {
     }
 }
 void NutshPlayListInterface::initButtons() {
-    nouvelleListe = new QPushButton("new");
+    nouvelleListe = new QPushButton("nouvelle");
     nouvelleListe->setToolTip("creer une nouvelle playlist");
-    nouvelleListeMagique = new QPushButton("magic");
+    nouvelleListeMagique = new QPushButton("");
     nouvelleListeMagique->setToolTip("Cree une nouvelle liste magique");
-    importer = new QPushButton("add");
+    importer = new QPushButton("Importer");
 }
 void NutshPlayListInterface::addListe() {
     nommerListe = new QDialog(this);
@@ -59,6 +60,5 @@ void NutshPlayListInterface::sigandslots() {
 }
 void NutshPlayListInterface::importWindow() {
     QString path = QFileDialog::getExistingDirectory(this, "", "/");
-    core->scannerAccess()->indexer(path);
-    NutshSqlSaver::inserer(core->scannerAccess()->sortie(), "bibliotheque");
+    core->scannerAccess()->indexer(path, progression, "bibliotheque");
 }

@@ -12,14 +12,16 @@
 #include <QPushButton>
 #include "nutshmaj.h"
 #include <QBuffer>
+#include <QVariant>
 
 
-class NutshUpdater : public QWidget
+class NutshUpdater : public QDialog
 {
     Q_OBJECT
 public:
-    NutshUpdater();
+    NutshUpdater(QWidget *parent);
     bool isUpdate();
+    bool waitForSignal(QObject*, const char*);
 public slots:
     void launchUpdater();
     void getResults(bool);

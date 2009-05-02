@@ -94,7 +94,6 @@ bool NutshSqlSaver::trouverDansTable(QString query, NutshMetaData recherche) {
     while(requete.next()) {
 
             if(requete.value(0/*1er resultat du select*/).toString() == recherche.getArtiste() && requete.value(1/*2e resultat*/) == recherche.getAlbum() && requete.value(2)/*3e resultat*/ == recherche.getTitre()) {
-                qDebug() << "true";
                 ok = true;
 		break;
 	    }

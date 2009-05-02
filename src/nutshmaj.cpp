@@ -1,7 +1,7 @@
 #include "nutshmaj.h"
 
 NutshMaJ::NutshMaJ(QWidget *parent)
-    : QWidget(parent)
+    : QDialog(parent)
 {
     m_progress = new QProgressBar;
     m_cancel = new QPushButton("Arreter");
@@ -71,6 +71,7 @@ void NutshMaJ::quitAndStartNutsh() {
     QProcess nutsh;
     qDebug() << QDir::toNativeSeparators(QDir::currentPath()+"/nutsh-05.exe");
     nutsh.startDetached(QDir::toNativeSeparators("nutsh-05.exe"));
+    this->close();
     QApplication::exit(0);
 #endif
 }

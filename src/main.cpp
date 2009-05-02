@@ -7,9 +7,9 @@ int main(int argc, char *argv[])
     QApplication::setApplicationName("Nutsh!");
     NutshMainWindow f;
     f.show();
-    NutshUpdater update;
+    NutshUpdater update(&f);
     if(update.isUpdate()) {
-        update.show();
+        update.exec();
     }
     return a.exec();
 }

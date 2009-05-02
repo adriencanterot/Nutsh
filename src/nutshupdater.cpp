@@ -1,6 +1,6 @@
-#define VERSION 2
+#define VERSION 1
 #include "nutshupdater.h"
-NutshUpdater::NutshUpdater()
+NutshUpdater::NutshUpdater(QWidget *parent = 0) : QDialog(parent)
 {
     m_nouvelleMaj = new QLabel("Une nouvelle version est disponible");
     m_dlInfos = new QLabel;
@@ -18,13 +18,30 @@ NutshUpdater::NutshUpdater()
     m_principal->addLayout(m_ouiNon);
 
     connect(m_oui, SIGNAL(clicked()), this, SLOT(launchUpdater()));
+    connect(m_non, SIGNAL(clicked()), this, SLOT(close()));
 
     this->setLayout(m_principal);
 }
 void NutshUpdater::launchUpdater() {
-    m_download = new NutshMaJ;
-    m_download->show();
+    m_download = new NutshMaJ(this);
+    m_download->exec();
+    this->close();
 }
+bool NutshUpdater::waitForSignal(QObject *object, const char *signal)
+{
+    QTimer timer;
+    timer.setSingleShot(true);
+
+    QEventLoop loop;
+    QObject::connect(object, signal, &loop, SLOT(quit()));
+    QObject::connect(&timer, SIGNAL(timeout()), &loop, SLOT(quit()));
+
+    timer.start(5000);
+    loop.exec();
+
+    return timer.isActive();
+}
+
 bool NutshUpdater::isUpdate() {
     QUrl url("http://nutsh.googlecode.com/svn/trunk/src/nutshupdater.cpp");
     QFileInfo fileInfo(url.path());
@@ -47,10 +64,12 @@ bool NutshUpdater::isUpdate() {
     maj->get(path, file);
 
     connect(maj, SIGNAL(done(bool)), this, SLOT(getResults(bool)));
+    this->waitForSignal(maj, SIGNAL(done(bool)));
     if(numeroVersion == VERSION) {
         return false;
     }
     else if(VERSION < numeroVersion) {
+        qDebug() <<  VERSION << numeroVersion;
         return true;
     }
     else {
@@ -58,6 +77,7 @@ bool NutshUpdater::isUpdate() {
     }
 
 }
+
 void NutshUpdater::getResults(bool error) {
 
     if(error) {
@@ -67,10 +87,13 @@ void NutshUpdater::getResults(bool error) {
         file->close();
         file->open(QIODevice::ReadOnly);
         QString version = file->readLine();
-        version.left(14);
-        qDebug() << version;
-        numeroVersion = version.toInt();
-        qDebug() << numeroVersion;
+        QString sansRetourLigne = version.right(2);
+        qDebug() << sansRetourLigne;
+        bool * ok = new bool;
+        ok = false;
+        this->numeroVersion = sansRetourLigne.toInt(ok);
+        file->close();
+        if(ok) { qDebug() << "great"; }
     }
 }
 

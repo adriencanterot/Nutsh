@@ -9,6 +9,7 @@
 #include <QDialog>
 #include <QLineEdit>
 #include <QFileDialog>
+#include <QProgressDialog>
 #include "preprocess.h"
 #include "nutshmetadata.h"
 class NutshComunicator;
@@ -35,6 +36,7 @@ private :
     QListWidgetItem *nouvelElement;
     NutshComunicator *core;
     QSqlQuery superQuery;
+    QProgressDialog* progression;
 
     //dialogues.
     QDialog *nommerListe;

@@ -24,7 +24,7 @@
 #define PLATFORM_PATH "NutshInstaller.exe"
 #endif
 
-class NutshMaJ : public QWidget
+class NutshMaJ : public QDialog
 {
     Q_OBJECT
 

@@ -14,7 +14,7 @@
 #include <QBuffer>
 
 
-class NutshUpdater : public QDialog
+class NutshUpdater : public QWidget
 {
     Q_OBJECT
 public:
@@ -33,7 +33,7 @@ private:
     NutshMaJ* m_download;
     QBuffer* file;
     QHttp* maj;
-    int i, o;
+    int i, o, numeroVersion;
 };
 
 #endif // NUTSHUPDATER_H

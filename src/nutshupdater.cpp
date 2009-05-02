@@ -1,5 +1,5 @@
+#define VERSION 2
 #include "nutshupdater.h"
-
 NutshUpdater::NutshUpdater()
 {
     m_nouvelleMaj = new QLabel("Une nouvelle version est disponible");
@@ -26,7 +26,7 @@ void NutshUpdater::launchUpdater() {
     m_download->show();
 }
 bool NutshUpdater::isUpdate() {
-    QUrl url("http://nutsh.googlecode.com/svn/trunk/src/main.cpp");
+    QUrl url("http://nutsh.googlecode.com/svn/trunk/src/nutshupdater.cpp");
     QFileInfo fileInfo(url.path());
     QString fileName = fileInfo.fileName();
 
@@ -47,6 +47,15 @@ bool NutshUpdater::isUpdate() {
     maj->get(path, file);
 
     connect(maj, SIGNAL(done(bool)), this, SLOT(getResults(bool)));
+    if(numeroVersion == VERSION) {
+        return false;
+    }
+    else if(VERSION < numeroVersion) {
+        return true;
+    }
+    else {
+        return false;
+    }
 
 }
 void NutshUpdater::getResults(bool error) {
@@ -57,7 +66,11 @@ void NutshUpdater::getResults(bool error) {
     else {
         file->close();
         file->open(QIODevice::ReadOnly);
-        qDebug() << file->readLine();
+        QString version = file->readLine();
+        version.left(16);
+        qDebug() << version;
+        numeroVersion = version.toInt();
+        qDebug() << numeroVersion;
     }
 }
 

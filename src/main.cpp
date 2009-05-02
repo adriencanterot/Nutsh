@@ -1,4 +1,3 @@
-#define VERSION 1
 #include <QtGui/QApplication>
 #include "nutshupdater.h"
 #include "nutshmainwindow.h"
@@ -8,9 +7,9 @@ int main(int argc, char *argv[])
     QApplication::setApplicationName("Nutsh!");
     NutshMainWindow f;
     f.show();
-        NutshUpdater update;
+    NutshUpdater update;
     if(update.isUpdate()) {
-        update.exec();
+        update.show();
     }
     return a.exec();
 }

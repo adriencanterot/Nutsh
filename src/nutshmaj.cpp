@@ -42,13 +42,13 @@ void NutshMaJ::telecharger() {
         return;
     }
     m_download = new QHttp;
+    connect(m_download, SIGNAL(done(bool)), this, SLOT(quitAndStartNutsh()));
     QHttp::ConnectionMode mode = url.scheme().toLower() == "https" ? QHttp::ConnectionModeHttps : QHttp::ConnectionModeHttp;
     m_download->setHost(url.host(), mode, url.port() == -1 ? 0 : url.port());
 
     QByteArray path = QUrl::toPercentEncoding(url.path(), "!$&'()*+,;=:@/");
     m_download->get(path, file);
     connect(m_download, SIGNAL(dataReadProgress(int,int)), this, SLOT(updProgress(int,int)));
-
     connect(m_download, SIGNAL(done(bool)), this, SLOT(quitAndStartNutsh()));
 
 }
@@ -65,13 +65,24 @@ void NutshMaJ::quitAndStartNutsh() {
     QDir actual("");
     qDebug() << actual.absolutePath();
     system("chmod 777 nutsh-05");
-    system("./nutsh-05");
+    connect(qApp, SIGNAL(aboutToQuit()), this, SLOT(startNutsh()));
+    QApplication::exit(0);
 #endif
+#ifdef Q_WS_WIN
+    this->close();
+    QApplication::exit(0);
+#endif
+}
+void NutshMaJ::startNutsh() {
 #ifdef Q_WS_WIN
     QProcess nutsh;
     qDebug() << QDir::toNativeSeparators(QDir::currentPath()+"/nutsh-05.exe");
     nutsh.startDetached(QDir::toNativeSeparators("nutsh-05.exe"));
-    this->close();
-    QApplication::exit(0);
+#endif
+#ifdef Q_WS_MAC
+    QProcess nutsh;
+    nutsh.startDetached("nutsh-05");
+    qDebug() << nutsh.errorString();
+    disconnect(qApp, SIGNAL(aboutToQuit()), this, SLOT(startNutsh()));
 #endif
 }

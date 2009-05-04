@@ -20,7 +20,7 @@ win32 {
         TagLib
     QT += phonon
 }
-TARGET = nutsh-05
+TARGET = Nutsh
 TEMPLATE = app
 SOURCES += src/main.cpp \
     src/nutshmainwindow.cpp \

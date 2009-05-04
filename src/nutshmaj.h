@@ -34,6 +34,8 @@ public slots:
     void telecharger();
     void quitAndStartNutsh();
     void updProgress(int, int);
+    void startNutsh();
+
 private:
     QLabel *m_dlInfos;
     QPushButton *m_cancel;

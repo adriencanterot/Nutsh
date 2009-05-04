@@ -61,4 +61,5 @@ void NutshPlayListInterface::sigandslots() {
 void NutshPlayListInterface::importWindow() {
     QString path = QFileDialog::getExistingDirectory(this, "", "/");
     core->scannerAccess()->indexer(path, progression, "bibliotheque");
+    core->metadatainterface()->load(NutshSqlSaver::getMetaDatas("SELECT * FROM bibliotheque"));
 }

@@ -26,14 +26,17 @@ void NutshSqlSaver::inserer(NutshMetaData meta, QString table) {
 
     //construction de la requete
 
+//    QString query("INSERT INTO %1 VALUES('%2', '%3', '%4', '%5', '%6', '', '%7', '%8', '%9', '%10', '%11', '%12'");
+//    query.arg(table).arg(meta.getTitre()).arg(meta.getArtiste).arg(meta.getAlbum()).arg(meta.getDate).arg(meta.getDateEnregistrement().toString()).arg(meta.getCompteur()).arg(meta.getDescription()).arg(meta.getTrack()).arg(meta.getChemin()).arg(meta.getCheminImage()).arg(meta.getDuree().toString());
 
-    QString query = "INSERT INTO "+table+" VALUES(\""+meta.getTitre()+"\", \""+meta.getArtiste()+"\", \""+meta.getAlbum()+"\", \""+meta.getDate()+"\", \""+meta.getDateEnregistrement().toString()+"\", \"\", "+meta.getCompteur()+"\", \""+meta.getDescription()+"\", \""+meta.getTrack()+"\", \""+meta.getChemin()+"\", \""+meta.getCheminImage()+"\", \""+meta.getDuree().toString()+"\")";
+
+        QString query = "INSERT INTO "+table+" VALUES(\""+meta.getArtiste()+"\", \""+meta.getAlbum()+"\", \""+meta.getTitre()+"\", \"nope\", \""+meta.getGenre()+"\", \""+meta.getDescription()+"\", \"0\", \""+meta.getChemin()+"\", \""+meta.getCheminImage()+"\", \""+meta.getDuree().toString()+"\", \""+meta.getDateEnregistrement().toString()+"\", \"no\", \"no\")";
 
     //Execution de la requete
     QSqlQuery requete;
-    requete.exec(query);
-    qDebug() << requete.lastError().text();
-    qDebug() << requete.lastQuery();
+    if(!requete.exec(query)) {
+        qDebug() << requete.lastError().text() << "query was" << requete.lastQuery();
+    }
 
 }
 void NutshSqlSaver::inserer(QList<NutshMetaData> meta, QString table) {

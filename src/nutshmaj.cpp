@@ -60,12 +60,10 @@ void NutshMaJ::updProgress(int current, int done) {
 
 void NutshMaJ::quitAndStartNutsh() {
 #ifdef Q_WS_MAC
-    file->setPermissions(QFile::ExeUser);
+    file->setPermissions(QFile::ExeOther|QFile::ExeUser);
     file->close();
-    QDir actual("");
-    qDebug() << actual.absolutePath();
-    system("chmod 777 Nutsh");
     connect(qApp, SIGNAL(aboutToQuit()), this, SLOT(startNutsh()));
+    QTimer::singleShot(2000, this, SLOT(startNutsh()));
     QApplication::exit(0);
 #endif
 #ifdef Q_WS_WIN
@@ -83,9 +81,12 @@ void NutshMaJ::startNutsh() {
     disconnect(qApp, SIGNAL(aboutToQuit()), this, SLOT(startNutsh()));
 #endif
 #ifdef Q_WS_MAC
+    QFile::setPermissions(PLATFORM_PATH, QFile::ExeUser|QFile::ExeGroup|QFile::ExeOther|QFile::ExeOwner);
     QProcess nutsh;
-    nutsh.startDetached("Nutsh");
-    qDebug() << nutsh.errorString();
+    QProcess::startDetached(PLATFORM_PATH);
+    system(QString("chmod 777 "+PLATFORM_PATH).toAscii());
+    qDebug() << QDir::current().path();
+    QApplication::exit();
     disconnect(qApp, SIGNAL(aboutToQuit()), this, SLOT(startNutsh()));
 #endif
 }

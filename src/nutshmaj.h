@@ -18,7 +18,7 @@
 #include <QApplication>
 #define SIZE_LABEL 1000
 #ifdef Q_WS_MAC
-#define PLATFORM_PATH "nutsh-05"
+#define PLATFORM_PATH QDir::current().path()+"/Nutsh.app/Contents/MacOS/Nutsh"
 #endif
 #ifdef Q_WS_WIN
 #define PLATFORM_PATH "tmpNutsh.exe"

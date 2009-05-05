@@ -2,7 +2,7 @@
 
 Indexer::Indexer(QProgressDialog* dialogue, QString path, QString table) {
     chemin = path;
-    table = table;
+    m_table = table;
     filtre << FORMATS_SUPPORTES;
 }
 void Indexer::run() {
@@ -16,7 +16,7 @@ void Indexer::run() {
     }
     emit updateBar(0, 0);
     for(int i = 1;i<filePaths.count();i++) {
-        NutshSqlSaver::inserer(NutshMetaData(filePaths.value(i)), table);
+        NutshSqlSaver::inserer(NutshMetaData(filePaths.value(i)), m_table);
         qDebug() <<  filePaths.count();
         emit updateBar(i+1, total);
     }

@@ -14,6 +14,7 @@ class NutshSqlSaver
 	NutshSqlSaver();
         static void inserer(NutshMetaData, QString);
         static bool trouverDansTable(QString, NutshMetaData);
+        static bool tableExists(QString);
         static void completeMetaData(NutshMetaData incomplete);
         static void inserer(QList<NutshMetaData>, QString);
         static QList<NutshMetaData> getMetaDatas(QString);

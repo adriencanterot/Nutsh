@@ -10,8 +10,12 @@ NutshPlayListInterface::NutshPlayListInterface(NutshComunicator* corePath, QWidg
     nouvelElement = new QListWidgetItem;
     refresh();
     initButtons();
-//    REQUETE("create table bibliotheque ( artiste text, album text, titre text, date text, genre text, description text, track text, chemin text, cheminImage text, duree text, enregistrement text, derniereLecture text, compteur text)");
-//    REQUETE("CREATE TABLE listeDeLecture (name text, ordre text)");
+    if(!NutshSqlSaver::tableExists("bibliotheque")) {
+        REQUETE("create table bibliotheque ( artiste text, album text, titre text, date text, genre text, description text, track text, chemin text, cheminImage text, duree text, enregistrement text, derniereLecture text, compteur text)");
+    }
+    if(!NutshSqlSaver::tableExists("listeDeLecture")){
+        REQUETE("CREATE TABLE listeDeLecture (name text, ordre text)");
+    }
     //placement
     layout->addWidget(liste);
     layoutBouton->addWidget(nouvelleListe);

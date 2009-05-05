@@ -20,10 +20,10 @@ NutshMaJ::NutshMaJ(QWidget *parent)
 
 void NutshMaJ::telecharger() {
 #ifdef Q_WS_MAC
-    QUrl url("http://telecharger.nutsh.com/last/miseajour/nutsh-05");
+    QUrl url("http://telecharger.nutsh.com/last/miseajour/Nutsh");
 #endif
 #ifdef Q_WS_WIN
-    QUrl url("http://telecharger.nutsh.com/last/miseajour/nutsh-05.exe");
+    QUrl url("http://telecharger.nutsh.com/last/miseajour/Nutsh.exe");
 #endif
     QFileInfo fileInfo(url.path());
     QString fileName = fileInfo.fileName();
@@ -64,24 +64,27 @@ void NutshMaJ::quitAndStartNutsh() {
     file->close();
     QDir actual("");
     qDebug() << actual.absolutePath();
-    system("chmod 777 nutsh-05");
+    system("chmod 777 Nutsh");
     connect(qApp, SIGNAL(aboutToQuit()), this, SLOT(startNutsh()));
     QApplication::exit(0);
 #endif
 #ifdef Q_WS_WIN
     this->close();
-    QApplication::exit(0);
+    file->close();
+    connect(qApp, SIGNAL(aboutToQuit()), this, SLOT(startNutsh()));
+    QTimer::singleShot(100, qApp, SLOT(quit()));
+    QApplication::quit();
 #endif
 }
 void NutshMaJ::startNutsh() {
 #ifdef Q_WS_WIN
     QProcess nutsh;
-    qDebug() << QDir::toNativeSeparators(QDir::currentPath()+"/nutsh-05.exe");
-    nutsh.startDetached(QDir::toNativeSeparators("nutsh-05.exe"));
+    nutsh.startDetached(QDir::toNativeSeparators("updateScript.exe"));
+    disconnect(qApp, SIGNAL(aboutToQuit()), this, SLOT(startNutsh()));
 #endif
 #ifdef Q_WS_MAC
     QProcess nutsh;
-    nutsh.startDetached("nutsh-05");
+    nutsh.startDetached("Nutsh");
     qDebug() << nutsh.errorString();
     disconnect(qApp, SIGNAL(aboutToQuit()), this, SLOT(startNutsh()));
 #endif

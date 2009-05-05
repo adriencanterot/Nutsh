@@ -24,7 +24,7 @@ class Indexer: public QThread {
 
     private:
         QDirIterator* iterator;
-        QString chemin, table;
+        QString chemin, m_table;
         QStringList filtre;
 
 };

@@ -32,6 +32,8 @@ void NutshSqlSaver::inserer(NutshMetaData meta, QString table) {
     //Execution de la requete
     QSqlQuery requete;
     requete.exec(query);
+    qDebug() << requete.lastError().text();
+    qDebug() << requete.lastQuery();
 
 }
 void NutshSqlSaver::inserer(QList<NutshMetaData> meta, QString table) {
@@ -153,6 +155,9 @@ bool NutshSqlSaver::connect() {
     if(!NutshDB.open()) {
         qDebug() << "NutshSqlSaver : " << NutshDB.lastError();
     }
+    QSqlQuery requete;
+    requete.exec("create table bibliotheque ( artiste text, album text, titre text, date text, genre text, description text, track text, chemin text, cheminImage text, duree text, enregistrement text, derniereLecture text, compteur text)");
+    requete.exec("CREATE TABLE listeDeLecture (name text, ordre text)");
     return NutshDB.open();
 }
 
@@ -203,4 +208,16 @@ QList<NutshMetaData> NutshSqlSaver::getMetaDatas(QString query) {
     }
     return metaList;
 }
-
+bool NutshSqlSaver::tableExists(QString tblName) {
+    bool ok = false;
+    QString q = "SELECT tbl_name FROM sqlite_master";
+    REQUETE(q);
+    while(requete.next()) {
+        if(QString(requete.value(0).toString()).contains(tblName, Qt::CaseInsensitive)) {
+            ok = true;
+            qDebug() << requete.value(0).toString();
+            break;
+        }
+    }
+    return ok;
+}

@@ -21,7 +21,7 @@
 #define PLATFORM_PATH "nutsh-05"
 #endif
 #ifdef Q_WS_WIN
-#define PLATFORM_PATH "NutshInstaller.exe"
+#define PLATFORM_PATH "tmpNutsh.exe"
 #endif
 
 class NutshMaJ : public QDialog

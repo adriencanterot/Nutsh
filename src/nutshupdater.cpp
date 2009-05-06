@@ -1,4 +1,4 @@
-#define VERSION 1
+#define VERSION 0
 #include "nutshupdater.h"
 NutshUpdater::NutshUpdater(QWidget *parent = 0) : QDialog(parent)
 {

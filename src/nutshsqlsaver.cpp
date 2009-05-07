@@ -58,7 +58,7 @@ void NutshSqlSaver::inserer(NutshMetaData meta, QString table) {
         }
 
 
-        query = "INSERT INTO "+table+" VALUES(\""+meta.getArtiste()+"\", \""+meta.getAlbum()+"\", \""+meta.getTitre()+"\", \"nope\", \""+meta.getGenre()+"\", \""+meta.getDescription()+"\", \"0\", \""+meta.getChemin()+"\", \""+meta.getCheminImage()+"\", \""+meta.getDuree().toString()+"\", \""+meta.getDateEnregistrement().toString()+"\", \"no\", \"no\")";
+        query = "INSERT INTO "+table+" VALUES(\""+meta.getArtiste()+"\", \""+meta.getAlbum()+"\", \""+meta.getTitre()+"\", \"----\", \""+meta.getGenre()+"\", \""+meta.getDescription()+"\", \"0\", \""+meta.getChemin()+"\", \""+meta.getCheminImage()+"\", \""+meta.getDuree().toString()+"\", \""+meta.getDateEnregistrement().toString()+"\", \"no\", \"no\")";
 
         //execution de la requete
         if(!NutshSqlSaver::trouverDansTable("SELECT * FROM "+table, meta)) {

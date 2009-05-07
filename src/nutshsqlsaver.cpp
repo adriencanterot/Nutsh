@@ -21,23 +21,53 @@ NutshSqlSaver::NutshSqlSaver()
 }
 void NutshSqlSaver::inserer(NutshMetaData meta, QString table) {
     //completion des metadata, pour la date.
-    meta.setSavingDate(QDateTime::currentDateTime());
-
-
-    //construction de la requete
-
-//    QString query("INSERT INTO %1 VALUES('%2', '%3', '%4', '%5', '%6', '', '%7', '%8', '%9', '%10', '%11', '%12'");
-//    query.arg(table).arg(meta.getTitre()).arg(meta.getArtiste).arg(meta.getAlbum()).arg(meta.getDate).arg(meta.getDateEnregistrement().toString()).arg(meta.getCompteur()).arg(meta.getDescription()).arg(meta.getTrack()).arg(meta.getChemin()).arg(meta.getCheminImage()).arg(meta.getDuree().toString());
-
-
-        QString query = "INSERT INTO "+table+" VALUES(\""+meta.getArtiste()+"\", \""+meta.getAlbum()+"\", \""+meta.getTitre()+"\", \"nope\", \""+meta.getGenre()+"\", \""+meta.getDescription()+"\", \"0\", \""+meta.getChemin()+"\", \""+meta.getCheminImage()+"\", \""+meta.getDuree().toString()+"\", \""+meta.getDateEnregistrement().toString()+"\", \"no\", \"no\")";
-
-    //Execution de la requete
     QSqlQuery requete;
-    if(!requete.exec(query)) {
-        qDebug() << requete.lastError().text() << "query was" << requete.lastQuery();
-    }
+    QString query;
+        NutshSqlSaver::completeMetaData(meta);
 
+        if(meta.getArtiste().isEmpty()) {
+            meta.setArtiste("Sans artiste");
+        }
+
+        if(meta.getAlbum().isEmpty()) {
+            meta.setAlbum("Sans album");
+        }
+
+        if(meta.getTitre().isEmpty()) {
+            meta.setTitre("Sans titre");
+        }
+
+        if(meta.getDate().isEmpty()) {
+            meta.setDate("Sans Date");
+        }
+
+        if(meta.getGenre().isEmpty()) {
+            meta.setGenre("Sans genre");
+        }
+
+        if(meta.getDescription().isEmpty()) {
+            meta.setDescription(" ");
+        }
+
+        if(meta.getCheminImage().isEmpty()) {
+            meta.setCheminImage("Sans image");
+        }
+
+        if(meta.getDuree().isNull()) {
+            meta.setDuree(QTime(1, 1, 1, 1));
+        }
+
+
+        query = "INSERT INTO "+table+" VALUES(\""+meta.getArtiste()+"\", \""+meta.getAlbum()+"\", \""+meta.getTitre()+"\", \"nope\", \""+meta.getGenre()+"\", \""+meta.getDescription()+"\", \"0\", \""+meta.getChemin()+"\", \""+meta.getCheminImage()+"\", \""+meta.getDuree().toString()+"\", \""+meta.getDateEnregistrement().toString()+"\", \"no\", \"no\")";
+
+        //execution de la requete
+        if(!NutshSqlSaver::trouverDansTable("SELECT * FROM "+table, meta)) {
+
+            if(!requete.exec(query)) {
+                qDebug() << requete.lastError() << "  \nQ= " << requete.lastQuery() << " ou alors la metadonnee existe deja dans la table";
+            }
+
+    }
 }
 void NutshSqlSaver::inserer(QList<NutshMetaData> meta, QString table) {
     //insertion de multiple metadonnees

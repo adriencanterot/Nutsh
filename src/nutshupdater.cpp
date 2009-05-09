@@ -1,4 +1,4 @@
-#define VERSION 1
+#define VERSION 2
 
 #include "nutshupdater.h"
 #include "nutshcomunicator.h"

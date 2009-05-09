@@ -8,7 +8,6 @@
 #include <QtCore/QDir>
 #include <QtCore/QDirIterator>
 #include <QtCore/QStringList>
-#include <QtGui/QProgressDialog>
 #include <QThread>
 #include "nutshmetadata.h"
 #include "nutshsqlsaver.h"
@@ -17,7 +16,7 @@
 class Indexer: public QThread {
     Q_OBJECT
     public:
-        Indexer(QProgressDialog*, QString, QString);
+        Indexer(QString, QString);
         void run();
     signals:
         void updateBar(int, int);
@@ -28,20 +27,21 @@ class Indexer: public QThread {
         QStringList filtre;
 
 };
+class NutshComunicator;
 class NutshIndexer : public QObject
 {
         Q_OBJECT
     public:
-        NutshIndexer();
+        NutshIndexer(NutshComunicator* corePath);
 	QList<NutshMetaData> sortie();
-        void indexer(QString, QProgressDialog*, QString);
+        void indexer(QString, QString);
     private slots:
         void updateBar(int, int);
     protected :
 	bool trouver(QString, QStringList*);
 
     private :
-        QProgressDialog* progression;
+        NutshComunicator* core;
         QDirIterator *iterator;
         QStringList *listeFichier, *filtre;
 	QList<NutshMetaData> metaDataList;

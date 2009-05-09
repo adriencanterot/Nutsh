@@ -36,7 +36,8 @@ SOURCES += src/main.cpp \
     src/nutshmetadatalist.cpp \
     src/nutshplayinginterface.cpp \
     src/nutshupdater.cpp \
-    src/nutshmaj.cpp
+    src/nutshmaj.cpp \
+    src/nutshprogressinterface.cpp
 HEADERS += src/nutshmainwindow.h \
     src/nutshlecteur.h \
     src/nutshindexer.h \
@@ -51,4 +52,5 @@ HEADERS += src/nutshmainwindow.h \
     src/nutshmetadatalist.h \
     src/nutshplayinginterface.h \
     src/nutshupdater.h \
-    src/nutshmaj.h
+    src/nutshmaj.h \
+    src/nutshprogressinterface.h

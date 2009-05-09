@@ -14,28 +14,43 @@
 #include <QBuffer>
 #include <QVariant>
 
-
-class NutshUpdater : public QDialog
+class NutshComunicator;
+class NutshUpdater : public QWidget
 {
     Q_OBJECT
 public:
-    NutshUpdater(QWidget *parent);
+    NutshUpdater(NutshComunicator*);
     bool isUpdate();
     bool waitForSignal(QObject*, const char*);
+    void swapToUpdater();
+
 public slots:
     void launchUpdater();
     void getResults(bool);
 
 
 private:
-    QLabel* m_nouvelleMaj, *m_dlInfos;
-    QPushButton *m_oui, *m_non;
+    NutshComunicator* core;
+
+    QLabel *m_nouvelleMaj,
+           *m_dlInfos;
+
+    QPushButton *m_oui,
+                *m_non;
+
     QVBoxLayout *m_principal;
-    QHBoxLayout *m_ouiNon, *m_progressLayout;
+
+    QHBoxLayout *m_ouiNon,
+                *m_progressLayout;
+
     NutshMaJ* m_download;
+
     QBuffer* file;
     QHttp* maj;
-    int i, o, numeroVersion;
+
+    int i,
+        o,
+        numeroVersion;
 };
 
 #endif // NUTSHUPDATER_H

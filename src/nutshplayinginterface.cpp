@@ -38,9 +38,11 @@ NutshPlayingInterface::NutshPlayingInterface(NutshComunicator* corePath)
     artiste = new QLabel("Sans Artise");
     album = new QLabel("Sans Album");
     titre = new QLabel("Sans Titre");
+
     artisteCP = new QLabel("");
     titreCP = new QLabel("");
     tempsLabelCP = new QLabel("");
+
     core->bar()->addPermanentWidget(artisteCP);
     core->bar()->addPermanentWidget(titreCP);
     core->bar()->addPermanentWidget(tempsLabelCP);
@@ -73,6 +75,7 @@ NutshPlayingInterface::NutshPlayingInterface(NutshComunicator* corePath)
     qDebug() << "NutshPlayingInterface : initialized";
 }
 void NutshPlayingInterface::sigandslots() {
+
     connect(boutonPlayPause, SIGNAL(clicked()), this, SLOT(playPause()));
     connect(boutonStop, SIGNAL(clicked()), this, SLOT(stop()));
     connect(media, SIGNAL(tick(qint64)), this, SLOT(tick(qint64)));
@@ -82,97 +85,128 @@ void NutshPlayingInterface::sigandslots() {
     connect(media, SIGNAL(aboutToFinish()), this, SLOT(next()));
 }
 void NutshPlayingInterface::load(NutshMetaData data) {
+
     currentItem = 0;
     titre->setText("Sans Titre");
     album->setText("Sans Album");
     artiste->setText("Sans Artiste");
+
     if(!data.getTitre().isEmpty()) {
+
         titre->setText(data.getTitre().left(30));
     }
 
     if(!data.getAlbum().isEmpty()) {
+
         album->setText(data.getAlbum().left(30));
     }
 
     if(!data.getArtiste().isEmpty()) {
+
         artiste->setText(data.getArtiste().left(30));
     }
+
     current = data;
     currentItem = 0;
     media->setSource(data);
     media->play();
     this->setStatus();
 }
+
 void NutshPlayingInterface::playPause() {
+
     if(media->isPlaying()) {
+
         media->pause();
         boutonPlayPause->setText("Play");
-    }
-    else {
+
+    } else {
+
         media->play();
         boutonPlayPause->setText("Pause");
     }
 }
 
 void NutshPlayingInterface::load(QList<NutshMetaData> metaList) {
+
     boutonPrecedent->setEnabled(true);
     boutonSuivant->setEnabled(true);
     playlist = metaList;
     currentItem = 0;
     currentItem = playlist.indexOf(current);
+
     if (currentItem == 0) {
+
         boutonPrecedent->setDisabled(true);
     }
+
     if(currentItem == playlist.count()-1) {
+
         boutonSuivant->setDisabled(true);
     }
 }
+
 void NutshPlayingInterface::swapToPlay() {
+
     core->metadatainterface()->hide();
     core->droite()->removeWidget(core->metadatainterface());
 
     core->droite()->addWidget(core->playinginterface());
     core->playinginterface()->show();
 }
- void NutshPlayingInterface::tick(qint64 time)
- {
-     QTime displayTime(0, (time / 60000) % 60, (time / 1000) % 60);
+
+void NutshPlayingInterface::tick(qint64 time) {
+
+    QTime displayTime(0, (time / 60000) % 60, (time / 1000) % 60);
 
      tempsLabel->setText(displayTime.toString("mm:ss"));
      tempsLabelCP->setText(displayTime.toString("mm:ss"));
  }
+
 void NutshPlayingInterface::next() {
 
     if(this->currentItem == playlist.count()-2) {
+
         boutonSuivant->setDisabled(true);
-    }
-    else {
+
+    } else {
+
         boutonSuivant->setEnabled(true);
     }
 
     int cacheCurrentItem = this->currentItem+1;
     boutonPrecedent->setEnabled(true);
+
     this->load(playlist.value(cacheCurrentItem));
     this->currentItem = cacheCurrentItem;
 }
+
 void NutshPlayingInterface::previous() {
+
     if(this->currentItem == 1) {
+
         boutonPrecedent->setDisabled(true);
-    }
-    else {
+    } else {
+
         boutonPrecedent->setEnabled(true);
     }
 
     int cacheCurrentItem = this->currentItem-1;
+
     this->load(playlist.value(cacheCurrentItem));
     this->currentItem = cacheCurrentItem;
+
     boutonSuivant->setEnabled(true);
 }
+
 void NutshPlayingInterface::stop() {
+
     boutonPlayPause->setText("Play");
     media->stop();
 }
+
 void NutshPlayingInterface::setStatus() {
+
     artisteCP->setText(artiste->text());
     titreCP->setText(titre->text());
 }

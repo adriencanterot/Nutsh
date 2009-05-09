@@ -17,33 +17,47 @@
 #include "nutshmetadatainterface.h"
 #include "nutshdriveinterface.h"
 #include "nutshplayinginterface.h"
+#include "nutshprogressinterface.h"
+#include "nutshupdater.h"
 
 
 class NutshComunicator
 {
 public:
+
     NutshComunicator();
+
     QWidget *initInterfaces();
+
     NutshMetaDataInterface *metadatainterface();
     NutshDriveInterface *driveinterface();
     NutshPlayListInterface *playlistinterface();
     NutshSearchLineInterface *searchlineinterface();
     NutshPlayingInterface *playinginterface();
+    NutshProgressInterface *progressinterface();
+    NutshUpdater *updater();
+
     QVBoxLayout *droite();
+    QVBoxLayout *gauche();
     NutshIndexer *scannerAccess();
+
     void setStatus(QString);
     QStatusBar* bar();
 
 private:
+
     QHBoxLayout *m_principal, *m_splitter;
     QWidget *m_central;
     QVBoxLayout *m_gauche, *m_droite;
     QStatusBar* m_bar;
+
     NutshIndexer *scanner;
     NutshPlayListInterface *m_playlistinterface;
     NutshSearchLineInterface *m_searchlineinterface;
     NutshDriveInterface *m_driveinterface;
     NutshMetaDataInterface *m_metadatainterface;
     NutshPlayingInterface *m_playinginterface;
+    NutshProgressInterface *m_progressinterface;
+    NutshUpdater *m_updater;
 };
 #endif

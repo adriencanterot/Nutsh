@@ -1,7 +1,13 @@
-#define VERSION 2
+#define VERSION 1
+
 #include "nutshupdater.h"
-NutshUpdater::NutshUpdater(QWidget *parent = 0) : QDialog(parent)
+#include "nutshcomunicator.h"
+
+NutshUpdater::NutshUpdater(NutshComunicator *corePath)
 {
+
+    core = corePath;
+
     m_nouvelleMaj = new QLabel("Une nouvelle version est disponible");
     m_dlInfos = new QLabel;
     m_oui = new QPushButton("Telecharger");
@@ -21,14 +27,23 @@ NutshUpdater::NutshUpdater(QWidget *parent = 0) : QDialog(parent)
     connect(m_non, SIGNAL(clicked()), this, SLOT(close()));
 
     this->setLayout(m_principal);
+
+    if(this->isUpdate()) {
+
+        this->swapToUpdater();
+    }
 }
+
 void NutshUpdater::launchUpdater() {
-    m_download = new NutshMaJ(this);
-    m_download->exec();
+
+    m_download = new NutshMaJ(core);
+
     this->close();
 }
+
 bool NutshUpdater::waitForSignal(QObject *object, const char *signal)
 {
+
     QTimer timer;
     timer.setSingleShot(true);
 
@@ -43,36 +58,48 @@ bool NutshUpdater::waitForSignal(QObject *object, const char *signal)
 }
 
 bool NutshUpdater::isUpdate() {
+
     QUrl url("http://nutsh.googlecode.com/svn/trunk/src/nutshupdater.cpp");
     QFileInfo fileInfo(url.path());
     QString fileName = fileInfo.fileName();
 
     if (QFile::exists("version.txt")) {
+
         QFile::remove("version.txt");
         qDebug() << "file removed";
     }
+
     file = new QBuffer;
+
     if (!file->open(QIODevice::WriteOnly)) {
+
         delete file;
         file = 0;
     }
+
     maj = new QHttp;
+
     QHttp::ConnectionMode mode = url.scheme().toLower() == "https" ? QHttp::ConnectionModeHttps : QHttp::ConnectionModeHttp;
+
     maj->setHost(url.host(), mode, url.port() == -1 ? 0 : url.port());
 
     QByteArray path = QUrl::toPercentEncoding(url.path(), "!$&'()*+,;=:@/");
     maj->get(path, file);
 
     connect(maj, SIGNAL(done(bool)), this, SLOT(getResults(bool)));
+
     this->waitForSignal(maj, SIGNAL(done(bool)));
+
     if(numeroVersion == VERSION) {
-        return false;
-    }
-    else if(VERSION < numeroVersion) {
-        qDebug() <<  VERSION << numeroVersion;
+
+      return false;
+
+  } else if(VERSION < numeroVersion) {
+
+      qDebug() <<  VERSION << numeroVersion;
         return true;
-    }
-    else {
+    } else {
+
         return false;
     }
 
@@ -81,19 +108,31 @@ bool NutshUpdater::isUpdate() {
 void NutshUpdater::getResults(bool error) {
 
     if(error) {
+
         qDebug() << "Une erreur est survenue";
-    }
-    else {
+    } else {
+
         file->close();
         file->open(QIODevice::ReadOnly);
+
         QString version = file->readLine();
         QString sansRetourLigne = version.right(2);
+
         qDebug() << sansRetourLigne;
         bool * ok = new bool;
         ok = false;
         this->numeroVersion = sansRetourLigne.toInt(ok);
         file->close();
+
         if(ok) { qDebug() << "great"; }
     }
 }
 
+void NutshUpdater::swapToUpdater() {
+
+    core->driveinterface()->hide();
+    qDebug() << "Hidden";
+
+    core->gauche()->addWidget(this, 2);
+    this->show();
+}

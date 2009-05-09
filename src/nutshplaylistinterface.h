@@ -9,20 +9,25 @@
 #include <QDialog>
 #include <QLineEdit>
 #include <QFileDialog>
-#include <QProgressDialog>
 #include "preprocess.h"
 #include "nutshmetadata.h"
+
 class NutshComunicator;
+
 class NutshPlayListInterface : public QWidget
 {
+
     Q_OBJECT
+
 public:
+
     NutshPlayListInterface(NutshComunicator* corePath, QWidget* parent = 0);
     void refresh();
     void initButtons();
     void sigandslots();
 
 private slots :
+
     void addListe();
     void nouvelleTable();
     void importWindow();
@@ -36,7 +41,6 @@ private :
     QListWidgetItem *nouvelElement;
     NutshComunicator *core;
     QSqlQuery superQuery;
-    QProgressDialog* progression;
 
     //dialogues.
     QDialog *nommerListe;

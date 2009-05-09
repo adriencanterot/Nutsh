@@ -23,13 +23,13 @@
 #ifdef Q_WS_WIN
 #define PLATFORM_PATH "tmpNutsh.exe"
 #endif
-
-class NutshMaJ : public QDialog
+class NutshComunicator;
+class NutshMaJ : public QWidget
 {
     Q_OBJECT
 
 public:
-    NutshMaJ(QWidget *parent = 0);
+    NutshMaJ(NutshComunicator*);
 public slots:
     void telecharger();
     void quitAndStartNutsh();
@@ -37,11 +37,9 @@ public slots:
     void startNutsh();
 
 private:
-    QLabel *m_dlInfos;
+
+    NutshComunicator* core;
     QPushButton *m_cancel;
-    QVBoxLayout *m_principal;
-    QHBoxLayout *m_actionLayout;
-    QProgressBar* m_progress;
     QHttp* m_download;
     QFile* file;
     int i, o;

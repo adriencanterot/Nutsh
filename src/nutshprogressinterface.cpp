@@ -13,10 +13,12 @@ NutshProgressInterface::NutshProgressInterface(NutshComunicator* corePath)
     m_left = new QLabel(this);
     m_top = new QLabel(this);
     m_bottom = new QLabel(this);
+    m_cancel = new QPushButton("Arreter");
 
     //Layouts
     m_principal = new QVBoxLayout(this);
     m_progressLayout = new QHBoxLayout(this);
+    m_infosLayout = new QHBoxLayout(this);
 
 
     //positionnement
@@ -24,9 +26,12 @@ NutshProgressInterface::NutshProgressInterface(NutshComunicator* corePath)
     m_progressLayout->addWidget(m_progress);
     m_progressLayout->addWidget(m_right);
 
+    m_infosLayout->addWidget(m_bottom);
+    m_infosLayout->addWidget(m_cancel);
+
     m_principal->addWidget(m_top);
     m_principal->addLayout(m_progressLayout);
-    m_principal->addWidget(m_bottom);
+    m_principal->addLayout(m_infosLayout);
 
     this->setLayout(m_principal);
 
@@ -87,8 +92,18 @@ void NutshProgressInterface::swapToProgress() {
 
     core->driveinterface()->hide();
     core->gauche()->addWidget(this);
+
     this->show();
     active = true;
+}
+void NutshProgressInterface::stopAction(QObject* receiver, const char* method) {
+
+    connect(m_cancel, SIGNAL(clicked()), receiver, method);
+}
+
+void NutshProgressInterface::setCancelButtonText(const QString& text) {
+
+    m_cancel->setText(text);
 }
 
 

@@ -1,4 +1,4 @@
-#define VERSION 2
+#define VERSION 3
 
 #include "nutshupdater.h"
 #include "nutshcomunicator.h"
@@ -109,7 +109,8 @@ void NutshUpdater::getResults(bool error) {
 
     if(error) {
 
-        qDebug() << "Une erreur est survenue";
+        qDebug() << "Une erreur est survenue (pas de connextion internet?)";
+
     } else {
 
         file->close();
@@ -117,8 +118,8 @@ void NutshUpdater::getResults(bool error) {
 
         QString version = file->readLine();
         QString sansRetourLigne = version.right(2);
-
         qDebug() << sansRetourLigne;
+
         bool * ok = new bool;
         ok = false;
         this->numeroVersion = sansRetourLigne.toInt(ok);

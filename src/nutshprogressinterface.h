@@ -5,6 +5,7 @@
 #include <QLabel>
 #include <QProgressBar>
 #include <QLayout>
+#include <QPushButton>
 
 class NutshComunicator;
 class NutshProgressInterface : public QWidget
@@ -18,9 +19,11 @@ public:
     void setBottomLabelText(const QString&);
     void setRightLabelText(const QString&);
     void setLeftLabelText(const QString&);
+    void setCancelButtonText(const QString&);
 
     void setMaximum(int);
     void setValue(int);
+    void stopAction(QObject*, const char*);
 
     bool isActive();
 
@@ -36,7 +39,11 @@ private:
 
     QProgressBar *m_progress;
     QVBoxLayout *m_principal;
-    QHBoxLayout *m_progressLayout;
+
+    QHBoxLayout *m_progressLayout,
+                *m_infosLayout;
+
+    QPushButton *m_cancel;
     bool active;
 };
 

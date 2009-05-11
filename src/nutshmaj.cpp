@@ -7,7 +7,7 @@ NutshMaJ::NutshMaJ(NutshComunicator* corePath)
     m_cancel = new QPushButton("Arreter");
     this->telecharger();
 
-    connect(m_cancel, SIGNAL(clicked()), this, SLOT(quitAndStartNutsh()));
+    core->progressinterface()->stopAction(this, SLOT(quitAndStartNutsh()));
 }
 
 void NutshMaJ::telecharger() {

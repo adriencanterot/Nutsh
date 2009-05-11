@@ -18,13 +18,17 @@ class Indexer: public QThread {
     public:
         Indexer(QString, QString);
         void run();
+        void forceQuit();
+
     signals:
+        void stopper(bool);
         void updateBar(int, int);
 
     private:
         QDirIterator* iterator;
         QString chemin, m_table;
         QStringList filtre;
+        bool loopActive;
 
 };
 class NutshComunicator;
@@ -37,6 +41,7 @@ class NutshIndexer : public QObject
         void indexer(QString, QString);
     private slots:
         void updateBar(int, int);
+        void cancelAction();
     protected :
 	bool trouver(QString, QStringList*);
 
@@ -45,6 +50,7 @@ class NutshIndexer : public QObject
         QDirIterator *iterator;
         QStringList *listeFichier, *filtre;
 	QList<NutshMetaData> metaDataList;
+        Indexer* scan;
 };
 
 #endif // NUTSHINDEXER_H

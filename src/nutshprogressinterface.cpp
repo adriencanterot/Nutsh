@@ -35,6 +35,8 @@ NutshProgressInterface::NutshProgressInterface(NutshComunicator* corePath)
 
     this->setLayout(m_principal);
 
+    core->searchlineinterface()->setFocus();
+
 }
 
 void NutshProgressInterface::setTopLabelText(const QString &text) {

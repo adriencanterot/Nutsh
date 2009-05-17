@@ -9,6 +9,7 @@
 #include "nutshlecteur.h"
 #include "nutshindexer.h"
 #include "nutshcomunicator.h"
+#include "nutshinstallationwizard.h"
 
 class NutshMainWindow : public QMainWindow
 {

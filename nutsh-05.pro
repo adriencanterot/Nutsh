@@ -37,7 +37,9 @@ SOURCES += src/main.cpp \
     src/nutshplayinginterface.cpp \
     src/nutshupdater.cpp \
     src/nutshmaj.cpp \
-    src/nutshprogressinterface.cpp
+    src/nutshprogressinterface.cpp \
+    src/nutshplaylistlist.cpp \
+    src/nutshinstallationwizard.cpp
 HEADERS += src/nutshmainwindow.h \
     src/nutshlecteur.h \
     src/nutshindexer.h \
@@ -53,4 +55,6 @@ HEADERS += src/nutshmainwindow.h \
     src/nutshplayinginterface.h \
     src/nutshupdater.h \
     src/nutshmaj.h \
-    src/nutshprogressinterface.h
+    src/nutshprogressinterface.h \
+    src/nutshplaylistlist.h \
+    src/nutshinstallationwizard.h

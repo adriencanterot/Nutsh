@@ -12,8 +12,8 @@ NutshComunicator::NutshComunicator()
     m_splitter = new QHBoxLayout;
 
     NutshSqlSaver::connect();
-    m_playlistinterface = new NutshPlayListInterface(this);
     m_searchlineinterface = new NutshSearchLineInterface(this);
+    m_playlistinterface = new NutshPlayListInterface(this);
     m_metadatainterface = new NutshMetaDataInterface(this);
     m_driveinterface = new NutshDriveInterface(this);
     m_playinginterface = new NutshPlayingInterface(this);
@@ -44,6 +44,7 @@ QWidget *NutshComunicator::initInterfaces() {
     qDebug() << "NutshComunicator : Transimission de toutes les interfaces a NutshMainWindow";
 
     m_updater = new NutshUpdater(this);
+    m_searchlineinterface->setFocus();
 
     return m_central;
 }

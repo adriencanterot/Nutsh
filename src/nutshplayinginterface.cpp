@@ -110,6 +110,7 @@ void NutshPlayingInterface::load(NutshMetaData data) {
     currentItem = 0;
     media->setSource(data);
     media->play();
+    boutonPlayPause->setText("Pause");
     this->setStatus();
 }
 
@@ -209,4 +210,12 @@ void NutshPlayingInterface::setStatus() {
 
     artisteCP->setText(artiste->text());
     titreCP->setText(titre->text());
+}
+
+void NutshPlayingInterface::pauseByKey(QKeyEvent* event) {
+
+    if(event->key() == Qt::Key_Space) {
+
+        this->playPause();
+    }
 }

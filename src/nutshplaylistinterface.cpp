@@ -10,8 +10,7 @@ NutshPlayListInterface::NutshPlayListInterface(NutshComunicator* corePath, QWidg
 
     layout = new QVBoxLayout;
     layoutBouton = new QHBoxLayout;
-    liste = new QListWidget;
-    nouvelElement = new QListWidgetItem;
+    liste = new NutshPlaylistList(core, this);
 
     refresh();
 
@@ -99,5 +98,14 @@ void NutshPlayListInterface::importWindow() {
     core->progressinterface()->setMaximum(0);
     core->progressinterface()->setTopLabelText("Scan du dossier en cours...");
     core->scannerAccess()->indexer(path, "bibliotheque");
-    core->metadatainterface()->load(NutshSqlSaver::getMetaDatas("SELECT * FROM bibliotheque"));
+    core->metadatainterface()->reset();
+}
+
+void NutshPlayListInterface::addListeFromSearch() {
+
+    QString listName = QInputDialog::getText(this, "Nouvelle Liste", "Le nom de votre liste");
+
+    NutshSqlSaver::nouvelleListe(listName);
+    NutshSqlSaver::inserer(core->metadatainterface()->getListWidget()->getItems(), listName);
+    this->refresh();
 }

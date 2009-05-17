@@ -13,6 +13,11 @@ class NutshSearchLineInterface : public QWidget
 public:
     NutshSearchLineInterface(NutshComunicator*);
     void sigandslots();
+    void activate();
+
+protected:
+    void keyPressEvent(QKeyEvent*);
+
 public slots:
     void showResults(QString);
 

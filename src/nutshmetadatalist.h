@@ -6,6 +6,7 @@
 #include <QDirIterator>
 #include "nutshmetadata.h"
 #include "preprocess.h"
+#include <QKeyEvent>
 
 class NutshMetaDataList : public QTreeWidget
 {
@@ -15,8 +16,14 @@ public:
     void append(NutshMetaData);
     void load(QList<NutshMetaData>);
     QList<NutshMetaData> getItems();
+    QList<NutshMetaData> selectedMetadatas();
+    NutshMetaData getItem(int index);
     void clearList();
     bool isEmpty();
+
+protected:
+    void keyPressEvent(QKeyEvent *event);
+
 public slots:
     void emitSignal(QModelIndex);
 

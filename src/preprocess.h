@@ -9,4 +9,9 @@
 #define D(bug) qDebug() << bug;
 #define MAJEUR 1
 
+enum ContentType {
+
+    Dir, Playlist, Entire, Empty, SearchResults
+};
+
 #endif // PREPROCESS_H

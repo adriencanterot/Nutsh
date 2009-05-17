@@ -23,12 +23,16 @@ public:
     void load(QList<NutshMetaData>);
     void swapToPlay();
     void setStatus();
+    void pauseByKey(QKeyEvent*);
+
 public slots:
     void next();
     void previous();
     void playPause();
     void tick(qint64 time);
     void stop();
+
+
 private:
     NutshComunicator* core;
     QPushButton *boutonPlayPause, *boutonStop, *boutonPrecedent, *boutonSuivant;

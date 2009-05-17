@@ -22,6 +22,7 @@ public:
     bool contains(QString);
     NutshMetaData(const NutshMetaData &m);
     NutshMetaData operator=(const NutshMetaData &m);
+    QStringList createKeywords(const QString&);
     //Charger a partir d'un QVariantList
     void load(QVariantList);
     void setSavingDate(QDateTime);

@@ -28,7 +28,7 @@ class Indexer: public QThread {
         QDirIterator* iterator;
         QString chemin, m_table;
         QStringList filtre;
-        bool loopActive;
+        bool loopRunning;
 
 };
 class NutshComunicator;

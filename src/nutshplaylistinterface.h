@@ -9,8 +9,10 @@
 #include <QDialog>
 #include <QLineEdit>
 #include <QFileDialog>
+#include <QInputDialog>
 #include "preprocess.h"
 #include "nutshmetadata.h"
+#include "nutshplaylistlist.h"
 
 class NutshComunicator;
 
@@ -26,19 +28,19 @@ public:
     void initButtons();
     void sigandslots();
 
-private slots :
+public slots :
 
     void addListe();
     void nouvelleTable();
     void importWindow();
+    void addListeFromSearch();
 
 private :
 
     QPushButton *nouvelleListe, *nouvelleListeMagique, *importer;
-    QListWidget *liste;
+    NutshPlaylistList *liste;
     QVBoxLayout *layout;
     QHBoxLayout *layoutBouton;
-    QListWidgetItem *nouvelElement;
     NutshComunicator *core;
     QSqlQuery superQuery;
 
@@ -47,6 +49,7 @@ private :
     QVBoxLayout *layoutNommerListe;
     QPushButton *ok;
     QLineEdit *nomTable;
+
 };
 
 #endif // NUTSHPLAYLISTINTERFACE_H

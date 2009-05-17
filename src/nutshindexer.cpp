@@ -7,14 +7,15 @@ Indexer::Indexer(QString path, QString table) {
     m_table = table;
     filtre << FORMATS_SUPPORTES;
     this->setTerminationEnabled(true);
-    loopActive = true;
+    loopRunning = true;
 }
 
 void Indexer::run() {
 
+    D(1);
     int total = 0;
     QStringList filePaths;
-    emit(updateBar(0, 0));
+    emit updateBar(0, 0) ;
 
     iterator = new QDirIterator(chemin, filtre, QDir::NoFilter, QDirIterator::Subdirectories);
 
@@ -25,7 +26,7 @@ void Indexer::run() {
 
         emit updateBar(total, 0);
 
-        if(loopActive == false) {
+        if(loopRunning == false) {
 
             break;
         }
@@ -41,9 +42,7 @@ void Indexer::run() {
 
         emit updateBar(i+1, total);
 
-        qDebug() << loopActive;
-
-        if(loopActive == false) {
+        if(loopRunning == false) {
 
             break;
         }
@@ -54,7 +53,7 @@ void Indexer::run() {
 }
 void Indexer::forceQuit() {
 
-    loopActive = false;
+    loopRunning = false;
     this->terminate();
 }
 

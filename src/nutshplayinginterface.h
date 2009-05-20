@@ -21,9 +21,9 @@ public:
     void sigandslots();
     void load(NutshMetaData);
     void load(QList<NutshMetaData>);
-    void swapToPlay();
     void setStatus();
     void pauseByKey(QKeyEvent*);
+    QList<NutshMetaData> getLastRead();
 
 public slots:
     void next();
@@ -31,17 +31,42 @@ public slots:
     void playPause();
     void tick(qint64 time);
     void stop();
+    void swapToPlay();
 
 
 private:
     NutshComunicator* core;
-    QPushButton *boutonPlayPause, *boutonStop, *boutonPrecedent, *boutonSuivant;
-    QLabel *artiste, *album, *titre, *tempsLabel, *tempsLabelCP, *artisteCP, *titreCP;
+
+    QPushButton *boutonPlayPause,
+                *boutonStop,
+                *boutonPrecedent,
+                *boutonSuivant,
+                *boutonRevenir;
+
+    QLabel *artiste,
+           *album,
+           *titre,
+           *tempsLabel,
+           *tempsLabelCP,
+           *artisteCP,
+           *titreCP;
+
     QSplitter *central;
-    QHBoxLayout *commandButtons, *infoLabels, *titreLabel, *controls;
-    QVBoxLayout *principal, *positionnerDroite;
-    QWidget *droite, *gauche;
+
+    QHBoxLayout *commandButtons,
+                *infoLabels,
+                *titreLabel,
+                *controls;
+
+    QVBoxLayout *principal,
+                *positionnerDroite;
+
+    QWidget *droite,
+            *gauche;
+
     QList<NutshMetaData> playlist;
+    QList<NutshMetaData> lastRead;
+    
     int currentItem;
     NutshMetaData current;
     NutshLecteur *media;

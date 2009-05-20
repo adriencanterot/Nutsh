@@ -6,7 +6,7 @@ NutshPlayListInterface::NutshPlayListInterface(NutshComunicator* corePath, QWidg
 
     core = corePath;
 
-    this->setFixedWidth(250);
+    this->setFixedWidth(WIDTH_LEFT);
 
     layout = new QVBoxLayout;
     layoutBouton = new QHBoxLayout;
@@ -16,13 +16,13 @@ NutshPlayListInterface::NutshPlayListInterface(NutshComunicator* corePath, QWidg
 
     initButtons();
 
-    if(!NutshSqlSaver::tableExists("bibliotheque")) {
+    if(!core->getSqlControl()->tableExists(NutshSqlSaver::sqlStringFormat("bibliotheque"))) {
 
         REQUETE("create table bibliotheque ( artiste text, album text, titre text, date text, genre text, description text, track text, chemin text, cheminImage text, duree text, enregistrement text, derniereLecture text, compteur text)");
 
     }
 
-    if(!NutshSqlSaver::tableExists("listeDeLecture")){
+    if(!core->getSqlControl()->tableExists(NutshSqlSaver::sqlStringFormat("bibliotheque"))){
 
         REQUETE("CREATE TABLE listeDeLecture (name text, ordre text)");
     }
@@ -30,7 +30,6 @@ NutshPlayListInterface::NutshPlayListInterface(NutshComunicator* corePath, QWidg
 
     layout->addWidget(liste);
     layoutBouton->addWidget(nouvelleListe);
-    layoutBouton->addWidget(nouvelleListeMagique);
     layoutBouton->addWidget(importer);
     layout->addLayout(layoutBouton);
     this->setLayout(layout);
@@ -47,7 +46,7 @@ void NutshPlayListInterface::refresh() {
 
     while(requete.next()) {
 
-        liste->addItem(requete.value(0).toString());
+        liste->addItem(NutshSqlSaver::normalStringFormat(requete.value(0).toString()));
     }
 
 }
@@ -56,9 +55,6 @@ void NutshPlayListInterface::initButtons() {
 
     nouvelleListe = new QPushButton("nouvelle");
     nouvelleListe->setToolTip("creer une nouvelle playlist");
-
-    nouvelleListeMagique = new QPushButton("");
-    nouvelleListeMagique->setToolTip("Cree une nouvelle liste magique");
 
     importer = new QPushButton("Importer");
 }
@@ -82,7 +78,7 @@ void NutshPlayListInterface::addListe() {
 
 void NutshPlayListInterface::nouvelleTable() {
 
-    NutshSqlSaver::nouvelleListe(nomTable->text());
+    core->getSqlControl()->nouvelleListe(nomTable->text());
     this->refresh();
 }
 
@@ -105,7 +101,19 @@ void NutshPlayListInterface::addListeFromSearch() {
 
     QString listName = QInputDialog::getText(this, "Nouvelle Liste", "Le nom de votre liste");
 
-    NutshSqlSaver::nouvelleListe(listName);
-    NutshSqlSaver::inserer(core->metadatainterface()->getListWidget()->getItems(), listName);
+    core->getSqlControl()->nouvelleListe(listName);
+    core->progressinterface()->import(core->metadatainterface()->getListWidget()->getItems(), listName);
     this->refresh();
 }
+
+void NutshPlayListInterface::addLastRead() {
+
+    QString listName = QInputDialog::getText(this, "Nouvelle Liste", "Le nom de votre liste");
+
+    core->getSqlControl()->nouvelleListe(listName);
+
+    core->progressinterface()->import(core->playinginterface()->getLastRead(), listName);
+    this->refresh();
+}
+
+

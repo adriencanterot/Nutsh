@@ -6,10 +6,36 @@
 #include <QProgressBar>
 #include <QLayout>
 #include <QPushButton>
+#include <QThread>
+#include "nutshmetadata.h"
+#include "nutshsqlsaver.h"
+
+class ImporterThread : public QThread {
+
+    Q_OBJECT
+
+public:
+    ImporterThread(const QList<NutshMetaData>&, const QString&);
+    void run();
+
+public slots:
+    void forceQuit();
+
+signals:
+    void updateBar(int, int);
+
+private:
+    QList<NutshMetaData> metaList;
+    bool loopRunning;
+    QString m_tableName;
+    NutshSqlSaver* saver;
+
+};
 
 class NutshComunicator;
 class NutshProgressInterface : public QWidget
 {
+    Q_OBJECT
 
 public:
 
@@ -20,6 +46,7 @@ public:
     void setRightLabelText(const QString&);
     void setLeftLabelText(const QString&);
     void setCancelButtonText(const QString&);
+    void import(const QList<NutshMetaData>&, const QString&);
 
     void setMaximum(int);
     void setValue(int);
@@ -29,8 +56,16 @@ public:
 
     void swapToProgress();
 
+public slots:
+    void updateWidget(int, int);
+
 private:
     NutshComunicator* core;
+
+    ImporterThread* scan;
+
+    QObject *m_receiver;
+    const char* m_member;
 
     QLabel *m_right,
            *m_left,

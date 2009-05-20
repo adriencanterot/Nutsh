@@ -8,10 +8,11 @@
 #define FORMATS_SUPPORTES "*.mp3";
 #define D(bug) qDebug() << bug;
 #define MAJEUR 1
+#define WIDTH_LEFT 200
 
 enum ContentType {
 
-    Dir, Playlist, Entire, Empty, SearchResults
+    Dir, Playlist, Entire, Empty
 };
 
 #endif // PREPROCESS_H

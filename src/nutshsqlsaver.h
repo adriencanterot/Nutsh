@@ -7,25 +7,27 @@
 #include <QDesktopServices>
 #include "nutshmetadata.h"
 #include "preprocess.h"
+#include "nutshinstallationwizard.h"
 
 class NutshSqlSaver
 {
     public:
 	NutshSqlSaver();
-        static void inserer(NutshMetaData, QString);
-        static bool trouverDansTable(QString, NutshMetaData);
-        static bool tableExists(QString);
-        static void completeMetaData(NutshMetaData incomplete);
-        static void inserer(QList<NutshMetaData>, QString);
-        static QList<NutshMetaData> getMetaDatas(QString);
-        static void update(NutshMetaData, NutshMetaData, QString);
+        void inserer(NutshMetaData, QString);
+        bool trouverDansTable(QString, NutshMetaData);
+        bool tableExists(QString);
+        void completeMetaData(NutshMetaData incomplete);
+        void inserer(QList<NutshMetaData>, QString);
+        QList<NutshMetaData> getMetaDatas(QString);
+        void update(NutshMetaData, NutshMetaData, QString);
         QString stringListToString(QStringList);
-        static bool nouvelleListe(QString);
+        bool nouvelleListe(QString);
         static QString sqlStringFormat(QString);
         static QString normalStringFormat(QString);
-        static bool connect();
-        static QList<NutshMetaData> getResults(QString);
+        bool connect();
+        QList<NutshMetaData> getResults(QString);
 
-    private :
+    private:
+        QStringList metadatas;
 };
 #endif // NUTSHSQLSAVER_H

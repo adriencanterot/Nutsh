@@ -18,6 +18,7 @@ NutshPlayingInterface::NutshPlayingInterface(NutshComunicator* corePath)
     boutonPrecedent = new QPushButton("|<<");
     boutonSuivant = new QPushButton(">>|");
     boutonStop = new QPushButton("Stop");
+    boutonRevenir = new QPushButton("<-");
 
     //init & alloc controls
     tempsLabel = new QLabel("00:00");
@@ -53,6 +54,8 @@ NutshPlayingInterface::NutshPlayingInterface(NutshComunicator* corePath)
 
     titreLabel = new QHBoxLayout;
     titreLabel->addWidget(titre);
+    titreLabel->addSpacing(this->width()/4);
+    titreLabel->addWidget(boutonRevenir);
 
     //positionnement
     positionnerDroite = new QVBoxLayout;
@@ -83,6 +86,7 @@ void NutshPlayingInterface::sigandslots() {
     connect(boutonPrecedent, SIGNAL(clicked()), this, SLOT(previous()));
     connect(boutonSuivant, SIGNAL(clicked()), this, SLOT(next()));
     connect(media, SIGNAL(aboutToFinish()), this, SLOT(next()));
+    connect(boutonRevenir, SIGNAL(clicked()), core->metadatainterface(), SLOT(swapToList()));
 }
 void NutshPlayingInterface::load(NutshMetaData data) {
 
@@ -107,6 +111,13 @@ void NutshPlayingInterface::load(NutshMetaData data) {
     }
 
     current = data;
+    lastRead.append(data);
+
+    if(lastRead.count() > 5) {
+
+        lastRead.removeLast();
+    }
+
     currentItem = 0;
     media->setSource(data);
     media->play();
@@ -210,6 +221,7 @@ void NutshPlayingInterface::setStatus() {
 
     artisteCP->setText(artiste->text());
     titreCP->setText(titre->text());
+
 }
 
 void NutshPlayingInterface::pauseByKey(QKeyEvent* event) {
@@ -218,4 +230,9 @@ void NutshPlayingInterface::pauseByKey(QKeyEvent* event) {
 
         this->playPause();
     }
+}
+
+QList<NutshMetaData> NutshPlayingInterface::getLastRead() {
+
+    return lastRead;
 }

@@ -22,7 +22,7 @@ public:
     bool isPlaying();
     bool isPaused();
     void setSource(NutshMetaData&);
-    void setSources(QList<NutshMetaData>);
+    void setSources(QList<NutshMetaData>&);
     Phonon::SeekSlider *getPosSlider();
 
 private :

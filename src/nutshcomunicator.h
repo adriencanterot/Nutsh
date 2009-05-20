@@ -36,6 +36,7 @@ public:
     NutshPlayingInterface *playinginterface();
     NutshProgressInterface *progressinterface();
     NutshUpdater *updater();
+    NutshSqlSaver* getSqlControl();
 
     QVBoxLayout *droite();
     QVBoxLayout *gauche();
@@ -50,6 +51,8 @@ private:
     QWidget *m_central;
     QVBoxLayout *m_gauche, *m_droite;
     QStatusBar* m_bar;
+
+    NutshSqlSaver *sqlControl;
 
     NutshIndexer *scanner;
     NutshPlayListInterface *m_playlistinterface;

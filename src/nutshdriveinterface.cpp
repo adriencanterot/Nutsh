@@ -1,12 +1,39 @@
 #include "nutshdriveinterface.h"
 #include "nutshcomunicator.h"
 
+
+SearchDrivesThread::SearchDrivesThread() {
+
+    loopRunning = false;
+}
+
+void SearchDrivesThread::run() {
+
+    loopRunning = true;
+
+    QTimer time;
+    connect(&time, SIGNAL(timeout()), this, SLOT(emitNewDrive()));
+    time.start(1500);
+
+    connect(qApp, SIGNAL(aboutToQuit()), this, SLOT(quit()));
+    this->exec();
+}
+
+void SearchDrivesThread::emitNewDrive() {
+
+    emit newDrive();
+}
+
 NutshDriveInterface::NutshDriveInterface(NutshComunicator* corePath)
 {
-    this->setFixedWidth(250);
+    this->setFixedWidth(WIDTH_LEFT);
 
     //alloc & init
     core = corePath;
+
+    newDrive = new SearchDrivesThread;
+    connect(newDrive, SIGNAL(newDrive()), this, SLOT(refresh()));
+    newDrive->start();
 
     layout = new QVBoxLayout;
     deviceList = new QListWidget;
@@ -37,7 +64,7 @@ void NutshDriveInterface::refresh() {
     deviceList->addItems(dir->entryList(QDir::AllDirs|QDir::NoDotAndDotDot));
 }
 
-void NutshDriveInterface::changeDir(QModelIndex item) {
+void NutshDriveInterface::changeDir(QModelIndex &item) {
 
     QString itemValue = item.data().toString();
 
@@ -90,3 +117,5 @@ void NutshDriveInterface::swapToDrives() {
     core->progressinterface()->hide();
     this->show();
 }
+
+

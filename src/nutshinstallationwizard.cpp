@@ -28,7 +28,7 @@ PageImportMedia::PageImportMedia() {
 
     principal = new QVBoxLayout(this);
 
-    import = new QLabel(QString::fromUtf8("Pour bien fonctionner, vous devez indiquer à Nutsh! où se trouvent vos médias, choisissez le dossier contenant vos médias : "), this);
+    import = new QLabel(QString::fromUtf8("Pour bien fonctionner, vous devez indiquer �  Nutsh! où se trouvent vos médias, choisissez le dossier contenant vos médias : "), this);
     import->setWordWrap(true);
 
     enCours = new QLabel;
@@ -53,6 +53,7 @@ void PageImportMedia::getDirName() {
 
     Indexer *scan = new Indexer(dirName, "bibliotheque");
     connect(scan, SIGNAL(updateBar(int, int)), this, SLOT(updateBar(int, int)));
+    progression->setMaximum(0);
     scan->start();
 }
 
@@ -73,5 +74,5 @@ void PageImportMedia::updateBar(int current, int total) {
 
 PageConclusion::PageConclusion() {
 
-    conclusion = new QLabel(QString::fromUtf8("Tout vos morceaux ont été importé dans votre bibliothèque\nAppuyez sur \"Done\" pour commencer à vous servir de Nutsh!"), this);
+    conclusion = new QLabel(QString::fromUtf8("Tout vos morceaux ont été importé dans votre bibliothèque\nAppuyez sur \"Done\" pour commencer �  vous servir de Nutsh!"), this);
 }

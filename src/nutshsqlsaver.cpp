@@ -3,21 +3,15 @@
 
 NutshSqlSaver::NutshSqlSaver()
 {
-    /*//construction de l'objet
-    MusicDir = QDesktopServices::storageLocation(QDesktopServices::MusicLocation);
-    //creation du dossier NutshConfig qui contient la base de donnee
-    qDebug() << "MusicDir = " << MusicDir;
-    verification = new QDir(MusicDir);
-    if(!verification->exists("NutshConfig")) {
-        verification->mkdir("NutshConfig");
+    QSqlQuery requete;
+
+    requete.exec("SELECT * FROM bibliotheque");
+
+
+    while(requete.next()) {
+
+        metadatas.append(requete.value(7).toString());
     }
-    if(!this->connect()) {
-        qDebug() << "NutshSqlSaver : connexion a la database echouee";
-    }
-    else {
-        qDebug() << "NutshSqlSaver : connexion a la database reussie";
-    }
-    qDebug()<<"NutshSqlSaver : initialized";*/
 }
 void NutshSqlSaver::inserer(NutshMetaData meta, QString table) {
     //completion des metadata, pour la date.
@@ -58,10 +52,10 @@ void NutshSqlSaver::inserer(NutshMetaData meta, QString table) {
         }
 
 
-        query = "INSERT INTO "+table+" VALUES(\""+meta.getArtiste()+"\", \""+meta.getAlbum()+"\", \""+meta.getTitre()+"\", \"nope\", \""+meta.getGenre()+"\", \""+meta.getDescription()+"\", \"0\", \""+meta.getChemin()+"\", \""+meta.getCheminImage()+"\", \""+meta.getDuree().toString()+"\", \""+meta.getDateEnregistrement().toString()+"\", \"no\", \"no\")";
+        query = "INSERT INTO "+NutshSqlSaver::sqlStringFormat(table)+" VALUES(\""+meta.getArtiste()+"\", \""+meta.getAlbum()+"\", \""+meta.getTitre()+"\", \"nope\", \""+meta.getGenre()+"\", \""+meta.getDescription()+"\", \"0\", \""+meta.getChemin()+"\", \""+meta.getCheminImage()+"\", \""+meta.getDuree().toString()+"\", \""+meta.getDateEnregistrement().toString()+"\", \"no\", \"no\")";
 
         //execution de la requete
-        if(!NutshSqlSaver::trouverDansTable("SELECT * FROM "+table, meta)) {
+        if(!NutshSqlSaver::trouverDansTable("SELECT * FROM "+NutshSqlSaver::sqlStringFormat(table), meta)) {
 
             if(!requete.exec(query)) {
                 qDebug() << requete.lastError() << "  \nQ= " << requete.lastQuery() << " ou alors la metadonnee existe deja dans la table";
@@ -111,10 +105,10 @@ void NutshSqlSaver::inserer(QList<NutshMetaData> meta, QString table) {
         }
 
 
-        query = "INSERT INTO "+table+" VALUES(\""+meta.value(i).getArtiste()+"\", \""+meta.value(i).getAlbum()+"\", \""+meta.value(i).getTitre()+"\", \"nope\", \""+meta.value(i).getGenre()+"\", \""+meta.value(i).getDescription()+"\", \"0\", \""+meta.value(i).getChemin()+"\", \""+meta.value(i).getCheminImage()+"\", \""+meta.value(i).getDuree().toString()+"\", \""+meta.value(i).getDateEnregistrement().toString()+"\", \"no\", \"no\")";
+        query = "INSERT INTO "+NutshSqlSaver::sqlStringFormat(table)+" VALUES(\""+meta.value(i).getArtiste()+"\", \""+meta.value(i).getAlbum()+"\", \""+meta.value(i).getTitre()+"\", \"nope\", \""+meta.value(i).getGenre()+"\", \""+meta.value(i).getDescription()+"\", \"0\", \""+meta.value(i).getChemin()+"\", \""+meta.value(i).getCheminImage()+"\", \""+meta.value(i).getDuree().toString()+"\", \""+meta.value(i).getDateEnregistrement().toString()+"\", \"no\", \"no\")";
 
         //execution de la requete
-        if(!NutshSqlSaver::trouverDansTable("SELECT * FROM "+table, meta.value(i))) {
+        if(!NutshSqlSaver::trouverDansTable("SELECT * FROM "+NutshSqlSaver::sqlStringFormat(table), meta.value(i))) {
 
             if(!requete.exec(query)) {
                 qDebug() << requete.lastError() << "  \nQ= " << requete.lastQuery() << " ou alors la metadonnee existe deja dans la table";
@@ -126,20 +120,17 @@ void NutshSqlSaver::inserer(QList<NutshMetaData> meta, QString table) {
 
 bool NutshSqlSaver::trouverDansTable(QString query, NutshMetaData recherche) {
     //Rechercher une valeur dans un table :
-    QSqlQuery requete;
-    bool ok = false;
-    requete.exec(query);
-    while(requete.next()) {
 
-            if(requete.value(0/*1er resultat du select*/).toString() == recherche.getArtiste() && requete.value(1/*2e resultat*/) == recherche.getAlbum() && requete.value(2)/*3e resultat*/ == recherche.getTitre()) {
-                ok = true;
-                break;
-            }
-            else {
-                ok = false;
-            }
+    if(metadatas.contains(recherche.getChemin(), Qt::CaseSensitive)) {
+
+        return true;
+
+    } else {
+
+        return false;
     }
-    return ok;
+
+
 }
 void NutshSqlSaver::completeMetaData(NutshMetaData incomplete) {
     //enregistrement de la date avant l'enregistrement;
@@ -166,7 +157,7 @@ bool NutshSqlSaver::nouvelleListe(QString tableName) {
         qDebug() << requete.lastError() << " | Q = " << requete.lastQuery();
         etat = false;
     }
-    if(!requete.exec("INSERT INTO listeDeLecture VALUES (\""+tableName+"\", \"\")")){
+    if(!requete.exec("INSERT INTO listeDeLecture VALUES (\""+NutshSqlSaver::sqlStringFormat(tableName)+"\", \"\")")){
         qDebug() << requete.lastError() << " | Q = " << requete.lastQuery();
         etat = false;
     }
@@ -177,10 +168,13 @@ bool NutshSqlSaver::connect() {
 
     //creation du dossier NutshConfig qui contient la base de donnee
     QDir verification(MusicDir);
+    bool wizard = false;
 
     if(!verification.exists("NutshConfig")) {
 
         verification.mkdir("NutshConfig");
+        wizard = true;
+
     }
 
     QSqlDatabase NutshDB = QSqlDatabase::addDatabase("QSQLITE");
@@ -194,7 +188,15 @@ bool NutshSqlSaver::connect() {
     QSqlQuery requete;
     requete.exec("create table bibliotheque ( artiste text, album text, titre text, date text, genre text, description text, track text, chemin text, cheminImage text, duree text, enregistrement text, derniereLecture text, compteur text)");
     requete.exec("CREATE TABLE listeDeLecture (name text, ordre text)");
-    return NutshDB.open();
+    NutshDB.open();
+
+    qDebug() << wizard;
+
+    if(wizard == true) {
+
+        NutshInstallationWizard Wizard;
+        Wizard.exec();
+    }
 }
 
 QString NutshSqlSaver::normalStringFormat(QString param) {
@@ -232,24 +234,34 @@ QString NutshSqlSaver::sqlStringFormat(QString param) {
     return operation;
 }
 QList<NutshMetaData> NutshSqlSaver::getMetaDatas(QString query) {
+
     QList<NutshMetaData> metaList;
     REQUETE(query);
+
     QVariantList cache;
+
     while(requete.next()) {
+
         for(int i = 0;i<NB_CHAMPS_DATABASE-1;i++) {
+
             cache.append(requete.value(i));
         }
-    metaList.append(NutshMetaData(cache));
-    cache.clear();
+
+        metaList.append(NutshMetaData(cache));
+        cache.clear();
     }
     return metaList;
 }
+
 bool NutshSqlSaver::tableExists(QString tblName) {
     bool ok = false;
     QString q = "SELECT tbl_name FROM sqlite_master";
     REQUETE(q);
+
     while(requete.next()) {
+
         if(QString(requete.value(0).toString()).contains(tblName, Qt::CaseInsensitive)) {
+
             ok = true;
             qDebug() << requete.value(0).toString();
             break;

@@ -11,7 +11,8 @@ NutshComunicator::NutshComunicator()
     m_droite = new QVBoxLayout;
     m_splitter = new QHBoxLayout;
 
-    NutshSqlSaver::connect();
+    sqlControl = new NutshSqlSaver;
+    sqlControl->connect();
     m_searchlineinterface = new NutshSearchLineInterface(this);
     m_playlistinterface = new NutshPlayListInterface(this);
     m_metadatainterface = new NutshMetaDataInterface(this);
@@ -102,5 +103,10 @@ void NutshComunicator::setStatus(QString status) {
 QStatusBar* NutshComunicator::bar() {
 
     return m_bar;
+}
+
+NutshSqlSaver* NutshComunicator::getSqlControl() {
+
+    return sqlControl;
 }
 

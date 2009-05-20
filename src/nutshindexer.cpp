@@ -1,18 +1,18 @@
 #include "nutshindexer.h"
 #include "nutshcomunicator.h"
 
-Indexer::Indexer(QString path, QString table) {
+Indexer::Indexer(const QString& path, const QString &table) {
 
     chemin = path;
     m_table = table;
     filtre << FORMATS_SUPPORTES;
     this->setTerminationEnabled(true);
     loopRunning = true;
+    saver = new NutshSqlSaver;
 }
 
 void Indexer::run() {
 
-    D(1);
     int total = 0;
     QStringList filePaths;
     emit updateBar(0, 0) ;
@@ -36,7 +36,7 @@ void Indexer::run() {
 
     for(int i = 1;i<filePaths.count();i++) {
 
-        NutshSqlSaver::inserer(NutshMetaData(filePaths.value(i)), m_table);
+        saver->inserer(NutshMetaData(filePaths.value(i)), m_table);
         qDebug() <<  filePaths.count();
 
 
@@ -72,27 +72,7 @@ NutshIndexer::NutshIndexer(NutshComunicator* corePath)
 
 }
 
-bool NutshIndexer::trouver(QString chaine, QStringList *recherche) {
-
-    bool ok;
-
-    for(int i = 0;i<recherche->count();i++) {
-
-        if(recherche->value(i) == chaine || chaine.contains("..", Qt::CaseInsensitive)) {
-
-            ok = true;
-	    break;
-
-        } else {
-
-            ok = false;
-	}
-    }
-
-    return ok;
-}
-
-void NutshIndexer::indexer(QString chemin, QString table) {
+void NutshIndexer::indexer(const QString &chemin, const QString &table) {
 
     core->progressinterface()->swapToProgress();
     core->progressinterface()->setTopLabelText("Scan en cours");

@@ -19,22 +19,22 @@ class NutshMetaDataInterface : public QWidget
 public:
     NutshMetaDataInterface(NutshComunicator*);
     void sigandslots();
-    void swapToList();
     void load(QList<NutshMetaData>);
-    QList<NutshMetaData> actualContent();
+    QList<NutshMetaData> actualContent() const;
     NutshMetaDataList* getListWidget();
-    void setPath(QString);
+    void setPath(const QString&);
     void refreshInterface(ContentType);
 
 
 public slots:
 
-    void getSqlMetaData(QString);
-    void getDirMetaData(QModelIndex);
-    void getDirMetaData(QString);
-    void getWordMetaData(QString);
+    void getSqlMetaData(const QString&);
+    void getDirMetaData(const QModelIndex&);
+    void getDirMetaData(const QString&);
+    void getWordMetaData(const QString&);
 
-    void swapWidgets(NutshMetaData);
+    void swapWidgets(const NutshMetaData&);
+    void swapToList();
     void importerContent();
     void changeDisposition(ContentType);
     void reset();
@@ -51,8 +51,7 @@ private:
     QHBoxLayout * optionsLayout;
     NutshMetaDataList *metadatas;
     QPushButton *importer,
-                *toBibliotheque,
-                *nouvelleListe;
+                *toBibliotheque;
 
 
 };

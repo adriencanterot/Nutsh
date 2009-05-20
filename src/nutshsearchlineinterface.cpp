@@ -5,25 +5,40 @@
 NutshSearchLineInterface::NutshSearchLineInterface(NutshComunicator* corePath)
 {
     core = corePath;
+
     searchLine = new QLineEdit;
-    organisation = new QVBoxLayout;
+    nouvelleListe = new QPushButton("+", this);
+    organisation = new QHBoxLayout;
+    actionsPlus = new QMenu(this);
+    nouvelleListe->setMenu(actionsPlus);
     organisation->addWidget(searchLine);
+    organisation->addWidget(nouvelleListe);
     this->setLayout(organisation);
     qDebug() << "NutshSearchLineInterface : initialized";
 }
 
 void NutshSearchLineInterface::sigandslots() {
     connect(searchLine, SIGNAL(textChanged(QString)), this, SLOT(showResults(QString)));
+    actionsPlus->addAction("Resultats de la recherche dans une playlist", core->playlistinterface(),
+                           SLOT(addListeFromSearch()));
+    actionsPlus->addAction("5 derniers morceaux lu dans une liste de lecture", core->playlistinterface(),
+                           SLOT(addLastRead()));
 }
 void NutshSearchLineInterface::showResults(QString query) {
     
     if(searchLine->text() != "") {
         core->metadatainterface()->getWordMetaData(query);
         core->metadatainterface()->swapToList();
+
+        if(core->metadatainterface()->getListWidget()->getItems().count() != 0) {
+
+            nouvelleListe->setEnabled(true);
+        }
     }
     else {
 
         core->playinginterface()->swapToPlay();
+        nouvelleListe->setEnabled(false);
     }
 }
 

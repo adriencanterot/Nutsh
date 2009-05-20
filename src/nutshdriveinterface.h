@@ -6,6 +6,27 @@
 #include <QListWidget>
 #include <QLayout>
 #include <QDir>
+#include <QTimer>
+#include <QThread>
+
+class SearchDrivesThread : public QThread {
+
+    Q_OBJECT
+
+public:
+    SearchDrivesThread();
+    void run();
+
+public slots:
+    void emitNewDrive();
+
+signals:
+    void newDrive();
+
+private:
+    bool loopRunning;
+
+};
 
 class NutshComunicator;
 class NutshDriveInterface : public QWidget
@@ -15,18 +36,17 @@ public:
 
     NutshDriveInterface(NutshComunicator* corePath);
 
-    void refresh();
-
     QListWidget* getDeviceList();
     QDir* getDir();
 
     void sigandslots();
-    void swapToDrives();
 
 public slots :
 
-    void changeDir(QModelIndex);
+    void changeDir(QModelIndex&);
     void precedent();
+    void swapToDrives();
+    void refresh();
 
 private :
 
@@ -37,6 +57,8 @@ private :
     QVBoxLayout *layout;
     QPushButton *boutonPrecedent;
     int place;
+
+    SearchDrivesThread *newDrive;
 };
 
 #endif // NUTSHDRIVEINTERFACE_H

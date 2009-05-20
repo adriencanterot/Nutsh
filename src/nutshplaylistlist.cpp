@@ -19,22 +19,29 @@ NutshPlaylistList::NutshPlaylistList(NutshComunicator* corePath, QWidget *parent
 
 void NutshPlaylistList::dragMoveEvent(QDragMoveEvent *event) {
 
-    this->itemAt(event->pos())->setSelected(true);
-    event->accept();
+    if(this->itemAt(event->pos()) != NULL) {
+
+        this->itemAt(event->pos())->setSelected(true);
+        event->accept();
+
+    } else {
+
+        event->ignore();
+    }
 }
 
 void NutshPlaylistList::dropEvent(QDropEvent* event) {
 
     event->accept();
 
-    NutshSqlSaver::inserer(core->metadatainterface()->getListWidget()->selectedMetadatas(), this->itemAt(event->pos())->text());
+    core->getSqlControl()->inserer(core->metadatainterface()->getListWidget()->selectedMetadatas(), this->itemAt(event->pos())->text());
     qDebug() << "Successfull!";
 }
 
 void NutshPlaylistList::showContent(QModelIndex index) {
 
     core->metadatainterface()->load(
-            NutshSqlSaver::getMetaDatas("SELECT * FROM "+index.data().toString())
+            core->getSqlControl()->getMetaDatas("SELECT * FROM "+NutshSqlSaver::sqlStringFormat(index.data().toString()))
             );
     emit core->metadatainterface()->refreshInterface(Playlist);
 }

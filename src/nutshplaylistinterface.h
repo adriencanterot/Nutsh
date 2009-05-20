@@ -34,6 +34,7 @@ public slots :
     void nouvelleTable();
     void importWindow();
     void addListeFromSearch();
+    void addLastRead();
 
 private :
 

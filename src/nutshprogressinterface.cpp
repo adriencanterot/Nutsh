@@ -1,6 +1,41 @@
 #include "nutshprogressinterface.h"
 #include "nutshcomunicator.h"
 
+ImporterThread::ImporterThread(const QList<NutshMetaData> &aImporter, const QString &tableName) {
+
+    metaList = aImporter;
+    loopRunning = false;
+    m_tableName = tableName;
+    saver = new NutshSqlSaver;
+}
+
+void ImporterThread::run() {
+
+    loopRunning = true;
+
+    for(int i = 0;i<this->metaList.count();i++) {
+
+        saver->inserer(metaList.value(i), m_tableName);
+        emit updateBar(i+1, metaList.count());
+
+        if(loopRunning == false) {
+
+            break;
+        }
+    }
+
+    connect(this, SIGNAL(finished()), this, SLOT(quit()));
+
+    this->exec();
+}
+
+void ImporterThread::forceQuit() {
+
+    loopRunning = false;
+    this->quit();
+    this->terminate();
+}
+
 NutshProgressInterface::NutshProgressInterface(NutshComunicator* corePath)
 {
     core = corePath;
@@ -79,7 +114,6 @@ void NutshProgressInterface::setValue(int i) {
     m_progress->setValue(i);
 
     if(m_progress->maximum() != 0 && m_progress->value() == m_progress->maximum()) {
-        qDebug() << m_progress->value() << m_progress->maximum();
         core->driveinterface()->swapToDrives();
     }
 
@@ -100,6 +134,9 @@ void NutshProgressInterface::swapToProgress() {
 }
 void NutshProgressInterface::stopAction(QObject* receiver, const char* method) {
 
+    m_receiver = receiver;
+    m_member = method;
+
     connect(m_cancel, SIGNAL(clicked()), receiver, method);
 }
 
@@ -107,5 +144,34 @@ void NutshProgressInterface::setCancelButtonText(const QString& text) {
 
     m_cancel->setText(text);
 }
+
+void NutshProgressInterface::updateWidget(int current, int total) {
+
+    this->setValue(current);
+    this->setMaximum(total);
+
+    this->setBottomLabelText(QString("%1/%2").arg(current).arg(total));
+
+
+}
+
+void NutshProgressInterface::import(const QList<NutshMetaData> &metaList, const QString &table) {
+
+    disconnect(m_cancel, SIGNAL(clicked()), m_receiver, m_member); //annuler l'effet de stopAction
+
+    this->swapToProgress();
+    this->setTopLabelText("Importation...");
+
+    /*creation du Thread*/
+    scan = new ImporterThread(metaList, table);
+
+    connect(scan, SIGNAL(updateBar(int,int)), this, SLOT(updateWidget(int,int)));
+    connect(m_cancel, SIGNAL(clicked()), scan, SLOT(forceQuit()));
+    connect(m_cancel, SIGNAL(clicked()), core->driveinterface(), SLOT(swapToDrives()));
+
+    scan->start();
+
+}
+
 
 

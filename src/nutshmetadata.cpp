@@ -30,7 +30,7 @@ NutshMetaData::NutshMetaData(const NutshMetaData &m) {
     derniereLecture = m.derniereLecture;
 }
 
-NutshMetaData::NutshMetaData(QString source) {
+NutshMetaData::NutshMetaData(const QString &source) {
 
     FileRef file(source.toAscii().constData());
 
@@ -46,7 +46,7 @@ NutshMetaData::NutshMetaData(QString source) {
 
 }
 
-NutshMetaData::NutshMetaData(QVariantList resultatLigne) {
+NutshMetaData::NutshMetaData(const QVariantList &resultatLigne) {
 
     /* Initialisation depuis un resulat SQL
       generalement depuis une sortie,
@@ -78,18 +78,18 @@ NutshMetaData::NutshMetaData(QVariantList resultatLigne) {
 
 }
 
-void NutshMetaData::load(QVariantList resultatLigne) {
+void NutshMetaData::load(const QVariantList &resultatLigne) {
 
     this->load(resultatLigne);
 }
 
-void NutshMetaData::setSavingDate(QDateTime dateEnregistrement) {
+void NutshMetaData::setSavingDate(const QDateTime &dateEnregistrement) {
 
     enregistrement = dateEnregistrement;
     metaData.append(enregistrement.toString());
 }
 
-QString NutshMetaData::stringListToString(QStringList liste) {
+QString NutshMetaData::stringListToString(const QStringList &liste) {
 
     QString chaineRetour;
 
@@ -102,7 +102,7 @@ QString NutshMetaData::stringListToString(QStringList liste) {
     return chaineRetour;
 }
 
-bool NutshMetaData::contains(QString str) {
+bool NutshMetaData::contains(const QString &str) {
 
     if(artiste.contains(str, Qt::CaseInsensitive) ||
        album.contains(str, Qt::CaseInsensitive) ||
@@ -119,57 +119,57 @@ bool NutshMetaData::contains(QString str) {
 
 /* Toute les methodes accesseuses */
 
-QString NutshMetaData::getArtiste() {
+QString NutshMetaData::getArtiste() const {
 
     return artiste;
 }
 
-QString NutshMetaData::getAlbum() {
+QString NutshMetaData::getAlbum() const {
 
     return album;
 }
 
-QString NutshMetaData::getTitre() {
+QString NutshMetaData::getTitre() const {
 
     return titre;
 }
 
-QString NutshMetaData::getDate() {
+QString NutshMetaData::getDate() const {
 
     return date;
 }
 
-QString NutshMetaData::getGenre() {
+QString NutshMetaData::getGenre() const {
 
     return genre;
 }
 
-QString NutshMetaData::getDescription() {
+QString NutshMetaData::getDescription() const {
 
     return description;
 }
 
-QDateTime NutshMetaData::getDateEnregistrement() {
+QDateTime NutshMetaData::getDateEnregistrement() const {
 
     return enregistrement;
 }
 
-QString NutshMetaData::getChemin() {
+QString NutshMetaData::getChemin() const {
 
     return chemin;
 }
 
-int NutshMetaData::getCompteur() {
+int NutshMetaData::getCompteur() const {
 
     return compteur;
 }
 
-QTime NutshMetaData::getDuree() {
+QTime NutshMetaData::getDuree() const {
 
     return duree;
 }
 
-QString NutshMetaData::getCheminImage() {
+QString NutshMetaData::getCheminImage() const {
 
     return cheminImage;
 }
@@ -197,7 +197,7 @@ NutshMetaData NutshMetaData::operator=(const NutshMetaData &m) {
     return *this;
 }
 
-QStringList NutshMetaData::getAllMetaDatas() {
+QStringList NutshMetaData::getAllMetaDatas() const {
 
     metaData.append(artiste);
     metaData.append(album);
@@ -244,57 +244,57 @@ bool NutshMetaData::operator==(const NutshMetaData& m) {
     }
 }
 
-void NutshMetaData::setArtiste(QString a) {
+void NutshMetaData::setArtiste(const QString &a) {
 
     artiste = a;
 }
 
-void NutshMetaData::setAlbum(QString a) {
+void NutshMetaData::setAlbum(const QString &a) {
 
     album = a;
 }
 
-void NutshMetaData::setTitre(QString t) {
+void NutshMetaData::setTitre(const QString &t) {
 
     titre = t;
 }
 
-void NutshMetaData::setDate(QString d) {
+void NutshMetaData::setDate(const QString &d) {
 
     date = d;
 }
 
-void NutshMetaData::setGenre(QString g) {
+void NutshMetaData::setGenre(const QString &g) {
 
     genre = g;
 }
 
-void NutshMetaData::setDescription(QString d) {
+void NutshMetaData::setDescription(const QString &d) {
 
     description = d;
 }
 
-void NutshMetaData::setDateEnregistrement(QDateTime d) {
+void NutshMetaData::setDateEnregistrement(const QDateTime &d) {
 
     enregistrement = d;
 }
 
-void NutshMetaData::setChemin(QString c) {
+void NutshMetaData::setChemin(const QString &c) {
 
     chemin = c;
 }
 
-void NutshMetaData::setCheminImage(QString c) {
+void NutshMetaData::setCheminImage(const QString &c) {
 
     cheminImage = c;
 }
 
-void NutshMetaData::setDuree(QTime d) {
+void NutshMetaData::setDuree(const QTime &d) {
 
     duree = d;
 }
 
-void NutshMetaData::setAllMetaDatas(QStringList m) {
+void NutshMetaData::setAllMetaDatas(const QStringList &m) {
 
     metaData = m;
 }

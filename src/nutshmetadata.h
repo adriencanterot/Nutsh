@@ -16,43 +16,43 @@ class NutshMetaData
 public:
     NutshMetaData();
     //depuis une requete SQL
-    NutshMetaData(QVariantList);
+    NutshMetaData(const QVariantList&);
     //depuis un fichier
-    NutshMetaData(QString);
-    bool contains(QString);
+    NutshMetaData(const QString&);
+    bool contains(const QString&);
     NutshMetaData(const NutshMetaData &m);
     NutshMetaData operator=(const NutshMetaData &m);
     QStringList createKeywords(const QString&);
     //Charger a partir d'un QVariantList
     void load(QVariantList);
     void setSavingDate(QDateTime);
-    QString stringListToString(QStringList);
-    QString getArtiste();
-    QString getAlbum();
-    QString getTitre();
-    QString getDate();
-    QString getGenre();
-    QString getDescription();
-    QDateTime getDateEnregistrement();
-    QString getChemin();
-    QString getCheminImage();
-    QTime getDuree();
-    QStringList getAllMetaDatas();
-    int getCompteur();
-    int getTrack();
+    QString stringListToString(const QStringList&);
+    QString getArtiste() const;
+    QString getAlbum() const;
+    QString getTitre() const;
+    QString getDate() const;
+    QString getGenre() const;
+    QString getDescription() const;
+    QDateTime getDateEnregistrement() const;
+    QString getChemin() const;
+    QString getCheminImage() const;
+    QTime getDuree() const;
+    QStringList getAllMetaDatas() const;
+    int getCompteur() const;
+    int getTrack() const;
 
 
-    void setArtiste(QString);
-    void setAlbum(QString);
-    void setTitre(QString);
-    void setDate(QString);
-    void setGenre(QString);
-    void setDescription(QString);
-    void setDateEnregistrement(QDateTime);
-    void setChemin(QString);
-    void setCheminImage(QString);
+    void setArtiste(const QString&);
+    void setAlbum(const QString&);
+    void setTitre(const QString&);
+    void setDate(const QString&);
+    void setGenre(const QString&);
+    void setDescription(const QString&);
+    void setDateEnregistrement(const QDateTime&);
+    void setChemin(const QString&);
+    void setCheminImage(const QString&);
     void setDuree(QTime);
-    void setAllMetaDatas(QStringList);
+    void setAllMetaDatas(const QStringList&);
     void setCompteur(int);
     void setTrack(int);
     bool operator==(const NutshMetaData&);

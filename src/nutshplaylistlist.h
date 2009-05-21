@@ -18,7 +18,7 @@ public:
 
 public slots:
 
-    void showContent(QModelIndex);
+    void showContent(const QModelIndex&);
 
 protected:
     void dragEnterEvent(QDragEnterEvent *event);

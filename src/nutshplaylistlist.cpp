@@ -35,13 +35,13 @@ void NutshPlaylistList::dropEvent(QDropEvent* event) {
     event->accept();
 
     core->getSqlControl()->inserer(core->metadatainterface()->getListWidget()->selectedMetadatas(), this->itemAt(event->pos())->text());
-    qDebug() << "Successfull!";
 }
 
-void NutshPlaylistList::showContent(QModelIndex index) {
+void NutshPlaylistList::showContent(const QModelIndex &index) {
 
     core->metadatainterface()->load(
             core->getSqlControl()->getMetaDatas("SELECT * FROM "+NutshSqlSaver::sqlStringFormat(index.data().toString()))
             );
-    emit core->metadatainterface()->refreshInterface(Playlist);
+
+    core->metadatainterface()->refreshInterface(Playlist);
 }

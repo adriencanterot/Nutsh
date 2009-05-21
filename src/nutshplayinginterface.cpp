@@ -88,7 +88,7 @@ void NutshPlayingInterface::sigandslots() {
     connect(media, SIGNAL(aboutToFinish()), this, SLOT(next()));
     connect(boutonRevenir, SIGNAL(clicked()), core->metadatainterface(), SLOT(swapToList()));
 }
-void NutshPlayingInterface::load(NutshMetaData data) {
+void NutshPlayingInterface::load(const NutshMetaData &data) {
 
     currentItem = 0;
     titre->setText("Sans Titre");
@@ -139,7 +139,7 @@ void NutshPlayingInterface::playPause() {
     }
 }
 
-void NutshPlayingInterface::load(QList<NutshMetaData> metaList) {
+void NutshPlayingInterface::load(const QList<NutshMetaData> &metaList) {
 
     boutonPrecedent->setEnabled(true);
     boutonSuivant->setEnabled(true);
@@ -232,7 +232,7 @@ void NutshPlayingInterface::pauseByKey(QKeyEvent* event) {
     }
 }
 
-QList<NutshMetaData> NutshPlayingInterface::getLastRead() {
+QList<NutshMetaData> NutshPlayingInterface::getLastRead() const{
 
     return lastRead;
 }

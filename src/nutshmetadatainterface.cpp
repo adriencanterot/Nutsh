@@ -32,11 +32,8 @@ NutshMetaDataInterface::NutshMetaDataInterface(NutshComunicator* corePath)
     qDebug() << "NutshMetaDataInterface : initialized";
 }
 
-void NutshMetaDataInterface::getSqlMetaData(QString query) {
 
-}
-
-void NutshMetaDataInterface::getDirMetaData(QModelIndex directory) {
+void NutshMetaDataInterface::getDirMetaData(const QModelIndex &directory) {
 
     QStringList filtre;
     filtre << FORMATS_SUPPORTES;
@@ -48,7 +45,7 @@ void NutshMetaDataInterface::getDirMetaData(QModelIndex directory) {
     }
 }
 
-void NutshMetaDataInterface::getDirMetaData(QString directory) {
+void NutshMetaDataInterface::getDirMetaData(const QString &directory) {
 
     QStringList filtre;
     filtre << FORMATS_SUPPORTES;
@@ -64,7 +61,7 @@ void NutshMetaDataInterface::getDirMetaData(QString directory) {
     }
 }
 
-void NutshMetaDataInterface::getWordMetaData(QString word){
+void NutshMetaDataInterface::getWordMetaData(const QString &word){
 
     metadatas->clearList();
 
@@ -93,7 +90,7 @@ void NutshMetaDataInterface::sigandslots() {
 
 
 
-void NutshMetaDataInterface::swapWidgets(NutshMetaData data) {
+void NutshMetaDataInterface::swapWidgets(const NutshMetaData &data) {
 
     core->playinginterface()->swapToPlay();
     core->playinginterface()->load(data);
@@ -117,12 +114,12 @@ void NutshMetaDataInterface::load(QList<NutshMetaData> liste) {
     metadatas->load(liste);
 }
 
-QList<NutshMetaData> NutshMetaDataInterface::actualContent() {
+QList<NutshMetaData> NutshMetaDataInterface::actualContent() const {
 
     return metadatas->getItems();
 }
 
-void NutshMetaDataInterface::setPath(QString chemin) {
+void NutshMetaDataInterface::setPath(const QString &chemin) {
 
     QStringList filter;
     filter << FORMATS_SUPPORTES;

@@ -24,8 +24,8 @@ public:
     NutshMetaData operator=(const NutshMetaData &m);
     QStringList createKeywords(const QString&);
     //Charger a partir d'un QVariantList
-    void load(QVariantList);
-    void setSavingDate(QDateTime);
+    void load(const QVariantList&);
+    void setSavingDate(const QDateTime&);
     QString stringListToString(const QStringList&);
     QString getArtiste() const;
     QString getAlbum() const;
@@ -37,7 +37,7 @@ public:
     QString getChemin() const;
     QString getCheminImage() const;
     QTime getDuree() const;
-    QStringList getAllMetaDatas() const;
+    QStringList getAllMetaDatas();
     int getCompteur() const;
     int getTrack() const;
 
@@ -51,7 +51,7 @@ public:
     void setDateEnregistrement(const QDateTime&);
     void setChemin(const QString&);
     void setCheminImage(const QString&);
-    void setDuree(QTime);
+    void setDuree(const QTime&);
     void setAllMetaDatas(const QStringList&);
     void setCompteur(int);
     void setTrack(int);

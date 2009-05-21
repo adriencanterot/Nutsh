@@ -27,6 +27,7 @@ public:
     void refresh();
     void initButtons();
     void sigandslots();
+    void setNewName(QString&);
 
 public slots :
 

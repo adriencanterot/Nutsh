@@ -13,19 +13,19 @@ class NutshSqlSaver
 {
     public:
 	NutshSqlSaver();
-        void inserer(NutshMetaData, QString);
-        bool trouverDansTable(QString, NutshMetaData);
-        bool tableExists(QString);
-        void completeMetaData(NutshMetaData incomplete);
-        void inserer(QList<NutshMetaData>, QString);
-        QList<NutshMetaData> getMetaDatas(QString);
-        void update(NutshMetaData, NutshMetaData, QString);
-        QString stringListToString(QStringList);
-        bool nouvelleListe(QString);
-        static QString sqlStringFormat(QString);
-        static QString normalStringFormat(QString);
+        void inserer(NutshMetaData, const QString&);
+        bool trouverDansTable(const QString&, const NutshMetaData&);
+        bool tableExists(const QString&);
+        void completeMetaData(NutshMetaData&);
+        void inserer(QList<NutshMetaData>, const QString&);
+        QList<NutshMetaData> getMetaDatas(const QString&);
+        void update(const NutshMetaData&, const NutshMetaData&, const QString&);
+        QString stringListToString(const QStringList&);
+        bool nouvelleListe(const QString&);
+        static QString sqlStringFormat(const QString&);
+        static QString normalStringFormat(const QString&);
         bool connect();
-        QList<NutshMetaData> getResults(QString);
+        QList<NutshMetaData> getResults(const QString&);
 
     private:
         QStringList metadatas;

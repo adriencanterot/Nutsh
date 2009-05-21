@@ -43,7 +43,7 @@ public:
 
 public slots :
 
-    void changeDir(QModelIndex&);
+    void changeDir(QModelIndex);
     void precedent();
     void swapToDrives();
     void refresh();

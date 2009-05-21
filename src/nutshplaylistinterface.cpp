@@ -101,6 +101,11 @@ void NutshPlayListInterface::addListeFromSearch() {
 
     QString listName = QInputDialog::getText(this, "Nouvelle Liste", "Le nom de votre liste");
 
+    if(listName.isEmpty()) {
+
+        setNewName(listName);
+    }
+
     core->getSqlControl()->nouvelleListe(listName);
     core->progressinterface()->import(core->metadatainterface()->getListWidget()->getItems(), listName);
     this->refresh();
@@ -110,10 +115,30 @@ void NutshPlayListInterface::addLastRead() {
 
     QString listName = QInputDialog::getText(this, "Nouvelle Liste", "Le nom de votre liste");
 
+    if(listName.isEmpty()) {
+
+        setNewName(listName);
+    }
+
     core->getSqlControl()->nouvelleListe(listName);
 
     core->progressinterface()->import(core->playinginterface()->getLastRead(), listName);
     this->refresh();
+}
+
+void NutshPlayListInterface::setNewName(QString &old) {
+
+    int numbAfterList = 0;
+
+    for(int i =0;i<liste->count();i++) {
+
+        if(liste->item(i)->text().contains("sans titre", Qt::CaseInsensitive)) {
+
+            numbAfterList++;
+        }
+    }
+
+    old = QString("Sans titre %1").arg(numbAfterList);
 }
 
 

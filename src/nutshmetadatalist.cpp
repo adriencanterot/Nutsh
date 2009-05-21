@@ -30,7 +30,7 @@ void NutshMetaDataList::emitSignal(QModelIndex metaIndex) {
     emit clicked(items.value(metaIndex.row()));
 }
 
-QList<NutshMetaData> NutshMetaDataList::getItems() {
+QList<NutshMetaData> NutshMetaDataList::getItems() const {
 
     return items;
 }
@@ -57,8 +57,6 @@ void NutshMetaDataList::load(QList<NutshMetaData> liste) {
         this->append(liste.value(i));
     }
 
-    qDebug() << "do load";
-
     if(liste.count() != 0) {
 
         this->topLevelItem(0)->setSelected(true);
@@ -70,12 +68,12 @@ void NutshMetaDataList::clearList() {
     items.clear();
 }
 
-NutshMetaData NutshMetaDataList::getItem(int index) {
+NutshMetaData NutshMetaDataList::getItem(int index) const {
 
     return items.value(index);
 }
 
-QList<NutshMetaData> NutshMetaDataList::selectedMetadatas() {
+QList<NutshMetaData> NutshMetaDataList::selectedMetadatas() const{
 
     QList<NutshMetaData> itemsToReturn;
     qDebug() << this->selectedItems().count();

@@ -197,7 +197,7 @@ NutshMetaData NutshMetaData::operator=(const NutshMetaData &m) {
     return *this;
 }
 
-QStringList NutshMetaData::getAllMetaDatas() const {
+QStringList NutshMetaData::getAllMetaDatas() {
 
     metaData.append(artiste);
     metaData.append(album);
@@ -214,7 +214,7 @@ QStringList NutshMetaData::getAllMetaDatas() const {
     return metaData;
 }
 
-int NutshMetaData::getTrack() {
+int NutshMetaData::getTrack() const {
 
     return track;
 }

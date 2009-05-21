@@ -1,12 +1,12 @@
 #include "nutshprogressinterface.h"
 #include "nutshcomunicator.h"
 
-ImporterThread::ImporterThread(const QList<NutshMetaData> &aImporter, const QString &tableName) {
+ImporterThread::ImporterThread(const QList<NutshMetaData> &aImporter, const QString &tableName, NutshComunicator* corePath) {
 
+    core = corePath;
     metaList = aImporter;
     loopRunning = false;
     m_tableName = tableName;
-    saver = new NutshSqlSaver;
 }
 
 void ImporterThread::run() {
@@ -15,7 +15,7 @@ void ImporterThread::run() {
 
     for(int i = 0;i<this->metaList.count();i++) {
 
-        saver->inserer(metaList.value(i), m_tableName);
+        core->getSqlControl()->inserer(metaList.value(i), m_tableName);
         emit updateBar(i+1, metaList.count());
 
         if(loopRunning == false) {
@@ -163,7 +163,7 @@ void NutshProgressInterface::import(const QList<NutshMetaData> &metaList, const 
     this->setTopLabelText("Importation...");
 
     /*creation du Thread*/
-    scan = new ImporterThread(metaList, table);
+    scan = new ImporterThread(metaList, table, core);
 
     connect(scan, SIGNAL(updateBar(int,int)), this, SLOT(updateWidget(int,int)));
     connect(m_cancel, SIGNAL(clicked()), scan, SLOT(forceQuit()));

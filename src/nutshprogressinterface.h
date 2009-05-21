@@ -10,12 +10,13 @@
 #include "nutshmetadata.h"
 #include "nutshsqlsaver.h"
 
+class NutshComunicator;
 class ImporterThread : public QThread {
 
     Q_OBJECT
 
 public:
-    ImporterThread(const QList<NutshMetaData>&, const QString&);
+    ImporterThread(const QList<NutshMetaData>&, const QString&, NutshComunicator*);
     void run();
 
 public slots:
@@ -28,11 +29,10 @@ private:
     QList<NutshMetaData> metaList;
     bool loopRunning;
     QString m_tableName;
-    NutshSqlSaver* saver;
+    NutshComunicator* core;
 
 };
 
-class NutshComunicator;
 class NutshProgressInterface : public QWidget
 {
     Q_OBJECT

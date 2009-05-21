@@ -64,7 +64,7 @@ void NutshDriveInterface::refresh() {
     deviceList->addItems(dir->entryList(QDir::AllDirs|QDir::NoDotAndDotDot));
 }
 
-void NutshDriveInterface::changeDir(QModelIndex &item) {
+void NutshDriveInterface::changeDir(QModelIndex item) {
 
     QString itemValue = item.data().toString();
 

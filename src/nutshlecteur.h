@@ -21,8 +21,8 @@ public:
     bool isVideo(NutshMetaData&);
     bool isPlaying();
     bool isPaused();
-    void setSource(NutshMetaData&);
-    void setSources(QList<NutshMetaData>&);
+    void setSource(const NutshMetaData&);
+    void setSources(const QList<NutshMetaData>&);
     Phonon::SeekSlider *getPosSlider();
 
 private :

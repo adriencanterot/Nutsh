@@ -36,7 +36,9 @@ void Indexer::run() {
 
     for(int i = 1;i<filePaths.count();i++) {
 
-        saver->inserer(NutshMetaData(filePaths.value(i)), m_table);
+        NutshMetaData data(filePaths.value(i));
+
+        saver->inserer(data, m_table);
         qDebug() <<  filePaths.count();
 
 
@@ -84,7 +86,7 @@ void NutshIndexer::indexer(const QString &chemin, const QString &table) {
 
 }
 
-QList<NutshMetaData> NutshIndexer::sortie() {
+QList<NutshMetaData> NutshIndexer::sortie() const {
     return metaDataList;
 }
 

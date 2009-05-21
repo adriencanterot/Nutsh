@@ -13,11 +13,11 @@ NutshSqlSaver::NutshSqlSaver()
         metadatas.append(requete.value(7).toString());
     }
 }
-void NutshSqlSaver::inserer(NutshMetaData meta, QString table) {
+void NutshSqlSaver::inserer(NutshMetaData meta, const QString &table) {
     //completion des metadata, pour la date.
     QSqlQuery requete;
     QString query;
-        NutshSqlSaver::completeMetaData(meta);
+        this->completeMetaData(meta);
 
         if(meta.getArtiste().isEmpty()) {
             meta.setArtiste("Sans artiste");
@@ -63,14 +63,15 @@ void NutshSqlSaver::inserer(NutshMetaData meta, QString table) {
 
     }
 }
-void NutshSqlSaver::inserer(QList<NutshMetaData> meta, QString table) {
+void NutshSqlSaver::inserer(QList<NutshMetaData> meta, const QString &table) {
     //insertion de multiple metadonnees
 
     qDebug() << meta.count();
     QSqlQuery requete;
     QString query;
     for (int i = 0;i<meta.count();i++) {
-        NutshSqlSaver::completeMetaData(meta.value(i));
+        
+        meta.value(i).setSavingDate(QDateTime::currentDateTime());
 
         if(meta.value(i).getArtiste().isEmpty()) {
             meta.value(i).setArtiste("Sans artiste");
@@ -118,7 +119,7 @@ void NutshSqlSaver::inserer(QList<NutshMetaData> meta, QString table) {
     }
 }
 
-bool NutshSqlSaver::trouverDansTable(QString query, NutshMetaData recherche) {
+bool NutshSqlSaver::trouverDansTable(const QString &query, const NutshMetaData &recherche) {
     //Rechercher une valeur dans un table :
 
     if(metadatas.contains(recherche.getChemin(), Qt::CaseSensitive)) {
@@ -132,24 +133,25 @@ bool NutshSqlSaver::trouverDansTable(QString query, NutshMetaData recherche) {
 
 
 }
-void NutshSqlSaver::completeMetaData(NutshMetaData incomplete) {
+void NutshSqlSaver::completeMetaData(NutshMetaData &incomplete) {
+
     //enregistrement de la date avant l'enregistrement;
     incomplete.setSavingDate(QDateTime::currentDateTime());
 }
-QString NutshSqlSaver::stringListToString(QStringList liste) {
+QString NutshSqlSaver::stringListToString(const QStringList &liste) {
     QString chaineRetour;
     for (int i = 0;i<liste.count();i++) {
         chaineRetour.append(liste.value(i));
     }
     return chaineRetour;
 }
-void NutshSqlSaver::update(NutshMetaData nouveau, NutshMetaData ancien,  QString table) {
+void NutshSqlSaver::update(const NutshMetaData &nouveau, const NutshMetaData &ancien,  const QString &table) {
     //Mise a jour d'une metadonnee
     QSqlQuery requete;
     requete.exec("UPDATE "+table+" SET morceau = \""+nouveau.getTitre()+"\", artiste = \""+nouveau.getArtiste()+"\", album = \""+nouveau.getAlbum()+"\", dateCreation = \""+nouveau.getDate()+"\", genre = \""+nouveau.getGenre()+"\", description = \""+nouveau.getDescription()+"\", track = \""+nouveau.getTrack()+"\", chemin = \""+nouveau.getChemin()+"\", cheminImage = \""+nouveau.getCheminImage()+"\" WHERE artiste = \""+ancien.getArtiste()+"\", morceau = \""+ancien.getTitre()+"\" ");
 
 }
-bool NutshSqlSaver::nouvelleListe(QString tableName) {
+bool NutshSqlSaver::nouvelleListe(const QString &tableName) {
     bool etat = true;
     QSqlQuery requete;
     requete.exec("CREATE TABLE listeDeLecture (name text, ordre text)");
@@ -164,6 +166,7 @@ bool NutshSqlSaver::nouvelleListe(QString tableName) {
     return etat;
 }
 bool NutshSqlSaver::connect() {
+
     QString MusicDir = QDesktopServices::storageLocation(QDesktopServices::MusicLocation);
 
     //creation du dossier NutshConfig qui contient la base de donnee
@@ -178,31 +181,39 @@ bool NutshSqlSaver::connect() {
     }
 
     QSqlDatabase NutshDB = QSqlDatabase::addDatabase("QSQLITE");
+
     NutshDB.setHostName("localhost");
     NutshDB.setDatabaseName(QDir::toNativeSeparators(MusicDir+"/NutshConfig/NutshDB"));
     NutshDB.setUserName("root");
     NutshDB.setPassword("");
+
+    NutshDB.open();
+
     if(!NutshDB.open()) {
+
         qDebug() << "NutshSqlSaver : " << NutshDB.lastError();
+
     }
+
     QSqlQuery requete;
     requete.exec("create table bibliotheque ( artiste text, album text, titre text, date text, genre text, description text, track text, chemin text, cheminImage text, duree text, enregistrement text, derniereLecture text, compteur text)");
     requete.exec("CREATE TABLE listeDeLecture (name text, ordre text)");
-    NutshDB.open();
 
-    qDebug() << wizard;
 
     if(wizard == true) {
 
         NutshInstallationWizard Wizard;
         Wizard.exec();
     }
+
+    return NutshDB.open();
 }
 
-QString NutshSqlSaver::normalStringFormat(QString param) {
+QString NutshSqlSaver::normalStringFormat(const QString &param) {
     QString operation = param;
     operation.replace("__replaced", " ");
     operation.replace("'_replaced", "\"");
+    operation.replace("slash_replaced", "/");
     operation.replace("arobase_replaced", "@");
     operation.replace("diese_replaced", "#");
     operation.replace("dollar_replaced", "$");
@@ -216,10 +227,11 @@ QString NutshSqlSaver::normalStringFormat(QString param) {
     operation.replace("plus_replaced", "+");
     return operation;
 }
-QString NutshSqlSaver::sqlStringFormat(QString param) {
+QString NutshSqlSaver::sqlStringFormat(const QString &param) {
     QString operation(param);
     operation.replace(" ", "__replaced");
     operation.replace("\"", "'_replaced");
+    operation.replace("/", "slash_replaced");
     operation.replace("@", "arobase_replaced");
     operation.replace("#", "diese_replaced");
     operation.replace("$", "dollar_replaced");
@@ -233,7 +245,7 @@ QString NutshSqlSaver::sqlStringFormat(QString param) {
     operation.replace("+", "plus_replaced");
     return operation;
 }
-QList<NutshMetaData> NutshSqlSaver::getMetaDatas(QString query) {
+QList<NutshMetaData> NutshSqlSaver::getMetaDatas(const QString &query) {
 
     QList<NutshMetaData> metaList;
     REQUETE(query);
@@ -253,7 +265,7 @@ QList<NutshMetaData> NutshSqlSaver::getMetaDatas(QString query) {
     return metaList;
 }
 
-bool NutshSqlSaver::tableExists(QString tblName) {
+bool NutshSqlSaver::tableExists(const QString &tblName) {
     bool ok = false;
     QString q = "SELECT tbl_name FROM sqlite_master";
     REQUETE(q);

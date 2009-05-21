@@ -73,12 +73,12 @@ bool NutshLecteur::isPlaying() {
     }
 }
 
-void NutshLecteur::setSource(NutshMetaData& source) {
+void NutshLecteur::setSource(const NutshMetaData& source) {
 
     this->setCurrentSource(Phonon::MediaSource(source.getChemin()));
 }
 
-void NutshLecteur::setSources(QList<NutshMetaData> &sources) {
+void NutshLecteur::setSources(const QList<NutshMetaData> &sources) {
 
     for(int i = 0;i<sources.count();i++) {
 

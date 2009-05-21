@@ -42,7 +42,7 @@ public:
     QVBoxLayout *gauche();
     NutshIndexer *scannerAccess();
 
-    void setStatus(QString);
+    void setStatus(const QString&);
     QStatusBar* bar();
 
 private:

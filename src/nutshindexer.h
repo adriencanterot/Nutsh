@@ -40,7 +40,7 @@ class NutshIndexer : public QObject
         Q_OBJECT
     public:
         NutshIndexer(NutshComunicator* corePath);
-	QList<NutshMetaData> sortie();
+        QList<NutshMetaData> sortie() const ;
         void indexer(const QString&, const QString&);
     private slots:
         void updateBar(int, int);

@@ -95,7 +95,7 @@ NutshIndexer* NutshComunicator::scannerAccess() {
     return scanner;
 }
 
-void NutshComunicator::setStatus(QString status) {
+void NutshComunicator::setStatus(const QString &status) {
 
     m_bar->showMessage(status);
 }

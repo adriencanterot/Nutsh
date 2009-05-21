@@ -15,9 +15,9 @@ public:
     NutshMetaDataList();
     void append(NutshMetaData);
     void load(QList<NutshMetaData>);
-    QList<NutshMetaData> getItems();
-    QList<NutshMetaData> selectedMetadatas();
-    NutshMetaData getItem(int index);
+    QList<NutshMetaData> getItems() const;
+    QList<NutshMetaData> selectedMetadatas() const;
+    NutshMetaData getItem(int index) const;
     void clearList();
     bool isEmpty();
 

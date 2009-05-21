@@ -19,11 +19,11 @@ class NutshPlayingInterface : public QWidget
 public:
     NutshPlayingInterface(NutshComunicator*);
     void sigandslots();
-    void load(NutshMetaData);
-    void load(QList<NutshMetaData>);
+    void load(const NutshMetaData&);
+    void load(const QList<NutshMetaData>&);
     void setStatus();
     void pauseByKey(QKeyEvent*);
-    QList<NutshMetaData> getLastRead();
+    QList<NutshMetaData> getLastRead() const;
 
 public slots:
     void next();

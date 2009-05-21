@@ -28,7 +28,6 @@ public:
 
 public slots:
 
-    void getSqlMetaData(const QString&);
     void getDirMetaData(const QModelIndex&);
     void getDirMetaData(const QString&);
     void getWordMetaData(const QString&);

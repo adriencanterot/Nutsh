@@ -48,7 +48,7 @@ public:
     /*void jouerMusiqueOuVideo(Phonon::MediaSource adresse, Phonon::VideoWidget *widget);*/
     bool isPlaying();
     bool isPaused();
-    void setSource(NutshMetaData&);
+    void setSource(const NutshMetaData&);
     QSlider *getPosSlider();
 
 public slots:

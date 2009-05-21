@@ -122,7 +122,7 @@ NutshLecteur::NutshLecteur() {
     connect(avancement, SIGNAL(valueChanged(int)), this, SLOT(setPos(int)));
 }
 
-void NutshLecteur::setSource(NutshMetaData& source) {
+void NutshLecteur::setSource(const NutshMetaData& source) {
 
     if(m_media != NULL) {
 

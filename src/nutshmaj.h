@@ -24,7 +24,7 @@
 #endif
 
 #ifdef Q_WS_WIN
-#define PLATFORM_PATH "tmpNutsh.exe"
+#define PLATFORM_PATH QDir::toNativeSeparators(QDir::currentPath()+"\tmpNutsh.exe")
 #endif
 class NutshComunicator;
 class NutshMaJ : public QWidget

@@ -3,6 +3,7 @@
 
 #include <QtSql>
 #include <QString>
+#include <QMessageBox>
 #include <QDir>
 #include <QDesktopServices>
 #include "nutshmetadata.h"

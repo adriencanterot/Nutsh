@@ -11,6 +11,7 @@ NutshPlaylistList::NutshPlaylistList(NutshComunicator* corePath, QWidget *parent
 }
 
  void NutshPlaylistList::dragEnterEvent(QDragEnterEvent *event) {
+     //accepte l'évènement quand la souris entre dans la liste
 
      event->accept();
  }
@@ -18,6 +19,7 @@ NutshPlaylistList::NutshPlaylistList(NutshComunicator* corePath, QWidget *parent
 
 
 void NutshPlaylistList::dragMoveEvent(QDragMoveEvent *event) {
+    // séléctionne l'élément à la position du curseur
 
     if(this->itemAt(event->pos()) != NULL) {
 
@@ -31,6 +33,7 @@ void NutshPlaylistList::dragMoveEvent(QDragMoveEvent *event) {
 }
 
 void NutshPlaylistList::dropEvent(QDropEvent* event) {
+    //insère les metadonnées séléctionnées dans la liste à la position du curseur
 
     event->accept();
 
@@ -38,6 +41,7 @@ void NutshPlaylistList::dropEvent(QDropEvent* event) {
 }
 
 void NutshPlaylistList::showContent(const QModelIndex &index) {
+    // affiche le contenu d'une liste de lecture dans l'interface nutshmetadatainterface
 
     core->metadatainterface()->load(
             core->getSqlControl()->getMetaDatas("SELECT * FROM "+NutshSqlSaver::sqlStringFormat(index.data().toString()))

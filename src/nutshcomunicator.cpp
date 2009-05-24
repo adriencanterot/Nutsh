@@ -11,6 +11,8 @@ NutshComunicator::NutshComunicator()
     m_droite = new QVBoxLayout;
     m_splitter = new QHBoxLayout;
 
+
+    //création de l'objet de control sur la base de donnée
     sqlControl = new NutshSqlSaver;
     sqlControl->connect();
     m_searchlineinterface = new NutshSearchLineInterface(this);
@@ -26,9 +28,11 @@ NutshComunicator::NutshComunicator()
     m_driveinterface->sigandslots();
     m_playinginterface->sigandslots();
 
+    //création du scanner pour les médias
     scanner = new NutshIndexer(this);
 }
 QWidget *NutshComunicator::initInterfaces() {
+    //mise en places dans les layouts et envoi dans la fenêtre principale.
 
     m_gauche->addWidget(m_playlistinterface);
     m_gauche->addWidget(m_driveinterface);
@@ -50,6 +54,7 @@ QWidget *NutshComunicator::initInterfaces() {
     return m_central;
 }
 
+/* ----------Fonctions retournant les interfaces pour communiquer entre les différentes parties du programme -------*/
 NutshMetaDataInterface* NutshComunicator::metadatainterface() {
 
     return m_metadatainterface;

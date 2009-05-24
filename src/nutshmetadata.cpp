@@ -244,6 +244,7 @@ bool NutshMetaData::operator==(const NutshMetaData& m) {
     }
 }
 
+
 void NutshMetaData::setArtiste(const QString &a) {
 
     artiste = a;

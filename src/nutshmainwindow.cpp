@@ -3,9 +3,10 @@
 NutshMainWindow::NutshMainWindow(QWidget *parent)
     : QMainWindow(parent) {
 
+    //création du core
     path = new NutshComunicator;
 
-    this->setCentralWidget(path->initInterfaces());
+    this->setCentralWidget(path->initInterfaces()); // affichage du widget Central
     this->setStatusBar(path->bar());
     this->setFixedSize(650, 300);
 

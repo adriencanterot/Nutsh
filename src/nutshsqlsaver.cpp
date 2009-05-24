@@ -8,7 +8,7 @@ NutshSqlSaver::NutshSqlSaver()
     requete.exec("SELECT * FROM bibliotheque");
 
 
-    while(requete.next()) {
+    while(requete.next()) { //création de la liste des verifications.
 
         metadatas.append(requete.value(7).toString());
     }
@@ -17,6 +17,8 @@ void NutshSqlSaver::inserer(NutshMetaData meta, const QString &table) {
     //completion des metadata, pour la date.
     QSqlQuery requete;
     QString query;
+
+    /* ---- complete une métadonnée si certains champs sont vide ----*/
         this->completeMetaData(meta);
 
         if(meta.getArtiste().isEmpty()) {
@@ -52,7 +54,7 @@ void NutshSqlSaver::inserer(NutshMetaData meta, const QString &table) {
         }
 
 
-        query = "INSERT INTO "+NutshSqlSaver::sqlStringFormat(table)+" VALUES(\""+meta.getArtiste()+"\", \""+meta.getAlbum()+"\", \""+meta.getTitre()+"\", \"nope\", \""+meta.getGenre()+"\", \""+meta.getDescription()+"\", \"0\", \""+meta.getChemin()+"\", \""+meta.getCheminImage()+"\", \""+meta.getDuree().toString()+"\", \""+meta.getDateEnregistrement().toString()+"\", \"no\", \"no\")";
+        query = "INSERT IF NOT EXISTS INTO "+NutshSqlSaver::sqlStringFormat(table)+" VALUES(\""+meta.getArtiste()+"\", \""+meta.getAlbum()+"\", \""+meta.getTitre()+"\", \"nope\", \""+meta.getGenre()+"\", \""+meta.getDescription()+"\", \"0\", \""+meta.getChemin()+"\", \""+meta.getCheminImage()+"\", \""+meta.getDuree().toString()+"\", \""+meta.getDateEnregistrement().toString()+"\", \"no\", \"no\")";
 
         //execution de la requete
         if(!NutshSqlSaver::trouverDansTable("SELECT * FROM "+NutshSqlSaver::sqlStringFormat(table), meta)) {
@@ -66,11 +68,11 @@ void NutshSqlSaver::inserer(NutshMetaData meta, const QString &table) {
 void NutshSqlSaver::inserer(QList<NutshMetaData> meta, const QString &table) {
     //insertion de multiple metadonnees
 
-    qDebug() << meta.count();
     QSqlQuery requete;
     QString query;
     for (int i = 0;i<meta.count();i++) {
-        
+
+         /* ---- complete une métadonnée si certains champs sont vide ----*/
         meta.value(i).setSavingDate(QDateTime::currentDateTime());
 
         if(meta.value(i).getArtiste().isEmpty()) {
@@ -106,17 +108,14 @@ void NutshSqlSaver::inserer(QList<NutshMetaData> meta, const QString &table) {
         }
 
 
-        query = "INSERT INTO "+NutshSqlSaver::sqlStringFormat(table)+" VALUES(\""+meta.value(i).getArtiste()+"\", \""+meta.value(i).getAlbum()+"\", \""+meta.value(i).getTitre()+"\", \"nope\", \""+meta.value(i).getGenre()+"\", \""+meta.value(i).getDescription()+"\", \"0\", \""+meta.value(i).getChemin()+"\", \""+meta.value(i).getCheminImage()+"\", \""+meta.value(i).getDuree().toString()+"\", \""+meta.value(i).getDateEnregistrement().toString()+"\", \"no\", \"no\")";
+        query = "INSERT IF NOT EXISTS INTO "+NutshSqlSaver::sqlStringFormat(table)+" VALUES(\""+meta.value(i).getArtiste()+"\", \""+meta.value(i).getAlbum()+"\", \""+meta.value(i).getTitre()+"\", \"nope\", \""+meta.value(i).getGenre()+"\", \""+meta.value(i).getDescription()+"\", \"0\", \""+meta.value(i).getChemin()+"\", \""+meta.value(i).getCheminImage()+"\", \""+meta.value(i).getDuree().toString()+"\", \""+meta.value(i).getDateEnregistrement().toString()+"\", \"no\", \"no\")";
 
         //execution de la requete
-        if(!NutshSqlSaver::trouverDansTable("SELECT * FROM "+NutshSqlSaver::sqlStringFormat(table), meta.value(i))) {
 
-            if(!requete.exec(query)) {
-                qDebug() << requete.lastError() << "  \nQ= " << requete.lastQuery() << " ou alors la metadonnee existe deja dans la table";
-            }
+       if(!requete.exec(query)) {
+           qDebug() << requete.lastError() << "  \nQ= " << requete.lastQuery() << " ou alors la metadonnee existe deja dans la table";
         }
-        qDebug() << meta.value(i).getTitre() << "insere";
-    }
+   }
 }
 
 bool NutshSqlSaver::trouverDansTable(const QString &query, const NutshMetaData &recherche) {
@@ -139,10 +138,14 @@ void NutshSqlSaver::completeMetaData(NutshMetaData &incomplete) {
     incomplete.setSavingDate(QDateTime::currentDateTime());
 }
 QString NutshSqlSaver::stringListToString(const QStringList &liste) {
+
     QString chaineRetour;
+
     for (int i = 0;i<liste.count();i++) {
+
         chaineRetour.append(liste.value(i));
     }
+
     return chaineRetour;
 }
 void NutshSqlSaver::update(const NutshMetaData &nouveau, const NutshMetaData &ancien,  const QString &table) {
@@ -152,20 +155,29 @@ void NutshSqlSaver::update(const NutshMetaData &nouveau, const NutshMetaData &an
 
 }
 bool NutshSqlSaver::nouvelleListe(const QString &tableName) {
+    //cree une nouvelle liste
     bool etat = true;
+
     QSqlQuery requete;
+
     requete.exec("CREATE TABLE listeDeLecture (name text, ordre text)");
-    if(!requete.exec("create table "+NutshSqlSaver::sqlStringFormat(tableName)+" ( artiste text, album text, titre text, date text, genre text, description text, track text, chemin text, cheminImage text, duree text, enregistrement text, derniereLecture text, compteur text)")){
+
+    if(!requete.exec("create table "+NutshSqlSaver::sqlStringFormat(tableName)+" ( artiste text, album text, titre text, date text, genre text, description text, track text, chemin text, cheminImage text, duree text, enregistrement text, derniereLecture text, compteur text)"))
+    {
         qDebug() << requete.lastError() << " | Q = " << requete.lastQuery();
         etat = false;
     }
+
     if(!requete.exec("INSERT INTO listeDeLecture VALUES (\""+NutshSqlSaver::sqlStringFormat(tableName)+"\", \"\")")){
+
         qDebug() << requete.lastError() << " | Q = " << requete.lastQuery();
         etat = false;
     }
+
     return etat;
 }
 bool NutshSqlSaver::connect() {
+    //connexion à la base de donnée (ne doit être exécuté qu'une seule fois dans le code.
 
     QString MusicDir = QDesktopServices::storageLocation(QDesktopServices::MusicLocation);
 
@@ -189,18 +201,20 @@ bool NutshSqlSaver::connect() {
 
     NutshDB.open();
 
-    if(!NutshDB.open()) {
+    if(!NutshDB.open()) { // si il n'arrive pas à ouvrir la base de donnée
 
         qDebug() << "NutshSqlSaver : " << NutshDB.lastError();
 
     }
 
+
+    //crée les tables obligatoires si elles n'existent pas
     QSqlQuery requete;
     requete.exec("create table bibliotheque ( artiste text, album text, titre text, date text, genre text, description text, track text, chemin text, cheminImage text, duree text, enregistrement text, derniereLecture text, compteur text)");
     requete.exec("CREATE TABLE listeDeLecture (name text, ordre text)");
 
 
-    if(wizard == true) {
+    if(wizard == true) { // affichage de l'assistant d'installation si le dossier n'était pas créé
 
         NutshInstallationWizard Wizard;
         Wizard.exec();
@@ -210,6 +224,7 @@ bool NutshSqlSaver::connect() {
 }
 
 QString NutshSqlSaver::normalStringFormat(const QString &param) {
+    // converstion des chaines de caractères au format SQL vers normal
     QString operation = param;
     operation.replace("__replaced", " ");
     operation.replace("'_replaced", "\"");
@@ -228,6 +243,7 @@ QString NutshSqlSaver::normalStringFormat(const QString &param) {
     return operation;
 }
 QString NutshSqlSaver::sqlStringFormat(const QString &param) {
+    // convertion des chaines de caractères au format normal vers SQL (pour insertion dans les tables)
     QString operation(param);
     operation.replace(" ", "__replaced");
     operation.replace("\"", "'_replaced");
@@ -246,6 +262,8 @@ QString NutshSqlSaver::sqlStringFormat(const QString &param) {
     return operation;
 }
 QList<NutshMetaData> NutshSqlSaver::getMetaDatas(const QString &query) {
+
+    //retourne la liste de métadonnée selon une requete
 
     QList<NutshMetaData> metaList;
     REQUETE(query);
@@ -266,13 +284,14 @@ QList<NutshMetaData> NutshSqlSaver::getMetaDatas(const QString &query) {
 }
 
 bool NutshSqlSaver::tableExists(const QString &tblName) {
+    // vérifie si une table existe
     bool ok = false;
     QString q = "SELECT tbl_name FROM sqlite_master";
     REQUETE(q);
 
     while(requete.next()) {
 
-        if(QString(requete.value(0).toString()).contains(tblName, Qt::CaseInsensitive)) {
+        if(QString(requete.value(0).toString()).contains(tblName, Qt::CaseInsensitive)) { // si la table existe
 
             ok = true;
             qDebug() << requete.value(0).toString();

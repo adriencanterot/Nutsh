@@ -58,6 +58,7 @@ public:
 
 public slots:
     void updateWidget(int, int);
+    void finished();
 
 private:
     NutshComunicator* core;
@@ -79,6 +80,8 @@ private:
                 *m_infosLayout;
 
     QPushButton *m_cancel;
+
+    QString m_stopMessage;
     bool active;
 };
 

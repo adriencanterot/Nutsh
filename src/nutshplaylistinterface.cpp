@@ -16,16 +16,6 @@ NutshPlayListInterface::NutshPlayListInterface(NutshComunicator* corePath, QWidg
 
     initButtons();
 
-    if(!core->getSqlControl()->tableExists(NutshSqlSaver::sqlStringFormat("bibliotheque"))) {
-
-        REQUETE("create table bibliotheque ( artiste text, album text, titre text, date text, genre text, description text, track text, chemin text, cheminImage text, duree text, enregistrement text, derniereLecture text, compteur text)");
-
-    }
-
-    if(!core->getSqlControl()->tableExists(NutshSqlSaver::sqlStringFormat("bibliotheque"))){
-
-        REQUETE("CREATE TABLE listeDeLecture (name text, ordre text)");
-    }
     //placement
 
     layout->addWidget(liste);
@@ -40,13 +30,14 @@ NutshPlayListInterface::NutshPlayListInterface(NutshComunicator* corePath, QWidg
 }
 
 void NutshPlayListInterface::refresh() {
+    //ajoute les playlist dans la liste de lecture (enlève les anciennes).
 
     REQUETE("SELECT name FROM listeDeLecture");
     liste->clear();
 
     while(requete.next()) {
 
-        liste->addItem(NutshSqlSaver::normalStringFormat(requete.value(0).toString()));
+        liste->addItem(NutshSqlSaver::normalStringFormat(requete.value(0).toString())); //ajout au format normal dans la liste
     }
 
 }
@@ -60,6 +51,7 @@ void NutshPlayListInterface::initButtons() {
 }
 
 void NutshPlayListInterface::addListe() {
+    //nouvelle liste de lecture avec nom.
 
     nommerListe = new QDialog(this);
     layoutNommerListe = new QVBoxLayout;
@@ -77,8 +69,16 @@ void NutshPlayListInterface::addListe() {
 }
 
 void NutshPlayListInterface::nouvelleTable() {
+    //nouvelle liste de lecture.
 
-    core->getSqlControl()->nouvelleListe(nomTable->text());
+    QString nom = nomTable->text();
+    
+    if(nom.isEmpty()) {
+
+        setNewName(nom); //si le nom est vide, nouveau nom
+    }
+
+    core->getSqlControl()->nouvelleListe(nom);
     this->refresh();
 }
 
@@ -89,21 +89,25 @@ void NutshPlayListInterface::sigandslots() {
 }
 
 void NutshPlayListInterface::importWindow() {
+    //importation de médias dans la bibliothèque
 
     QString path = QFileDialog::getExistingDirectory(this, "", "/");
+
     core->progressinterface()->setMaximum(0);
     core->progressinterface()->setTopLabelText("Scan du dossier en cours...");
+
     core->scannerAccess()->indexer(path, "bibliotheque");
     core->metadatainterface()->reset();
 }
 
 void NutshPlayListInterface::addListeFromSearch() {
+    //ajoute les résultats de la recherche dans une nouvelle playlsit
 
     QString listName = QInputDialog::getText(this, "Nouvelle Liste", "Le nom de votre liste");
 
     if(listName.isEmpty()) {
 
-        setNewName(listName);
+        setNewName(listName); // si le nom est vide, nouveau nom.
     }
 
     core->getSqlControl()->nouvelleListe(listName);
@@ -112,12 +116,13 @@ void NutshPlayListInterface::addListeFromSearch() {
 }
 
 void NutshPlayListInterface::addLastRead() {
+    //rajoute les derniers morceaux lu dans une nouvelle playlist
 
     QString listName = QInputDialog::getText(this, "Nouvelle Liste", "Le nom de votre liste");
 
     if(listName.isEmpty()) {
 
-        setNewName(listName);
+        setNewName(listName); // si le nom est vide, nouveau nom.
     }
 
     core->getSqlControl()->nouvelleListe(listName);
@@ -127,6 +132,7 @@ void NutshPlayListInterface::addLastRead() {
 }
 
 void NutshPlayListInterface::setNewName(QString &old) {
+    // si la liste n'a pas de nom le nom est Sans titre + i
 
     int numbAfterList = 0;
 
@@ -134,7 +140,7 @@ void NutshPlayListInterface::setNewName(QString &old) {
 
         if(liste->item(i)->text().contains("sans titre", Qt::CaseInsensitive)) {
 
-            numbAfterList++;
+            numbAfterList++; //si le morceau trouvé contient "Sans Titre" on rajoute un nombre pour ne pas avoir le même nom
         }
     }
 

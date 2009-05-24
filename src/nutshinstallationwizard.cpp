@@ -20,7 +20,7 @@ void NutshInstallationWizard::accept() {
 
 PageIntro::PageIntro() {
 
-    license = new QLabel(QString::fromUtf8("Bienvenue dans l'assistant d'installation de Nutsh! cet assistant va vous guider pour \n\nAjouter des morceaux\nApprendre briÃ¨vement comment se servir de Nutsh!\n\nClickez sur suivant pour continuer."), this);
+    license = new QLabel(QString::fromUtf8("Bienvenue dans l'assistant d'installation de Nutsh! cet assistant va vous guider pour \n\nAjouter des morceaux\nApprendre brièvement comment se servir de Nutsh!\n\nCliquez sur suivant pour continuer."), this);
     license->setWordWrap(true);
 }
 
@@ -28,7 +28,7 @@ PageImportMedia::PageImportMedia() {
 
     principal = new QVBoxLayout(this);
 
-    import = new QLabel(QString::fromUtf8("Pour bien fonctionner, vous devez indiquer Ã  Nutsh! oÃ¹ se trouvent vos mÃ©dias, choisissez le dossier contenant vos mÃ©dias : "), this);
+    import = new QLabel(QString::fromUtf8("Pour bien fonctionner, vous devez indiquer à  Nutsh! où se trouvent vos médias, choisissez le dossier contenant vos médias : "), this);
     import->setWordWrap(true);
 
     enCours = new QLabel;
@@ -66,7 +66,7 @@ void PageImportMedia::updateBar(int current, int total) {
 
     if(current >0 && total == current) {
         
-        enCours->setText(QString::fromUtf8("Vos mÃ©dias ont Ã©tÃ©s importÃ©s"));
+        enCours->setText(QString::fromUtf8("Vos médias ont été importés"));
     }
 
 

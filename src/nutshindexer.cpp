@@ -39,12 +39,11 @@ void Indexer::run() {
         NutshMetaData data(filePaths.value(i));
 
         saver->inserer(data, m_table);
-        qDebug() <<  filePaths.count();
-
 
         emit updateBar(i+1, total);
 
-        if(loopRunning == false) {
+        if(loopRunning == false || filePaths.count() == 0) {
+
 
             break;
         }
@@ -58,6 +57,7 @@ void Indexer::forceQuit() {
     loopRunning = false;
     this->terminate();
 }
+
 
 NutshIndexer::NutshIndexer(NutshComunicator* corePath)
 {

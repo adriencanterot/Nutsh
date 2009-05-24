@@ -14,11 +14,14 @@ win32 {
         -L3rdparty/win/FMOD3/lib \
         -lfmod
 }
-!win32 { 
+macx {
     LIBS += -F3rdparty/mac \
         -framework \
         TagLib
     QT += phonon
+}
+!macx|!win32 {
+
 }
 TARGET = Nutsh
 TEMPLATE = app

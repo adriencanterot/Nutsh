@@ -104,7 +104,7 @@ Phonon::SeekSlider* NutshLecteur::getPosSlider() {
 }
 
 #endif
-#ifdef Q_WS_WIN
+#if defined(Q_WS_WIN) || defined(Q_WS_X11)
 
 #include "nutshlecteur.h"
 

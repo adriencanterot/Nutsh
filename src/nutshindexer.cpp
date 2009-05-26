@@ -32,6 +32,11 @@ void Indexer::run() {
         }
     }
 
+    if(filePaths.count() == 0) {
+
+        emit fatalError("Aucun fichier trouvé dans le dossier spécifié");
+    }
+
     emit updateBar(0, 0);
 
     for(int i = 1;i<filePaths.count();i++) {
@@ -82,6 +87,7 @@ void NutshIndexer::indexer(const QString &chemin, const QString &table) {
 
     scan = new Indexer(chemin, table);
     QObject::connect(scan, SIGNAL(updateBar(int,int)), this, SLOT(updateBar(int,int)));
+    connect(scan, SIGNAL(fatalError(QString)), this, SLOT(showMessage(QString)));
     scan->start();
 
 }
@@ -114,4 +120,14 @@ void NutshIndexer::cancelAction() {
 
     scan->forceQuit();
     core->driveinterface()->swapToDrives();
+}
+
+void NutshIndexer::showMessage(QString message) {
+
+    scan->forceQuit();
+
+    QMessageBox::critical(core->metadatainterface(), "", message);
+
+    core->progressinterface()->finished();
+
 }

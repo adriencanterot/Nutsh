@@ -32,10 +32,12 @@ PageImportMedia::PageImportMedia() {
     import->setWordWrap(true);
 
     enCours = new QLabel;
+    attention = new QLabel;
     progression = new QProgressBar;
     parcourir = new QPushButton("Parcourir...");
 
     principal->addWidget(import);
+    principal->addWidget(attention);
     principal->addWidget(parcourir, Qt::AlignLeft);
 
     connect(parcourir, SIGNAL(clicked()), this, SLOT(getDirName()));
@@ -45,16 +47,32 @@ PageImportMedia::PageImportMedia() {
 
 void PageImportMedia::getDirName() {
 
-    dirName = QFileDialog::getExistingDirectory(this, QString::fromUtf8("Dossier de vos mÃ©dias"), "/");
+    dirName = QFileDialog::getExistingDirectory(this, QString::fromUtf8("Dossier de vos médias"), "/");
 
     parcourir->hide();
+    attention->hide();
+
     principal->addWidget(progression);
     principal->addWidget(enCours);
 
+    enCours->show();
+    progression->show();
+
     Indexer *scan = new Indexer(dirName, "bibliotheque");
     connect(scan, SIGNAL(updateBar(int, int)), this, SLOT(updateBar(int, int)));
+    connect(scan, SIGNAL(fatalError(QString)), this, SLOT(resetAction(QString)));
     progression->setMaximum(0);
     scan->start();
+}
+
+void PageImportMedia::resetAction(QString message) {
+
+    attention->setText("<span style = 'color:red;'><strong>"+message+"</strong></span>");
+    attention->setWordWrap(true);
+    parcourir->show();
+    progression->hide();
+    attention->show();
+    enCours->hide();
 }
 
 void PageImportMedia::updateBar(int current, int total) {
@@ -74,5 +92,5 @@ void PageImportMedia::updateBar(int current, int total) {
 
 PageConclusion::PageConclusion() {
 
-    conclusion = new QLabel(QString::fromUtf8("Tout vos morceaux ont Ã©tÃ© importÃ© dans votre bibliothÃ¨que\nAppuyez sur \"Done\" pour commencer Ã  vous servir de Nutsh!"), this);
+    conclusion = new QLabel(QString::fromUtf8("Tout vos morceaux ont été importés dans votre bibliothèque\nAppuyez sur \"Done\" pour commencer à  vous servir de Nutsh!"), this);
 }

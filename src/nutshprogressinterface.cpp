@@ -193,10 +193,29 @@ void NutshProgressInterface::finished() {
             scan->forceQuit();
         }
 
+
         this->setTopLabelText(QString("%1 morceaux importés").arg(m_progress->value()));
+        this->completeBar();
         disconnect(m_cancel, SIGNAL(clicked()), m_receiver, m_member);
         connect(m_cancel, SIGNAL(clicked()), core->driveinterface(), SLOT(swapToDrives()));
         m_cancel->setText("Terminé");
+}
+
+void NutshProgressInterface::reset() {
+
+    this->setTopLabelText("");
+    this->setBottomLabelText("");
+
+    this->setRightLabelText("");
+    this->setLeftLabelText("");
+
+    this->m_cancel->setText("Arrêter");
+}
+
+void NutshProgressInterface::completeBar() {
+
+    this->setMaximum(50);
+    this->setValue(50);
 }
 
 

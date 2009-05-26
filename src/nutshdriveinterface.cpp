@@ -115,7 +115,6 @@ QDir* NutshDriveInterface::getDir() {
 void NutshDriveInterface::swapToDrives() {
 
     core->progressinterface()->hide();
+    core->progressinterface()->reset();
     this->show();
 }
-
-

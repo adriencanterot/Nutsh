@@ -59,6 +59,8 @@ public:
 public slots:
     void updateWidget(int, int);
     void finished();
+    void reset();
+    void completeBar();
 
 private:
     NutshComunicator* core;

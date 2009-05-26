@@ -54,16 +54,12 @@ void NutshSqlSaver::inserer(NutshMetaData meta, const QString &table) {
         }
 
 
-        query = "INSERT IF NOT EXISTS INTO "+NutshSqlSaver::sqlStringFormat(table)+" VALUES(\""+meta.getArtiste()+"\", \""+meta.getAlbum()+"\", \""+meta.getTitre()+"\", \"nope\", \""+meta.getGenre()+"\", \""+meta.getDescription()+"\", \"0\", \""+meta.getChemin()+"\", \""+meta.getCheminImage()+"\", \""+meta.getDuree().toString()+"\", \""+meta.getDateEnregistrement().toString()+"\", \"no\", \"no\")";
+        query = "INSERT INTO "+NutshSqlSaver::sqlStringFormat(table)+" VALUES(\""+meta.getArtiste()+"\", \""+meta.getAlbum()+"\", \""+meta.getTitre()+"\", \"nope\", \""+meta.getGenre()+"\", \""+meta.getDescription()+"\", \"0\", \""+meta.getChemin()+"\", \""+meta.getCheminImage()+"\", \""+meta.getDuree().toString()+"\", \""+meta.getDateEnregistrement().toString()+"\", \"no\", \"no\")";
 
         //execution de la requete
-        if(!NutshSqlSaver::trouverDansTable("SELECT * FROM "+NutshSqlSaver::sqlStringFormat(table), meta)) {
-
             if(!requete.exec(query)) {
                 qDebug() << requete.lastError() << "  \nQ= " << requete.lastQuery() << " ou alors la metadonnee existe deja dans la table";
             }
-
-    }
 }
 void NutshSqlSaver::inserer(QList<NutshMetaData> meta, const QString &table) {
     //insertion de multiple metadonnees

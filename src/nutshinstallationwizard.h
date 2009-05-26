@@ -28,9 +28,13 @@ class PageImportMedia : public QWizardPage
     public slots:
         void getDirName();
         void updateBar(int, int);
+        void resetAction(QString);
 
     private:
-        QLabel *import, *enCours;
+        QLabel *import,
+               *enCours,
+               *attention;
+
         QPushButton* parcourir;
         QVBoxLayout *principal;
         QProgressBar *progression;

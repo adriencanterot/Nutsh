@@ -24,6 +24,7 @@ class Indexer: public QThread {
 
     signals:
         void stopper(bool);
+        void fatalError(QString);
         void updateBar(int, int);
 
     private:
@@ -45,6 +46,7 @@ class NutshIndexer : public QObject
     private slots:
         void updateBar(int, int);
         void cancelAction();
+        void showMessage(QString);
 
     private :
         NutshComunicator* core;

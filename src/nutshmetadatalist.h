@@ -8,11 +8,12 @@
 #include "preprocess.h"
 #include <QKeyEvent>
 
+class NutshComunicator;
 class NutshMetaDataList : public QTreeWidget
 {
     Q_OBJECT
 public:
-    NutshMetaDataList();
+    NutshMetaDataList(NutshComunicator*);
     void append(NutshMetaData);
     void load(QList<NutshMetaData>);
     QList<NutshMetaData> getItems() const;
@@ -20,6 +21,7 @@ public:
     NutshMetaData getItem(int index) const;
     void clearList();
     bool isEmpty();
+    void navigateByKey(QKeyEvent *event);
 
 protected:
     void keyPressEvent(QKeyEvent *event);
@@ -31,6 +33,8 @@ signals:
     NutshMetaData clicked(NutshMetaData);
 private:
     QList<NutshMetaData> items;
+    int indexSelected;
+    NutshComunicator *core;
 };
 
 #endif // NUTSHMETADATALIST_H

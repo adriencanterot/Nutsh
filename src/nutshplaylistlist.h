@@ -5,6 +5,7 @@
 #include <QDebug>
 #include <QDragEnterEvent>
 #include <QDropEvent>
+#include <QModelIndex>
 #include "nutshsqlsaver.h"
 #include "preprocess.h"
 

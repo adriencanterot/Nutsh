@@ -1,8 +1,10 @@
 #include "nutshmetadatalist.h"
+#include "nutshcomunicator.h"
 
-NutshMetaDataList::NutshMetaDataList() {
+NutshMetaDataList::NutshMetaDataList(NutshComunicator* corePath) {
 
     this->setColumnCount(4);
+    core = corePath;
 
     QStringList headerMetaData;
     headerMetaData << "Titre" << "Artiste" << "Album" << "Annee" << "chemin";
@@ -49,6 +51,7 @@ bool NutshMetaDataList::isEmpty() {
 
 void NutshMetaDataList::load(QList<NutshMetaData> liste) {
 
+    this->indexSelected = 0;
     this->clearList();
     this->setColumnHidden(4, true);
 
@@ -60,6 +63,7 @@ void NutshMetaDataList::load(QList<NutshMetaData> liste) {
     if(liste.count() != 0) {
 
         this->topLevelItem(0)->setSelected(true);
+        this->setCurrentItem(this->topLevelItem(0));
     }
 }
 void NutshMetaDataList::clearList() {
@@ -92,14 +96,7 @@ QList<NutshMetaData> NutshMetaDataList::selectedMetadatas() const{
 
 void NutshMetaDataList::keyPressEvent(QKeyEvent* event) {
 
-    if(event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter) {
+    core->metadatainterface()->navigateByKey(event);
 
-        event->accept();
-        emit clicked(items.value(0));
-
-    } else {
-
-        event->ignore();
-    }
 }
 

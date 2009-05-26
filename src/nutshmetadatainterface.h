@@ -24,6 +24,7 @@ public:
     NutshMetaDataList* getListWidget();
     void setPath(const QString&);
     void refreshInterface(ContentType);
+    void navigateByKey(QKeyEvent *event);
 
 
 public slots:
@@ -51,6 +52,8 @@ private:
     NutshMetaDataList *metadatas;
     QPushButton *importer,
                 *toBibliotheque;
+    
+    int indexSelected;
 
 
 };

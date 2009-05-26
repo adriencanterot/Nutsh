@@ -45,32 +45,7 @@ void NutshSearchLineInterface::showResults(QString query) {
 
 void NutshSearchLineInterface::keyPressEvent(QKeyEvent* event) {
 
-    if(event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter) {
-
-        event->accept(); // si l'évènement est Entrer ou Return
-
-        if(core->metadatainterface()->getListWidget()->getItems().count() != 0) { //si il y a des morceaux dans la liste
-
-            //joue le morceau a l'index 0
-            core->playinginterface()->load(
-                    core->metadatainterface()->getListWidget()->getItems().value(0)
-                    );
-
-            core->playinginterface()->load(
-                    core->metadatainterface()->getListWidget()->getItems()
-                    );
-            core->playinginterface()->swapToPlay();
-
-        }
-    } else if (event->key() == Qt::Key_Space) {
-
-        core->playinginterface()->pauseByKey(event);
-
-    } else {
-        //sinon, ignore l'évènement
-
-        event->ignore();
-    }
+    core->metadatainterface()->navigateByKey(event);
 }
 
 void NutshSearchLineInterface::activate() {

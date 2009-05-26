@@ -71,11 +71,20 @@ void NutshMaJ::quitAndStartNutsh() {
 
 #ifdef Q_WS_MAC
 
-    file->setPermissions(QFile::ExeOther|QFile::ExeUser);
-    file->close();
-    connect(qApp, SIGNAL(aboutToQuit()), this, SLOT(startNutsh()));
-    QTimer::singleShot(2000, this, SLOT(startNutsh()));
-    QApplication::exit(0);
+    // lit d'abord la methode startNutsh()
+
+    file->setPermissions(QFile::ExeOther|QFile::ExeUser);//met des permissions au fichier (encore eh oui, c'est pas tres propre
+    file->close(); // ferme le fichier, sinon ca merde.
+
+    connect(qApp, SIGNAL(aboutToQuit()), this, SLOT(startNutsh()));// quand le logiciel est sur le point de se quitter, execute la methode startNutsh qui va lancer la nouvelle instance
+    QTimer::singleShot(2000, this, SLOT(startNutsh())); // Attends 2 sec, quand je le faisais instantanement, ca marchais pas :/
+    QApplication::exit(0);  // quitte le programme.
+
+    /* dans les 2 methodes que j'utilise pour lancer la nouvelle instance (le singleShot, l'application qui se quitte)
+       je ne sais pas du tout quelle est celle qui marche, en effet, si les 2 devaient marcher, 2 instances seraient
+       lancees, et ce n'est pas le cas, et tout cas, j'espere avoir ete assez clair, je suis desole mais je ne connais
+       pas grand chose a linux, je m'en suis servi quelque temps pour du developpement Web, mais jamais pour du
+       developpement en local :/ merci :) */
 
 #endif
 
@@ -86,6 +95,10 @@ void NutshMaJ::quitAndStartNutsh() {
     connect(qApp, SIGNAL(aboutToQuit()), this, SLOT(startNutsh()));
     QTimer::singleShot(100, qApp, SLOT(quit()));
     QApplication::quit();
+#endif
+
+#ifdef Q_WS_X11
+    //ecrit ici le code pour linux d'apres les instructions pour la methode Mac
 #endif
 }
 
@@ -101,13 +114,20 @@ void NutshMaJ::startNutsh() {
 
 #ifdef Q_WS_MAC
 
-    QFile::setPermissions(PLATFORM_PATH, QFile::ExeUser|QFile::ExeGroup|QFile::ExeOther|QFile::ExeOwner);
-    QProcess nutsh;
-    QProcess::startDetached(PLATFORM_PATH);
-    system(QString("chmod 777 "+PLATFORM_PATH).toAscii());
-    qDebug() << QDir::current().path();
-    QApplication::exit();
+   //je vais commenter cette partie la parce que je pense que c'est celle qui ressemble le plus a linux.
+
+
+    QFile::setPermissions(PLATFORM_PATH, QFile::ExeUser|QFile::ExeGroup|QFile::ExeOther|QFile::ExeOwner);//met toutes les permissions pour le fichier pour qu'il puisse lancer le fichier telecharge
+    QProcess::startDetached(PLATFORM_PATH);//lance le nouveau Nutsh, (ca ne pose pas de probleme a mac, d'ecraser un executable deja lance, ca evite le probleme du launcher, mais je sais pas si linux a besoin d'un launcher (comme pour windows par exemple)
+    system(QString("chmod 777 "+PLATFORM_PATH).toAscii());//remet le chmod, je sais pas exactement quelle commande marche :|
+    QApplication::exit(); // quitte cette instance avec l'autre programme lance.
     disconnect(qApp, SIGNAL(aboutToQuit()), this, SLOT(startNutsh()));
 
+    //comme tu peux le constater, cette partie du code est carement bordelique, c'est vrai que j'ai mis du temps a la faire marcher, et quand ca a marcher, je me suis dit : on touche a rien ^^
+
+#endif
+
+#ifdef Q_WS_X11
+    //ecrit ici le code pour linux d'apres les instructions pour la methode Mac
 #endif
 }

@@ -8,8 +8,9 @@ NutshMetaDataInterface::NutshMetaDataInterface(NutshComunicator* corePath)
     core = corePath;
 
     layout = new QVBoxLayout;
+    indexSelected = 0;
     optionsLayout = new QHBoxLayout;
-    metadatas = new NutshMetaDataList;
+    metadatas = new NutshMetaDataList(core);
     importer = new QPushButton("Importer");
     toBibliotheque = new QPushButton("Bibliothèque");
 
@@ -75,6 +76,7 @@ void NutshMetaDataInterface::getWordMetaData(const QString &word){
     if(!metadatas->isEmpty()) {
 
         metadatas->topLevelItem(0)->setSelected(true);
+        metadatas->setCurrentItem(metadatas->topLevelItem(0));
     }
 }
 
@@ -192,3 +194,43 @@ void NutshMetaDataInterface::refreshInterface(ContentType type) {
 
     emit this->contentTypeChanged(type);
 }
+
+void NutshMetaDataInterface::navigateByKey(QKeyEvent *event) {
+
+    switch(event->key()) {
+
+        case Qt::Key_Return:
+            core->playinginterface()->load(this->getListWidget()->getItems().value(indexSelected));
+            core->playinginterface()->load(this->getListWidget()->getItems());
+            core->playinginterface()->swapToPlay();
+            break;
+
+        case Qt::Key_Down:
+
+            if(this->getListWidget()->topLevelItem(indexSelected+1) != NULL) {
+
+                this->indexSelected = this->getListWidget()->indexOfTopLevelItem(this->getListWidget()->currentItem());
+                this->getListWidget()->topLevelItem(indexSelected)->setSelected(false);
+                this->indexSelected++;
+                this->getListWidget()->setCurrentItem(this->getListWidget()->topLevelItem(indexSelected));
+                this->getListWidget()->currentItem()->setSelected(true);
+
+            }
+            break;
+
+        case Qt::Key_Up:
+
+            if(this->getListWidget()->topLevelItem(indexSelected-1) != NULL) {
+
+                this->indexSelected = this->getListWidget()->indexOfTopLevelItem(this->getListWidget()->currentItem());
+                this->getListWidget()->currentItem()->setSelected(false);
+                this->indexSelected--;
+                this->getListWidget()->setCurrentItem(this->getListWidget()->topLevelItem(indexSelected));
+                this->getListWidget()->currentItem()->setSelected(true);
+
+                qDebug() << this->indexSelected << this->getListWidget()->indexOfTopLevelItem(this->getListWidget()->currentItem());
+
+            }
+            break;
+        }
+    }

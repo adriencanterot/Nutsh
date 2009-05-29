@@ -53,8 +53,17 @@ void NutshSqlSaver::inserer(NutshMetaData meta, const QString &table) {
             meta.setDuree(QTime(1, 1, 1, 1));
         }
 
-
-        query = "INSERT INTO "+NutshSqlSaver::sqlStringFormat(table)+" VALUES(\""+meta.getArtiste()+"\", \""+meta.getAlbum()+"\", \""+meta.getTitre()+"\", \"nope\", \""+meta.getGenre()+"\", \""+meta.getDescription()+"\", \"0\", \""+meta.getChemin()+"\", \""+meta.getCheminImage()+"\", \""+meta.getDuree().toString()+"\", \""+meta.getDateEnregistrement().toString()+"\", \"no\", \"no\")";
+        query = QString("INSERT INTO `%1` (artiste, album, titre, date, genre, description, track, chemin, cheminImage, duree, enregistrement, derniereLecture, compteur) VALUES(\"%2\", \"%3\", \"%4\", \"\", \"%5\", \"%6\", \"\", \"%7\", \"%8\", \"%9\", \"%10\", \"\", \"\")")
+                .arg(NutshSqlSaver::sqlStringFormat(table))
+                .arg(meta.getArtiste())
+                .arg(meta.getAlbum())
+                .arg(meta.getTitre())
+                .arg(meta.getGenre())
+                .arg(meta.getDescription())
+                .arg(meta.getChemin())
+                .arg(meta.getCheminImage())
+                .arg(meta.getDuree().toString())
+                .arg(meta.getDateEnregistrement().toString());
 
         //execution de la requete
             if(!requete.exec(query)) {
@@ -104,7 +113,17 @@ void NutshSqlSaver::inserer(QList<NutshMetaData> meta, const QString &table) {
         }
 
 
-        query = "INSERT IF NOT EXISTS INTO "+NutshSqlSaver::sqlStringFormat(table)+" VALUES(\""+meta.value(i).getArtiste()+"\", \""+meta.value(i).getAlbum()+"\", \""+meta.value(i).getTitre()+"\", \"nope\", \""+meta.value(i).getGenre()+"\", \""+meta.value(i).getDescription()+"\", \"0\", \""+meta.value(i).getChemin()+"\", \""+meta.value(i).getCheminImage()+"\", \""+meta.value(i).getDuree().toString()+"\", \""+meta.value(i).getDateEnregistrement().toString()+"\", \"no\", \"no\")";
+        query = QString("INSERT INTO `%1` (artiste, album, titre, date, genre, description, track, chemin, cheminImage, duree, enregistrement, derniereLecture, compteur) VALUES(\"%2\", \"%3\", \"%4\", \"\", \"%5\", \"%6\", \"\", \"%7\", \"%8\", \"%9\", \"%10\", \"\", \"\")")
+                .arg(NutshSqlSaver::sqlStringFormat(table))
+                .arg(meta.value(i).getArtiste())
+                .arg(meta.value(i).getAlbum())
+                .arg(meta.value(i).getTitre())
+                .arg(meta.value(i).getGenre())
+                .arg(meta.value(i).getDescription())
+                .arg(meta.value(i).getChemin())
+                .arg(meta.value(i).getCheminImage())
+                .arg(meta.value(i).getDuree().toString())
+                .arg(meta.value(i).getDateEnregistrement().toString());
 
         //execution de la requete
 
@@ -133,17 +152,7 @@ void NutshSqlSaver::completeMetaData(NutshMetaData &incomplete) {
     //enregistrement de la date avant l'enregistrement;
     incomplete.setSavingDate(QDateTime::currentDateTime());
 }
-QString NutshSqlSaver::stringListToString(const QStringList &liste) {
 
-    QString chaineRetour;
-
-    for (int i = 0;i<liste.count();i++) {
-
-        chaineRetour.append(liste.value(i));
-    }
-
-    return chaineRetour;
-}
 void NutshSqlSaver::update(const NutshMetaData &nouveau, const NutshMetaData &ancien,  const QString &table) {
     //Mise a jour d'une metadonnee
     QSqlQuery requete;
@@ -155,14 +164,6 @@ bool NutshSqlSaver::nouvelleListe(const QString &tableName) {
     bool etat = true;
 
     QSqlQuery requete;
-
-    requete.exec("CREATE TABLE listeDeLecture (name text, ordre text)");
-
-    if(!requete.exec("create table "+NutshSqlSaver::sqlStringFormat(tableName)+" ( artiste text, album text, titre text, date text, genre text, description text, track text, chemin text, cheminImage text, duree text, enregistrement text, derniereLecture text, compteur text)"))
-    {
-        qDebug() << requete.lastError() << " | Q = " << requete.lastQuery();
-        etat = false;
-    }
 
     if(!requete.exec("INSERT INTO listeDeLecture VALUES (\""+NutshSqlSaver::sqlStringFormat(tableName)+"\", \"\")")){
 
@@ -205,8 +206,12 @@ bool NutshSqlSaver::connect() {
 
 
     //crée les tables obligatoires si elles n'existent pas
+
     QSqlQuery requete;
-    requete.exec("create table bibliotheque ( artiste text, album text, titre text, date text, genre text, description text, track text, chemin text, cheminImage text, duree text, enregistrement text, derniereLecture text, compteur text)");
+
+    requete.exec("create table bibliotheque ( id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, artiste text, album text, titre text, date text, genre text, description text, track text, chemin text, cheminImage text, duree text, enregistrement text, derniereLecture text, compteur text)");
+
+
     requete.exec("CREATE TABLE listeDeLecture (name text, ordre text)");
 
 

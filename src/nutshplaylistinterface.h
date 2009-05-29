@@ -39,7 +39,10 @@ public slots :
 
 private :
 
-    QPushButton *nouvelleListe, *nouvelleListeMagique, *importer;
+    QPushButton *nouvelleListe,
+                *nouvelleListeMagique,
+                *importer;
+
     NutshPlaylistList *liste;
     QVBoxLayout *layout;
     QHBoxLayout *layoutBouton;

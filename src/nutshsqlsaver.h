@@ -21,7 +21,6 @@ class NutshSqlSaver
         void inserer(QList<NutshMetaData>, const QString&);
         QList<NutshMetaData> getMetaDatas(const QString&);
         void update(const NutshMetaData&, const NutshMetaData&, const QString&);
-        QString stringListToString(const QStringList&);
         bool nouvelleListe(const QString&);
         static QString sqlStringFormat(const QString&);
         static QString normalStringFormat(const QString&);

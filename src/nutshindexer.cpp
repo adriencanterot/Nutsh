@@ -15,7 +15,7 @@ void Indexer::run() {
 
     int total = 0;
     QStringList filePaths;
-    emit updateBar(0, 0) ;
+    emit updateBar(1, 0) ;
 
     iterator = new QDirIterator(chemin, filtre, QDir::NoFilter, QDirIterator::Subdirectories);
 
@@ -39,6 +39,8 @@ void Indexer::run() {
 
     emit updateBar(0, 0);
 
+
+
     for(int i = 1;i<filePaths.count();i++) {
 
         NutshMetaData data(filePaths.value(i));
@@ -47,11 +49,17 @@ void Indexer::run() {
 
         emit updateBar(i+1, total);
 
-        if(loopRunning == false || filePaths.count() == 0) {
+        if(i+1 == total) {
 
+            qDebug() << "i == total";
+        }
+
+
+        if(loopRunning == false || filePaths.count() == 0 || i == filePaths.count()) {
 
             break;
         }
+
     }
 
     connect(this, SIGNAL(finished()), this, SLOT(quit()));
@@ -81,9 +89,11 @@ NutshIndexer::NutshIndexer(NutshComunicator* corePath)
 
 void NutshIndexer::indexer(const QString &chemin, const QString &table) {
 
+
     core->progressinterface()->swapToProgress();
     core->progressinterface()->setTopLabelText("Scan en cours");
     core->progressinterface()->setMaximum(0);
+
 
     scan = new Indexer(chemin, table);
     QObject::connect(scan, SIGNAL(updateBar(int,int)), this, SLOT(updateBar(int,int)));
@@ -101,8 +111,8 @@ void NutshIndexer::updateBar(int current, int total) {
     if(total == 0 && current != 0) {
 
         core->progressinterface()->setBottomLabelText(QString("%1 fichiers trouves").arg(current));
-        core->progressinterface()->setValue(current);
         core->progressinterface()->setMaximum(0);
+        core->progressinterface()->setValue(current);
 
     } else if(total == 0 && current == 0) {
 
@@ -113,7 +123,8 @@ void NutshIndexer::updateBar(int current, int total) {
 
         core->progressinterface()->setMaximum(total);
         core->progressinterface()->setValue(current);
-        core->progressinterface()->setBottomLabelText(QString("%1 / %2 morceaux ajoutes").arg(current).arg(total));
+        qDebug() << current;
+        core->progressinterface()->setBottomLabelText(QString("%1 / %2").arg(current).arg(total));
     }
 }
 void NutshIndexer::cancelAction() {

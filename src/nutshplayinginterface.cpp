@@ -90,6 +90,7 @@ void NutshPlayingInterface::sigandslots() {
 }
 void NutshPlayingInterface::load(const NutshMetaData &data) {
 
+    qDebug() << data.getId();
     currentItem = 0;
     titre->setText("Sans Titre");
     album->setText("Sans Album");

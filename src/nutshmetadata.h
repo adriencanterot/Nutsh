@@ -40,6 +40,7 @@ public:
     QStringList getAllMetaDatas();
     int getCompteur() const;
     int getTrack() const;
+    int getId() const;
 
 
     void setArtiste(const QString&);
@@ -62,7 +63,7 @@ private :
 	QTime duree;
 	QStringList metaData;
 	QDateTime enregistrement, derniereLecture;
-        int compteur, track;
+        int compteur, track, id;
 
 };
 

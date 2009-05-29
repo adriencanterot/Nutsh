@@ -5,6 +5,7 @@ NutshMetaData::NutshMetaData()
 {
 
     compteur = 0;
+    id = 0;
 }
 
 NutshMetaData::NutshMetaData(const NutshMetaData &m) {
@@ -12,6 +13,7 @@ NutshMetaData::NutshMetaData(const NutshMetaData &m) {
     artiste = m.artiste;
     album = m.album;
     titre = m.titre;
+    id = m.id;
 
     date = m.date;
     genre = m.genre;
@@ -53,22 +55,25 @@ NutshMetaData::NutshMetaData(const QVariantList &resultatLigne) {
       vers des widget (voir schema dans ressources)
       */
 
-    artiste = resultatLigne.value(0).toString();
-    album = resultatLigne.value(1).toString();
-    titre = resultatLigne.value(2).toString();
+    this->id = resultatLigne.value(0).toInt();
+    qDebug() << this->id;
 
-    date = resultatLigne.value(3).toString();
-    genre = resultatLigne.value(4).toString();
-    description = resultatLigne.value(5).toString();
-    track = resultatLigne.value(6).toInt();
+    artiste = resultatLigne.value(1).toString();
+    album = resultatLigne.value(2).toString();
+    titre = resultatLigne.value(3).toString();
 
-    chemin = resultatLigne.value(7).toString();
-    cheminImage = resultatLigne.value(8).toString();
+    date = resultatLigne.value(4).toString();
+    genre = resultatLigne.value(5).toString();
+    description = resultatLigne.value(6).toString();
+    track = resultatLigne.value(7).toInt();
 
-    duree = resultatLigne.value(9).toTime();
-    enregistrement = resultatLigne.value(10).toDateTime();
-    derniereLecture = resultatLigne.value(11).toDateTime();
-    compteur = resultatLigne.value(12).toInt();
+    chemin = resultatLigne.value(8).toString();
+    cheminImage = resultatLigne.value(9).toString();
+
+    duree = resultatLigne.value(10).toTime();
+    enregistrement = resultatLigne.value(11).toDateTime();
+    derniereLecture = resultatLigne.value(12).toDateTime();
+    compteur = resultatLigne.value(13).toInt();
 
     for (int i = 0;i<resultatLigne.count();i++) {
 
@@ -221,24 +226,11 @@ int NutshMetaData::getTrack() const {
 
 bool NutshMetaData::operator==(const NutshMetaData& m) {
     
-    if(chemin == m.chemin)
+    if(id == m.id)
     {
       return true;
 
     } else {
-//        qDebug() << "artiste " << artiste << " - " << m.artiste;
-//        qDebug() << "titre " << titre << " - " << m.titre;
-//        qDebug() << "date " << date << " - " << m.date;
-//        qDebug() << "genre " << genre << " - " << m.genre;
-//        qDebug() << "description " << description << " - " << m.description;
-//        qDebug() << "track " << track << " - " << m.track;
-//        qDebug() << "chemin " << chemin << " - " << m.chemin;
-//        qDebug() << "cheminImage " << cheminImage << " - " << m.cheminImage;
-//        qDebug() << "duree " << duree << " - " << m.duree;
-//        qDebug() << "metaData " << metaData << " - " << m.metaData;
-//        qDebug() << "enregistrement " << enregistrement << " - " << m.enregistrement;
-//        qDebug() << "compteur " << compteur << " - " << m.compteur;
-//        qDebug() << "derniereLecture " << derniereLecture << " - " << m.derniereLecture;
 
         return false;
     }
@@ -308,4 +300,9 @@ void NutshMetaData::setCompteur(int t) {
 void NutshMetaData::setTrack(int t) {
 
     track = t;
+}
+
+int NutshMetaData::getId() const {
+
+    return id;
 }

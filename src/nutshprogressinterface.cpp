@@ -120,6 +120,8 @@ void NutshProgressInterface::setValue(int i) {
 
     if(m_progress->maximum() != 0 && m_progress->value() == m_progress->maximum()) { // si l'importation est finie, affichage de l'interface nutshdriveinterface
 
+        qDebug() << m_progress->value() << m_progress->maximum();
+
         this->finished();
     }
 
@@ -214,8 +216,6 @@ void NutshProgressInterface::reset() {
 
 void NutshProgressInterface::completeBar() {
 
-    this->setMaximum(50);
-    this->setValue(50);
 }
 
 

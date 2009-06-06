@@ -50,6 +50,7 @@ NutshProgressInterface::NutshProgressInterface(NutshComunicator* corePath)
     m_left = new QLabel(this);
     m_top = new QLabel(this);
     m_bottom = new QLabel(this);
+
     m_cancel = new QPushButton("Arreter");
 
     //Layouts

@@ -58,7 +58,7 @@ void PageImportMedia::getDirName() {
     enCours->show();
     progression->show();
 
-    Indexer *scan = new Indexer(dirName, "bibliotheque");
+    Indexer *scan = new Indexer(dirName);
     connect(scan, SIGNAL(updateBar(int, int)), this, SLOT(updateBar(int, int)));
     connect(scan, SIGNAL(fatalError(QString)), this, SLOT(resetAction(QString)));
     progression->setMaximum(0);

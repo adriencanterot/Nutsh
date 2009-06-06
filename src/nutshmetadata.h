@@ -3,13 +3,22 @@
 
 #include <QDateTime>
 #include <fileref.h>
+#include <mpegfile.h>
 #include <tag.h>
+#include <id3v2header.h>
+#include <id3v2tag.h>
+#include <attachedpictureframe.h>
 #include <QUrl>
 #include <QString>
 #include <QStringList>
 #include <QDebug>
 #include <QDateTime>
 #include <QVariantList>
+#include <QPixmap>
+#include <QImage>
+#include <QLabel>
+#include <QWidget>
+#include <QFile>
 
 class NutshMetaData
 {
@@ -22,9 +31,7 @@ public:
     bool contains(const QString&);
     NutshMetaData(const NutshMetaData &m);
     NutshMetaData operator=(const NutshMetaData &m);
-    QStringList createKeywords(const QString&);
     //Charger a partir d'un QVariantList
-    void load(const QVariantList&);
     void setSavingDate(const QDateTime&);
     QString stringListToString(const QStringList&);
     QString getArtiste() const;
@@ -35,7 +42,7 @@ public:
     QString getDescription() const;
     QDateTime getDateEnregistrement() const;
     QString getChemin() const;
-    QString getCheminImage() const;
+    QPixmap getArtwork() const;
     QTime getDuree() const;
     QStringList getAllMetaDatas();
     int getCompteur() const;
@@ -51,7 +58,7 @@ public:
     void setDescription(const QString&);
     void setDateEnregistrement(const QDateTime&);
     void setChemin(const QString&);
-    void setCheminImage(const QString&);
+//    void setCheminImage(const QString&);
     void setDuree(const QTime&);
     void setAllMetaDatas(const QStringList&);
     void setCompteur(int);

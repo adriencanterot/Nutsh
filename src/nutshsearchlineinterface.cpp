@@ -46,6 +46,11 @@ void NutshSearchLineInterface::showResults(QString query) {
 void NutshSearchLineInterface::keyPressEvent(QKeyEvent* event) {
 
     core->metadatainterface()->navigateByKey(event);
+
+    if(event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter) {
+
+        searchLine->selectAll();
+    }
 }
 
 void NutshSearchLineInterface::activate() {

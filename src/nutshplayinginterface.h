@@ -49,7 +49,8 @@ private:
            *tempsLabel,
            *tempsLabelCP,
            *artisteCP,
-           *titreCP;
+           *titreCP,
+           *artwork;
 
     QSplitter *central;
 
@@ -59,7 +60,8 @@ private:
                 *controls;
 
     QVBoxLayout *principal,
-                *positionnerDroite;
+                *positionnerDroite,
+                *positionnerGauche;
 
     QWidget *droite,
             *gauche;

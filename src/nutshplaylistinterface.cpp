@@ -96,7 +96,7 @@ void NutshPlayListInterface::importWindow() {
     core->progressinterface()->setMaximum(0);
     core->progressinterface()->setTopLabelText("Scan du dossier en cours...");
 
-    core->scannerAccess()->indexer(path, "bibliotheque");
+    core->scannerAccess()->indexer(path);
     core->metadatainterface()->reset();
 }
 

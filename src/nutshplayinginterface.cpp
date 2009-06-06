@@ -39,6 +39,7 @@ NutshPlayingInterface::NutshPlayingInterface(NutshComunicator* corePath)
     artiste = new QLabel("Sans Artise");
     album = new QLabel("Sans Album");
     titre = new QLabel("Sans Titre");
+    artwork = new QLabel(gauche);
 
     artisteCP = new QLabel("");
     titreCP = new QLabel("");
@@ -54,7 +55,7 @@ NutshPlayingInterface::NutshPlayingInterface(NutshComunicator* corePath)
 
     titreLabel = new QHBoxLayout;
     titreLabel->addWidget(titre);
-    titreLabel->addSpacing(this->width()/4);
+    titreLabel->addStretch();
     titreLabel->addWidget(boutonRevenir);
 
     //positionnement
@@ -64,6 +65,10 @@ NutshPlayingInterface::NutshPlayingInterface(NutshComunicator* corePath)
     positionnerDroite->addLayout(controls);
     positionnerDroite->addLayout(commandButtons);
     droite->setLayout(positionnerDroite);
+
+    positionnerGauche = new QVBoxLayout;
+    positionnerGauche->addWidget(artwork);
+    gauche->setLayout(positionnerGauche);
 
     central = new QSplitter;
     central->addWidget(gauche);
@@ -90,8 +95,8 @@ void NutshPlayingInterface::sigandslots() {
 }
 void NutshPlayingInterface::load(const NutshMetaData &data) {
 
-    qDebug() << data.getId();
     currentItem = 0;
+    artwork->setPixmap(data.getArtwork());
     titre->setText("Sans Titre");
     album->setText("Sans Album");
     artiste->setText("Sans Artiste");
@@ -145,7 +150,6 @@ void NutshPlayingInterface::load(const QList<NutshMetaData> &metaList) {
     boutonPrecedent->setEnabled(true);
     boutonSuivant->setEnabled(true);
     playlist = metaList;
-    currentItem = 0;
     currentItem = playlist.indexOf(current);
 
     if (currentItem == 0) {

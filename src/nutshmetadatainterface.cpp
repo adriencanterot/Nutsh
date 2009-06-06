@@ -27,8 +27,7 @@ NutshMetaDataInterface::NutshMetaDataInterface(NutshComunicator* corePath)
 
     this->setLayout(layout);
 
-    this->load(core->getSqlControl()->getMetaDatas("SELECT * FROM bibliotheque"));
-
+    this->load(core->getSqlControl()->getMetaDatas("bibliotheque"));
 
     qDebug() << "NutshMetaDataInterface : initialized";
 }
@@ -152,7 +151,7 @@ void NutshMetaDataInterface::importerContent() {
 void NutshMetaDataInterface::reset() {
 
     metaList.clear();
-    metaList = core->getSqlControl()->getMetaDatas("SELECT * FROM bibliotheque");
+    metaList = core->getSqlControl()->getMetaDatas("bibliotheque");
     this->load(metaList);
     emit contentTypeChanged(Entire);
 }

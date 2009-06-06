@@ -44,7 +44,7 @@ void NutshPlaylistList::showContent(const QModelIndex &index) {
     // affiche le contenu d'une liste de lecture dans l'interface nutshmetadatainterface
 
     core->metadatainterface()->load(
-            core->getSqlControl()->getMetaDatas("SELECT * FROM "+NutshSqlSaver::sqlStringFormat(index.data().toString()))
+            core->getSqlControl()->getMetaDatas(NutshSqlSaver::sqlStringFormat(index.data().toString()))
             );
 
     core->metadatainterface()->refreshInterface(Playlist);

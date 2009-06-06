@@ -56,7 +56,6 @@ NutshMetaData::NutshMetaData(const QVariantList &resultatLigne) {
       */
 
     this->id = resultatLigne.value(0).toInt();
-    qDebug() << this->id;
 
     artiste = resultatLigne.value(1).toString();
     album = resultatLigne.value(2).toString();
@@ -81,11 +80,6 @@ NutshMetaData::NutshMetaData(const QVariantList &resultatLigne) {
 	metaData.append(resultatLigne.value(i).toString());
     }
 
-}
-
-void NutshMetaData::load(const QVariantList &resultatLigne) {
-
-    this->load(resultatLigne);
 }
 
 void NutshMetaData::setSavingDate(const QDateTime &dateEnregistrement) {
@@ -174,10 +168,10 @@ QTime NutshMetaData::getDuree() const {
     return duree;
 }
 
-QString NutshMetaData::getCheminImage() const {
-
-    return cheminImage;
-}
+//QString NutshMetaData::getCheminImage() const {
+//
+//    return cheminImage;
+//}
 
 NutshMetaData NutshMetaData::operator=(const NutshMetaData &m) {
 
@@ -277,10 +271,10 @@ void NutshMetaData::setChemin(const QString &c) {
     chemin = c;
 }
 
-void NutshMetaData::setCheminImage(const QString &c) {
-
-    cheminImage = c;
-}
+//void NutshMetaData::setCheminImage(const QString &c) {
+//
+//    cheminImage = c;
+//}
 
 void NutshMetaData::setDuree(const QTime &d) {
 
@@ -305,4 +299,32 @@ void NutshMetaData::setTrack(int t) {
 int NutshMetaData::getId() const {
 
     return id;
+}
+
+QPixmap NutshMetaData::getArtwork() const {
+
+    if(QFile::exists(this->getChemin())) {
+
+        MPEG::File file(this->getChemin().toAscii().constData());
+        ID3v2::Tag *tag = file.ID3v2Tag();
+
+        ID3v2::FrameList l = tag->frameList("APIC");
+
+        QImage image;
+
+        if(l.isEmpty())
+            return QPixmap::fromImage(image);
+
+        ID3v2::AttachedPictureFrame *f =
+            static_cast<ID3v2::AttachedPictureFrame *>(l.front());
+
+        image.loadFromData((const unsigned char *) f->picture().data(), f->picture().size());
+
+        return QPixmap::fromImage(image).scaled(130, 130);
+
+    } else {
+
+        return QPixmap();
+    }
+
 }

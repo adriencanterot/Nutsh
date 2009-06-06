@@ -16,7 +16,7 @@
 class Indexer: public QThread {
     Q_OBJECT
     public:
-        Indexer(const QString&, const QString&);
+        Indexer(const QString&);
         void run();
 
     public slots:
@@ -30,19 +30,22 @@ class Indexer: public QThread {
     private:
         NutshSqlSaver* saver;
         QDirIterator* iterator;
-        QString chemin, m_table;
+        QString chemin;
         QStringList filtre;
         bool loopRunning;
 
 };
+
 class NutshComunicator;
 class NutshIndexer : public QObject
 {
         Q_OBJECT
+
     public:
         NutshIndexer(NutshComunicator* corePath);
         QList<NutshMetaData> sortie() const ;
-        void indexer(const QString&, const QString&);
+        void indexer(const QString&);
+
     private slots:
         void updateBar(int, int);
         void cancelAction();

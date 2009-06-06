@@ -10,127 +10,39 @@ NutshSqlSaver::NutshSqlSaver()
 
     while(requete.next()) { //création de la liste des verifications.
 
-        metadatas.append(requete.value(7).toString());
+        metadatas.append(requete.value(1).toString()+requete.value(2).toString()+requete.value(3).toString());
     }
 }
-void NutshSqlSaver::inserer(NutshMetaData meta, const QString &table) {
-    //completion des metadata, pour la date.
+void NutshSqlSaver::inserer(NutshMetaData meta, const QString &liste) {
+
     QSqlQuery requete;
-    QString query;
+    QString allLists;
 
-    /* ---- complete une métadonnée si certains champs sont vide ----*/
-        this->completeMetaData(meta);
+    if(!requete.exec(QString("SELECT playlists FROM bibliotheque WHERE id = %1").arg(meta.getId()))) {
 
-        if(meta.getArtiste().isEmpty()) {
-            meta.setArtiste("Sans artiste");
-        }
+        qDebug() << requete.lastError() << requete.lastQuery();
+    }
 
-        if(meta.getAlbum().isEmpty()) {
-            meta.setAlbum("Sans album");
-        }
+    while(requete.next()) {
 
-        if(meta.getTitre().isEmpty()) {
-            meta.setTitre("Sans titre");
-        }
+        qDebug() << requete.value(0);
+        allLists.append(QString("%1;%2;").arg(requete.value(0).toString()).arg(crypt(liste)));
+    }
 
-        if(meta.getDate().isEmpty()) {
-            meta.setDate("Sans Date");
-        }
 
-        if(meta.getGenre().isEmpty()) {
-            meta.setGenre("Sans genre");
-        }
-
-        if(meta.getDescription().isEmpty()) {
-            meta.setDescription(" ");
-        }
-
-        if(meta.getCheminImage().isEmpty()) {
-            meta.setCheminImage("Sans image");
-        }
-
-        if(meta.getDuree().isNull()) {
-            meta.setDuree(QTime(1, 1, 1, 1));
-        }
-
-        query = QString("INSERT INTO `%1` (artiste, album, titre, date, genre, description, track, chemin, cheminImage, duree, enregistrement, derniereLecture, compteur) VALUES(\"%2\", \"%3\", \"%4\", \"\", \"%5\", \"%6\", \"\", \"%7\", \"%8\", \"%9\", \"%10\", \"\", \"\")")
-                .arg(NutshSqlSaver::sqlStringFormat(table))
-                .arg(meta.getArtiste())
-                .arg(meta.getAlbum())
-                .arg(meta.getTitre())
-                .arg(meta.getGenre())
-                .arg(meta.getDescription())
-                .arg(meta.getChemin())
-                .arg(meta.getCheminImage())
-                .arg(meta.getDuree().toString())
-                .arg(meta.getDateEnregistrement().toString());
-
-        //execution de la requete
-            if(!requete.exec(query)) {
-                qDebug() << requete.lastError() << "  \nQ= " << requete.lastQuery() << " ou alors la metadonnee existe deja dans la table";
-            }
+    if(!requete.exec(QString("UPDATE bibliotheque SET playlists = '%1' WHERE id = %2")
+                 .arg(allLists)
+                 .arg(meta.getId())
+                 )) {
+        qDebug() << requete.lastError() << requete.lastQuery();
+    }
 }
 void NutshSqlSaver::inserer(QList<NutshMetaData> meta, const QString &table) {
     //insertion de multiple metadonnees
+    for(unsigned int i = 0;i<meta.count();i++) {
 
-    QSqlQuery requete;
-    QString query;
-    for (int i = 0;i<meta.count();i++) {
-
-         /* ---- complete une métadonnée si certains champs sont vide ----*/
-        meta.value(i).setSavingDate(QDateTime::currentDateTime());
-
-        if(meta.value(i).getArtiste().isEmpty()) {
-            meta.value(i).setArtiste("Sans artiste");
-        }
-
-        if(meta.value(i).getAlbum().isEmpty()) {
-            meta.value(i).setAlbum("Sans album");
-        }
-
-        if(meta.value(i).getTitre().isEmpty()) {
-            meta.value(i).setTitre("Sans titre");
-        }
-
-        if(meta.value(i).getDate().isEmpty()) {
-            meta.value(i).setDate("Sans Date");
-        }
-
-        if(meta.value(i).getGenre().isEmpty()) {
-            meta.value(i).setGenre("Sans genre");
-        }
-
-        if(meta.value(i).getDescription().isEmpty()) {
-            meta.value(i).setDescription(" ");
-        }
-
-        if(meta.value(i).getCheminImage().isEmpty()) {
-            meta.value(i).setCheminImage("Sans image");
-        }
-
-        if(meta.value(i).getDuree().isNull()) {
-            meta.value(i).setDuree(QTime(1, 1, 1, 1));
-        }
-
-
-        query = QString("INSERT INTO `%1` (artiste, album, titre, date, genre, description, track, chemin, cheminImage, duree, enregistrement, derniereLecture, compteur) VALUES(\"%2\", \"%3\", \"%4\", \"\", \"%5\", \"%6\", \"\", \"%7\", \"%8\", \"%9\", \"%10\", \"\", \"\")")
-                .arg(NutshSqlSaver::sqlStringFormat(table))
-                .arg(meta.value(i).getArtiste())
-                .arg(meta.value(i).getAlbum())
-                .arg(meta.value(i).getTitre())
-                .arg(meta.value(i).getGenre())
-                .arg(meta.value(i).getDescription())
-                .arg(meta.value(i).getChemin())
-                .arg(meta.value(i).getCheminImage())
-                .arg(meta.value(i).getDuree().toString())
-                .arg(meta.value(i).getDateEnregistrement().toString());
-
-        //execution de la requete
-
-       if(!requete.exec(query)) {
-           qDebug() << requete.lastError() << "  \nQ= " << requete.lastQuery() << " ou alors la metadonnee existe deja dans la table";
-        }
-   }
+        this->inserer(meta.value(i), table);
+    }
 }
 
 bool NutshSqlSaver::trouverDansTable(const QString &query, const NutshMetaData &recherche) {
@@ -153,10 +65,9 @@ void NutshSqlSaver::completeMetaData(NutshMetaData &incomplete) {
     incomplete.setSavingDate(QDateTime::currentDateTime());
 }
 
-void NutshSqlSaver::update(const NutshMetaData &nouveau, const NutshMetaData &ancien,  const QString &table) {
+void NutshSqlSaver::update(const NutshMetaData &nouveau,  const QString &table) {
     //Mise a jour d'une metadonnee
     QSqlQuery requete;
-    requete.exec("UPDATE "+table+" SET morceau = \""+nouveau.getTitre()+"\", artiste = \""+nouveau.getArtiste()+"\", album = \""+nouveau.getAlbum()+"\", dateCreation = \""+nouveau.getDate()+"\", genre = \""+nouveau.getGenre()+"\", description = \""+nouveau.getDescription()+"\", track = \""+nouveau.getTrack()+"\", chemin = \""+nouveau.getChemin()+"\", cheminImage = \""+nouveau.getCheminImage()+"\" WHERE artiste = \""+ancien.getArtiste()+"\", morceau = \""+ancien.getTitre()+"\" ");
 
 }
 bool NutshSqlSaver::nouvelleListe(const QString &tableName) {
@@ -209,7 +120,7 @@ bool NutshSqlSaver::connect() {
 
     QSqlQuery requete;
 
-    requete.exec("create table bibliotheque ( id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, artiste text, album text, titre text, date text, genre text, description text, track text, chemin text, cheminImage text, duree text, enregistrement text, derniereLecture text, compteur text)");
+    requete.exec("create table bibliotheque ( id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, artiste text, album text, titre text, date text, genre text, description text, track text, chemin text, playlists text, duree text, enregistrement text, derniereLecture text, compteur text)");
 
 
     requete.exec("CREATE TABLE listeDeLecture (name text, ordre text)");
@@ -243,6 +154,7 @@ QString NutshSqlSaver::normalStringFormat(const QString &param) {
     operation.replace("plus_replaced", "+");
     return operation;
 }
+
 QString NutshSqlSaver::sqlStringFormat(const QString &param) {
     // convertion des chaines de caractères au format normal vers SQL (pour insertion dans les tables)
     QString operation(param);
@@ -262,26 +174,50 @@ QString NutshSqlSaver::sqlStringFormat(const QString &param) {
     operation.replace("+", "plus_replaced");
     return operation;
 }
-QList<NutshMetaData> NutshSqlSaver::getMetaDatas(const QString &query) {
+QList<NutshMetaData> NutshSqlSaver::getMetaDatas(const QString &listName) {
 
     //retourne la liste de métadonnée selon une requete
 
-    QList<NutshMetaData> metaList;
-    REQUETE(query);
+        QList<NutshMetaData> metaList;
+        QVariantList cache;
 
-    QVariantList cache;
+        REQUETE("SELECT * FROM bibliotheque");
 
-    while(requete.next()) {
+    if(listName == "bibliotheque"){
 
-        for(int i = 0;i<NB_CHAMPS_DATABASE-1;i++) {
+        while(requete.next()) {
 
-            cache.append(requete.value(i));
+            for(int i = 0;i<NB_CHAMPS_DATABASE-1;i++) {
+
+                cache.append(requete.value(i));
+            }
+
+            metaList.append(NutshMetaData(cache));
+            cache.clear();
         }
 
-        metaList.append(NutshMetaData(cache));
-        cache.clear();
+        return metaList;
+
+    } else {
+
+        while(requete.next()) {
+
+            if(requete.value(9).toString().contains(crypt(listName))) {
+
+                for(int i = 0;i<NB_CHAMPS_DATABASE-1;i++) {
+
+                        cache.append(requete.value(i));
+                }
+
+                metaList.append(NutshMetaData(cache));
+                cache.clear();
+            }
+        }
+
+        return metaList;
     }
-    return metaList;
+
+
 }
 
 bool NutshSqlSaver::tableExists(const QString &tblName) {
@@ -300,4 +236,98 @@ bool NutshSqlSaver::tableExists(const QString &tblName) {
         }
     }
     return ok;
+}
+
+void NutshSqlSaver::inserer(NutshMetaData meta) {
+
+        //completion des metadata, pour la date.
+    QSqlQuery requete;
+    QString query;
+
+    /* ---- complete une métadonnée si certains champs sont vide ----*/
+        this->completeMetaData(meta);
+
+        if(meta.getArtiste().isEmpty()) {
+            meta.setArtiste("Sans artiste");
+        }
+
+        if(meta.getAlbum().isEmpty()) {
+            meta.setAlbum("Sans album");
+        }
+
+        if(meta.getTitre().isEmpty()) {
+            meta.setTitre("Sans titre");
+        }
+
+        if(meta.getDate().isEmpty()) {
+            meta.setDate("Sans Date");
+        }
+
+        if(meta.getGenre().isEmpty()) {
+            meta.setGenre("Sans genre");
+        }
+
+        if(meta.getDescription().isEmpty()) {
+            meta.setDescription(" ");
+        }
+
+
+        if(meta.getDuree().isNull()) {
+            meta.setDuree(QTime(1, 1, 1, 1));
+        }
+
+        query = QString("INSERT INTO bibliotheque (artiste, album, titre, date, genre, description, track, chemin, duree, enregistrement, derniereLecture, compteur) VALUES(\"%1\", \"%2\", \"%3\", \"\", \"%4\", \"%5\", \"\", \"%6\", \"%7\", \"%8\", \"\", \"\")")
+                .arg(meta.getArtiste())
+                .arg(meta.getAlbum())
+                .arg(meta.getTitre())
+                .arg(meta.getGenre())
+                .arg(meta.getDescription())
+                .arg(meta.getChemin())
+                .arg(meta.getDuree().toString())
+                .arg(meta.getDateEnregistrement().toString()
+                     );
+
+        //execution de la requete
+        if(!metadatas.contains(meta.getArtiste()+meta.getAlbum()+meta.getTitre())) {// vérifie si la métadonnée n'existe pas déjà
+
+            if(!requete.exec(query)) {
+                qDebug() << requete.lastError() << "  \nQ= " << requete.lastQuery() << " ou alors la metadonnee existe deja dans la table";
+            }
+
+        } else {
+
+            qDebug() << "La métadonnée existe déjà";
+            metadatas.append(meta.getArtiste()+meta.getAlbum()+meta.getTitre());
+        }
+   }
+
+QVariantList NutshSqlSaver::modelNutshMetaData(const NutshMetaData& meta) {
+
+    QSqlQuery requete;
+    QVariantList model;
+
+    requete.exec(QString("SELECT * FROM bibliotheque WHERE id = %1").arg(meta.getId()));
+
+    while(requete.next()) {
+
+        model.append(requete.next());
+    }
+
+    return model;
+}
+
+QString NutshSqlSaver::crypt(const QString& toCrypt) {
+
+    QByteArray crypted;
+    crypted.append(toCrypt);
+
+    return QString("%1").arg(qHash(crypted));
+}
+
+QString NutshSqlSaver::unCrypt(const QString& toDecrypt) {
+
+    QByteArray unCrypted;
+    unCrypted.append(toDecrypt);
+
+    return QString(unCrypted.fromHex(unCrypted));
 }

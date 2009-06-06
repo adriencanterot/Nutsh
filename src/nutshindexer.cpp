@@ -1,10 +1,9 @@
 #include "nutshindexer.h"
 #include "nutshcomunicator.h"
 
-Indexer::Indexer(const QString& path, const QString &table) {
+Indexer::Indexer(const QString& path) {
 
     chemin = path;
-    m_table = table;
     filtre << FORMATS_SUPPORTES;
     this->setTerminationEnabled(true);
     loopRunning = true;
@@ -45,14 +44,10 @@ void Indexer::run() {
 
         NutshMetaData data(filePaths.value(i));
 
-        saver->inserer(data, m_table);
+        saver->inserer(data);
 
         emit updateBar(i+1, total);
 
-        if(i+1 == total) {
-
-            qDebug() << "i == total";
-        }
 
 
         if(loopRunning == false || filePaths.count() == 0 || i == filePaths.count()) {
@@ -87,7 +82,7 @@ NutshIndexer::NutshIndexer(NutshComunicator* corePath)
 
 }
 
-void NutshIndexer::indexer(const QString &chemin, const QString &table) {
+void NutshIndexer::indexer(const QString &chemin) {
 
 
     core->progressinterface()->swapToProgress();
@@ -95,7 +90,7 @@ void NutshIndexer::indexer(const QString &chemin, const QString &table) {
     core->progressinterface()->setMaximum(0);
 
 
-    scan = new Indexer(chemin, table);
+    scan = new Indexer(chemin);
     QObject::connect(scan, SIGNAL(updateBar(int,int)), this, SLOT(updateBar(int,int)));
     connect(scan, SIGNAL(fatalError(QString)), this, SLOT(showMessage(QString)));
     scan->start();

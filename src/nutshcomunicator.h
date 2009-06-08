@@ -38,6 +38,8 @@ public:
     NutshUpdater *updater();
     NutshSqlSaver* getSqlControl();
 
+    void afterLaunch();
+
     QVBoxLayout *droite();
     QVBoxLayout *gauche();
     NutshIndexer *scannerAccess();

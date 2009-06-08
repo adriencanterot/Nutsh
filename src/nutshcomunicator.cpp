@@ -19,20 +19,6 @@ NutshComunicator::NutshComunicator()
     m_playlistinterface = new NutshPlayListInterface(this);
     m_metadatainterface = new NutshMetaDataInterface(this);
     m_driveinterface = new NutshDriveInterface(this);
-    m_playinginterface = new NutshPlayingInterface(this);
-    m_progressinterface = new NutshProgressInterface(this);
-
-    m_playlistinterface->sigandslots();
-    m_searchlineinterface->sigandslots();
-    m_metadatainterface->sigandslots();
-    m_driveinterface->sigandslots();
-    m_playinginterface->sigandslots();
-
-    //création du scanner pour les médias
-    scanner = new NutshIndexer(this);
-}
-QWidget *NutshComunicator::initInterfaces() {
-    //mise en places dans les layouts et envoi dans la fenêtre principale.
 
     m_gauche->addWidget(m_playlistinterface);
     m_gauche->addWidget(m_driveinterface);
@@ -48,9 +34,28 @@ QWidget *NutshComunicator::initInterfaces() {
 
     qDebug() << "NutshComunicator : Transimission de toutes les interfaces a NutshMainWindow";
 
-    m_updater = new NutshUpdater(this);
     m_searchlineinterface->setFocus();
 
+    m_playlistinterface->sigandslots();
+    m_searchlineinterface->sigandslots();
+    m_metadatainterface->sigandslots();
+    m_driveinterface->sigandslots();
+
+    //création du scanner pour les médias
+}
+
+void NutshComunicator::afterLaunch() {
+
+    m_playinginterface = new NutshPlayingInterface(this);
+    m_progressinterface = new NutshProgressInterface(this);
+    scanner = new NutshIndexer(this);
+    m_updater = new NutshUpdater(this);
+
+    m_playinginterface->sigandslots();
+
+}
+QWidget *NutshComunicator::initInterfaces() {
+    //mise en places dans les layouts et envoi dans la fenêtre principale.
     return m_central;
 }
 

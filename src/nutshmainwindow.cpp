@@ -17,5 +17,7 @@ NutshMainWindow::NutshMainWindow(QWidget *parent)
     path->searchlineinterface()->activate();
     this->show();
 
+    path->afterLaunch();
+
     qDebug("NutshMainWindow : Fin de l'initialisation de l'interface");
 }

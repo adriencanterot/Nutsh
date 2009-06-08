@@ -257,13 +257,13 @@ void NutshMetaData::setAlbum(const QString &a) {
     f.save();
 }
 
-void NutshMetaData::setTitre(const QString &nt) {
+void NutshMetaData::setTitre(const QString &nt) { //nt -> new title
 
     titre = nt;
     NutshSqlSaver::updateColumn("titre", titre, id);
 
     FileRef f(chemin.toAscii().constData());
-    Tag *t = f.file()->tag();
+    Tag *t = f.file()->tag(); // t -> tag
 
     t->setTitle(titre.toUtf8().constData());
 

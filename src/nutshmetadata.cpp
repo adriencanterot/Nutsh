@@ -239,7 +239,7 @@ void NutshMetaData::setArtiste(const QString &a) {
     FileRef f(chemin.toAscii().constData());
     Tag *t = f.file()->tag();
 
-    t->setArtist(artiste.toLatin1().constData());
+    t->setArtist(artiste.toUtf8().constData());
 
     f.save();
 }
@@ -252,7 +252,7 @@ void NutshMetaData::setAlbum(const QString &a) {
     FileRef f(chemin.toAscii().constData());
     Tag *t = f.file()->tag();
 
-    t->setAlbum(album.toLatin1().constData());
+    t->setAlbum(album.toUtf8().constData());
 
     f.save();
 }
@@ -265,7 +265,7 @@ void NutshMetaData::setTitre(const QString &nt) {
     FileRef f(chemin.toAscii().constData());
     Tag *t = f.file()->tag();
 
-    t->setTitle(titre.toLatin1().constData());
+    t->setTitle(titre.toUtf8().constData());
 
     f.save();
 }

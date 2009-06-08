@@ -1,4 +1,5 @@
 #include "nutshmetadata.h"
+#include "nutshsqlsaver.h"
 using namespace TagLib;
 
 NutshMetaData::NutshMetaData()
@@ -21,7 +22,6 @@ NutshMetaData::NutshMetaData(const NutshMetaData &m) {
     track = m.track;
 
     chemin = m.chemin;
-    cheminImage = m.cheminImage;
 
     duree = m.duree;
 
@@ -67,7 +67,6 @@ NutshMetaData::NutshMetaData(const QVariantList &resultatLigne) {
     track = resultatLigne.value(7).toInt();
 
     chemin = resultatLigne.value(8).toString();
-    cheminImage = resultatLigne.value(9).toString();
 
     duree = resultatLigne.value(10).toTime();
     enregistrement = resultatLigne.value(11).toDateTime();
@@ -178,6 +177,7 @@ NutshMetaData NutshMetaData::operator=(const NutshMetaData &m) {
     artiste = m.artiste;
     album = m.album;
     titre = m.titre;
+    id = m.id;
 
     date = m.date;
     genre = m.genre;
@@ -185,7 +185,6 @@ NutshMetaData NutshMetaData::operator=(const NutshMetaData &m) {
     track = m.track;
 
     chemin = m.chemin;
-    cheminImage = m.cheminImage;
 
     duree = m.duree;
     metaData = m.metaData;
@@ -234,16 +233,41 @@ bool NutshMetaData::operator==(const NutshMetaData& m) {
 void NutshMetaData::setArtiste(const QString &a) {
 
     artiste = a;
+
+    NutshSqlSaver::updateColumn("artiste", artiste, id);
+
+    FileRef f(chemin.toAscii().constData());
+    Tag *t = f.file()->tag();
+
+    t->setArtist(artiste.toLatin1().constData());
+
+    f.save();
 }
 
 void NutshMetaData::setAlbum(const QString &a) {
 
     album = a;
+    NutshSqlSaver::updateColumn("album", album, id);
+
+    FileRef f(chemin.toAscii().constData());
+    Tag *t = f.file()->tag();
+
+    t->setAlbum(album.toLatin1().constData());
+
+    f.save();
 }
 
-void NutshMetaData::setTitre(const QString &t) {
+void NutshMetaData::setTitre(const QString &nt) {
 
-    titre = t;
+    titre = nt;
+    NutshSqlSaver::updateColumn("titre", titre, id);
+
+    FileRef f(chemin.toAscii().constData());
+    Tag *t = f.file()->tag();
+
+    t->setTitle(titre.toLatin1().constData());
+
+    f.save();
 }
 
 void NutshMetaData::setDate(const QString &d) {
@@ -264,17 +288,19 @@ void NutshMetaData::setDescription(const QString &d) {
 void NutshMetaData::setDateEnregistrement(const QDateTime &d) {
 
     enregistrement = d;
+
 }
 
 void NutshMetaData::setChemin(const QString &c) {
 
     chemin = c;
+
+    //ajoute le chemin en plus de celui existant [a faire]
 }
 
-//void NutshMetaData::setCheminImage(const QString &c) {
-//
-//    cheminImage = c;
-//}
+void NutshMetaData::setArtwork(const QPixmap &c) {
+
+}
 
 void NutshMetaData::setDuree(const QTime &d) {
 
@@ -327,4 +353,7 @@ QPixmap NutshMetaData::getArtwork() const {
         return QPixmap();
     }
 
+}
+
+NutshMetaData::~NutshMetaData() {
 }

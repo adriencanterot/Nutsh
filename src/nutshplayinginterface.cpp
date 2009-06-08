@@ -21,7 +21,7 @@ NutshPlayingInterface::NutshPlayingInterface(NutshComunicator* corePath)
     boutonRevenir = new QPushButton("<-");
 
     //init & alloc controls
-    tempsLabel = new QLabel("00:00");
+    tempsLabel = new NutshLabel(core, "00:00");
     controls = new QHBoxLayout;
     controls->addWidget(media->getPosSlider());
     controls->addWidget(tempsLabel);
@@ -36,14 +36,14 @@ NutshPlayingInterface::NutshPlayingInterface(NutshComunicator* corePath)
 
     //init & alloc labels
 
-    artiste = new QLabel("Sans Artise");
-    album = new QLabel("Sans Album");
-    titre = new QLabel("Sans Titre");
-    artwork = new QLabel(gauche);
+    artiste = new NutshEditLabel("Sans Artise");
+    album = new NutshEditLabel("Sans Album");
+    titre = new NutshEditLabel("Sans Titre");
+    artwork = new NutshLabel(core);
 
-    artisteCP = new QLabel("");
-    titreCP = new QLabel("");
-    tempsLabelCP = new QLabel("");
+    artisteCP = new NutshLabel(core, "");
+    titreCP = new NutshLabel(core, "");
+    tempsLabelCP = new NutshLabel(core, "");
 
     core->bar()->addPermanentWidget(artisteCP);
     core->bar()->addPermanentWidget(titreCP);
@@ -92,6 +92,9 @@ void NutshPlayingInterface::sigandslots() {
     connect(boutonSuivant, SIGNAL(clicked()), this, SLOT(next()));
     connect(media, SIGNAL(aboutToFinish()), this, SLOT(next()));
     connect(boutonRevenir, SIGNAL(clicked()), core->metadatainterface(), SLOT(swapToList()));
+    connect(artiste, SIGNAL(returnPressed(QString)), &current, SLOT(setArtiste(QString)));
+    connect(album, SIGNAL(returnPressed(QString)), &current, SLOT(setAlbum(QString)));
+    connect(titre, SIGNAL(returnPressed(QString)), &current, SLOT(setTitre(QString)));
 }
 void NutshPlayingInterface::load(const NutshMetaData &data) {
 
@@ -151,6 +154,8 @@ void NutshPlayingInterface::load(const QList<NutshMetaData> &metaList) {
     boutonSuivant->setEnabled(true);
     playlist = metaList;
     currentItem = playlist.indexOf(current);
+
+    qDebug() <<  currentItem;
 
     if (currentItem == 0) {
 

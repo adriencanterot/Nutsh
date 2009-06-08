@@ -1,4 +1,4 @@
-#include "nutshsqlsaver.h"
+#include "NutshSqlSaver.h"
 #define d(bug) qDebug(bug)
 
 NutshSqlSaver::NutshSqlSaver()
@@ -45,7 +45,7 @@ void NutshSqlSaver::inserer(QList<NutshMetaData> meta, const QString &table) {
     }
 }
 
-bool NutshSqlSaver::trouverDansTable(const QString &query, const NutshMetaData &recherche) {
+bool NutshSqlSaver::trouverDansTable(const NutshMetaData &recherche) {
     //Rechercher une valeur dans un table :
 
     if(metadatas.contains(recherche.getChemin(), Qt::CaseSensitive)) {
@@ -69,7 +69,21 @@ void NutshSqlSaver::update(const NutshMetaData &nouveau,  const QString &table) 
     //Mise a jour d'une metadonnee
     QSqlQuery requete;
 
+    if(!
+       requete.exec(QString("UPDATE bibliotheque SET artiste = %2, album = %3, titre = %4 WHERE id = %1")
+                    .arg(nouveau.getId())
+                    .arg(nouveau.getArtiste())
+                    .arg(nouveau.getAlbum())
+                    .arg(nouveau.getTitre())
+                    ))
+    {
+        qDebug() << requete.lastError() << requete.lastQuery();
+
+    } else {
+
+    }
 }
+
 bool NutshSqlSaver::nouvelleListe(const QString &tableName) {
     //cree une nouvelle liste
     bool etat = true;
@@ -303,6 +317,8 @@ void NutshSqlSaver::inserer(NutshMetaData meta) {
 
 QVariantList NutshSqlSaver::modelNutshMetaData(const NutshMetaData& meta) {
 
+    // retourne en forme de ligne de résultat SQL une métadonnée
+
     QSqlQuery requete;
     QVariantList model;
 
@@ -318,16 +334,25 @@ QVariantList NutshSqlSaver::modelNutshMetaData(const NutshMetaData& meta) {
 
 QString NutshSqlSaver::crypt(const QString& toCrypt) {
 
+    //retourne le hash d'un QString
+
     QByteArray crypted;
     crypted.append(toCrypt);
 
     return QString("%1").arg(qHash(crypted));
 }
 
-QString NutshSqlSaver::unCrypt(const QString& toDecrypt) {
+void NutshSqlSaver::updateColumn(const QString& key, const QString& value, int id) {
 
-    QByteArray unCrypted;
-    unCrypted.append(toDecrypt);
+    QSqlQuery requete;
 
-    return QString(unCrypted.fromHex(unCrypted));
+    if(!
+       requete.exec(QString("UPDATE bibliotheque SET %2 = \"%3\" WHERE id = %1")
+                 .arg(id)
+                 .arg(key)
+                 .arg(value)
+                ))
+    {
+        qDebug() << requete.lastError() << requete.lastQuery();
+    }
 }

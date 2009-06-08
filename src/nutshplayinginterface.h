@@ -9,6 +9,7 @@
 #include "nutshmetadata.h"
 #include <QMouseEvent>
 #include <QDrag>
+#include "nutshlabel.h"
 
 #include "nutshlecteur.h"
 
@@ -43,10 +44,11 @@ private:
                 *boutonSuivant,
                 *boutonRevenir;
 
-    QLabel *artiste,
+    NutshEditLabel *artiste,
            *album,
-           *titre,
-           *tempsLabel,
+           *titre;
+
+    NutshLabel *tempsLabel,
            *tempsLabelCP,
            *artisteCP,
            *titreCP,

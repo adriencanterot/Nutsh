@@ -16,7 +16,8 @@ class NutshSqlSaver
 	NutshSqlSaver();
         void inserer(NutshMetaData, const QString&);
         void inserer(NutshMetaData);
-        bool trouverDansTable(const QString&, const NutshMetaData&);
+        static void updateColumn(const QString &key, const QString &value, int it);
+        bool trouverDansTable(const NutshMetaData&);
         bool tableExists(const QString&);
         void completeMetaData(NutshMetaData&);
         void inserer(QList<NutshMetaData>, const QString&);
@@ -29,7 +30,6 @@ class NutshSqlSaver
         bool connect();
         QList<NutshMetaData> getResults(const QString&);
         QString crypt(const QString&);
-        QString unCrypt(const QString&);
 
     private:
         QStringList metadatas;

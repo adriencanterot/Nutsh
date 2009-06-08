@@ -1,5 +1,6 @@
 #include "nutshmainwindow.h"
 
+
 NutshMainWindow::NutshMainWindow(QWidget *parent)
     : QMainWindow(parent) {
 

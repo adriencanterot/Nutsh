@@ -14,15 +14,13 @@ win32 {
         -L3rdparty/win/FMOD3/lib \
         -lfmod
 }
-macx {
+macx { 
     LIBS += -F3rdparty/mac \
         -framework \
         TagLib
     QT += phonon
 }
-!macx|!win32 {
-
-}
+!macx|!win32:
 TARGET = Nutsh
 TEMPLATE = app
 SOURCES += src/main.cpp \
@@ -42,7 +40,8 @@ SOURCES += src/main.cpp \
     src/nutshmaj.cpp \
     src/nutshprogressinterface.cpp \
     src/nutshplaylistlist.cpp \
-    src/nutshinstallationwizard.cpp
+    src/nutshinstallationwizard.cpp \
+    src/nutshlabel.cpp
 HEADERS += src/nutshmainwindow.h \
     src/nutshlecteur.h \
     src/nutshindexer.h \
@@ -60,4 +59,5 @@ HEADERS += src/nutshmainwindow.h \
     src/nutshmaj.h \
     src/nutshprogressinterface.h \
     src/nutshplaylistlist.h \
-    src/nutshinstallationwizard.h
+    src/nutshinstallationwizard.h \
+    src/nutshlabel.h

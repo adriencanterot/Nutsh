@@ -6,6 +6,9 @@
 #include <QtGui/QFileDialog>
 #include <QtSql>
 #include <QToolBar>
+#include <QTextEdit>
+#include <QThread>
+#include <QFile>
 #include "nutshlecteur.h"
 #include "nutshindexer.h"
 #include "nutshcomunicator.h"

@@ -7,12 +7,16 @@
 #define NB_CHAMPS_DATABASE 13
 #define FORMATS_SUPPORTES "*.mp3";
 #define D(bug) qDebug() << bug;
-#define MAJEUR 1
 #define WIDTH_LEFT 200
 
 enum ContentType {
 
     Dir, Playlist, Entire, Empty
+};
+
+enum ContentTypeForLabel {
+
+    Label, LineEdit, clickableLabel
 };
 
 #endif // PREPROCESS_H

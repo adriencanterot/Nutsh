@@ -1,14 +1,12 @@
 #ifndef NUTSHMETADATA_H
 #define NUTSHMETADATA_H
 
-#include <QDateTime>
 #include <fileref.h>
 #include <mpegfile.h>
 #include <tag.h>
 #include <id3v2header.h>
 #include <id3v2tag.h>
 #include <attachedpictureframe.h>
-#include <QUrl>
 #include <QString>
 #include <QStringList>
 #include <QDebug>
@@ -16,12 +14,12 @@
 #include <QVariantList>
 #include <QPixmap>
 #include <QImage>
-#include <QLabel>
-#include <QWidget>
 #include <QFile>
 
-class NutshMetaData
+class NutshMetaData : public QObject
 {
+    Q_OBJECT
+
 public:
     NutshMetaData();
     //depuis une requete SQL
@@ -48,6 +46,11 @@ public:
     int getCompteur() const;
     int getTrack() const;
     int getId() const;
+    bool operator==(const NutshMetaData&);
+
+    virtual ~NutshMetaData();
+
+    public slots:
 
 
     void setArtiste(const QString&);
@@ -58,19 +61,30 @@ public:
     void setDescription(const QString&);
     void setDateEnregistrement(const QDateTime&);
     void setChemin(const QString&);
-//    void setCheminImage(const QString&);
+    void setArtwork(const QPixmap&);
     void setDuree(const QTime&);
     void setAllMetaDatas(const QStringList&);
     void setCompteur(int);
     void setTrack(int);
-    bool operator==(const NutshMetaData&);
 
 private :
-        QString artiste, album, titre, date, genre, description, chemin, cheminImage;
-	QTime duree;
+        QString artiste,
+                album,
+                titre,
+                date,
+                genre,
+                description,
+                chemin;
+
+        QTime duree;
 	QStringList metaData;
-	QDateTime enregistrement, derniereLecture;
-        int compteur, track, id;
+
+        QDateTime enregistrement,
+                  derniereLecture;
+
+        int compteur,
+            track,
+            id;
 
 };
 

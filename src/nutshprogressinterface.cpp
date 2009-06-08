@@ -218,6 +218,3 @@ void NutshProgressInterface::reset() {
 void NutshProgressInterface::completeBar() {
 
 }
-
-
-

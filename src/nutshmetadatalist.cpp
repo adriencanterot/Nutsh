@@ -14,6 +14,7 @@ NutshMetaDataList::NutshMetaDataList(NutshComunicator* corePath) {
     connect(this, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(emitSignal(QModelIndex)));
     this->setDragEnabled(true);
     this->setSelectionMode(QAbstractItemView::ExtendedSelection);
+    this->setEditTriggers(QAbstractItemView::AllEditTriggers);
 
 }
 
@@ -23,7 +24,9 @@ void NutshMetaDataList::append(NutshMetaData data) {
     viewCacheItem << data.getTitre() << data.getArtiste() << data.getAlbum() << data.getDate() << data.getChemin();
 
     QTreeWidgetItem* cacheItem = new QTreeWidgetItem(viewCacheItem);
+    cacheItem->setExpanded(true);
     this->addTopLevelItem(cacheItem);
+
     items.append(data);
 }
 

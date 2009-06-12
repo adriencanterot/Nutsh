@@ -21,8 +21,12 @@ macx {
     QT += phonon
 }
 !macx|!win32:
+
+ICON += nutsh.icns
+
 TARGET = Nutsh
 TEMPLATE = app
+
 SOURCES += src/main.cpp \
     src/nutshmainwindow.cpp \
     src/nutshlecteur.cpp \
@@ -42,6 +46,7 @@ SOURCES += src/main.cpp \
     src/nutshplaylistlist.cpp \
     src/nutshinstallationwizard.cpp \
     src/nutshlabel.cpp
+
 HEADERS += src/nutshmainwindow.h \
     src/nutshlecteur.h \
     src/nutshindexer.h \

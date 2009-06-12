@@ -14,21 +14,27 @@ class NutshSqlSaver
 {
     public:
 	NutshSqlSaver();
-        void inserer(NutshMetaData, const QString&);
-        void inserer(NutshMetaData);
-        static void updateColumn(const QString &key, const QString &value, int it);
+
         bool trouverDansTable(const NutshMetaData&);
         bool tableExists(const QString&);
+        bool connect();
+        bool nouvelleListe(const QString&);
+
         void completeMetaData(NutshMetaData&);
         void inserer(QList<NutshMetaData>, const QString&);
-        QList<NutshMetaData> getMetaDatas(const QString&);
+        void inserer(NutshMetaData, const QString&);
+        void inserer(NutshMetaData);
         void update(const NutshMetaData&, const QString&);
-        bool nouvelleListe(const QString&);
+
+
+        static void updateColumn(const QString &key, const QString &value, int it);
         static QString sqlStringFormat(const QString&);
         static QString normalStringFormat(const QString&);
+
         QVariantList modelNutshMetaData(const NutshMetaData&);
-        bool connect();
+        QList<NutshMetaData> getMetaDatas(const QString&);
         QList<NutshMetaData> getResults(const QString&);
+
         QString crypt(const QString&);
 
     private:

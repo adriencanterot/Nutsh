@@ -6,11 +6,6 @@ NutshComunicator::NutshComunicator()
     m_bar = new QStatusBar;
 
     m_central = new QWidget;
-    m_principal = new QHBoxLayout;
-    m_gauche = new QVBoxLayout;
-    m_droite = new QVBoxLayout;
-    m_splitter = new QHBoxLayout;
-
 
     //création de l'objet de control sur la base de donnée
     sqlControl = new NutshSqlSaver;
@@ -20,18 +15,10 @@ NutshComunicator::NutshComunicator()
     m_metadatainterface = new NutshMetaDataInterface(this);
     m_driveinterface = new NutshDriveInterface(this);
 
-    m_gauche->addWidget(m_playlistinterface);
-    m_gauche->addWidget(m_driveinterface);
-
-    m_droite->addWidget(m_searchlineinterface);
-    m_droite->addWidget(m_metadatainterface);
-
-    m_splitter->addLayout(m_gauche);
-    m_splitter->addLayout(m_droite);
-
-    m_principal->addLayout(m_splitter);
-    m_central->setLayout(m_principal);
-
+    m_searchlineinterface->setParent(m_central);
+    m_playlistinterface->setParent(m_central);
+    m_metadatainterface->setParent(m_central);
+    m_driveinterface->setParent(m_central);
     qDebug() << "NutshComunicator : Transimission de toutes les interfaces a NutshMainWindow";
 
     m_searchlineinterface->setFocus();
@@ -48,8 +35,19 @@ void NutshComunicator::afterLaunch() {
 
     m_playinginterface = new NutshPlayingInterface(this);
     m_progressinterface = new NutshProgressInterface(this);
+
+    m_playinginterface->setParent(m_central);
+    m_playinginterface->setStyleSheet("max-width: 200px;");
+    m_progressinterface->setParent(m_central);
+
+    m_playinginterface->hide();
+    m_progressinterface->hide();
+
     scanner = new NutshIndexer(this);
     m_updater = new NutshUpdater(this);
+
+    m_updater->setParent(m_central);
+    m_updater->hide();
 
     m_playinginterface->sigandslots();
 
@@ -90,15 +88,6 @@ NutshProgressInterface* NutshComunicator::progressinterface() {
     return m_progressinterface;
 }
 
-QVBoxLayout *NutshComunicator::droite() {
-
-    return m_droite;
-}
-
-QVBoxLayout *NutshComunicator::gauche() {
-
-    return m_gauche;
-}
 
 NutshIndexer* NutshComunicator::scannerAccess() {
 

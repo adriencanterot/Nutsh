@@ -48,8 +48,6 @@ void Indexer::run() {
 
         emit updateBar(i+1, total);
 
-
-
         if(loopRunning == false || filePaths.count() == 0 || i == filePaths.count()) {
 
             break;

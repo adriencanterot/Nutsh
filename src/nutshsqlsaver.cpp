@@ -1,4 +1,4 @@
-#include "NutshSqlSaver.h"
+#include "nutshsqlsaver.h"
 #define d(bug) qDebug(bug)
 
 NutshSqlSaver::NutshSqlSaver()
@@ -15,6 +15,12 @@ NutshSqlSaver::NutshSqlSaver()
 }
 void NutshSqlSaver::inserer(NutshMetaData meta, const QString &liste) {
 
+    if(meta.getId() < 0) {
+
+        this->inserer(meta);
+        meta.setId(metadatas.count());
+    }
+
     QSqlQuery requete;
     QString allLists;
 
@@ -25,7 +31,6 @@ void NutshSqlSaver::inserer(NutshMetaData meta, const QString &liste) {
 
     while(requete.next()) {
 
-        qDebug() << requete.value(0);
         allLists.append(QString("%1;%2;").arg(requete.value(0).toString()).arg(crypt(liste)));
     }
 
@@ -36,10 +41,13 @@ void NutshSqlSaver::inserer(NutshMetaData meta, const QString &liste) {
                  )) {
         qDebug() << requete.lastError() << requete.lastQuery();
     }
+
+    qDebug() << requete.lastQuery();
 }
+
 void NutshSqlSaver::inserer(QList<NutshMetaData> meta, const QString &table) {
     //insertion de multiple metadonnees
-    for(unsigned int i = 0;i<meta.count();i++) {
+    for(unsigned int i = 0;i<static_cast<unsigned int>(meta.count());i++) {
 
         this->inserer(meta.value(i), table);
     }
@@ -81,6 +89,8 @@ void NutshSqlSaver::update(const NutshMetaData &nouveau,  const QString &table) 
 
     } else {
 
+        qDebug() << table;
+
     }
 }
 
@@ -98,6 +108,7 @@ bool NutshSqlSaver::nouvelleListe(const QString &tableName) {
 
     return etat;
 }
+
 bool NutshSqlSaver::connect() {
     //connexion à la base de donnée (ne doit être exécuté qu'une seule fois dans le code.
 
@@ -310,7 +321,6 @@ void NutshSqlSaver::inserer(NutshMetaData meta) {
 
         } else {
 
-            qDebug() << "La métadonnée existe déjà";
             metadatas.append(meta.getArtiste()+meta.getAlbum()+meta.getTitre());
         }
    }

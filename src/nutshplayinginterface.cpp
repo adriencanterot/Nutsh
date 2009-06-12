@@ -171,9 +171,7 @@ void NutshPlayingInterface::load(const QList<NutshMetaData> &metaList) {
 void NutshPlayingInterface::swapToPlay() {
 
     core->metadatainterface()->hide();
-    core->droite()->removeWidget(core->metadatainterface());
 
-    core->droite()->addWidget(core->playinginterface());
     core->playinginterface()->show();
 }
 

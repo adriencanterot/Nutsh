@@ -137,7 +137,6 @@ void NutshProgressInterface::swapToProgress() {
     //affiche cette interface au lieu de nutshdriveinterface
 
     core->driveinterface()->hide();
-    core->gauche()->addWidget(this);
 
     this->show();
     active = true;

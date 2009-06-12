@@ -101,9 +101,7 @@ void NutshMetaDataInterface::swapWidgets(const NutshMetaData &data) {
 void NutshMetaDataInterface::swapToList() {
 
     core->playinginterface()->hide();
-    core->droite()->removeWidget(core->playinginterface());
 
-    core->droite()->addWidget(core->metadatainterface());
     core->metadatainterface()->show();
 }
 
@@ -213,6 +211,8 @@ void NutshMetaDataInterface::navigateByKey(QKeyEvent *event) {
                 this->indexSelected++;
                 this->getListWidget()->setCurrentItem(this->getListWidget()->topLevelItem(indexSelected));
                 this->getListWidget()->currentItem()->setSelected(true);
+
+                qDebug() << this->indexSelected << this->getListWidget()->indexOfTopLevelItem(this->getListWidget()->currentItem());
 
             }
             break;

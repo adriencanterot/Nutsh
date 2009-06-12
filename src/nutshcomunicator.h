@@ -40,8 +40,6 @@ public:
 
     void afterLaunch();
 
-    QVBoxLayout *droite();
-    QVBoxLayout *gauche();
     NutshIndexer *scannerAccess();
 
     void setStatus(const QString&);
@@ -49,9 +47,7 @@ public:
 
 private:
 
-    QHBoxLayout *m_principal, *m_splitter;
     QWidget *m_central;
-    QVBoxLayout *m_gauche, *m_droite;
     QStatusBar* m_bar;
 
     NutshSqlSaver *sqlControl;

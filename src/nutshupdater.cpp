@@ -134,6 +134,5 @@ void NutshUpdater::swapToUpdater() {
     core->driveinterface()->hide();
     qDebug() << "Hidden";
 
-    core->gauche()->addWidget(this, 2);
     this->show();
 }

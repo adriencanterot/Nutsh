@@ -66,6 +66,7 @@ public:
     void setAllMetaDatas(const QStringList&);
     void setCompteur(int);
     void setTrack(int);
+    void setId(int);
 
 private :
         QString artiste,

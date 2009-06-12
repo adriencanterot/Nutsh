@@ -357,3 +357,8 @@ QPixmap NutshMetaData::getArtwork() const {
 
 NutshMetaData::~NutshMetaData() {
 }
+
+void NutshMetaData::setId(int newId) {
+
+    id = newId;
+}

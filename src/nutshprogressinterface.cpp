@@ -51,28 +51,9 @@ NutshProgressInterface::NutshProgressInterface(NutshComunicator* corePath)
     m_top = new QLabel(this);
     m_bottom = new QLabel(this);
 
-    m_cancel = new QPushButton("Arreter");
+    m_cancel = new QPushButton("Arreter", this);
 
     //Layouts
-    m_principal = new QVBoxLayout(this);
-    m_progressLayout = new QHBoxLayout(this);
-    m_infosLayout = new QHBoxLayout(this);
-
-
-    //positionnement
-    m_progressLayout->addWidget(m_left);
-    m_progressLayout->addWidget(m_progress);
-    m_progressLayout->addWidget(m_right);
-
-    m_infosLayout->addWidget(m_bottom);
-    m_infosLayout->addWidget(m_cancel);
-
-    m_principal->addWidget(m_top);
-    m_principal->addLayout(m_progressLayout);
-    m_principal->addLayout(m_infosLayout);
-
-    this->setLayout(m_principal);
-
     core->searchlineinterface()->setFocus();
 
 }

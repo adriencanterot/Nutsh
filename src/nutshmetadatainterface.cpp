@@ -7,25 +7,14 @@ NutshMetaDataInterface::NutshMetaDataInterface(NutshComunicator* corePath)
     //init & alloc
     core = corePath;
 
-    layout = new QVBoxLayout;
     indexSelected = 0;
-    optionsLayout = new QHBoxLayout;
     metadatas = new NutshMetaDataList(core);
-    importer = new QPushButton("Importer");
-    toBibliotheque = new QPushButton("Bibliothèque");
+    importer = new QPushButton("Importer", this);
+    toBibliotheque = new QPushButton("Bibliothèque", this);
 
     //placement
-    layout->addWidget(metadatas);
-    layout->addLayout(optionsLayout);
-
-    optionsLayout->addWidget(importer);
-    optionsLayout->addWidget(toBibliotheque);
-    optionsLayout->addSpacing(200);
-
     importer->hide();
     toBibliotheque->hide();
-
-    this->setLayout(layout);
 
     this->load(core->getSqlControl()->getMetaDatas("bibliotheque"));
 

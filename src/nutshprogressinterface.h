@@ -76,10 +76,6 @@ private:
            *m_bottom;
 
     QProgressBar *m_progress;
-    QVBoxLayout *m_principal;
-
-    QHBoxLayout *m_progressLayout,
-                *m_infosLayout;
 
     QPushButton *m_cancel;
 

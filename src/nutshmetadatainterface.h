@@ -47,8 +47,6 @@ private:
 
     NutshComunicator* core;
     QList<NutshMetaData> metaList;
-    QVBoxLayout *layout;
-    QHBoxLayout * optionsLayout;
     NutshMetaDataList *metadatas;
     QPushButton *importer,
                 *toBibliotheque;

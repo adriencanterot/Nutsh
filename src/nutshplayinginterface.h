@@ -54,17 +54,6 @@ private:
            *titreCP,
            *artwork;
 
-    QSplitter *central;
-
-    QHBoxLayout *commandButtons,
-                *infoLabels,
-                *titreLabel,
-                *controls;
-
-    QVBoxLayout *principal,
-                *positionnerDroite,
-                *positionnerGauche;
-
     QWidget *droite,
             *gauche;
 

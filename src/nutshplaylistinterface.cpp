@@ -5,25 +5,10 @@ NutshPlayListInterface::NutshPlayListInterface(NutshComunicator* corePath, QWidg
 {
 
     core = corePath;
-
     this->setFixedWidth(WIDTH_LEFT);
-
-    layout = new QVBoxLayout;
-    layoutBouton = new QHBoxLayout;
     liste = new NutshPlaylistList(core, this);
-
     refresh();
-
     initButtons();
-
-    //placement
-
-    layout->addWidget(liste);
-    layoutBouton->addWidget(nouvelleListe);
-    layoutBouton->addWidget(importer);
-    layout->addLayout(layoutBouton);
-    this->setLayout(layout);
-
 
     qDebug() << "NutshPlaylistInterface : initialized";
 
@@ -44,10 +29,10 @@ void NutshPlayListInterface::refresh() {
 
 void NutshPlayListInterface::initButtons() {
 
-    nouvelleListe = new QPushButton("nouvelle");
+    nouvelleListe = new QPushButton("nouvelle", this);
     nouvelleListe->setToolTip("creer une nouvelle playlist");
 
-    importer = new QPushButton("Importer");
+    importer = new QPushButton("Importer", this);
 }
 
 void NutshPlayListInterface::addListe() {

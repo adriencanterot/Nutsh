@@ -44,8 +44,6 @@ private :
                 *importer;
 
     NutshPlaylistList *liste;
-    QVBoxLayout *layout;
-    QHBoxLayout *layoutBouton;
     NutshComunicator *core;
     QSqlQuery superQuery;
 

@@ -35,9 +35,8 @@ NutshDriveInterface::NutshDriveInterface(NutshComunicator* corePath)
     connect(newDrive, SIGNAL(newDrive()), this, SLOT(refresh()));
     newDrive->start();
 
-    layout = new QVBoxLayout;
-    deviceList = new QListWidget;
-    boutonPrecedent = new QPushButton("Precedent");
+    deviceList = new QListWidget(this);
+    boutonPrecedent = new QPushButton("Precedent", this);
     dir = new QDir;
 
     dir->setPath("/Volumes");
@@ -49,10 +48,6 @@ NutshDriveInterface::NutshDriveInterface(NutshComunicator* corePath)
     deviceList->addItems(dir->entryList(QDir::AllDirs|QDir::NoDotAndDotDot));
     place = 0;
 
-    //positionnement
-    layout->addWidget(deviceList);
-    layout->addWidget(boutonPrecedent);
-    this->setLayout(layout);
     boutonPrecedent->setDisabled(true);
     qDebug() << "NutshDriveInterface : initialized";
 

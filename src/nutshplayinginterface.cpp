@@ -10,36 +10,27 @@ NutshPlayingInterface::NutshPlayingInterface(NutshComunicator* corePath)
     media = new NutshLecteur;
     //init & alloc widgets
 
-    droite = new QWidget;
-    gauche = new QWidget;
+    droite = new QWidget(this);
+    gauche = new QWidget(this);
 
     //init & alloc command buttons
-    boutonPlayPause = new QPushButton("Pause");
-    boutonPrecedent = new QPushButton("|<<");
-    boutonSuivant = new QPushButton(">>|");
-    boutonStop = new QPushButton("Stop");
-    boutonRevenir = new QPushButton("<-");
+    boutonPlayPause = new QPushButton("Pause", droite);
+    boutonPrecedent = new QPushButton("|<<", droite);
+    boutonSuivant = new QPushButton(">>|", droite);
+    boutonStop = new QPushButton("Stop", droite);
+    boutonRevenir = new QPushButton("<-", droite);
 
     //init & alloc controls
     tempsLabel = new NutshLabel(core, "00:00");
-    controls = new QHBoxLayout;
-    controls->addWidget(media->getPosSlider());
-    controls->addWidget(tempsLabel);
-
-
-
-    commandButtons = new QHBoxLayout;
-    commandButtons->addWidget(boutonPrecedent);
-    commandButtons->addWidget(boutonStop);
-    commandButtons->addWidget(boutonPlayPause);
-    commandButtons->addWidget(boutonSuivant);
+    tempsLabel->setParent(droite);
 
     //init & alloc labels
 
-    artiste = new NutshEditLabel("Sans Artise");
-    album = new NutshEditLabel("Sans Album");
-    titre = new NutshEditLabel("Sans Titre");
+    artiste = new NutshEditLabel("Sans Artise", droite);
+    album = new NutshEditLabel("Sans Album", droite);
+    titre = new NutshEditLabel("Sans Titre", droite);
     artwork = new NutshLabel(core);
+    artwork->setParent(gauche);
 
     artisteCP = new NutshLabel(core, "");
     titreCP = new NutshLabel(core, "");
@@ -48,37 +39,6 @@ NutshPlayingInterface::NutshPlayingInterface(NutshComunicator* corePath)
     core->bar()->addPermanentWidget(artisteCP);
     core->bar()->addPermanentWidget(titreCP);
     core->bar()->addPermanentWidget(tempsLabelCP);
-
-    infoLabels = new QHBoxLayout;
-    infoLabels->addWidget(artiste);
-    infoLabels->addWidget(album);
-
-    titreLabel = new QHBoxLayout;
-    titreLabel->addWidget(titre);
-    titreLabel->addStretch();
-    titreLabel->addWidget(boutonRevenir);
-
-    //positionnement
-    positionnerDroite = new QVBoxLayout;
-    positionnerDroite->addLayout(titreLabel);
-    positionnerDroite->addLayout(infoLabels);
-    positionnerDroite->addLayout(controls);
-    positionnerDroite->addLayout(commandButtons);
-    droite->setLayout(positionnerDroite);
-
-    positionnerGauche = new QVBoxLayout;
-    positionnerGauche->addWidget(artwork);
-    gauche->setLayout(positionnerGauche);
-
-    central = new QSplitter;
-    central->addWidget(gauche);
-    central->addWidget(droite);
-
-    principal = new QVBoxLayout;
-    principal->addWidget(central);
-
-    this->setLayout(principal);
-
 
     qDebug() << "NutshPlayingInterface : initialized";
 }

@@ -26,7 +26,6 @@ public slots:
 
 private :
         QLineEdit* searchLine;
-        QHBoxLayout* organisation;
         NutshComunicator* core;
         QPushButton *nouvelleListe;
         QMenu* actionsPlus;

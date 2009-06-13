@@ -54,7 +54,6 @@ private :
 
     QListWidget* deviceList;
     QDir* dir;
-    QVBoxLayout *layout;
     QPushButton *boutonPrecedent;
     int place;
 

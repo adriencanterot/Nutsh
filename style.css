@@ -1,0 +1,153 @@
+*[searchLine='true']{
+    border: 1px solid gray;
+    border-radius: 10px;
+    padding-left: 5px;
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 rgb(255, 255, 255), stop:1 rgb(179, 179, 179));
+    selection-background-color: darkgray;
+    width: 260px;
+    color: #333333;
+}
+
+*[searchLine='true']:hover{
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 rgb(230, 230, 230), stop:1 rgb(153, 153, 153));
+}
+
+*[nouvelleListe_nutshsearchlineinterface='true']{
+    border: none;
+    background-image: url(":/img/images/searchbutton.png");
+    background-position: top left;
+    background-repeat: no-repeat;
+    height: 22px;
+    width: 38px;
+}
+
+*[nouvelleListe_nutshsearchlineinterface='true']:hover{
+    background-position: bottom left;
+}
+
+*[nouvelleListe_nutshsearchlineinterface='true']:pressed{
+    background-position: bottom right;
+}
+
+QMainWindow{
+    background-image: url(":/img/images/fond.png");
+}
+
+QListWidget{
+    max-width: 160px;
+    max-height: 190px;
+    background-image: url(":/img/images/transparent.png");
+    border: none;
+}
+
+QListWidget::item{
+    max-width: 160px;
+    min-height: 16px;
+    padding-left: 20px;
+    padding-top: 1px;
+    background-image: url(":/img/images/playlist-item.png");
+    background-repeat: no-repeat;
+    border: none;
+    color: rgb(247, 148, 30);
+}
+
+QListWidget::item:focus{
+    background-image: url(":/img/images/playlist-item-over.png") no-repeat;
+    background-repeat: no-repeat;
+    color: rgb(77, 77, 79);
+}
+
+QMenu{
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 rgb(249, 157, 28), stop:1 rgb(243, 112, 33));
+}
+
+QMenu::item{
+    background-image: url(":/img/images/transparent.png");
+    color: #333333;
+}
+
+QMenu::item:selected{
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #404040, stop:1 #1A1A1A);
+    color: #F7941E;
+}
+
+QMenu::item:pressed{
+    background: qlineargradient(x1:0, y1:1, x2:0, y2:0, stop:0 #404040, stop:1 #1A1A1A);
+    color: #F7941E;
+}
+
+*[boutonPlayPause='true']{
+    background-image: url(":/img/images/play.png");
+    background-repeat: no-repeat;
+    width: 44px;
+    height: 50px;
+    border: none;
+}
+
+*[boutonSuivant='true']{
+    background-image: url(":/img/images/next.png");
+    background-repeat: no-repeat;
+    width: 32px;
+    height: 19px;
+    border: none;
+}
+
+*[boutonPrecedent='true']{
+    background-image: url(":/img/images/previous.png");
+    background-repeat: no-repeat;
+    width: 33px;
+    height: 19px;
+    border: none;
+}
+
+*[boutonStop='true']{
+    background-image: url(":/img/images/stop.png");
+    background-repeat: no-repeat;
+    width: 18px;
+    height: 18px;
+    border: none;
+}
+
+*[boutonRevenir='true']{
+    background-image: url(":/img/images/precedant.png");
+    background-repeat: no-repeat;
+    background-position: top left;
+    width: 35px;
+    height: 35px;
+    border: none;
+}
+
+*[boutonRevenir='true']:hover{
+    background-position: bottom left;
+}
+
+*[newPlaylistButton='true']{
+    background-image: url(":/img/images/nouvelle.png");
+    background-repeat: no-repeat;
+    background-position: top left;
+    width: 36px;
+    height: 27px;
+    border: none;
+}
+
+*[importButton='true']{
+    background-image: url(":/img/images/importer.png");
+    background-repeat: no-repeat;
+    background-position: top left;
+    width: 35px;
+    height: 27px;
+    border: none;
+}
+
+QProgressBar{
+    border: 1px solid grey;
+    border-radius: 5px;
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 rgb(255, 255, 255), stop:1 rgb(179, 179, 179));
+    width: 350px;
+    height: 15px;
+    text-align: center;
+}
+
+QProgressBar::chunk{
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 rgb(249, 157, 28), stop:1 rgb(243, 112, 33));
+}

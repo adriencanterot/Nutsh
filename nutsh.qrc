@@ -1,0 +1,21 @@
+<RCC>
+    <qresource prefix="/css" >
+        <file>style.css</file>
+    </qresource>
+    <qresource prefix="/img" >
+        <file>images/fond.png</file>
+        <file>images/normal.png</file>
+        <file>images/over.png</file>
+        <file>images/transparent.png</file>
+        <file>images/playlist-item-over.png</file>
+        <file>images/playlist-item.png</file>
+        <file>images/searchbutton.png</file>
+        <file>images/play.png</file>
+        <file>images/next.png</file>
+        <file>images/previous.png</file>
+        <file>images/stop.png</file>
+        <file>images/precedant.png</file>
+        <file>images/importer.png</file>
+        <file>images/nouvelle.png</file>
+    </qresource>
+</RCC>

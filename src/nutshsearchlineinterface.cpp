@@ -7,7 +7,14 @@ NutshSearchLineInterface::NutshSearchLineInterface(NutshComunicator* corePath)
     core = corePath;
 
     searchLine = new QLineEdit(this);
-    nouvelleListe = new QPushButton("+", this);
+    searchLine->setProperty("searchLine", true);
+    nouvelleListe = new QPushButton("", this);
+    nouvelleListe->setProperty("nouvelleListe_nutshsearchlineinterface", true);
+
+    //placement des boutons
+    searchLine->move(280, 26);
+    nouvelleListe->move(530, 26);
+
     actionsPlus = new QMenu(this);
     nouvelleListe->setMenu(actionsPlus); // mise en place du menu pour le bouton "+"
 

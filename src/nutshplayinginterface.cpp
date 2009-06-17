@@ -11,24 +11,51 @@ NutshPlayingInterface::NutshPlayingInterface(NutshComunicator* corePath)
     //init & alloc widgets
 
     droite = new QWidget(this);
+    droite->resize(600, 350);
     gauche = new QWidget(this);
+    gauche->resize(600, 350);
 
     //init & alloc command buttons
-    boutonPlayPause = new QPushButton("Pause", droite);
-    boutonPrecedent = new QPushButton("|<<", droite);
-    boutonSuivant = new QPushButton(">>|", droite);
-    boutonStop = new QPushButton("Stop", droite);
-    boutonRevenir = new QPushButton("<-", droite);
+
+    boutonPrecedent = new QPushButton("", droite);
+    boutonPrecedent->setProperty("boutonPrecedent", true);
+    boutonPrecedent->move(10, 30);
+
+    boutonSuivant = new QPushButton("", droite);
+    boutonSuivant->setProperty("boutonSuivant", true);
+    boutonSuivant->move(120, 30);
+
+    boutonStop = new QPushButton("", droite);
+    boutonStop->setProperty("boutonStop", true);
+    boutonStop->move(180, 30);
+
+    boutonRevenir = new QPushButton("", droite);
+    boutonRevenir->setProperty("boutonRevenir", true);
+    boutonRevenir->move(550, 80);
+
+    boutonPlayPause = new QPushButton("", droite);
+    boutonPlayPause->setProperty("boutonPlayPause", true);
+    boutonPlayPause->move(60, 15);
 
     //init & alloc controls
     tempsLabel = new NutshLabel(core, "00:00");
     tempsLabel->setParent(droite);
+    tempsLabel->move(450, 110);
+    tempsLabel->setStyleSheet("font-size: 22px;");
 
     //init & alloc labels
 
-    artiste = new NutshEditLabel("Sans Artise", droite);
-    album = new NutshEditLabel("Sans Album", droite);
     titre = new NutshEditLabel("Sans Titre", droite);
+    titre->move(190, 110);
+    artiste = new NutshEditLabel("Sans Artiste", droite);
+    artiste->move(190, 140);
+    album = new NutshEditLabel("Sans Album", droite);
+    album->move(190, 170);
+
+    titre->setStyleSheet("font-size: 20px;");
+    artiste->setStyleSheet("font-size: 20px;");
+    album->setStyleSheet("font-size: 20px;");
+
     artwork = new NutshLabel(core);
     artwork->setParent(gauche);
 

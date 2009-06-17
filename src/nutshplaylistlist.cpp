@@ -1,4 +1,3 @@
-
 #include "nutshplaylistlist.h"
 #include "nutshcomunicator.h"
 

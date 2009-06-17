@@ -20,7 +20,6 @@
 #include "nutshprogressinterface.h"
 #include "nutshupdater.h"
 
-
 class NutshComunicator
 {
 public:

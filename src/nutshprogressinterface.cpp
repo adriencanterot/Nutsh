@@ -46,12 +46,16 @@ NutshProgressInterface::NutshProgressInterface(NutshComunicator* corePath)
     this->setFixedWidth(core->driveinterface()->width());
 
     m_progress = new QProgressBar(this);
+    m_progress->setValue(50);
+    m_progress->move(0, 0);
+
     m_right = new QLabel(this);
     m_left = new QLabel(this);
     m_top = new QLabel(this);
     m_bottom = new QLabel(this);
 
     m_cancel = new QPushButton("Arreter", this);
+    m_cancel->move(0, 0);
 
     //Layouts
     core->searchlineinterface()->setFocus();

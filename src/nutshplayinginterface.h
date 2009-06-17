@@ -10,7 +10,6 @@
 #include <QMouseEvent>
 #include <QDrag>
 #include "nutshlabel.h"
-
 #include "nutshlecteur.h"
 
 class NutshComunicator;

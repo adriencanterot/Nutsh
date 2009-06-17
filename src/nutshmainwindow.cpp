@@ -9,7 +9,7 @@ NutshMainWindow::NutshMainWindow(QWidget *parent)
 
     this->setCentralWidget(path->initInterfaces()); // affichage du widget Central
     this->setStatusBar(path->bar());
-    this->setFixedSize(650, 300);
+    this->setFixedSize(600, 350);
 
     setUnifiedTitleAndToolBarOnMac(true);
 

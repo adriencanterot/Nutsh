@@ -3,6 +3,7 @@
 # -------------------------------------------------
 QT += sql \
     network
+ICON += nutsh.icns
 DESTDIR += bin
 win32 { 
     INCLUDEPATH += . \
@@ -19,14 +20,11 @@ macx {
         -framework \
         TagLib
     QT += phonon
+    OTHER_FILES += style.css
 }
 !macx|!win32:
-
-ICON += nutsh.icns
-
 TARGET = Nutsh
 TEMPLATE = app
-
 SOURCES += src/main.cpp \
     src/nutshmainwindow.cpp \
     src/nutshlecteur.cpp \
@@ -45,8 +43,8 @@ SOURCES += src/main.cpp \
     src/nutshprogressinterface.cpp \
     src/nutshplaylistlist.cpp \
     src/nutshinstallationwizard.cpp \
-    src/nutshlabel.cpp
-
+    src/nutshlabel.cpp \
+    src/style.cpp
 HEADERS += src/nutshmainwindow.h \
     src/nutshlecteur.h \
     src/nutshindexer.h \
@@ -66,3 +64,4 @@ HEADERS += src/nutshmainwindow.h \
     src/nutshplaylistlist.h \
     src/nutshinstallationwizard.h \
     src/nutshlabel.h
+RESOURCES += nutsh.qrc

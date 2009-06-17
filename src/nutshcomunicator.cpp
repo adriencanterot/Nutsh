@@ -15,10 +15,14 @@ NutshComunicator::NutshComunicator()
     m_metadatainterface = new NutshMetaDataInterface(this);
     m_driveinterface = new NutshDriveInterface(this);
 
-    m_searchlineinterface->setParent(m_central);
-    m_playlistinterface->setParent(m_central);
     m_metadatainterface->setParent(m_central);
-    m_driveinterface->setParent(m_central);
+
+    m_searchlineinterface->setParent(m_central);
+
+    m_playlistinterface->setParent(m_central);
+
+    //m_driveinterface->setParent(m_central);
+
     qDebug() << "NutshComunicator : Transimission de toutes les interfaces a NutshMainWindow";
 
     m_searchlineinterface->setFocus();
@@ -29,6 +33,8 @@ NutshComunicator::NutshComunicator()
     m_driveinterface->sigandslots();
 
     //création du scanner pour les médias
+
+    afterLaunch();
 }
 
 void NutshComunicator::afterLaunch() {
@@ -36,12 +42,16 @@ void NutshComunicator::afterLaunch() {
     m_playinginterface = new NutshPlayingInterface(this);
     m_progressinterface = new NutshProgressInterface(this);
 
+    m_playinginterface->setFixedSize(600, 350);
     m_playinginterface->setParent(m_central);
-    m_playinginterface->setStyleSheet("max-width: 200px;");
-    m_progressinterface->setParent(m_central);
+    //m_playinginterface->setStyleSheet("background-color: blue;");
 
-    m_playinginterface->hide();
-    m_progressinterface->hide();
+    m_progressinterface->setFixedSize(600, 350);
+    m_progressinterface->setParent(m_central);
+    m_progressinterface->move(200, 300);
+
+    //m_playinginterface->hide();
+    //m_progressinterface->hide();
 
     scanner = new NutshIndexer(this);
     m_updater = new NutshUpdater(this);
@@ -50,7 +60,6 @@ void NutshComunicator::afterLaunch() {
     m_updater->hide();
 
     m_playinginterface->sigandslots();
-
 }
 QWidget *NutshComunicator::initInterfaces() {
     //mise en places dans les layouts et envoi dans la fenêtre principale.

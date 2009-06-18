@@ -11,10 +11,10 @@ NutshPlayingInterface::NutshPlayingInterface(NutshComunicator* corePath)
     //init & alloc widgets
 
     droite = new QWidget(this);
-    droite->resize(400, 250);
-    this->move(160, 80);
+    droite->resize(400, 300);
+    this->move(160, 115);
     gauche = new QWidget(this);
-    gauche->resize(400, 250);
+    gauche->resize(400, 300);
     actionsButtons = new QWidget;
 
     //init & alloc command buttons

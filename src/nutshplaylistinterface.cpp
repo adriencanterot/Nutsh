@@ -38,11 +38,11 @@ void NutshPlayListInterface::refresh() {
 void NutshPlayListInterface::initButtons() {
 
     nouvelleListe = new QPushButton("", this);
-    nouvelleListe->setToolTip("créer une nouvelle playlist");
+    nouvelleListe->setToolTip("Créer une playlist");
     nouvelleListe->setProperty("newPlaylistButton", true);
 
     importer = new QPushButton("", this);
-    importer->setToolTip("Importer");
+    importer->setToolTip("Importer un dossier musical");
     importer->setProperty("importButton", true);
 }
 

@@ -173,6 +173,7 @@ QProgressBar{
 
 QProgressBar::chunk{
     background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 rgb(249, 157, 28), stop:1 rgb(243, 112, 33));
+    width: 1px;
 }
 
 *[cancelButton='true']{
@@ -191,3 +192,52 @@ QProgressBar::chunk{
 *[cancelButton='true']:pressed{
     background-position: bottom right;
 }
+
+
+
+
+
+QTreeView {
+    show-decoration-selected: 1;
+    background-color: transparent;
+}
+
+/*
+QTreeView::item {
+    border: 1px solid rgb(249, 157, 28);
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+}
+*/
+
+QTreeView::item:hover {
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #e7effd, stop: 1 #cbdaf1);
+}
+/*
+    border: 1px solid rgb(243, 112, 33);
+}
+
+QTreeView::item:selected {
+    border: 1px solid rgb(243, 112, 33);
+}
+*/
+
+QTreeView::item:selected:active{
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 rgb(249, 157, 28), stop:1 rgb(243, 112, 33));
+}
+
+QTreeView::item:selected:!active {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 rgb(249, 157, 28), stop:1 rgb(243, 112, 33));
+}
+
+/*
+
+*[boutonPause='true']{
+    background-color: red;
+}
+
+*[boutonPlay='true']{
+    background-color: blue;
+}
+
+*/

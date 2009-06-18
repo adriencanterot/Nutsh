@@ -43,7 +43,6 @@ NutshProgressInterface::NutshProgressInterface(NutshComunicator* corePath)
     core = corePath;
     //Widgets
 
-    this->setFixedWidth(core->driveinterface()->width());
 
     m_progress = new QProgressBar(this);
     m_progress->setValue(50);

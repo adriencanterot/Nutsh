@@ -76,13 +76,20 @@ QMenu::item:pressed{
     color: #F7941E;
 }
 
-*[boutonPlayPause='true']{
+*[boutonPlay='true']{
     background-image: url(":/img/images/play.png");
     background-repeat: no-repeat;
     width: 44px;
     height: 50px;
     border: none;
 }
+*[boutonPause='true']{
+    background-image: url(":/img/images/pause.png");
+    background-repeat: no-repeat;
+    width: 44px;
+    height: 50px;
+    border: none;
+ }
 
 *[boutonSuivant='true']{
     background-image: url(":/img/images/next.png");

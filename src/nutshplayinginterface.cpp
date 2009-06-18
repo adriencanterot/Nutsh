@@ -11,46 +11,45 @@ NutshPlayingInterface::NutshPlayingInterface(NutshComunicator* corePath)
     //init & alloc widgets
 
     droite = new QWidget(this);
-    droite->resize(600, 350);
+    droite->resize(400, 250);
+    this->move(160, 80);
     gauche = new QWidget(this);
-    gauche->resize(600, 350);
+    gauche->resize(400, 250);
+    actionsButtons = new QWidget;
 
     //init & alloc command buttons
 
-    boutonPrecedent = new QPushButton("", droite);
+    boutonPrecedent = new QPushButton("", actionsButtons);
     boutonPrecedent->setProperty("boutonPrecedent", true);
     boutonPrecedent->move(10, 30);
 
-    boutonSuivant = new QPushButton("", droite);
+    boutonSuivant = new QPushButton("", actionsButtons);
     boutonSuivant->setProperty("boutonSuivant", true);
     boutonSuivant->move(120, 30);
 
-    boutonStop = new QPushButton("", droite);
+    boutonStop = new QPushButton("", actionsButtons);
     boutonStop->setProperty("boutonStop", true);
     boutonStop->move(180, 30);
 
-    boutonRevenir = new QPushButton("", droite);
-    boutonRevenir->setProperty("boutonRevenir", true);
-    boutonRevenir->move(550, 80);
 
-    boutonPlayPause = new QPushButton("", droite);
-    boutonPlayPause->setProperty("boutonPlayPause", true);
+    boutonPlayPause = new QPushButton("", actionsButtons);
+    boutonPlayPause->setProperty("boutonPlay", true);
     boutonPlayPause->move(60, 15);
 
     //init & alloc controls
     tempsLabel = new NutshLabel(core, "00:00");
     tempsLabel->setParent(droite);
-    tempsLabel->move(450, 110);
+    tempsLabel->move(150, 110);
     tempsLabel->setStyleSheet("font-size: 22px;");
 
     //init & alloc labels
 
     titre = new NutshEditLabel("Sans Titre", droite);
-    titre->move(190, 110);
+    titre->move(20, 10);
     artiste = new NutshEditLabel("Sans Artiste", droite);
-    artiste->move(190, 140);
+    artiste->move(20, 40);
     album = new NutshEditLabel("Sans Album", droite);
-    album->move(190, 170);
+    album->move(20, 70);
 
     titre->setStyleSheet("font-size: 20px;");
     artiste->setStyleSheet("font-size: 20px;");
@@ -67,6 +66,8 @@ NutshPlayingInterface::NutshPlayingInterface(NutshComunicator* corePath)
     core->bar()->addPermanentWidget(titreCP);
     core->bar()->addPermanentWidget(tempsLabelCP);
 
+    actionsButtons->resize(200, 100);
+
     qDebug() << "NutshPlayingInterface : initialized";
 }
 void NutshPlayingInterface::sigandslots() {
@@ -78,7 +79,6 @@ void NutshPlayingInterface::sigandslots() {
     connect(boutonPrecedent, SIGNAL(clicked()), this, SLOT(previous()));
     connect(boutonSuivant, SIGNAL(clicked()), this, SLOT(next()));
     connect(media, SIGNAL(aboutToFinish()), this, SLOT(next()));
-    connect(boutonRevenir, SIGNAL(clicked()), core->metadatainterface(), SLOT(swapToList()));
     connect(artiste, SIGNAL(returnPressed(QString)), &current, SLOT(setArtiste(QString)));
     connect(album, SIGNAL(returnPressed(QString)), &current, SLOT(setAlbum(QString)));
     connect(titre, SIGNAL(returnPressed(QString)), &current, SLOT(setTitre(QString)));
@@ -117,22 +117,8 @@ void NutshPlayingInterface::load(const NutshMetaData &data) {
     currentItem = 0;
     media->setSource(data);
     media->play();
-    boutonPlayPause->setText("Pause");
+    boutonPlayPause->setProperty("boutonPause", true);
     this->setStatus();
-}
-
-void NutshPlayingInterface::playPause() {
-
-    if(media->isPlaying()) {
-
-        media->pause();
-        boutonPlayPause->setText("Play");
-
-    } else {
-
-        media->play();
-        boutonPlayPause->setText("Pause");
-    }
 }
 
 void NutshPlayingInterface::load(const QList<NutshMetaData> &metaList) {
@@ -206,12 +192,6 @@ void NutshPlayingInterface::previous() {
     boutonSuivant->setEnabled(true);
 }
 
-void NutshPlayingInterface::stop() {
-
-    boutonPlayPause->setText("Play");
-    media->stop();
-}
-
 void NutshPlayingInterface::setStatus() {
 
     artisteCP->setText(artiste->text());
@@ -230,4 +210,29 @@ void NutshPlayingInterface::pauseByKey(QKeyEvent* event) {
 QList<NutshMetaData> NutshPlayingInterface::getLastRead() const{
 
     return lastRead;
+}
+
+QWidget* NutshPlayingInterface::getActionsButtons() {
+
+    return actionsButtons;
+}
+
+void NutshPlayingInterface::playPause() {
+
+    if(media->isPlaying()) {
+
+        boutonPlayPause->setProperty("boutonPlay", true);
+        media->pause();
+
+    } else {
+
+        boutonPlayPause->setProperty("boutonPause", true);
+        media->play();
+    }
+}
+
+void NutshPlayingInterface::stop() {
+
+    media->stop();
+    boutonPlayPause->setProperty("boutonPlayPause", true);
 }

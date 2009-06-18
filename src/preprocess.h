@@ -19,4 +19,10 @@ enum ContentTypeForLabel {
     Label, LineEdit, clickableLabel
 };
 
+enum InterfaceName {
+
+    Playing, MetaData, Progress
+};
+
+
 #endif // PREPROCESS_H

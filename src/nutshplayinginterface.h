@@ -22,6 +22,7 @@ public:
     void load(const NutshMetaData&);
     void load(const QList<NutshMetaData>&);
     void setStatus();
+    QWidget* getActionsButtons();
     void pauseByKey(QKeyEvent*);
     QList<NutshMetaData> getLastRead() const;
 
@@ -40,8 +41,7 @@ private:
     QPushButton *boutonPlayPause,
                 *boutonStop,
                 *boutonPrecedent,
-                *boutonSuivant,
-                *boutonRevenir;
+                *boutonSuivant;
 
     NutshEditLabel *artiste,
            *album,
@@ -54,7 +54,8 @@ private:
            *artwork;
 
     QWidget *droite,
-            *gauche;
+            *gauche,
+            *actionsButtons;
 
     QList<NutshMetaData> playlist;
     QList<NutshMetaData> lastRead;

@@ -19,9 +19,13 @@
 #include "nutshplayinginterface.h"
 #include "nutshprogressinterface.h"
 #include "nutshupdater.h"
+#include "nutshsubinterfaces.h"
 
-class NutshComunicator
+class NutshComunicator : public QObject
 {
+
+    Q_OBJECT
+
 public:
 
     NutshComunicator();
@@ -44,6 +48,10 @@ public:
     void setStatus(const QString&);
     QStatusBar* bar();
 
+public slots:
+    void swapInterface(InterfaceName);
+
+
 private:
 
     QWidget *m_central;
@@ -59,5 +67,7 @@ private:
     NutshPlayingInterface *m_playinginterface;
     NutshProgressInterface *m_progressinterface;
     NutshUpdater *m_updater;
+    NutshBoutonRevenir *m_boutonRevenir;
+
 };
 #endif

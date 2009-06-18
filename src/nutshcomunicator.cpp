@@ -16,11 +16,8 @@ NutshComunicator::NutshComunicator()
     m_driveinterface = new NutshDriveInterface(this);
 
     m_metadatainterface->setParent(m_central);
-
     m_searchlineinterface->setParent(m_central);
-
     m_playlistinterface->setParent(m_central);
-
     //m_driveinterface->setParent(m_central);
 
     qDebug() << "NutshComunicator : Transimission de toutes les interfaces a NutshMainWindow";
@@ -42,16 +39,19 @@ void NutshComunicator::afterLaunch() {
     m_playinginterface = new NutshPlayingInterface(this);
     m_progressinterface = new NutshProgressInterface(this);
 
-    m_playinginterface->setFixedSize(600, 350);
+    m_playinginterface->getActionsButtons()->setParent(m_central);
+
     m_playinginterface->setParent(m_central);
-    //m_playinginterface->setStyleSheet("background-color: blue;");
 
-    m_progressinterface->setFixedSize(600, 350);
+    m_boutonRevenir = new NutshBoutonRevenir(m_central);
+    connect(m_boutonRevenir, SIGNAL(clicked(InterfaceName)), this, SLOT(swapInterface(InterfaceName)));
+
+    m_progressinterface->setFixedSize(400, 40);
     m_progressinterface->setParent(m_central);
-    m_progressinterface->move(200, 300);
+    m_progressinterface->move(160, 300);
 
-    //m_playinginterface->hide();
-    //m_progressinterface->hide();
+    m_playinginterface->hide();
+    m_progressinterface->hide();
 
     scanner = new NutshIndexer(this);
     m_updater = new NutshUpdater(this);
@@ -64,6 +64,24 @@ void NutshComunicator::afterLaunch() {
 QWidget *NutshComunicator::initInterfaces() {
     //mise en places dans les layouts et envoi dans la fenêtre principale.
     return m_central;
+}
+
+void NutshComunicator::swapInterface(InterfaceName name) {
+
+    switch(name) {
+
+        case Playing :
+
+        this->metadatainterface()->hide();
+        this->playinginterface()->show();
+        break;
+
+        case MetaData:
+
+        this->playinginterface()->hide();
+        this->metadatainterface()->show();
+        break;
+    }
 }
 
 /* ----------Fonctions retournant les interfaces pour communiquer entre les différentes parties du programme -------*/

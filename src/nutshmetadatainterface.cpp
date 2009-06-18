@@ -6,9 +6,13 @@ NutshMetaDataInterface::NutshMetaDataInterface(NutshComunicator* corePath)
 
     //init & alloc
     core = corePath;
+    this->setFixedSize(800, 400);
+    this->setStyleSheet("border : 1px solid black");
+    this->move(170, 95);
 
     indexSelected = 0;
     metadatas = new NutshMetaDataList(core);
+    metadatas->setParent(this);
     importer = new QPushButton("Importer", this);
     toBibliotheque = new QPushButton("Bibliothèque", this);
 

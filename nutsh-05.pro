@@ -44,7 +44,8 @@ SOURCES += src/main.cpp \
     src/nutshplaylistlist.cpp \
     src/nutshinstallationwizard.cpp \
     src/nutshlabel.cpp \
-    src/style.cpp
+    src/style.cpp \
+    src/nutshsubinterfaces.cpp
 HEADERS += src/nutshmainwindow.h \
     src/nutshlecteur.h \
     src/nutshindexer.h \
@@ -63,5 +64,6 @@ HEADERS += src/nutshmainwindow.h \
     src/nutshprogressinterface.h \
     src/nutshplaylistlist.h \
     src/nutshinstallationwizard.h \
-    src/nutshlabel.h
+    src/nutshlabel.h \
+    src/nutshsubinterfaces.h
 RESOURCES += nutsh.qrc

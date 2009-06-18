@@ -18,6 +18,9 @@ NutshComunicator::NutshComunicator()
     m_metadatainterface->setParent(m_central);
     m_searchlineinterface->setParent(m_central);
     m_playlistinterface->setParent(m_central);
+
+    m_metadatainterface->move(160, 115);
+    m_metadatainterface->setStyleSheet("min-width: 440px;");
     //m_driveinterface->setParent(m_central);
 
     qDebug() << "NutshComunicator : Transimission de toutes les interfaces a NutshMainWindow";
@@ -48,10 +51,10 @@ void NutshComunicator::afterLaunch() {
 
     m_progressinterface->setFixedSize(400, 40);
     m_progressinterface->setParent(m_central);
-    m_progressinterface->move(160, 300);
+    m_progressinterface->move(190, 310);
 
     m_playinginterface->hide();
-    m_progressinterface->hide();
+    //m_progressinterface->hide();
 
     scanner = new NutshIndexer(this);
     m_updater = new NutshUpdater(this);

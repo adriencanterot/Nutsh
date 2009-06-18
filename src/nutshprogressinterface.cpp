@@ -53,8 +53,10 @@ NutshProgressInterface::NutshProgressInterface(NutshComunicator* corePath)
     m_top = new QLabel(this);
     m_bottom = new QLabel(this);
 
-    m_cancel = new QPushButton("Arreter", this);
-    m_cancel->move(0, 0);
+    m_cancel = new QPushButton("", this);
+    m_cancel->setProperty("cancelButton", true);
+    m_cancel->setToolTip("Arrêter");
+    m_cancel->move(370, 3);
 
     //Layouts
     core->searchlineinterface()->setFocus();

@@ -17,5 +17,6 @@
         <file>images/precedant.png</file>
         <file>images/importer.png</file>
         <file>images/nouvelle.png</file>
+        <file>images/arreter.png</file>
     </qresource>
 </RCC>

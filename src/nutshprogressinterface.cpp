@@ -1,43 +1,6 @@
 #include "nutshprogressinterface.h"
 #include "nutshcomunicator.h"
 
-ImporterThread::ImporterThread(const QList<NutshMetaData> &aImporter, const QString &tableName, NutshComunicator* corePath) {
-
-    core = corePath;
-    metaList = aImporter;
-    loopRunning = false;
-    m_tableName = tableName;
-}
-
-void ImporterThread::run() {
-    //execute le thread
-
-    loopRunning = true;
-
-    for(int i = 0;i<this->metaList.count();i++) { // insère les métadonnées de la liste
-
-        core->getSqlControl()->inserer(metaList.value(i), m_tableName);
-        emit updateBar(i+1, metaList.count());
-
-        if(loopRunning == false) { // si une action forceQuit() est demandée, stopper la boucle
-
-            break;
-        }
-    }
-
-    connect(this, SIGNAL(finished()), this, SLOT(quit()));
-
-    this->exec();
-}
-
-void ImporterThread::forceQuit() {
-    //arrête la boucle
-
-    loopRunning = false;
-    this->quit();
-    this->terminate();
-}
-
 NutshProgressInterface::NutshProgressInterface(NutshComunicator* corePath)
 {
     core = corePath;
@@ -45,7 +8,6 @@ NutshProgressInterface::NutshProgressInterface(NutshComunicator* corePath)
 
 
     m_progress = new QProgressBar(this);
-    m_progress->setValue(50);
     m_progress->move(0, 0);
 
     m_right = new QLabel(this);
@@ -58,32 +20,10 @@ NutshProgressInterface::NutshProgressInterface(NutshComunicator* corePath)
     m_cancel->setToolTip("Arrêter l'importation");
     m_cancel->move(360, 3);
 
-    //Layouts
-    core->searchlineinterface()->setFocus();
-
 }
 
 /* ------- Texte des labels Haut/Bas/Gauche/Droite ---------*/
 
-void NutshProgressInterface::setTopLabelText(const QString &text) {
-
-    m_top->setText(text);
-}
-
-void NutshProgressInterface::setBottomLabelText(const QString &text) {
-
-    m_bottom->setText(text);
-}
-
-void NutshProgressInterface::setRightLabelText(const QString &text) {
-
-    m_right->setText(text);
-}
-
-void NutshProgressInterface::setLeftLabelText(const QString &text) {
-
-    m_left->setText(text);
-}
 
 bool NutshProgressInterface::isActive() {
     //est actif si il y a une importation en cours
@@ -107,8 +47,6 @@ void NutshProgressInterface::setValue(int i) {
 
     if(m_progress->maximum() != 0 && m_progress->value() == m_progress->maximum()) { // si l'importation est finie, affichage de l'interface nutshdriveinterface
 
-        qDebug() << m_progress->value() << m_progress->maximum();
-
         this->finished();
     }
 
@@ -122,56 +60,38 @@ void NutshProgressInterface::setMaximum(int i) {
 void NutshProgressInterface::swapToProgress() {
     //affiche cette interface au lieu de nutshdriveinterface
 
-    core->driveinterface()->hide();
-
     this->show();
     active = true;
-}
-void NutshProgressInterface::stopAction(QObject* receiver, const char* method) {
-    //met l'action pour arrêter la progression
-
-    m_receiver = receiver;
-    m_member = method;
-
-    connect(m_cancel, SIGNAL(clicked()), this, SLOT(finished()));
-}
-
-void NutshProgressInterface::setCancelButtonText(const QString& text) {
-    //texte du bouton Cancel
-
-    m_cancel->setText(text);
 }
 
 void NutshProgressInterface::updateWidget(int current, int total) {
     // met à jour le widget (à chaque tour de boucle du thread
 
-    this->setValue(current);
-    this->setMaximum(total);
+    if(total == 0 && current != 0) {
 
-    this->setBottomLabelText(QString("%1/%2").arg(current).arg(total));
+        this->setMaximum(0);
+        this->setValue(current);
+
+    } else if(total == 0 && current == 0) {
+        this->setValue(0);
+
+    } else {
+
+        this->setMaximum(total);
+        this->setValue(current);
+    }
+
 
 
 }
 
-void NutshProgressInterface::import(const QList<NutshMetaData> &metaList, const QString &table) {
-    //importe le contenu d'une liste de métadonnée avec progression affichée
+void NutshProgressInterface::import(const QString& path) {
 
-    disconnect(m_cancel, SIGNAL(clicked()), m_receiver, m_member); //annuler l'effet de stopAction
-    this->swapToProgress();
-    this->setTopLabelText("Importation...");
-
-    /*creation du Thread*/
-    scan = new ImporterThread(metaList, table, core);
-
-    m_receiver = scan;
-    m_member = SLOT(forceQuit());
-
-    connect(scan, SIGNAL(updateBar(int,int)), this, SLOT(updateWidget(int,int)));
-    connect(m_cancel, SIGNAL(clicked()), m_receiver, m_member);
-    connect(m_cancel, SIGNAL(clicked()), core->driveinterface(), SLOT(swapToDrives()));
-
+    scan = new Indexer(path);
+    connect(scan, SIGNAL(updateBar(int, int)), this, SLOT(updateWidget(int, int)));
+    connect(scan, SIGNAL(fatalError(QString)), this, SLOT(stopWhy(QString)));
+    connect(m_cancel, SIGNAL(clicked()), scan, SLOT(forceQuit()));
     scan->start();
-
 }
 
 void NutshProgressInterface::finished() {
@@ -180,26 +100,18 @@ void NutshProgressInterface::finished() {
 
             scan->forceQuit();
         }
+    connect(m_cancel, SIGNAL(clicked()), this, SLOT(reset()));
+}
 
+void NutshProgressInterface::stopWhy(const QString &why) {
 
-        this->setTopLabelText(QString("%1 morceaux importés").arg(m_progress->value()));
-        this->completeBar();
-        disconnect(m_cancel, SIGNAL(clicked()), m_receiver, m_member);
-        connect(m_cancel, SIGNAL(clicked()), core->driveinterface(), SLOT(swapToDrives()));
-        m_cancel->setText("Terminé");
+    scan->forceQuit();
+    QMessageBox::critical(core->initInterfaces(), "Erreur", why);
+    this->reset();
 }
 
 void NutshProgressInterface::reset() {
 
-    this->setTopLabelText("");
-    this->setBottomLabelText("");
-
-    this->setRightLabelText("");
-    this->setLeftLabelText("");
-
-    this->m_cancel->setText("Arrêter");
+    m_progress->setValue(0);
 }
 
-void NutshProgressInterface::completeBar() {
-
-}

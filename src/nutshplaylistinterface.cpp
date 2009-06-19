@@ -89,11 +89,7 @@ void NutshPlayListInterface::importWindow() {
 
     QString path = QFileDialog::getExistingDirectory(this, "", "/");
 
-    core->progressinterface()->setMaximum(0);
-    core->progressinterface()->setTopLabelText("Scan du dossier en cours...");
-
-    core->scannerAccess()->indexer(path);
-    core->metadatainterface()->reset();
+    core->progressinterface()->import(path);
 }
 
 void NutshPlayListInterface::addListeFromSearch() {
@@ -107,7 +103,7 @@ void NutshPlayListInterface::addListeFromSearch() {
     }
 
     core->getSqlControl()->nouvelleListe(listName);
-    core->progressinterface()->import(core->metadatainterface()->getListWidget()->getItems(), listName);
+    core->getSqlControl()->inserer(core->metadatainterface()->getListWidget()->getItems(), listName);
     this->refresh();
 }
 
@@ -123,7 +119,7 @@ void NutshPlayListInterface::addLastRead() {
 
     core->getSqlControl()->nouvelleListe(listName);
 
-    core->progressinterface()->import(core->playinginterface()->getLastRead(), listName);
+    core->getSqlControl()->inserer(core->playinginterface()->getLastRead(), listName);
     this->refresh();
 }
 

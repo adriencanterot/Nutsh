@@ -33,7 +33,7 @@ public:
     QWidget *initInterfaces();
 
     NutshMetaDataInterface *metadatainterface();
-    NutshDriveInterface *driveinterface();
+    //NutshDriveInterface *driveinterface();
     NutshPlayListInterface *playlistinterface();
     NutshSearchLineInterface *searchlineinterface();
     NutshPlayingInterface *playinginterface();
@@ -42,8 +42,6 @@ public:
     NutshSqlSaver* getSqlControl();
 
     void afterLaunch();
-
-    NutshIndexer *scannerAccess();
 
     void setStatus(const QString&);
     QStatusBar* bar();
@@ -59,10 +57,9 @@ private:
 
     NutshSqlSaver *sqlControl;
 
-    NutshIndexer *scanner;
     NutshPlayListInterface *m_playlistinterface;
     NutshSearchLineInterface *m_searchlineinterface;
-    NutshDriveInterface *m_driveinterface;
+    //NutshDriveInterface *m_driveinterface;
     NutshMetaDataInterface *m_metadatainterface;
     NutshPlayingInterface *m_playinginterface;
     NutshProgressInterface *m_progressinterface;

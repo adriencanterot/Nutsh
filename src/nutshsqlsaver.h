@@ -25,6 +25,7 @@ class NutshSqlSaver
         void inserer(NutshMetaData, const QString&);
         void inserer(NutshMetaData);
         void update(const NutshMetaData&, const QString&);
+        void savePath(const QString& path);
 
 
         static void updateColumn(const QString &key, const QString &value, int it);

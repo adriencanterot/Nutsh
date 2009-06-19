@@ -9,30 +9,9 @@
 #include <QThread>
 #include "nutshmetadata.h"
 #include "nutshsqlsaver.h"
+#include "nutshindexer.h"
 
 class NutshComunicator;
-class ImporterThread : public QThread {
-
-    Q_OBJECT
-
-public:
-    ImporterThread(const QList<NutshMetaData>&, const QString&, NutshComunicator*);
-    void run();
-
-public slots:
-    void forceQuit();
-
-signals:
-    void updateBar(int, int);
-
-private:
-    QList<NutshMetaData> metaList;
-    bool loopRunning;
-    QString m_tableName;
-    NutshComunicator* core;
-
-};
-
 class NutshProgressInterface : public QWidget
 {
     Q_OBJECT
@@ -41,31 +20,23 @@ public:
 
     NutshProgressInterface(NutshComunicator*);
 
-    void setTopLabelText(const QString&);
-    void setBottomLabelText(const QString&);
-    void setRightLabelText(const QString&);
-    void setLeftLabelText(const QString&);
-    void setCancelButtonText(const QString&);
-    void import(const QList<NutshMetaData>&, const QString&);
+    void import(const QString& path);
 
     void setMaximum(int);
     void setValue(int);
-    void stopAction(QObject*, const char*);
 
     bool isActive();
 
     void swapToProgress();
+    void finished();
 
 public slots:
     void updateWidget(int, int);
-    void finished();
     void reset();
-    void completeBar();
+    void stopWhy(const QString& why);
 
 private:
     NutshComunicator* core;
-
-    ImporterThread* scan;
 
     QObject *m_receiver;
     const char* m_member;
@@ -80,6 +51,7 @@ private:
     QPushButton *m_cancel;
 
     QString m_stopMessage;
+    Indexer* scan;
     bool active;
 };
 

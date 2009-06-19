@@ -36,27 +36,4 @@ class Indexer: public QThread {
 
 };
 
-class NutshComunicator;
-class NutshIndexer : public QObject
-{
-        Q_OBJECT
-
-    public:
-        NutshIndexer(NutshComunicator* corePath);
-        QList<NutshMetaData> sortie() const ;
-        void indexer(const QString&);
-
-    private slots:
-        void updateBar(int, int);
-        void cancelAction();
-        void showMessage(QString);
-
-    private :
-        NutshComunicator* core;
-        QDirIterator *iterator;
-        QStringList *listeFichier, *filtre;
-	QList<NutshMetaData> metaDataList;
-        Indexer* scan;
-};
-
 #endif // NUTSHINDEXER_H

@@ -6,7 +6,7 @@ NutshMetaDataInterface::NutshMetaDataInterface(NutshComunicator* corePath)
 
     //init & alloc
     core = corePath;
-    this->setFixedSize(800, 400);
+    this->setFixedSize(100, 250);
     this->setStyleSheet("border : 1px solid black");
     this->move(170, 95);
 
@@ -31,11 +31,11 @@ void NutshMetaDataInterface::getDirMetaData(const QModelIndex &directory) {
     QStringList filtre;
     filtre << FORMATS_SUPPORTES;
 
-    if(!QDir(QDir::toNativeSeparators(core->driveinterface()->getDir()->path()+"/"+directory.data().toString()))
-        .entryList(filtre).isEmpty()) {
-
-        this->setPath(QDir::toNativeSeparators(core->driveinterface()->getDir()->path()+"/"+directory.data().toString()));
-    }
+//    if(!QDir(QDir::toNativeSeparators(core->driveinterface()->getDir()->path()+"/"+directory.data().toString()))
+//        .entryList(filtre).isEmpty()) {
+//
+//        this->setPath(QDir::toNativeSeparators(core->driveinterface()->getDir()->path()+"/"+directory.data().toString()));
+//    }
 }
 
 void NutshMetaDataInterface::getDirMetaData(const QString &directory) {

@@ -131,7 +131,6 @@ void NutshUpdater::getResults(bool error) {
 
 void NutshUpdater::swapToUpdater() {
 
-    core->driveinterface()->hide();
     qDebug() << "Hidden";
 
     this->show();

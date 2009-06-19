@@ -7,7 +7,6 @@ NutshMaJ::NutshMaJ(NutshComunicator* corePath)
     m_cancel = new QPushButton("Arreter");
     this->telecharger();
 
-    core->progressinterface()->stopAction(this, SLOT(quitAndStartNutsh()));
 }
 
 void NutshMaJ::telecharger() {
@@ -61,8 +60,6 @@ void NutshMaJ::telecharger() {
 
 void NutshMaJ::updProgress(int current, int done) {
 
-    core->progressinterface()->setTopLabelText("Telechargement en cours");
-    core->progressinterface()->setBottomLabelText(QString("%1 / %2").arg(current/SIZE_LABEL).arg(done/SIZE_LABEL));
     core->progressinterface()->setMaximum(done);
     core->progressinterface()->setValue(current);
 }

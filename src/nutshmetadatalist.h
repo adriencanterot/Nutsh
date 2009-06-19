@@ -7,6 +7,7 @@
 #include "nutshmetadata.h"
 #include "preprocess.h"
 #include <QKeyEvent>
+#include <QScrollBar>
 
 class NutshComunicator;
 class NutshMetaDataList : public QTreeWidget

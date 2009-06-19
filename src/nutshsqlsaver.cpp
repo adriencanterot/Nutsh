@@ -149,6 +149,7 @@ bool NutshSqlSaver::connect() {
 
 
     requete.exec("CREATE TABLE listeDeLecture (name text, ordre text)");
+    requete.exec("CREATE TABLE path_list (id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, path text)");
 
 
     if(wizard == true) { // affichage de l'assistant d'installation si le dossier n'était pas créé
@@ -364,5 +365,15 @@ void NutshSqlSaver::updateColumn(const QString& key, const QString& value, int i
                 ))
     {
         qDebug() << requete.lastError() << requete.lastQuery();
+    }
+}
+
+void NutshSqlSaver::savePath(const QString& path) {
+
+    QSqlQuery requete;
+
+    if(!requete.exec(QString("INSERT INTO path_list (path) VALUES(\"%1\")").arg(path))) {
+
+        qDebug() << "Impossible de sauvegarder le nom du fichier";
     }
 }

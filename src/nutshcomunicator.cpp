@@ -13,7 +13,7 @@ NutshComunicator::NutshComunicator()
     m_searchlineinterface = new NutshSearchLineInterface(this);
     m_playlistinterface = new NutshPlayListInterface(this);
     m_metadatainterface = new NutshMetaDataInterface(this);
-    m_driveinterface = new NutshDriveInterface(this);
+//    m_driveinterface = new NutshDriveInterface(this);
 
     m_metadatainterface->setParent(m_central);
     m_searchlineinterface->setParent(m_central);
@@ -30,7 +30,7 @@ NutshComunicator::NutshComunicator()
     m_playlistinterface->sigandslots();
     m_searchlineinterface->sigandslots();
     m_metadatainterface->sigandslots();
-    m_driveinterface->sigandslots();
+//    m_driveinterface->sigandslots();
 
     //création du scanner pour les médias
 
@@ -56,7 +56,6 @@ void NutshComunicator::afterLaunch() {
     m_playinginterface->hide();
     //m_progressinterface->hide();
 
-    scanner = new NutshIndexer(this);
     m_updater = new NutshUpdater(this);
 
     m_updater->setParent(m_central);
@@ -93,10 +92,10 @@ NutshMetaDataInterface* NutshComunicator::metadatainterface() {
     return m_metadatainterface;
 }
 
-NutshDriveInterface* NutshComunicator::driveinterface() {
-
-    return m_driveinterface;
-}
+//NutshDriveInterface* NutshComunicator::driveinterface() {
+//
+//    return m_driveinterface;
+//}
 
 NutshSearchLineInterface* NutshComunicator::searchlineinterface() {
 
@@ -116,12 +115,6 @@ NutshPlayingInterface* NutshComunicator::playinginterface() {
 NutshProgressInterface* NutshComunicator::progressinterface() {
 
     return m_progressinterface;
-}
-
-
-NutshIndexer* NutshComunicator::scannerAccess() {
-
-    return scanner;
 }
 
 void NutshComunicator::setStatus(const QString &status) {

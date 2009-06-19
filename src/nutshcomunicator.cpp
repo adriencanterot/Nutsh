@@ -19,8 +19,8 @@ NutshComunicator::NutshComunicator()
     m_searchlineinterface->setParent(m_central);
     m_playlistinterface->setParent(m_central);
 
-    m_metadatainterface->move(160, 115);
-    m_metadatainterface->setStyleSheet("min-width: 440px; max-width: 440px;");
+    m_metadatainterface->move(161, 115);
+    m_metadatainterface->setStyleSheet("min-width: 438px; max-width: 438px;");
     //m_driveinterface->setParent(m_central);
 
     qDebug() << "NutshComunicator : Transimission de toutes les interfaces a NutshMainWindow";

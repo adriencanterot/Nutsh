@@ -2,11 +2,8 @@
 #define NUTSHPROGRESSINTERFACE_H
 
 #include <QWidget>
-#include <QLabel>
 #include <QProgressBar>
-#include <QLayout>
 #include <QPushButton>
-#include <QThread>
 #include "nutshmetadata.h"
 #include "nutshsqlsaver.h"
 #include "nutshindexer.h"
@@ -40,11 +37,6 @@ private:
 
     QObject *m_receiver;
     const char* m_member;
-
-    QLabel *m_right,
-           *m_left,
-           *m_top,
-           *m_bottom;
 
     QProgressBar *m_progress;
 

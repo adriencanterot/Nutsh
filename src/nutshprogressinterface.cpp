@@ -10,15 +10,12 @@ NutshProgressInterface::NutshProgressInterface(NutshComunicator* corePath)
     m_progress = new QProgressBar(this);
     m_progress->move(0, 0);
 
-    m_right = new QLabel(this);
-    m_left = new QLabel(this);
-    m_top = new QLabel(this);
-    m_bottom = new QLabel(this);
-
     m_cancel = new QPushButton("", this);
     m_cancel->setProperty("cancelButton", true);
     m_cancel->setToolTip("Arrêter l'importation");
     m_cancel->move(360, 3);
+
+    qDebug() << "NutshProgressInterface : initialized";
 
 }
 

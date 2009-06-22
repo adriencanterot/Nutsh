@@ -23,8 +23,6 @@ NutshComunicator::NutshComunicator()
     m_metadatainterface->setStyleSheet("min-width: 438px; max-width: 438px;");
     //m_driveinterface->setParent(m_central);
 
-    qDebug() << "NutshComunicator : Transimission de toutes les interfaces a NutshMainWindow";
-
     m_searchlineinterface->setFocus();
 
     m_playlistinterface->sigandslots();
@@ -35,6 +33,7 @@ NutshComunicator::NutshComunicator()
     //création du scanner pour les médias
 
     afterLaunch();
+    qDebug() << "NutshComunicator : Transimission de toutes les interfaces a NutshMainWindow";
 }
 
 void NutshComunicator::afterLaunch() {

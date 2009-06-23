@@ -10,15 +10,6 @@ NutshPlayListInterface::NutshPlayListInterface(NutshComunicator* corePath, QWidg
     refresh();
     initButtons();
 
-    //placement des widgets
-    liste->move(0, 100);
-
-    int x = 40;
-    int y = 299;
-
-    nouvelleListe->move(x, y);
-    importer->move(x + 36, y);
-
     qDebug() << "NutshPlaylistInterface : initialized";
 }
 
@@ -137,6 +128,19 @@ void NutshPlayListInterface::setNewName(QString &old) {
     }
 
     old = QString("Sans titre %1").arg(numbAfterList);
+}
+
+void NutshPlayListInterface::place(float coef) {
+
+    coef = 0;
+
+    liste->move(0, 100);
+
+    int x = 40;
+    int y = 299;
+
+    nouvelleListe->move(x, y);
+    importer->move(x + 36, y);
 }
 
 

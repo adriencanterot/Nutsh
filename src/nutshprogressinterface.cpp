@@ -8,18 +8,14 @@ NutshProgressInterface::NutshProgressInterface(NutshComunicator* corePath)
 
 
     m_progress = new QProgressBar(this);
-    m_progress->move(0, 0);
 
     m_cancel = new QPushButton("", this);
     m_cancel->setProperty("cancelButton", true);
     m_cancel->setToolTip("Arrêter l'importation");
-    m_cancel->move(360, 3);
 
     qDebug() << "NutshProgressInterface : initialized";
 
 }
-
-/* ------- Texte des labels Haut/Bas/Gauche/Droite ---------*/
 
 
 bool NutshProgressInterface::isActive() {
@@ -111,4 +107,10 @@ void NutshProgressInterface::reset() {
 
     m_progress->setValue(0);
 }
+
+void NutshProgressInterface::place(float coef) {
+
+    m_cancel->move(360, 3);
+}
+
 

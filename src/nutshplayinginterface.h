@@ -25,6 +25,7 @@ public:
     QWidget* getActionsButtons();
     void pauseByKey(QKeyEvent*);
     QList<NutshMetaData> getLastRead() const;
+    void place(float coef);
 
 public slots:
     void next();
@@ -32,7 +33,6 @@ public slots:
     void playPause();
     void tick(qint64 time);
     void stop();
-    void swapToPlay();
 
 
 private:
@@ -53,9 +53,7 @@ private:
            *titreCP,
            *artwork;
 
-    QWidget *droite,
-            *gauche,
-            *actionsButtons;
+    QWidget *actionsButtons;
 
     QList<NutshMetaData> playlist;
     QList<NutshMetaData> lastRead;

@@ -6,9 +6,7 @@ NutshMetaDataInterface::NutshMetaDataInterface(NutshComunicator* corePath)
 
     //init & alloc
     core = corePath;
-    this->setFixedSize(100, 250);
     this->setStyleSheet("border : 1px solid black");
-    this->move(170, 95);
 
     indexSelected = 0;
     metadatas = new NutshMetaDataList(core);
@@ -45,12 +43,12 @@ void NutshMetaDataInterface::getDirMetaData(const QString &directory) {
 
     if(!QDir(directory).entryList(filtre).isEmpty()) {
 
-        this->swapToList();
+        core->swapInterface(MetaData);
         this->setPath(QDir::toNativeSeparators(directory));
 
     } else {
 
-        core->playinginterface()->swapToPlay();
+        core->swapInterface(Playing);
     }
 }
 
@@ -86,16 +84,9 @@ void NutshMetaDataInterface::sigandslots() {
 
 void NutshMetaDataInterface::swapWidgets(const NutshMetaData &data) {
 
-    core->playinginterface()->swapToPlay();
+    core->swapInterface(Playing);
     core->playinginterface()->load(data);
     core->playinginterface()->load(metadatas->getItems());
-}
-
-void NutshMetaDataInterface::swapToList() {
-
-    core->playinginterface()->hide();
-
-    core->metadatainterface()->show();
 }
 
 void NutshMetaDataInterface::load(QList<NutshMetaData> liste) {
@@ -126,7 +117,7 @@ void NutshMetaDataInterface::setPath(const QString &chemin) {
 
     if(!metaList.isEmpty()) {
 
-        this->swapToList();
+        core->swapInterface(MetaData);
     }
 
     emit contentTypeChanged(Dir);
@@ -170,7 +161,7 @@ void NutshMetaDataInterface::changeDisposition(ContentType type) {
         case Playlist: //si le contenu vient d'une playlist
             importer->hide();
             toBibliotheque->show();
-            this->swapToList();
+            core->swapInterface(MetaData);
             break;
 
 
@@ -192,7 +183,7 @@ void NutshMetaDataInterface::navigateByKey(QKeyEvent *event) {
         case Qt::Key_Return:
             core->playinginterface()->load(this->getListWidget()->getItems().value(indexSelected));
             core->playinginterface()->load(this->getListWidget()->getItems());
-            core->playinginterface()->swapToPlay();
+            core->swapInterface(Playing);
             break;
 
         case Qt::Key_Down:
@@ -226,3 +217,10 @@ void NutshMetaDataInterface::navigateByKey(QKeyEvent *event) {
             break;
         }
     }
+
+void NutshMetaDataInterface::place(float coef) {
+
+    this->move(170, 110);
+    this->setStyleSheet("min-width : 400px;"); // redimmensionnement ne marche pas autrement qu'avec du CSS
+}
+

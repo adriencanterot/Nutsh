@@ -25,6 +25,7 @@ public:
     void setPath(const QString&);
     void refreshInterface(ContentType);
     void navigateByKey(QKeyEvent *event);
+    void place(float coef);
 
 
 public slots:
@@ -34,7 +35,6 @@ public slots:
     void getWordMetaData(const QString&);
 
     void swapWidgets(const NutshMetaData&);
-    void swapToList();
     void importerContent();
     void changeDisposition(ContentType);
     void reset();

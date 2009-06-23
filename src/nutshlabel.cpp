@@ -17,7 +17,7 @@ void NutshLabel::mousePressEvent(QMouseEvent *event) {
 
     if(event->button() == Qt::LeftButton && text() != "") {
 
-        core->playinginterface()->swapToPlay();
+        core->swapInterface(Playing);
         event->accept();
 
     } else {
@@ -44,7 +44,7 @@ NutshEditLabel::NutshEditLabel(const QString& text, QWidget *parent) : QWidget(p
 
     connect(lineEdit, SIGNAL(returnPressed()), this, SLOT(saveChanges()));
 
-    this->setFixedSize(150, this->height()+10);
+    this->setFixedSize(300, this->height()+10);
 }
 
 void NutshEditLabel::mouseDoubleClickEvent(QMouseEvent* event) {

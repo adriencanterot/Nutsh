@@ -12,8 +12,6 @@ NutshSearchLineInterface::NutshSearchLineInterface(NutshComunicator* corePath)
     nouvelleListe->setProperty("nouvelleListe_nutshsearchlineinterface", true);
 
     //placement des boutons
-    searchLine->move(280, 26);
-    nouvelleListe->move(530, 26);
 
     actionsPlus = new QMenu(this);
     nouvelleListe->setMenu(actionsPlus); // mise en place du menu pour le bouton "+"
@@ -36,12 +34,12 @@ void NutshSearchLineInterface::showResults(QString query) {
     if(searchLine->text() != "") { //affiche la liste des morceaux uniquement si il y a du texte entré
 
         core->metadatainterface()->getWordMetaData(query);
-        core->metadatainterface()->swapToList();
+        core->swapInterface(MetaData);
 
 
     } else { // sinon, affichage de l'interface "Play"
 
-        core->playinginterface()->swapToPlay();
+        core->swapInterface(Playing);
     }
 }
 
@@ -58,5 +56,11 @@ void NutshSearchLineInterface::keyPressEvent(QKeyEvent* event) {
 void NutshSearchLineInterface::activate() {
 
     searchLine->setFocus();
+}
+
+void NutshSearchLineInterface::place(float coef) {
+
+    searchLine->move(280, 26);
+    nouvelleListe->move(530, 26);
 }
 

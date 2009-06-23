@@ -17,6 +17,7 @@ public:
     NutshSearchLineInterface(NutshComunicator*);
     void sigandslots();
     void activate();
+    void place(float coef);
 
 protected:
     void keyPressEvent(QKeyEvent*);

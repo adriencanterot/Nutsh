@@ -27,6 +27,8 @@ public:
     void swapToProgress();
     void finished();
 
+    void place(float coef);
+
 public slots:
     void updateWidget(int, int);
     void reset();

@@ -10,53 +10,39 @@ NutshPlayingInterface::NutshPlayingInterface(NutshComunicator* corePath)
     media = new NutshLecteur;
     //init & alloc widgets
 
-    droite = new QWidget(this);
-    droite->resize(400, 300);
-    this->move(160, 115);
-    gauche = new QWidget(this);
-    gauche->resize(400, 300);
     actionsButtons = new QWidget;
 
     //init & alloc command buttons
 
     boutonPrecedent = new QPushButton("", actionsButtons);
     boutonPrecedent->setProperty("boutonPrecedent", true);
-    boutonPrecedent->move(10, 30);
 
     boutonSuivant = new QPushButton("", actionsButtons);
     boutonSuivant->setProperty("boutonSuivant", true);
-    boutonSuivant->move(120, 30);
 
     boutonStop = new QPushButton("", actionsButtons);
     boutonStop->setProperty("boutonStop", true);
-    boutonStop->move(180, 30);
 
 
     boutonPlayPause = new QPushButton("", actionsButtons);
     boutonPlayPause->setProperty("boutonPlay", true);
-    boutonPlayPause->move(60, 15);
 
     //init & alloc controls
     tempsLabel = new NutshLabel(core, "00:00");
-    tempsLabel->setParent(droite);
-    tempsLabel->move(150, 110);
+    tempsLabel->setParent(this);
     tempsLabel->setStyleSheet("font-size: 22px;");
 
     //init & alloc labels
 
-    titre = new NutshEditLabel("Sans Titre", droite);
-    titre->move(20, 10);
-    artiste = new NutshEditLabel("Sans Artiste", droite);
-    artiste->move(20, 40);
-    album = new NutshEditLabel("Sans Album", droite);
-    album->move(20, 70);
-
+    titre = new NutshEditLabel("Sans Titre", this);
+    artiste = new NutshEditLabel("Sans Artiste", this);
+    album = new NutshEditLabel("Sans Album", this);
     titre->setStyleSheet("font-size: 20px;");
     artiste->setStyleSheet("font-size: 20px;");
     album->setStyleSheet("font-size: 20px;");
 
     artwork = new NutshLabel(core);
-    artwork->setParent(gauche);
+    artwork->setParent(this);
 
     artisteCP = new NutshLabel(core, "");
     titreCP = new NutshLabel(core, "");
@@ -66,7 +52,8 @@ NutshPlayingInterface::NutshPlayingInterface(NutshComunicator* corePath)
     core->bar()->addPermanentWidget(titreCP);
     core->bar()->addPermanentWidget(tempsLabelCP);
 
-    actionsButtons->resize(200, 100);
+    media->getPosSlider()->setParent(this);
+
 
     qDebug() << "NutshPlayingInterface : initialized";
 }
@@ -139,13 +126,6 @@ void NutshPlayingInterface::load(const QList<NutshMetaData> &metaList) {
 
         boutonSuivant->setDisabled(true);
     }
-}
-
-void NutshPlayingInterface::swapToPlay() {
-
-    core->metadatainterface()->hide();
-
-    core->playinginterface()->show();
 }
 
 void NutshPlayingInterface::tick(qint64 time) {
@@ -235,4 +215,25 @@ void NutshPlayingInterface::stop() {
 
     media->stop();
     boutonPlayPause->setProperty("boutonPlayPause", true);
+}
+
+void NutshPlayingInterface::place(float coef){
+
+    coef = 0;
+
+    this->move(160, 115);
+
+    boutonPrecedent->move(10, 30);
+    boutonSuivant->move(120, 30);
+    boutonStop->move(180, 30);
+    boutonPlayPause->move(60, 15);
+
+    tempsLabel->move(310, 110);
+    titre->move(180, 10);
+    artiste->move(180, 40);
+    album->move(180, 70);
+    artwork->move(40, 0);
+    actionsButtons->resize(200, 100);
+    media->getPosSlider()->move(40, 150);
+    media->getPosSlider()->resize(330, 15);
 }

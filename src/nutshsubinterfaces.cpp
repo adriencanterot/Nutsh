@@ -3,7 +3,6 @@
 NutshBoutonRevenir::NutshBoutonRevenir(QWidget* parent) : QPushButton(parent) {
 
     interfaceName = MetaData;
-    this->move(550, 75);
     connect(this, SIGNAL(clicked()), this, SLOT(emitClicked()));
     this->setToolTip("Changer d'affichage");
     this->setProperty("boutonRevenir", true);
@@ -11,16 +10,15 @@ NutshBoutonRevenir::NutshBoutonRevenir(QWidget* parent) : QPushButton(parent) {
 
 void NutshBoutonRevenir::emitClicked() {
 
-    switch(interfaceName) {
-
-        case MetaData :
-            interfaceName = Playing;
-            break;
-
-        case Playing :
-            interfaceName = MetaData;
-            break;
-        }
-
     emit clicked(interfaceName);
+}
+
+void NutshBoutonRevenir::setAction(InterfaceName newName) {
+
+    this->interfaceName = newName;
+}
+
+void NutshBoutonRevenir::place(float coef) {
+
+    this->move(550, 75);
 }

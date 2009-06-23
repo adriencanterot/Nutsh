@@ -28,6 +28,7 @@ public:
     void initButtons();
     void sigandslots();
     void setNewName(QString&);
+    void place(float coef);
 
 public slots :
 

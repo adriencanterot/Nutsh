@@ -19,8 +19,6 @@ NutshComunicator::NutshComunicator()
     m_searchlineinterface->setParent(m_central);
     m_playlistinterface->setParent(m_central);
 
-    m_metadatainterface->move(161, 115);
-    m_metadatainterface->setStyleSheet("min-width: 438px; max-width: 438px;");
     //m_driveinterface->setParent(m_central);
 
     m_searchlineinterface->setFocus();
@@ -45,12 +43,10 @@ void NutshComunicator::afterLaunch() {
 
     m_playinginterface->setParent(m_central);
 
-    m_boutonRevenir = new NutshBoutonRevenir(m_central);
-    connect(m_boutonRevenir, SIGNAL(clicked(InterfaceName)), this, SLOT(swapInterface(InterfaceName)));
+    m_boutonrevenir = new NutshBoutonRevenir(m_central);
+    connect(m_boutonrevenir, SIGNAL(clicked(InterfaceName)), this, SLOT(swapInterface(InterfaceName)));
 
-    m_progressinterface->setFixedSize(400, 40);
     m_progressinterface->setParent(m_central);
-    m_progressinterface->move(190, 310);
 
     m_playinginterface->hide();
     //m_progressinterface->hide();
@@ -61,6 +57,8 @@ void NutshComunicator::afterLaunch() {
     m_updater->hide();
 
     m_playinginterface->sigandslots();
+
+    this->place(1);
 }
 QWidget *NutshComunicator::initInterfaces() {
     //mise en places dans les layouts et envoi dans la fenêtre principale.
@@ -75,16 +73,33 @@ void NutshComunicator::swapInterface(InterfaceName name) {
 
         this->metadatainterface()->hide();
         this->playinginterface()->show();
+        this->m_boutonrevenir->setAction(MetaData); //l'inverse de l'actuelle
         break;
 
         case MetaData:
 
         this->playinginterface()->hide();
         this->metadatainterface()->show();
+        this->m_boutonrevenir->setAction(Playing);// ^
         break;
     }
 }
 
+void NutshComunicator::place(float coef) {
+
+    coef = 1;
+
+    m_progressinterface->move(190, 310);
+    m_progressinterface->resize(400, 40);
+    m_metadatainterface->move(161, 115);
+
+    m_playinginterface->place(coef);
+    m_metadatainterface->place(coef);
+    m_progressinterface->place(coef);
+    m_playlistinterface->place(coef);
+    m_searchlineinterface->place(coef);
+    m_boutonrevenir->place(coef);
+}
 /* ----------Fonctions retournant les interfaces pour communiquer entre les différentes parties du programme -------*/
 NutshMetaDataInterface* NutshComunicator::metadatainterface() {
 

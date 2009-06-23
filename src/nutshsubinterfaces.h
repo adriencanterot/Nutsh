@@ -12,6 +12,8 @@ class NutshBoutonRevenir : public QPushButton {
 public:
 
     NutshBoutonRevenir(QWidget *parent = 0);
+    void setAction(InterfaceName);
+    void place(float coef);
 
 public slots:
     void emitClicked();

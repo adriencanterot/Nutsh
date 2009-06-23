@@ -40,7 +40,7 @@ public:
     NutshProgressInterface *progressinterface();
     NutshUpdater *updater();
     NutshSqlSaver* getSqlControl();
-
+    void place(float coef);
     void afterLaunch();
 
     void setStatus(const QString&);
@@ -64,7 +64,7 @@ private:
     NutshPlayingInterface *m_playinginterface;
     NutshProgressInterface *m_progressinterface;
     NutshUpdater *m_updater;
-    NutshBoutonRevenir *m_boutonRevenir;
+    NutshBoutonRevenir *m_boutonrevenir;
 
 };
 #endif

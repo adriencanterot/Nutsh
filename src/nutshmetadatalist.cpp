@@ -8,7 +8,6 @@ NutshMetaDataList::NutshMetaDataList(NutshComunicator* corePath) {
     vertical->setOrientation(Qt::Vertical);
     this->setVerticalScrollBar(vertical);
     core = corePath;
-    this->setStyle(new QMacStyle);
 
     QStringList headerMetaData;
     headerMetaData << "Titre" << "Artiste" << "Album" << "Annee" << "chemin";

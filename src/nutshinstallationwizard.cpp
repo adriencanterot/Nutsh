@@ -4,7 +4,7 @@
 #include <QProgressBar>
 #include <QFileDialog>
 #include "nutshinstallationwizard.h"
-#include "nutshindexer.h";
+#include "nutshindexer.h"
 
 NutshInstallationWizard::NutshInstallationWizard()
 {

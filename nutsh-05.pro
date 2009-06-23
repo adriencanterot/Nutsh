@@ -22,7 +22,10 @@ macx {
     QT += phonon
     OTHER_FILES += style.css
 }
-!macx|!win32:
+linux-g++ {
+    LIBS += -ltag
+    QT += phonon
+}
 TARGET = Nutsh
 TEMPLATE = app
 SOURCES += src/main.cpp \

@@ -8,8 +8,6 @@
 #include "preprocess.h"
 #include <QKeyEvent>
 #include <QScrollBar>
-#include <QMacStyle>
-
 class NutshComunicator;
 class NutshMetaDataList : public QTreeWidget
 {

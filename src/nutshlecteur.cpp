@@ -1,5 +1,5 @@
 #include "nutshlecteur.h"
-#ifdef Q_WS_MAC
+#if defined(Q_WS_MAC) || defined(Q_WS_X11)
 
 NutshLecteur::NutshLecteur() {
 
@@ -104,7 +104,7 @@ Phonon::SeekSlider* NutshLecteur::getPosSlider() {
 }
 
 #endif
-#if defined(Q_WS_WIN) || defined(Q_WS_X11)
+#ifdef Q_WS_WIN
 
 #include "nutshlecteur.h"
 

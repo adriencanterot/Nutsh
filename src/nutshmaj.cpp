@@ -22,6 +22,11 @@ void NutshMaJ::telecharger() {
     QUrl url("http://telecharger.nutsh.com/last/miseajour/Nutsh.exe");
 
 #endif
+#ifdef Q_WS_X11
+
+    QUrl url("http://telecharger.nutsh.com/last/miseajour/Nutsh.exe");
+
+#endif
 
     QFileInfo fileInfo(url.path());
     QString fileName = fileInfo.fileName();

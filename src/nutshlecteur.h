@@ -7,7 +7,7 @@
 #include <QTimer>
 #include "preprocess.h"
 
-#ifdef Q_WS_MAC
+#if defined(Q_WS_MAC) || defined(Q_WS_X11)
 #include <phonon>
 /* Cree un lecteur heritant du media object (pour lui rajouter des options) */
 class NutshLecteur : public Phonon::MediaObject

@@ -371,9 +371,30 @@ void NutshSqlSaver::updateColumn(const QString& key, const QString& value, int i
 void NutshSqlSaver::savePath(const QString& path) {
 
     QSqlQuery requete;
+    QStringList pathList = this->getFolderList();
 
-    if(!requete.exec(QString("INSERT INTO path_list (path) VALUES(\"%1\")").arg(path))) {
+    if(!pathList.contains(path)) {
 
-        qDebug() << "Impossible de sauvegarder le nom du fichier";
+        if(!requete.exec(QString("INSERT INTO path_list (path) VALUES(\"%1\")").arg(path))) {
+
+            qDebug() << "Impossible de sauvegarder le nom du fichier";
+        }
     }
+}
+
+QStringList NutshSqlSaver::getFolderList() {
+
+    QSqlQuery requete;
+    QStringList pathList;
+
+    if(!requete.exec("SELECT path FROM path_list")) {
+
+        qDebug() << requete.lastError() << requete.lastQuery();
+    }
+
+    while(requete.next()) {
+
+        pathList.append(requete.value(0).toString());
+    }
+    return pathList;
 }

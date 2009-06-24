@@ -12,7 +12,7 @@
 #include "nutshmetadata.h"
 #include "nutshsqlsaver.h"
 #include "preprocess.h"
-
+class NutshComunicator;
 class Indexer: public QThread {
     Q_OBJECT
     public:
@@ -26,6 +26,7 @@ class Indexer: public QThread {
         void stopper(bool);
         void fatalError(QString);
         void updateBar(int, int);
+        void loopEnded();
 
     private:
         NutshSqlSaver* saver;
@@ -35,5 +36,24 @@ class Indexer: public QThread {
         bool loopRunning;
 
 };
+
+class NutshIndexer : public QThread {
+
+    Q_OBJECT
+
+    public:
+    NutshIndexer(const QStringList& pathList, NutshComunicator*);
+    void run();
+
+    public slots:
+    void forceQuit();
+
+    private:
+    QStringList m_pathList;
+    QList<Indexer*> threadList;
+    NutshComunicator* core;
+};
+
+
 
 #endif // NUTSHINDEXER_H

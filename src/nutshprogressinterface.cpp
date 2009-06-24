@@ -81,6 +81,7 @@ void NutshProgressInterface::updateWidget(int current, int total) {
 void NutshProgressInterface::import(const QString& path) {
 
     scan = new Indexer(path);
+    connect(scan, SIGNAL(loopEnded()), core->metadatainterface(), SLOT(reset()));
     connect(scan, SIGNAL(updateBar(int, int)), this, SLOT(updateWidget(int, int)));
     connect(scan, SIGNAL(fatalError(QString)), this, SLOT(stopWhy(QString)));
     connect(m_cancel, SIGNAL(clicked()), scan, SLOT(forceQuit()));

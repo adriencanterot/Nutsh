@@ -45,6 +45,7 @@ public:
 
     void setStatus(const QString&);
     QStatusBar* bar();
+    void scanFolders();
 
 public slots:
     void swapInterface(InterfaceName);

@@ -14,7 +14,6 @@ class NutshMetaDataList : public QTreeWidget
     Q_OBJECT
 public:
     NutshMetaDataList(NutshComunicator*);
-    void append(NutshMetaData);
     void load(QList<NutshMetaData>);
     QList<NutshMetaData> getItems() const;
     QList<NutshMetaData> selectedMetadatas() const;
@@ -28,6 +27,7 @@ protected:
 
 public slots:
     void emitSignal(QModelIndex);
+    void append(NutshMetaData);
 
 signals:
     NutshMetaData clicked(NutshMetaData);

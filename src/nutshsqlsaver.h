@@ -35,6 +35,7 @@ class NutshSqlSaver
         QVariantList modelNutshMetaData(const NutshMetaData&);
         QList<NutshMetaData> getMetaDatas(const QString&);
         QList<NutshMetaData> getResults(const QString&);
+        QStringList getFolderList();
 
         QString crypt(const QString&);
 

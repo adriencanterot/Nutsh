@@ -8,6 +8,9 @@ Indexer::Indexer(const QString& path) {
     this->setTerminationEnabled(true);
     loopRunning = true;
     saver = new NutshSqlSaver;
+    saver->savePath(path);
+    connect(this, SIGNAL(finished()), this, SLOT(quit()));
+    connect(qApp, SIGNAL(aboutToQuit()), this, SLOT(forceQuit()));
 }
 
 void Indexer::run() {
@@ -40,12 +43,10 @@ void Indexer::run() {
 
 
 
-    for(int i = 1;i<filePaths.count();i++) {
+    for(int i = 0;i<filePaths.count();i++) {
 
         NutshMetaData data(filePaths.value(i));
-
         saver->inserer(data);
-
         emit updateBar(i+1, total);
 
         if(loopRunning == false || filePaths.count() == 0 || i == filePaths.count()) {
@@ -54,12 +55,35 @@ void Indexer::run() {
         }
 
     }
+    emit loopEnded();
 
-    connect(this, SIGNAL(finished()), this, SLOT(quit()));
     this->exec();
 }
 void Indexer::forceQuit() {
 
     loopRunning = false;
     this->terminate();
+}
+
+NutshIndexer::NutshIndexer(const QStringList& pathList, NutshComunicator* corePath) {
+
+    m_pathList = pathList;
+    core = corePath;
+    connect(this, SIGNAL(finished()), this, SLOT(quit()));
+}
+
+void NutshIndexer::run() {
+
+    for(int i = 0; i<m_pathList.count();i++) {
+
+        threadList.append(new Indexer(m_pathList.value(i)));
+    }
+
+    for(int i = 0;i<threadList.count();i++) {
+
+        connect(threadList.value(i), SIGNAL(loopEnded()), core->metadatainterface(), SLOT(reset()));
+        threadList.value(i)->start();
+    }
+
+    this->exec();
 }

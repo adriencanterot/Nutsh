@@ -16,6 +16,7 @@ NutshMainWindow::NutshMainWindow(QWidget *parent)
     this->setWindowTitle("Nutsh!");
     path->searchlineinterface()->activate();
     this->show();
+    path->scanFolders();
 
     qDebug("NutshMainWindow : Fin de l'initialisation de l'interface");
 }

@@ -100,6 +100,12 @@ void NutshComunicator::place(float coef) {
     m_searchlineinterface->place(coef);
     m_boutonrevenir->place(coef);
 }
+
+void NutshComunicator::scanFolders() {
+
+    NutshIndexer* indexer = new NutshIndexer(this->getSqlControl()->getFolderList(), this);
+    indexer->start();
+}
 /* ----------Fonctions retournant les interfaces pour communiquer entre les différentes parties du programme -------*/
 NutshMetaDataInterface* NutshComunicator::metadatainterface() {
 

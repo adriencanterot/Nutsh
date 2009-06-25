@@ -4,9 +4,6 @@
 NutshMetaDataList::NutshMetaDataList(NutshComunicator* corePath) {
 
     this->setColumnCount(4);
-    QScrollBar *vertical = new QScrollBar(this);
-    vertical->setOrientation(Qt::Vertical);
-    this->setVerticalScrollBar(vertical);
     core = corePath;
 
     QStringList headerMetaData;

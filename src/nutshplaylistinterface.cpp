@@ -13,13 +13,13 @@ NutshPlayListInterface::NutshPlayListInterface(NutshComunicator* corePath, QWidg
     qDebug() << "NutshPlaylistInterface : initialized";
 }
 
-void NutshPlayListInterface::refresh() {
+void NutshPlayListInterface::refresh(){
     //ajoute les playlist dans la liste de lecture (enlève les anciennes).
 
     REQUETE("SELECT name FROM listeDeLecture");
     liste->clear();
 
-    while(requete.next()) {
+    while(requete.next()){
 
         liste->addItem(NutshSqlSaver::normalStringFormat(requete.value(0).toString())); //ajout au format normal dans la liste
     }

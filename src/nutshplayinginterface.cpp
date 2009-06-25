@@ -52,6 +52,7 @@ NutshPlayingInterface::NutshPlayingInterface(NutshComunicator* corePath)
     album->setStyleSheet("font-size: 20px;");
 
     artwork = new NutshLabel(core);
+    artwork->setStyleSheet("min-width: 130px; min-height: 130px;");
     artwork->setParent(this);
 
     artisteCP = new NutshLabel(core, "");

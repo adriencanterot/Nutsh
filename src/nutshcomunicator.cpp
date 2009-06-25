@@ -49,7 +49,7 @@ void NutshComunicator::afterLaunch() {
     m_progressinterface->setParent(m_central);
 
     m_playinginterface->hide();
-    //m_progressinterface->hide();
+    m_progressinterface->hide();
 
     m_updater = new NutshUpdater(this);
 

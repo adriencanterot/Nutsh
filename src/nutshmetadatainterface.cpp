@@ -12,6 +12,7 @@ NutshMetaDataInterface::NutshMetaDataInterface(NutshComunicator* corePath)
     metadatas->setParent(this);
     importer = new QPushButton("Importer", this);
     toBibliotheque = new QPushButton("Bibliothèque", this);
+    this->setStyleSheet("min-height : 240px;");
 
     //placement
     importer->hide();

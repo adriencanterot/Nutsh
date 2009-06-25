@@ -83,13 +83,6 @@ QMenu::item:pressed{
     height: 50px;
     border: none;
 }
-*[boutonPause='true']{
-    background-image: url(":/img/images/pause.png");
-    background-repeat: no-repeat;
-    width: 44px;
-    height: 50px;
-    border: none;
- }
 
 *[boutonSuivant='true']{
     background-image: url(":/img/images/next.png");
@@ -130,6 +123,32 @@ QMenu::item:pressed{
 
 *[boutonRevenir='true']:pressed{
     background-position: bottom right;
+}
+
+*[boutonRepeat='true']{
+    background-image: url(":/img/images/repeat.png");
+    background-repeat: no-repeat;
+    background-position: top left;
+    width: 27px;
+    height: 21px;
+    border: none;
+}
+
+*[boutonRepeat='true']:checked{
+    background-position: bottom left;
+}
+
+*[boutonRandom='true']{
+    background-image: url(":/img/images/random.png");
+    background-repeat: no-repeat;
+    background-position: top left;
+    width: 27px;
+    height: 21px;
+    border: none;
+}
+
+*[boutonRandom='true']:checked{
+    background-position: bottom left;
 }
 
 *[newPlaylistButton='true']{
@@ -176,7 +195,6 @@ QProgressBar{
 }
 
 QProgressBar::chunk{
-    /*background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 rgb(249, 157, 28), stop:1 rgb(243, 112, 33));*/
     background-image: url(":/img/images/progressbar.png");
     width: 1px;
 }
@@ -198,14 +216,20 @@ QProgressBar::chunk{
     background-position: bottom right;
 }
 
+QTreeView {
+}
+
 QTreeView{
     show-decoration-selected: 1;
     background-color: transparent;
 }
 
+QTreeView::item:hover {
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop : 0 rgb(251, 177, 89, 15%), stop: 0.5714 rgb(245, 137, 46, 15%), stop: 0.6428 rgb(245, 126, 32, 15%), stop: 1 rgb(242, 105, 33, 15%));
+}
+
 QTreeView::item:hover{
     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop : 0 rgb(251, 177, 89, 15%), stop: 1 rgb(242, 105, 33, 15%));
-    background-alpha
 }
 
 QTreeView::item:selected:active{
@@ -216,12 +240,29 @@ QTreeView::item:selected:!active{
     background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 rgb(249, 157, 28), stop:1 rgb(243, 112, 33));
 }
 
+
+QTreeView::scroller{
+    background-color: red;
+}
+
+QTreeView::branch{
+    background-color: transparent;
+}
+
 QTreeView::branch{
     background-color: transparent;
 }
 
 QTreeView::branch:hover{
     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop : 0 rgb(251, 177, 89, 15%), stop: 1 rgb(242, 105, 33, 15%));
+}
+
+QTreeView::branch:hover{
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop : 0 rgb(251, 177, 89, 15%), stop: 0.5714 rgb(245, 137, 46, 15%), stop: 0.6428 rgb(245, 126, 32, 15%), stop: 1 rgb(242, 105, 33, 15%));
+}
+
+QTreeView::branch:selected{
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 rgb(249, 157, 28), stop:1 rgb(243, 112, 33));
 }
 
 QTreeView::branch:selected{

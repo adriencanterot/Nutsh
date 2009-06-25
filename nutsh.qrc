@@ -18,5 +18,8 @@
         <file>images/nouvelle.png</file>
         <file>images/arreter.png</file>
         <file>images/progressbar.png</file>
+        <file>images/pause.png</file>
+        <file>images/random.png</file>
+        <file>images/repeat.png</file>
     </qresource>
 </RCC>

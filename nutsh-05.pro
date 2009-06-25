@@ -4,6 +4,7 @@
 QT += sql \
     network
 ICON += nutsh.icns
+CONFIG += qt debug
 DESTDIR += bin
 win32 { 
     INCLUDEPATH += . \
@@ -20,6 +21,7 @@ macx {
         -framework \
         TagLib
     QT += phonon
+    INCLUDEPATH += 3rdparty/mac/TagLib.framework/Headers/
     OTHER_FILES += style.css
 }
 linux-g++ {

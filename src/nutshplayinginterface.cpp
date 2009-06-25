@@ -24,12 +24,12 @@ NutshPlayingInterface::NutshPlayingInterface(NutshComunicator* corePath)
     boutonStop = new QPushButton("", actionsButtons);
     boutonStop->setProperty("boutonStop", true);
 
-    boutonRandom = new QPushButton("Rand", actionsButtons);
+    boutonRandom = new QPushButton("", actionsButtons);
     boutonRandom->setProperty("boutonRandom", true);
     boutonRandom->setCheckable(true);
 
 
-    boutonRepeat = new QPushButton("Repeat", actionsButtons);
+    boutonRepeat = new QPushButton("", actionsButtons);
     boutonRepeat->setProperty("boutonRepeat", true);
     boutonRepeat->setCheckable(true);
 
@@ -117,7 +117,7 @@ void NutshPlayingInterface::load(const NutshMetaData &data) {
     currentItem = 0;
     media->setSource(data);
     media->play();
-    boutonPlayPause->setProperty("boutonPause", true);
+    boutonPlayPause->setStyleSheet("background-image: url(\":/img/images/pause.png\");");
     this->setStatus();
 }
 
@@ -214,12 +214,12 @@ void NutshPlayingInterface::playPause() {
 
     if(media->isPlaying()) {
 
-        boutonPlayPause->setProperty("boutonPlay", true);
+        boutonPlayPause->setStyleSheet("background-image: url(\":/img/images/play.png\");");
         media->pause();
 
     } else {
 
-        boutonPlayPause->setProperty("boutonPause", true);
+        boutonPlayPause->setStyleSheet("background-image: url(\":/img/images/pause.png\");");
         media->play();
     }
 }

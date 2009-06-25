@@ -39,14 +39,9 @@ class Indexer: public QThread {
 
 class NutshIndexer : public QThread {
 
-    Q_OBJECT
-
     public:
     NutshIndexer(const QStringList& pathList, NutshComunicator*);
     void run();
-
-    public slots:
-    void forceQuit();
 
     private:
     QStringList m_pathList;

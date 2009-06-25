@@ -6,6 +6,7 @@ NutshPlayingInterface::NutshPlayingInterface(NutshComunicator* corePath)
     core = corePath;
 
     currentItem = 0;
+    nextAction = Normal;
     //init media
     media = new NutshLecteur;
     //init & alloc widgets
@@ -22,6 +23,15 @@ NutshPlayingInterface::NutshPlayingInterface(NutshComunicator* corePath)
 
     boutonStop = new QPushButton("", actionsButtons);
     boutonStop->setProperty("boutonStop", true);
+
+    boutonRandom = new QPushButton("Rand", actionsButtons);
+    boutonRandom->setProperty("boutonRandom", true);
+    boutonRandom->setCheckable(true);
+
+
+    boutonRepeat = new QPushButton("Repeat", actionsButtons);
+    boutonRepeat->setProperty("boutonRepeat", true);
+    boutonRepeat->setCheckable(true);
 
 
     boutonPlayPause = new QPushButton("", actionsButtons);
@@ -65,10 +75,12 @@ void NutshPlayingInterface::sigandslots() {
     connect(media, SIGNAL(finished()), this, SLOT(playPause()));
     connect(boutonPrecedent, SIGNAL(clicked()), this, SLOT(previous()));
     connect(boutonSuivant, SIGNAL(clicked()), this, SLOT(next()));
-    connect(media, SIGNAL(aboutToFinish()), this, SLOT(next()));
+    connect(media, SIGNAL(finished()), this, SLOT(whatsNext()));
     connect(artiste, SIGNAL(returnPressed(QString)), &current, SLOT(setArtiste(QString)));
     connect(album, SIGNAL(returnPressed(QString)), &current, SLOT(setAlbum(QString)));
     connect(titre, SIGNAL(returnPressed(QString)), &current, SLOT(setTitre(QString)));
+    connect(boutonRepeat, SIGNAL(clicked()), this, SLOT(repeat()));
+    connect(boutonRandom, SIGNAL(clicked()), this, SLOT(random()));
 }
 void NutshPlayingInterface::load(const NutshMetaData &data) {
 
@@ -227,6 +239,10 @@ void NutshPlayingInterface::place(float coef){
     boutonSuivant->move(120, 30);
     boutonStop->move(180, 30);
     boutonPlayPause->move(60, 15);
+    boutonRandom->move(25, 60);
+    boutonRepeat->move(90, 60);
+    boutonRepeat->setFixedSize(30, 20);
+    boutonRandom->setFixedSize(30, 20);
 
     tempsLabel->move(310, 110);
     titre->move(180, 10);
@@ -237,3 +253,50 @@ void NutshPlayingInterface::place(float coef){
     media->getPosSlider()->move(40, 150);
     media->getPosSlider()->resize(330, 15);
 }
+
+void NutshPlayingInterface::random() {
+
+    if(boutonRandom->isChecked()) {
+
+        nextAction = Random;
+        boutonRepeat->setChecked(false);
+
+    } else if(!boutonRandom->isChecked()) {
+
+        nextAction = Normal;
+    }
+}
+
+void NutshPlayingInterface::repeat() {
+
+    if(boutonRepeat->isChecked()) {
+
+        nextAction = Repeat;
+        boutonRandom->setChecked(false);
+
+    } else if(!boutonRepeat->isChecked()) {
+
+        nextAction = Normal;
+    }
+}
+
+void NutshPlayingInterface::whatsNext() {
+
+    switch(nextAction) {
+
+        case Repeat:
+        this->load(current);
+        break;
+
+        case Random:
+        this->load(core->metadatainterface()->totalContent().value(
+                (qrand() % (core->metadatainterface()->totalContent().count() - 0 +1) + 0)
+                ));
+        break;
+
+        case Normal:
+        this->next();
+        break;
+    }
+}
+

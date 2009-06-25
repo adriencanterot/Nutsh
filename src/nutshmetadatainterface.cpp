@@ -224,3 +224,8 @@ void NutshMetaDataInterface::place(float coef) {
     this->setStyleSheet("min-width : 400px;"); // redimmensionnement ne marche pas autrement qu'avec du CSS
 }
 
+QList<NutshMetaData> NutshMetaDataInterface::totalContent() const {
+
+    return metaList;
+}
+

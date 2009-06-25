@@ -21,6 +21,7 @@ public:
     void sigandslots();
     void load(QList<NutshMetaData>);
     QList<NutshMetaData> actualContent() const;
+    QList<NutshMetaData> totalContent() const;
     NutshMetaDataList* getListWidget();
     void setPath(const QString&);
     void refreshInterface(ContentType);

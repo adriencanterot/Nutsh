@@ -29,10 +29,13 @@ public:
 
 public slots:
     void next();
+    void whatsNext();
     void previous();
     void playPause();
     void tick(qint64 time);
     void stop();
+    void random();
+    void repeat();
 
 
 private:
@@ -41,7 +44,9 @@ private:
     QPushButton *boutonPlayPause,
                 *boutonStop,
                 *boutonPrecedent,
-                *boutonSuivant;
+                *boutonSuivant,
+                *boutonRepeat,
+                *boutonRandom;
 
     NutshEditLabel *artiste,
            *album,
@@ -61,6 +66,8 @@ private:
     int currentItem;
     NutshMetaData current;
     NutshLecteur *media;
+
+    Action nextAction;
 };
 
 #endif // NUTSHPLAYINGINTERFACE_H

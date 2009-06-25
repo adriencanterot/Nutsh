@@ -24,5 +24,9 @@ enum InterfaceName {
     Playing, MetaData, Progress
 };
 
+enum Action {
+
+    Repeat, Random, Normal
+};
 
 #endif // PREPROCESS_H

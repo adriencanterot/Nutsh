@@ -20,5 +20,5 @@ void NutshBoutonRevenir::setAction(InterfaceName newName) {
 
 void NutshBoutonRevenir::place(float coef) {
 
-    this->move(550, 75);
+    this->move(550, 20);
 }

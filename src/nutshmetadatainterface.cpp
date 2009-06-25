@@ -3,7 +3,6 @@
 
 NutshMetaDataInterface::NutshMetaDataInterface(NutshComunicator* corePath)
 {
-
     //init & alloc
     core = corePath;
     this->setStyleSheet("border : 1px solid black");
@@ -220,8 +219,8 @@ void NutshMetaDataInterface::navigateByKey(QKeyEvent *event) {
 
 void NutshMetaDataInterface::place(float coef) {
 
-    this->move(170, 110);
-    this->setStyleSheet("min-width : 400px;"); // redimmensionnement ne marche pas autrement qu'avec du CSS
+    this->move(160, 90);
+    this->setStyleSheet("min-width : 440px;");
 }
 
 QList<NutshMetaData> NutshMetaDataInterface::totalContent() const {

@@ -60,7 +60,7 @@ void NutshSearchLineInterface::activate() {
 
 void NutshSearchLineInterface::place(float coef) {
 
-    searchLine->move(280, 26);
-    nouvelleListe->move(530, 26);
+    searchLine->move(240, 26);
+    nouvelleListe->move(490, 26);
 }
 

@@ -241,7 +241,7 @@ void NutshPlayingInterface::place(float coef){
     boutonStop->move(180, 30);
     boutonPlayPause->move(60, 15);
     boutonRandom->move(25, 60);
-    boutonRepeat->move(90, 60);
+    boutonRepeat->move(110, 60);
     boutonRepeat->setFixedSize(30, 20);
     boutonRandom->setFixedSize(30, 20);
 

@@ -1,7 +1,7 @@
 /***************************************************************************
-    copyright            : (C) 2002 - 2008 by Scott Wheeler
+    copyright            : (C) 2008 by Scott Wheeler
     email                : wheeler@kde.org
- ***************************************************************************/
+***************************************************************************/
 
 /***************************************************************************
  *   This library is free software; you can redistribute it and/or modify  *
@@ -23,60 +23,58 @@
  *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
-#ifndef TAGLIB_ID3V2FOOTER_H
-#define TAGLIB_ID3V2FOOTER_H
+#ifndef TAGLIB_AIFFPROPERTIES_H
+#define TAGLIB_AIFFPROPERTIES_H
 
-#include "taglib_export.h"
-#include "tbytevector.h"
+#include "audioproperties.h"
 
 namespace TagLib {
 
-  namespace ID3v2 {
+  namespace RIFF {
 
-    class Header;
+    namespace AIFF {
 
-    //! ID3v2 footer implementation
+      class File;
 
-    /*!
-     * Per the ID3v2 specification, the tag's footer is just a copy of the
-     * information in the header.  As such there is no API for reading the
-     * data from the header, it can just as easily be done from the header.
-     *
-     * In fact, at this point, TagLib does not even parse the footer since
-     * it is not useful internally.  However, if the flag to include a footer
-     * has been set in the ID3v2::Tag, TagLib will render a footer.
-     */
-
-    class TAGLIB_EXPORT Footer
-    {
-    public:
-      /*!
-       * Constructs an empty ID3v2 footer.
-       */
-      Footer();
-      /*!
-       * Destroys the footer.
-       */
-      virtual ~Footer();
+      //! An implementation of audio property reading for AIFF
 
       /*!
-       * Returns the size of the footer.  Presently this is always 10 bytes.
+       * This reads the data from an AIFF stream found in the AudioProperties
+       * API.
        */
-      static const unsigned int size();
 
-      /*!
-       * Renders the footer based on the data in \a header.
-       */
-      ByteVector render(const Header *header) const;
+      class TAGLIB_EXPORT Properties : public AudioProperties
+      {
+      public:
+	/*!
+	 * Create an instance of AIFF::Properties with the data read from the
+	 * ByteVector \a data.
+	 */
+	Properties(const ByteVector &data, ReadStyle style);
 
-    private:
-      Footer(const Footer &);
-      Footer &operator=(const Footer &);
+	/*!
+	 * Destroys this AIFF::Properties instance.
+	 */
+	virtual ~Properties();
 
-      class FooterPrivate;
-      FooterPrivate *d;
-    };
+	// Reimplementations.
 
+	virtual int length() const;
+	virtual int bitrate() const;
+	virtual int sampleRate() const;
+	virtual int channels() const;
+
+      private:
+	Properties(const Properties &);
+	Properties &operator=(const Properties &);
+
+	void read(const ByteVector &data);
+
+	class PropertiesPrivate;
+	PropertiesPrivate *d;
+      };
+    }
   }
 }
+
 #endif

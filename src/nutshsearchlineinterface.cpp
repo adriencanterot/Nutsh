@@ -34,12 +34,12 @@ void NutshSearchLineInterface::showResults(QString query) {
     if(searchLine->text() != "") { //affiche la liste des morceaux uniquement si il y a du texte entré
 
         core->metadatainterface()->getWordMetaData(query);
-        core->swapInterface(MetaData);
+        core->swapInterface(MetaDataInterface);
 
 
     } else { // sinon, affichage de l'interface "Play"
 
-        core->swapInterface(Playing);
+        core->swapInterface(PlayingInterface);
     }
 }
 

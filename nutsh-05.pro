@@ -17,11 +17,9 @@ win32 {
         -lfmod
 }
 macx { 
-    LIBS += -F3rdparty/mac \
-        -framework \
-        TagLib
+    INCLUDEPATH += 3rdparty/mac/include
+    LIBS += -L3rdparty/mac/lib -ltag
     QT += phonon
-    INCLUDEPATH += 3rdparty/mac/TagLib.framework/Headers/
     OTHER_FILES += style.css
 }
 linux-g++ {

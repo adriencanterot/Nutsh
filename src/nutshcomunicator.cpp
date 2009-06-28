@@ -69,18 +69,18 @@ void NutshComunicator::swapInterface(InterfaceName name) {
 
     switch(name) {
 
-        case Playing :
+        case PlayingInterface :
 
         this->metadatainterface()->hide();
         this->playinginterface()->show();
-        this->m_boutonrevenir->setAction(MetaData); //l'inverse de l'actuelle
+        this->m_boutonrevenir->setAction(MetaDataInterface); //l'inverse de l'actuelle
         break;
 
-        case MetaData:
+        case MetaDataInterface:
 
         this->playinginterface()->hide();
         this->metadatainterface()->show();
-        this->m_boutonrevenir->setAction(Playing);// ^
+        this->m_boutonrevenir->setAction(PlayingInterface);// ^
         break;
     }
 }
@@ -151,4 +151,3 @@ NutshSqlSaver* NutshComunicator::getSqlControl() {
 
     return sqlControl;
 }
-

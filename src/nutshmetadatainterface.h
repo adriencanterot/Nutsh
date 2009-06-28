@@ -39,6 +39,7 @@ public slots:
     void importerContent();
     void changeDisposition(ContentType);
     void reset();
+    void reload();
 
 signals:
 
@@ -53,6 +54,8 @@ private:
                 *toBibliotheque;
     
     int indexSelected;
+
+    ContentType contentType;
 
 
 };

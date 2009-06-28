@@ -2,7 +2,7 @@
 
 NutshBoutonRevenir::NutshBoutonRevenir(QWidget* parent) : QPushButton(parent) {
 
-    interfaceName = MetaData;
+    interfaceName = MetaDataInterface;
     connect(this, SIGNAL(clicked()), this, SLOT(emitClicked()));
     this->setToolTip("Changer d'affichage");
     this->setProperty("boutonRevenir", true);

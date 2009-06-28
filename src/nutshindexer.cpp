@@ -81,9 +81,7 @@ void NutshIndexer::run() {
 
     for(int i = 0;i<threadList.count();i++) {
 
-        connect(threadList.value(i), SIGNAL(loopEnded()), core->metadatainterface(), SLOT(reset()));
+        connect(threadList.value(i), SIGNAL(loopEnded()), core->metadatainterface(), SLOT(reload()));
         threadList.value(i)->start();
     }
-
-    this->exec();
 }

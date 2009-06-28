@@ -5,6 +5,7 @@ NutshMetaDataInterface::NutshMetaDataInterface(NutshComunicator* corePath)
 {
     //init & alloc
     core = corePath;
+    contentType = Entire;
     this->setStyleSheet("border : 1px solid black");
 
     indexSelected = 0;
@@ -43,12 +44,12 @@ void NutshMetaDataInterface::getDirMetaData(const QString &directory) {
 
     if(!QDir(directory).entryList(filtre).isEmpty()) {
 
-        core->swapInterface(MetaData);
+        core->swapInterface(MetaDataInterface);
         this->setPath(QDir::toNativeSeparators(directory));
 
     } else {
 
-        core->swapInterface(Playing);
+        core->swapInterface(PlayingInterface);
     }
 }
 
@@ -84,7 +85,7 @@ void NutshMetaDataInterface::sigandslots() {
 
 void NutshMetaDataInterface::swapWidgets(const NutshMetaData &data) {
 
-    core->swapInterface(Playing);
+    core->swapInterface(PlayingInterface);
     core->playinginterface()->load(data);
     core->playinginterface()->load(metadatas->getItems());
 }
@@ -117,10 +118,11 @@ void NutshMetaDataInterface::setPath(const QString &chemin) {
 
     if(!metaList.isEmpty()) {
 
-        core->swapInterface(MetaData);
+        core->swapInterface(MetaDataInterface);
     }
 
     emit contentTypeChanged(Dir);
+    contentType = Dir;
 
     metadatas->load(metaList);
 }
@@ -136,6 +138,7 @@ void NutshMetaDataInterface::reset() {
     metaList = core->getSqlControl()->getMetaDatas("bibliotheque");
     this->load(metaList);
     emit contentTypeChanged(Entire);
+    contentType = Entire;
 }
 
 NutshMetaDataList* NutshMetaDataInterface::getListWidget() {
@@ -161,7 +164,7 @@ void NutshMetaDataInterface::changeDisposition(ContentType type) {
         case Playlist: //si le contenu vient d'une playlist
             importer->hide();
             toBibliotheque->show();
-            core->swapInterface(MetaData);
+            core->swapInterface(MetaDataInterface);
             break;
 
 
@@ -174,6 +177,7 @@ void NutshMetaDataInterface::changeDisposition(ContentType type) {
 void NutshMetaDataInterface::refreshInterface(ContentType type) {
 
     emit this->contentTypeChanged(type);
+    contentType = type;
 }
 
 void NutshMetaDataInterface::navigateByKey(QKeyEvent *event) {
@@ -183,7 +187,7 @@ void NutshMetaDataInterface::navigateByKey(QKeyEvent *event) {
         case Qt::Key_Return:
             core->playinginterface()->load(this->getListWidget()->getItems().value(indexSelected));
             core->playinginterface()->load(this->getListWidget()->getItems());
-            core->swapInterface(Playing);
+            core->swapInterface(PlayingInterface);
             break;
 
         case Qt::Key_Down:
@@ -228,4 +232,15 @@ QList<NutshMetaData> NutshMetaDataInterface::totalContent() const {
 
     return metaList;
 }
+
+void NutshMetaDataInterface::reload() {
+
+    if(contentType == Entire) {
+
+        metaList = core->getSqlControl()->getMetaDatas("bibliotheque");
+    }
+
+}
+
+
 

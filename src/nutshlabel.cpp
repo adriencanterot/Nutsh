@@ -17,7 +17,7 @@ void NutshLabel::mousePressEvent(QMouseEvent *event) {
 
     if(event->button() == Qt::LeftButton && text() != "") {
 
-        core->swapInterface(Playing);
+        core->swapInterface(PlayingInterface);
         event->accept();
 
     } else {

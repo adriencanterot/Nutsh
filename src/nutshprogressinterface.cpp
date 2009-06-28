@@ -81,11 +81,13 @@ void NutshProgressInterface::updateWidget(int current, int total) {
 void NutshProgressInterface::import(const QString& path) {
 
     scan = new Indexer(path);
-    connect(scan, SIGNAL(loopEnded()), core->metadatainterface(), SLOT(reset()));
+    connect(scan, SIGNAL(loopEnded()), core->metadatainterface(), SLOT(reload()));
     connect(scan, SIGNAL(updateBar(int, int)), this, SLOT(updateWidget(int, int)));
     connect(scan, SIGNAL(fatalError(QString)), this, SLOT(stopWhy(QString)));
     connect(m_cancel, SIGNAL(clicked()), scan, SLOT(forceQuit()));
     scan->start();
+
+    this->show();
 }
 
 void NutshProgressInterface::finished() {
@@ -107,6 +109,7 @@ void NutshProgressInterface::stopWhy(const QString &why) {
 void NutshProgressInterface::reset() {
 
     m_progress->setValue(0);
+    this->hide();
 }
 
 void NutshProgressInterface::place(float coef) {

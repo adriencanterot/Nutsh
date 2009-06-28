@@ -7,7 +7,7 @@
 #include <QTimer>
 #include "preprocess.h"
 
-#if defined(Q_WS_MAC) || defined(Q_WS_X11)
+#if defined(Q_WS_X11) || defined(Q_WS_MAC)
 #include <phonon>
 /* Cree un lecteur heritant du media object (pour lui rajouter des options) */
 class NutshLecteur : public Phonon::MediaObject
@@ -31,7 +31,7 @@ private :
     Phonon::SeekSlider *avancement;
 };
 #endif
-#ifdef Q_WS_WIN
+#if defined(Q_WS_WIN)
 #include <fmod.h>
 enum State{
     Playing, Paused, Stopped

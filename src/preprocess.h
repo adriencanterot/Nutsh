@@ -5,7 +5,7 @@
 #define REQUETE(q) QSqlQuery requete; if(!requete.exec(q)) { qDebug() << requete.lastError() << " | Q = " << requete.lastQuery(); }
 #define QUERY(q) if(!query.exec(q)) { qDebug() << query.lastError() << " | \n\nQ = " << query.lastQuery() << "\n\n"; }
 #define NB_CHAMPS_DATABASE 13
-#define FORMATS_SUPPORTES "*.mp3";
+#define FORMATS_SUPPORTES "*.mp3" << "*.m4a" << "*.wma" << "*.ogg";
 #define D(bug) qDebug() << bug;
 #define WIDTH_LEFT 200
 
@@ -21,7 +21,7 @@ enum ContentTypeForLabel {
 
 enum InterfaceName {
 
-    Playing, MetaData, Progress
+    PlayingInterface, MetaDataInterface, ProgressInterface
 };
 
 enum Action {

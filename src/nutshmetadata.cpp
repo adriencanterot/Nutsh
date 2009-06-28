@@ -34,18 +34,21 @@ NutshMetaData::NutshMetaData(const NutshMetaData &m) {
 
 NutshMetaData::NutshMetaData(const QString &source) {
 
+
     FileRef file(source.toAscii().constData());
 
-    artiste = file.tag()->artist().toCString(true);
-    album = file.tag()->album().toCString(true);
-    titre = file.tag()->title().toCString(true);
-    date = file.tag()->year();
-    description = file.tag()->comment().toCString(true);
-    genre = file.tag()->genre().toCString(true);
-    track = file.tag()->track();
+    if(!file.isNull()) {
 
-    chemin = source;
+        artiste = file.tag()->artist().toCString(true);
+        album = file.tag()->album().toCString(true);
+        titre = file.tag()->title().toCString(true);
+        date = file.tag()->year();
+        description = file.tag()->comment().toCString(true);
+        genre = file.tag()->genre().toCString(true);
+        track = file.tag()->track();
 
+        chemin = source;
+    }
 }
 
 NutshMetaData::NutshMetaData(const QVariantList &resultatLigne) {
@@ -361,4 +364,14 @@ NutshMetaData::~NutshMetaData() {
 void NutshMetaData::setId(int newId) {
 
     id = newId;
+}
+
+bool NutshMetaData::isValid() {
+
+    if(file.isNull()) {
+
+        return false;
+    } else {
+        return true;
+    }
 }

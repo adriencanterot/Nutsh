@@ -273,6 +273,11 @@ void NutshSqlSaver::inserer(NutshMetaData meta) {
     /* ---- complete une métadonnée si certains champs sont vide ----*/
         this->completeMetaData(meta);
 
+        if(!meta.isValid()) {
+
+            return;
+        }
+
         if(meta.getArtiste().isEmpty()) {
             meta.setArtiste("Sans artiste");
         }

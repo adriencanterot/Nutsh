@@ -47,6 +47,7 @@ public:
     int getTrack() const;
     int getId() const;
     bool operator==(const NutshMetaData&);
+    bool isValid();
 
     virtual ~NutshMetaData();
 
@@ -86,6 +87,8 @@ private :
         int compteur,
             track,
             id;
+
+        TagLib::FileRef file;
 
 };
 

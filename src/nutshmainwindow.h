@@ -35,28 +35,29 @@ public:
     NutshMainWindow(QWidget *parent = 0);
 
     //-----------MENUS------------//
-    void setupMenus();
+    //void setupMenus();
 
 private :
 
     NutshComunicator* path;
+/*
 
     //-----------MENUS------------//
     QMenu *fichier,
           *edition,
           *controles;
 
-    QAction *ouvrir, /*Fichier*/
+    QAction *ouvrir, //Fichier
             *importer,
             *derniersmorceaux,
             *resultats,
             *editermorceaux,
             *explorateur,
-            *copier, /*edition*/
+            *copier, //edition
             *coller,
             *toutselectionner,
             *supprimer,
-            *lire, /*controles*/
+            *lire, //controles
             *pause,
             *arreter,
             *suivant,
@@ -65,6 +66,7 @@ private :
             *random;
 
     QMenuBar* menubar;
+    */
 
 };
 

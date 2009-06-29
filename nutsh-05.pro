@@ -26,6 +26,7 @@ macx {
 }
 linux-g++ { 
     LIBS += -ltag
+    INCLUDEPATH += 3rdparty/linux/include
     QT += phonon
 }
 TARGET = Nutsh

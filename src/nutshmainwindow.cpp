@@ -7,7 +7,7 @@ NutshMainWindow::NutshMainWindow(QWidget *parent)
     //création du core
     path = new NutshComunicator;
 
-    this->setupMenus();
+    //this->setupMenus();
     this->setCentralWidget(path->initInterfaces()); // affichage du widget Central
     this->setStatusBar(path->bar());
     this->setFixedSize(600, 350);
@@ -22,7 +22,7 @@ NutshMainWindow::NutshMainWindow(QWidget *parent)
     qDebug("NutshMainWindow : Fin de l'initialisation de l'interface");
 }
 
-void NutshMainWindow::setupMenus() {
+/*void NutshMainWindow::setupMenus() {
 
     //FICHIER
     ouvrir = new QAction("Ouvrir", this);
@@ -77,4 +77,4 @@ void NutshMainWindow::setupMenus() {
     controles->addAction(repeat);
     controles->addAction(random);
 
-}
+}*/

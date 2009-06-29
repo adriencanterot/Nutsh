@@ -342,7 +342,7 @@ QPixmap NutshMetaData::getArtwork() const {
         QImage image;
 
         if(l.isEmpty())
-            return QPixmap::fromImage(image);
+            return QPixmap(":/img/images/sans-image.png", "png");
 
         ID3v2::AttachedPictureFrame *f =
             static_cast<ID3v2::AttachedPictureFrame *>(l.front());
@@ -353,7 +353,7 @@ QPixmap NutshMetaData::getArtwork() const {
 
     } else {
 
-        return QPixmap();
+        return QPixmap(":/img/images/sans-image.png", "png");
     }
 
 }

@@ -21,5 +21,6 @@
         <file>images/pause.png</file>
         <file>images/random.png</file>
         <file>images/repeat.png</file>
+        <file>images/sans-image.png</file>
     </qresource>
 </RCC>

@@ -108,11 +108,7 @@ void NutshPlayingInterface::load(const NutshMetaData &data) {
 
     current = data;
     lastRead.append(data);
-
-    if(lastRead.count() > 5) {
-
-        lastRead.removeLast();
-    }
+    if(lastRead.count() >= 5) lastRead.removeLast();
 
     currentItem = 0;
     media->setSource(data);

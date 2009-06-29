@@ -56,6 +56,7 @@ void NutshMetaDataInterface::getDirMetaData(const QString &directory) {
 void NutshMetaDataInterface::getWordMetaData(const QString &word){
 
     metadatas->clearList();
+    indexSelected = 0; // remet à zero le comtpeur pour l'index au clavier.
 
     for(int i = 0;i<metaList.count();i++) {
 
@@ -185,6 +186,7 @@ void NutshMetaDataInterface::navigateByKey(QKeyEvent *event) {
     switch(event->key()) {
 
         case Qt::Key_Return:
+            qDebug() << "INDEX"<<indexSelected;
             core->playinginterface()->load(this->getListWidget()->getItems().value(indexSelected));
             core->playinginterface()->load(this->getListWidget()->getItems());
             core->swapInterface(PlayingInterface);

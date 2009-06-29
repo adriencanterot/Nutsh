@@ -30,9 +30,11 @@ NutshEditLabel::NutshEditLabel(const QString& text, QWidget *parent) : QWidget(p
 
     contentType = labelType;
 
-    label = new QLabel(text, this);
+    content = text;
+
+    label = new QLabel(content, this);
     label->show();
-    lineEdit = new QLineEdit(text, this);
+    lineEdit = new QLineEdit(content, this);
     lineEdit->hide();
 
     principal = new QHBoxLayout;
@@ -69,26 +71,34 @@ void NutshEditLabel::saveChanges() {
 
     contentType = labelType;
     lineEdit->hide();
-    label->setText(lineEdit->text());
+    content = lineEdit->text();
+    label->setText(content);
     label->show();
-    emit returnPressed(lineEdit->text());
+    label->setText(fit(lineEdit->text()));
+    emit returnPressed(content);
 }
 
 QString NutshEditLabel::text() const {
-
-    if(contentType == lineEditType) {
-
-        return lineEdit->text();
-
-    } else {
-
-        return label->text();
-    }
+    return content;
 }
 
 void NutshEditLabel::setText(const QString &text) {
 
-    lineEdit->setText(text);
-    label->setText(text);
+    content = text;
+    lineEdit->setText(content);
+    label->setText(fit(content));
+}
+
+QString NutshEditLabel::fit(const QString& text) {
+
+    QString fitted = text;
+    if(fitted.size() > 23) {
+        fitted.resize(20);
+        fitted.append("...");
+        return fitted;
+
+    } else {
+        return fitted;
+    }
 }
 

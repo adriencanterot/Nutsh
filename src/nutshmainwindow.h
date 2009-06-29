@@ -34,10 +34,37 @@ class NutshMainWindow : public QMainWindow
 public:
     NutshMainWindow(QWidget *parent = 0);
 
+    //-----------MENUS------------//
+    void setupMenus();
+
 private :
 
     NutshComunicator* path;
-    //core
+
+    //-----------MENUS------------//
+    QMenu *fichier,
+          *edition,
+          *controles;
+
+    QAction *ouvrir, /*Fichier*/
+            *importer,
+            *derniersmorceaux,
+            *resultats,
+            *editermorceaux,
+            *explorateur,
+            *copier, /*edition*/
+            *coller,
+            *toutselectionner,
+            *supprimer,
+            *lire, /*controles*/
+            *pause,
+            *arreter,
+            *suivant,
+            *precedent,
+            *repeat,
+            *random;
+
+    QMenuBar* menubar;
 
 };
 

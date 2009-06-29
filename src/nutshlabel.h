@@ -34,6 +34,7 @@ class NutshEditLabel : public QWidget {
     void mouseDoubleClickEvent(QMouseEvent* event);
     void setText(const QString &text);
     QString text() const;
+    QString fit(const QString& text);
 
     public slots:
 
@@ -46,6 +47,7 @@ class NutshEditLabel : public QWidget {
     private:
 
     QHBoxLayout *principal;
+    QString content;
 
     QLabel *label;
     QLineEdit *lineEdit;

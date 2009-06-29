@@ -4,7 +4,8 @@
 QT += sql \
     network
 ICON += nutsh.icns
-CONFIG += qt debug
+CONFIG += qt \
+    debug
 DESTDIR += bin
 win32 { 
     INCLUDEPATH += . \
@@ -18,11 +19,12 @@ win32 {
 }
 macx { 
     INCLUDEPATH += 3rdparty/mac/include
-    LIBS += -L3rdparty/mac/lib -ltag
+    LIBS += -L3rdparty/mac/lib \
+        -ltag
     QT += phonon
     OTHER_FILES += style.css
 }
-linux-g++ {
+linux-g++ { 
     LIBS += -ltag
     QT += phonon
 }

@@ -30,12 +30,13 @@ NutshMetaData::NutshMetaData(const NutshMetaData &m) {
     enregistrement = m.enregistrement;
     compteur = m.compteur;
     derniereLecture = m.derniereLecture;
+    file = m.file;
 }
 
 NutshMetaData::NutshMetaData(const QString &source) {
 
 
-    FileRef file(source.toAscii().constData());
+    file = FileRef(source.toAscii().constData());
 
     if(!file.isNull()) {
 
@@ -194,6 +195,7 @@ NutshMetaData NutshMetaData::operator=(const NutshMetaData &m) {
     enregistrement = m.enregistrement;
     compteur = m.compteur;
     derniereLecture = m.derniereLecture;
+    file = m.file;
 
     return *this;
 }
@@ -349,7 +351,10 @@ QPixmap NutshMetaData::getArtwork() const {
 
         image.loadFromData((const unsigned char *) f->picture().data(), f->picture().size());
 
-        return QPixmap::fromImage(image).scaled(130, 130);
+        if(image.isNull())
+            return QPixmap(":/img/images/sans-image.png", "png");
+        else
+            return QPixmap::fromImage(image).scaled(130, 130);
 
     } else {
 
@@ -368,10 +373,5 @@ void NutshMetaData::setId(int newId) {
 
 bool NutshMetaData::isValid() {
 
-    if(file.isNull()) {
-
-        return false;
-    } else {
-        return true;
-    }
+    return !file.isNull();
 }

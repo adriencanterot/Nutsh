@@ -73,3 +73,5 @@ HEADERS += src/nutshmainwindow.h \
     src/nutshlabel.h \
     src/nutshsubinterfaces.h
 RESOURCES += nutsh.qrc
+OBJECTS_DIR = obj/
+MOC_DIR = moc/

@@ -57,6 +57,9 @@ void NutshPlaylistList::showContent(const QModelIndex &index) {
         case 1 :
         core->metadatainterface()->load(core->getSqlControl()->getLastImport(30));
         break;
+        case 2 :
+        core->metadatainterface()->load(core->getSqlControl()->getLastReaden(30));
+        break;
         default:
         core->metadatainterface()->load(
             core->getSqlControl()->getMetaDatas(NutshSqlSaver::sqlStringFormat(index.data().toString()))

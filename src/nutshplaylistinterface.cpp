@@ -21,11 +21,11 @@ void NutshPlayListInterface::refresh(){
 
     liste->addItem("Les plus écoutées");
     liste->addItem("Les dernières ajoutées");
-
-    while(requete.next()){
-
-        liste->addItem(NutshSqlSaver::normalStringFormat(requete.value(0).toString())); //ajout au format normal dans la liste
-    }
+    liste->addItem("Écoutées récemment");
+        while(requete.next()){
+    liste->addItem(NutshSqlSaver::normalStringFormat(requete.value(0).toString()));
+    //ajout au format normal dans la liste
+        }
 
 }
 

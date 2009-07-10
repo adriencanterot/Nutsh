@@ -38,6 +38,7 @@ class NutshSqlSaver
         QList<NutshMetaData> getResults(const QString&);
         QList<NutshMetaData> getLastImport(int);
         QList<NutshMetaData> getMostReaden(int);
+        QList<NutshMetaData> getLastReaden(int);
         QStringList getFolderList();
 
         QString crypt(const QString&);

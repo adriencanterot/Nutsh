@@ -438,6 +438,27 @@ QList<NutshMetaData> NutshSqlSaver::getMostReaden(int display) {
         return metaList;
 }
 
+QList<NutshMetaData> NutshSqlSaver::getLastReaden(int display) {
+
+    QSqlQuery requete;
+    QList<NutshMetaData> liste;
+    QVariantList cache;
+    if(!requete.exec(QString("SELECT * FROM bibliotheque ORDER BY derniereLecture DESC LIMIT 0, %1").arg(display))) {
+        qDebug() << requete.lastError()<< requete.lastQuery();
+    }
+
+    while(requete.next()) {
+        for(int i = 0;i<NB_CHAMPS_DATABASE;i++) {
+            cache.append(requete.value(i));
+        }
+        liste.append(NutshMetaData(cache));
+        cache.clear();
+    }
+
+    return liste;
+}
+
+
 void NutshSqlSaver::played(NutshMetaData& meta) {
 
     meta.setCompteur(meta.getCompteur()+1);

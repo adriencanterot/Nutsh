@@ -19,6 +19,9 @@ void NutshPlayListInterface::refresh(){
     REQUETE("SELECT name FROM listeDeLecture");
     liste->clear();
 
+    liste->addItem("Les plus écoutées");
+    liste->addItem("Les dernières ajoutées");
+
     while(requete.next()){
 
         liste->addItem(NutshSqlSaver::normalStringFormat(requete.value(0).toString())); //ajout au format normal dans la liste

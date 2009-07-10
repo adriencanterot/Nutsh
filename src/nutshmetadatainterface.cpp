@@ -6,7 +6,6 @@ NutshMetaDataInterface::NutshMetaDataInterface(NutshComunicator* corePath)
     //init & alloc
     core = corePath;
     contentType = Entire;
-    this->setStyleSheet("border : 1px solid black");
 
     indexSelected = 0;
     metadatas = new NutshMetaDataList(core);
@@ -186,7 +185,6 @@ void NutshMetaDataInterface::navigateByKey(QKeyEvent *event) {
     switch(event->key()) {
 
         case Qt::Key_Return:
-            qDebug() << "INDEX"<<indexSelected;
             core->playinginterface()->load(this->getListWidget()->getItems().value(indexSelected));
             core->playinginterface()->load(this->getListWidget()->getItems());
             core->swapInterface(PlayingInterface);
@@ -202,8 +200,6 @@ void NutshMetaDataInterface::navigateByKey(QKeyEvent *event) {
                 this->getListWidget()->setCurrentItem(this->getListWidget()->topLevelItem(indexSelected));
                 this->getListWidget()->currentItem()->setSelected(true);
 
-                qDebug() << this->indexSelected << this->getListWidget()->indexOfTopLevelItem(this->getListWidget()->currentItem());
-
             }
             break;
 
@@ -217,8 +213,6 @@ void NutshMetaDataInterface::navigateByKey(QKeyEvent *event) {
                 this->getListWidget()->setCurrentItem(this->getListWidget()->topLevelItem(indexSelected));
                 this->getListWidget()->currentItem()->setSelected(true);
 
-                qDebug() << this->indexSelected << this->getListWidget()->indexOfTopLevelItem(this->getListWidget()->currentItem());
-
             }
             break;
         }
@@ -228,6 +222,7 @@ void NutshMetaDataInterface::place(float coef) {
 
     this->move(160, 90);
     this->setStyleSheet("min-width : 440px;");
+    this->setMinimumWidth(440);
 }
 
 QList<NutshMetaData> NutshMetaDataInterface::totalContent() const {

@@ -83,7 +83,6 @@ NutshMetaData NutshMetaDataList::getItem(int index) const {
 QList<NutshMetaData> NutshMetaDataList::selectedMetadatas() const{
 
     QList<NutshMetaData> itemsToReturn;
-    qDebug() << this->selectedItems().count();
 
     for(int i = 0;i<items.count();i++) {
 

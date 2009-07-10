@@ -26,6 +26,7 @@ class NutshSqlSaver
         void inserer(NutshMetaData);
         void update(const NutshMetaData&, const QString&);
         void savePath(const QString& path);
+        void played(NutshMetaData&);
 
 
         static void updateColumn(const QString &key, const QString &value, int it);
@@ -35,6 +36,8 @@ class NutshSqlSaver
         QVariantList modelNutshMetaData(const NutshMetaData&);
         QList<NutshMetaData> getMetaDatas(const QString&);
         QList<NutshMetaData> getResults(const QString&);
+        QList<NutshMetaData> getLastImport(int);
+        QList<NutshMetaData> getMostReaden(int);
         QStringList getFolderList();
 
         QString crypt(const QString&);

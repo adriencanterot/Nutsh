@@ -47,6 +47,8 @@ NutshMetaData::NutshMetaData(const QString &source) {
         description = file.tag()->comment().toCString(true);
         genre = file.tag()->genre().toCString(true);
         track = file.tag()->track();
+        duree = file.audioProperties()->length();
+        compteur = 0;
 
         chemin = source;
     }
@@ -72,8 +74,8 @@ NutshMetaData::NutshMetaData(const QVariantList &resultatLigne) {
 
     chemin = resultatLigne.value(8).toString();
 
-    duree = resultatLigne.value(10).toTime();
-    enregistrement = resultatLigne.value(11).toDateTime();
+    duree = resultatLigne.value(10).toInt();
+    enregistrement = QDateTime::fromString(resultatLigne.value(11).toString());
     derniereLecture = resultatLigne.value(12).toDateTime();
     compteur = resultatLigne.value(13).toInt();
 
@@ -89,19 +91,6 @@ void NutshMetaData::setSavingDate(const QDateTime &dateEnregistrement) {
 
     enregistrement = dateEnregistrement;
     metaData.append(enregistrement.toString());
-}
-
-QString NutshMetaData::stringListToString(const QStringList &liste) {
-
-    QString chaineRetour;
-
-    for (int i = 0;i<liste.count();i++) {
-
-        chaineRetour.append(liste.value(i));
-        qDebug() << "NutshMetaData::stringListToString(QStringList liste) : " << i;
-    }
-
-    return chaineRetour;
 }
 
 bool NutshMetaData::contains(const QString &str) {
@@ -166,7 +155,7 @@ int NutshMetaData::getCompteur() const {
     return compteur;
 }
 
-QTime NutshMetaData::getDuree() const {
+int NutshMetaData::getDuree() const {
 
     return duree;
 }
@@ -210,7 +199,7 @@ QStringList NutshMetaData::getAllMetaDatas() {
     metaData.append(genre);
     metaData.append(description);
     metaData.append(QString(track));
-    metaData.append(duree.toString());
+    metaData.append(QString("%1").arg(duree));
 
     metaData.append(chemin);
 
@@ -222,16 +211,19 @@ int NutshMetaData::getTrack() const {
     return track;
 }
 
+QDateTime NutshMetaData::getDerniereLecture() const {
+
+    return derniereLecture;
+}
+
+
 bool NutshMetaData::operator==(const NutshMetaData& m) {
     
-    if(id == m.id)
-    {
+    if(id == m.id) {
       return true;
-
-    } else {
-
-        return false;
-    }
+  } else {
+      return false;
+  }
 }
 
 
@@ -307,7 +299,7 @@ void NutshMetaData::setArtwork(const QPixmap &c) {
 
 }
 
-void NutshMetaData::setDuree(const QTime &d) {
+void NutshMetaData::setDuree(const int d) {
 
     duree = d;
 }
@@ -319,12 +311,21 @@ void NutshMetaData::setAllMetaDatas(const QStringList &m) {
 
 void NutshMetaData::setCompteur(int t) {
 
+    NutshSqlSaver::updateColumn("compteur", QString("%1").arg(t), this->id);
+    qDebug() << QString("%1").arg(t);
     compteur = t;
+
 }
 
 void NutshMetaData::setTrack(int t) {
 
     track = t;
+}
+
+void NutshMetaData::setDerniereLecture(const QDateTime& date) {
+
+    NutshSqlSaver::updateColumn("derniereLecture", date.toString(), this->id);
+    derniereLecture = date;
 }
 
 int NutshMetaData::getId() const {

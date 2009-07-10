@@ -50,10 +50,19 @@ void NutshPlaylistList::dropEvent(QDropEvent* event) {
 
 void NutshPlaylistList::showContent(const QModelIndex &index) {
     // affiche le contenu d'une liste de lecture dans l'interface nutshmetadatainterface
-
-    core->metadatainterface()->load(
+    switch(index.row()) {
+        case 0 :
+        core->metadatainterface()->load(core->getSqlControl()->getMostReaden(30));
+        break;
+        case 1 :
+        core->metadatainterface()->load(core->getSqlControl()->getLastImport(30));
+        break;
+        default:
+        core->metadatainterface()->load(
             core->getSqlControl()->getMetaDatas(NutshSqlSaver::sqlStringFormat(index.data().toString()))
-            );
+        );
+        break;
+    }
 
     core->metadatainterface()->refreshInterface(Playlist);
 }

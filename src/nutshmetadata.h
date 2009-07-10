@@ -31,7 +31,6 @@ public:
     NutshMetaData operator=(const NutshMetaData &m);
     //Charger a partir d'un QVariantList
     void setSavingDate(const QDateTime&);
-    QString stringListToString(const QStringList&);
     QString getArtiste() const;
     QString getAlbum() const;
     QString getTitre() const;
@@ -39,9 +38,10 @@ public:
     QString getGenre() const;
     QString getDescription() const;
     QDateTime getDateEnregistrement() const;
+    QDateTime getDerniereLecture() const;
     QString getChemin() const;
     QPixmap getArtwork() const;
-    QTime getDuree() const;
+    int getDuree() const;
     QStringList getAllMetaDatas();
     int getCompteur() const;
     int getTrack() const;
@@ -52,8 +52,6 @@ public:
     virtual ~NutshMetaData();
 
     public slots:
-
-
     void setArtiste(const QString&);
     void setAlbum(const QString&);
     void setTitre(const QString&);
@@ -61,9 +59,10 @@ public:
     void setGenre(const QString&);
     void setDescription(const QString&);
     void setDateEnregistrement(const QDateTime&);
+    void setDerniereLecture(const QDateTime&);
     void setChemin(const QString&);
     void setArtwork(const QPixmap&);
-    void setDuree(const QTime&);
+    void setDuree(const int);
     void setAllMetaDatas(const QStringList&);
     void setCompteur(int);
     void setTrack(int);
@@ -78,7 +77,6 @@ private :
                 description,
                 chemin;
 
-        QTime duree;
 	QStringList metaData;
 
         QDateTime enregistrement,
@@ -87,6 +85,8 @@ private :
         int compteur,
             track,
             id;
+
+        int duree;
 
         TagLib::FileRef file;
 

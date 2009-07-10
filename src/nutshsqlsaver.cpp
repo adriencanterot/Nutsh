@@ -87,13 +87,8 @@ void NutshSqlSaver::update(const NutshMetaData &nouveau,  const QString &table) 
     {
         qDebug() << requete.lastError() << requete.lastQuery();
 
-    } else {
-
-        qDebug() << table;
-
     }
 }
-
 bool NutshSqlSaver::nouvelleListe(const QString &tableName) {
     //cree une nouvelle liste
     bool etat = true;
@@ -213,7 +208,7 @@ QList<NutshMetaData> NutshSqlSaver::getMetaDatas(const QString &listName) {
 
         while(requete.next()) {
 
-            for(int i = 0;i<NB_CHAMPS_DATABASE-1;i++) {
+            for(int i = 0;i<NB_CHAMPS_DATABASE;i++) {
 
                 cache.append(requete.value(i));
             }
@@ -303,19 +298,17 @@ void NutshSqlSaver::inserer(NutshMetaData meta) {
         }
 
 
-        if(meta.getDuree().isNull()) {
-            meta.setDuree(QTime(1, 1, 1, 1));
-        }
 
-        query = QString("INSERT INTO bibliotheque (artiste, album, titre, date, genre, description, track, chemin, duree, enregistrement, derniereLecture, compteur) VALUES(\"%1\", \"%2\", \"%3\", \"\", \"%4\", \"%5\", \"\", \"%6\", \"%7\", \"%8\", \"\", \"\")")
+        query = QString("INSERT INTO bibliotheque (artiste, album, titre, date, genre, description, track, chemin, duree, enregistrement, derniereLecture, compteur) VALUES(\"%1\", \"%2\", \"%3\", \"\", \"%4\", \"%5\", \"\", \"%6\", \"%7\", \"%8\", \"\", \"%9\")")
                 .arg(meta.getArtiste())
                 .arg(meta.getAlbum())
                 .arg(meta.getTitre())
                 .arg(meta.getGenre())
                 .arg(meta.getDescription())
                 .arg(meta.getChemin())
-                .arg(meta.getDuree().toString())
-                .arg(meta.getDateEnregistrement().toString()
+                .arg(meta.getDuree())
+                .arg(meta.getDateEnregistrement().toString())
+                .arg(meta.getCompteur()
                      );
 
         //execution de la requete
@@ -363,10 +356,10 @@ void NutshSqlSaver::updateColumn(const QString& key, const QString& value, int i
     QSqlQuery requete;
 
     if(!
-       requete.exec(QString("UPDATE bibliotheque SET %2 = \"%3\" WHERE id = %1")
-                 .arg(id)
+       requete.exec(QString("UPDATE bibliotheque SET %1 = \"%2\" WHERE id = %3")
                  .arg(key)
                  .arg(value)
+                 .arg(id)
                 ))
     {
         qDebug() << requete.lastError() << requete.lastQuery();
@@ -402,4 +395,51 @@ QStringList NutshSqlSaver::getFolderList() {
         pathList.append(requete.value(0).toString());
     }
     return pathList;
+}
+
+QList<NutshMetaData> NutshSqlSaver::getLastImport(int display) {
+
+    QSqlQuery requete;
+    QList<NutshMetaData> liste;
+    QVariantList cache;
+    if(!requete.exec(QString("SELECT * FROM bibliotheque ORDER BY enregistrement LIMIT 0, %1").arg(display))) {
+        qDebug() << requete.lastError()<< requete.lastQuery();
+    }
+
+    while(requete.next()) {
+        for(int i = 0;i<NB_CHAMPS_DATABASE;i++) {
+            cache.append(requete.value(i));
+        }
+        liste.append(NutshMetaData(cache));
+        cache.clear();
+    }
+
+    return liste;
+}
+
+QList<NutshMetaData> NutshSqlSaver::getMostReaden(int display) {
+
+        QList<NutshMetaData> metaList;
+        QVariantList cache;
+
+        REQUETE(QString("SELECT * FROM bibliotheque ORDER BY compteur  DESC LIMIT 0, %1").arg(display));
+
+        while(requete.next()) {
+
+            for(int i = 0;i<NB_CHAMPS_DATABASE;i++) {
+
+                cache.append(requete.value(i));
+            }
+
+            metaList.append(NutshMetaData(cache));
+            cache.clear();
+        }
+
+        return metaList;
+}
+
+void NutshSqlSaver::played(NutshMetaData& meta) {
+
+    meta.setCompteur(meta.getCompteur()+1);
+    meta.setDerniereLecture(QDateTime::currentDateTime());
 }

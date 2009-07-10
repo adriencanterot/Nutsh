@@ -64,6 +64,7 @@ private:
     QList<NutshMetaData> lastRead;
     
     int currentItem;
+    bool tickCompteur;
     NutshMetaData current;
     NutshLecteur *media;
 

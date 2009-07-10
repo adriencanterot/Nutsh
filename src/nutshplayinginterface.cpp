@@ -4,6 +4,7 @@
 NutshPlayingInterface::NutshPlayingInterface(NutshComunicator* corePath)
 {
     core = corePath;
+    tickCompteur = true;
 
     currentItem = 0;
     nextAction = Normal;
@@ -86,6 +87,7 @@ void NutshPlayingInterface::sigandslots() {
 void NutshPlayingInterface::load(const NutshMetaData &data) {
 
     currentItem = 0;
+    tickCompteur = true;
     artwork->setPixmap(data.getArtwork());
     titre->setText("Sans Titre");
     album->setText("Sans Album");
@@ -143,6 +145,13 @@ void NutshPlayingInterface::tick(qint64 time) {
 
      tempsLabel->setText(displayTime.toString("mm:ss"));
      tempsLabelCP->setText(displayTime.toString("mm:ss"));
+
+     if(tickCompteur == true && (time/1000)*1000 == (current.getDuree()*1000)/2) {
+
+         core->getSqlControl()->played(current);
+         qDebug() << "Media played" <<  current.getCompteur() << "time(s)";
+         tickCompteur = false;
+     }
  }
 
 void NutshPlayingInterface::next() {
@@ -231,7 +240,7 @@ void NutshPlayingInterface::place(float coef){
     coef = 0;
 
     this->move(160, 115);
-
+    this->setFixedWidth(440);
     boutonPrecedent->move(10, 30);
     boutonSuivant->move(120, 30);
     boutonStop->move(180, 30);

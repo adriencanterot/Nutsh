@@ -20,15 +20,15 @@ void NutshStyle::drawItemText(QPainter *painter, const QRect &rectangle, int ali
 {
     QRect r(rectangle);
     if(enabled){
-        if(textRole == QPalette::ButtonText)
+        if(textRole == QPalette::Button) {
             painter->setPen(QPen(QColor(Qt::white)));
+            r.setHeight(r.height()-8);
+        }
         else
             painter->setPen(QPen(Qt::black));
     }
     else
         painter->setPen(QPen(QColor(125, 125, 125)));
-
-        r.setHeight(r.height()-8);
         painter->drawText(r, alignment, text);
 }
 

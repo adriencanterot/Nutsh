@@ -20,7 +20,8 @@ NutshPlaylistList::NutshPlaylistList(NutshComunicator* corePath, QWidget *parent
 void NutshPlaylistList::dragMoveEvent(QDragMoveEvent *event) {
     // séléctionne l'élément à la position du curseur
 
-    if(this->itemAt(event->pos()) != NULL) {
+
+    if(this->itemAt(event->pos()) != NULL && this->row(this->itemAt(event->pos())) > 3) {
 
         this->itemAt(event->pos())->setSelected(true);
         event->accept();
@@ -34,7 +35,7 @@ void NutshPlaylistList::dragMoveEvent(QDragMoveEvent *event) {
 void NutshPlaylistList::dropEvent(QDropEvent* event) {
     //insère les metadonnées séléctionnées dans la liste à la position du curseur
 
-    if(this->itemAt(event->pos()) != NULL) {
+    if(this->itemAt(event->pos()) != NULL && this->itemAt(event->pos())->data(0).toInt() > 3) {
 
         core->getSqlControl()->inserer(
                 core->metadatainterface()->getListWidget()->selectedMetadatas(),

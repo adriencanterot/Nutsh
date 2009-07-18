@@ -223,9 +223,9 @@ QList<NutshMetaData> NutshSqlSaver::getMetaDatas(const QString &listName) {
 
         while(requete.next()) {
 
-            if(requete.value(9).toString().contains(crypt(listName))) {
+            if(requete.value(9).toString().contains(crypt(NutshSqlSaver::normalStringFormat(listName)))) {
 
-                for(int i = 0;i<NB_CHAMPS_DATABASE-1;i++) {
+                for(int i = 0;i<NB_CHAMPS_DATABASE;i++) {
 
                         cache.append(requete.value(i));
                 }

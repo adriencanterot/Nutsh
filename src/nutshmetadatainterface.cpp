@@ -11,12 +11,10 @@ NutshMetaDataInterface::NutshMetaDataInterface(NutshComunicator* corePath)
     metadatas = new NutshMetaDataList(core);
     metadatas->setParent(this);
     importer = new QPushButton("Importer", this);
-    toBibliotheque = new QPushButton("Bibliothèque", this);
     this->setStyleSheet("min-height : 240px;");
 
     //placement
     importer->hide();
-    toBibliotheque->hide();
 
     this->load(core->getSqlControl()->getMetaDatas("bibliotheque"));
 
@@ -78,7 +76,6 @@ void NutshMetaDataInterface::sigandslots() {
     connect(metadatas, SIGNAL(clicked(NutshMetaData)), this, SLOT(swapWidgets(NutshMetaData)));
     connect(importer, SIGNAL(clicked()), this, SLOT(importerContent()));
     connect(this, SIGNAL(contentTypeChanged(ContentType)), this, SLOT(changeDisposition(ContentType)));
-    connect(toBibliotheque, SIGNAL(clicked()), this, SLOT(reset()));
 }
 
 
@@ -152,18 +149,15 @@ void NutshMetaDataInterface::changeDisposition(ContentType type) {
 
         case Dir: //modifications de cette interface si le contenu vient d'un dossier
             importer->show();
-            toBibliotheque->show();
 
             break;
 
         case Entire: //si le contenu est toute la bibliotheque
             importer->hide();
-            toBibliotheque->hide();
             break;
 
         case Playlist: //si le contenu vient d'une playlist
             importer->hide();
-            toBibliotheque->show();
             core->swapInterface(MetaDataInterface);
             break;
 

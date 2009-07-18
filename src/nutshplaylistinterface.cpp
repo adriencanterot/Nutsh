@@ -19,6 +19,7 @@ void NutshPlayListInterface::refresh(){
     REQUETE("SELECT name FROM listeDeLecture");
     liste->clear();
 
+    liste->addItem("Bibliothèque");
     liste->addItem("Les plus écoutées");
     liste->addItem("Les dernières ajoutées");
     liste->addItem("Écoutées récemment");

@@ -52,12 +52,15 @@ void NutshPlaylistList::showContent(const QModelIndex &index) {
     // affiche le contenu d'une liste de lecture dans l'interface nutshmetadatainterface
     switch(index.row()) {
         case 0 :
-        core->metadatainterface()->load(core->getSqlControl()->getMostReaden(30));
+        core->metadatainterface()->reset();
         break;
         case 1 :
-        core->metadatainterface()->load(core->getSqlControl()->getLastImport(30));
+        core->metadatainterface()->load(core->getSqlControl()->getMostReaden(30));
         break;
         case 2 :
+        core->metadatainterface()->load(core->getSqlControl()->getLastImport(30));
+        break;
+        case 3 :
         core->metadatainterface()->load(core->getSqlControl()->getLastReaden(30));
         break;
         default:

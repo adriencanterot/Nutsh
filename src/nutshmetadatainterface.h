@@ -50,8 +50,7 @@ private:
     NutshComunicator* core;
     QList<NutshMetaData> metaList;
     NutshMetaDataList *metadatas;
-    QPushButton *importer,
-                *toBibliotheque;
+    QPushButton *importer;
     
     int indexSelected;
 

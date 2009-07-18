@@ -339,7 +339,6 @@ QPixmap NutshMetaData::getArtwork() const {
 
         MPEG::File file(this->getChemin().toAscii().constData());
         ID3v2::Tag *tag = file.ID3v2Tag();
-
         ID3v2::FrameList l = tag->frameList("APIC");
 
         QImage image;

@@ -54,7 +54,6 @@ void NutshMetaDataList::load(QList<NutshMetaData> liste) {
     for(int i = 0;i<liste.count();i++) {
 
         this->append(liste.value(i));
-        qDebug() << "Progression :" << float((i/liste.count())*100);
     }
 
     if(liste.count() != 0) {

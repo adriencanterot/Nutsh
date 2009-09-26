@@ -3,7 +3,7 @@
 
 NutshPlayingInterface::NutshPlayingInterface(NutshComunicator* corePath)
 {
-    qDebug() << "Initializing NutshPlayingInterface";
+    qDebug() << "Initializing NutshPlayingInterface...";
     core = corePath;
     tickCompteur = true;
 

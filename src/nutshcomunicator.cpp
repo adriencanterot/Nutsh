@@ -58,9 +58,6 @@ void NutshComunicator::afterLaunch() {
 
     m_playinginterface->sigandslots();
 
-    qDebug() << 'NutshMetaDataInterface' << m_metadatainterface->size();
-    qDebug() << 'NutshPlaylistInterface' << m_playlistinterface->size();
-
     this->place(1);
 }
 QWidget *NutshComunicator::initInterfaces() {

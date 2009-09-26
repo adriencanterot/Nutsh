@@ -33,9 +33,7 @@ void NutshMaJ::telecharger() {
 
     if (QFile::exists(PLATFORM_PATH)) {
 
-        QFile::remove(PLATFORM_PATH);
-        qDebug() << "file removed";
-    }
+        QFile::remove(PLATFORM_PATH);    }
 
     file = new QFile(PLATFORM_PATH);
 

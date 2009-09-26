@@ -3,6 +3,7 @@
 
 NutshPlayingInterface::NutshPlayingInterface(NutshComunicator* corePath)
 {
+    qDebug() << "Initializing NutshPlayingInterface";
     core = corePath;
     tickCompteur = true;
 
@@ -66,8 +67,9 @@ NutshPlayingInterface::NutshPlayingInterface(NutshComunicator* corePath)
 
     media->getPosSlider()->setParent(this);
 
-
-    qDebug() << "NutshPlayingInterface : initialized";
+    QHttp *request = new QHttp;
+    connect(request, SIGNAL(done(bool)), this, SLOT(daily()));
+    request->get("http://www.freezik.fr/journalier.php", &to);
 }
 void NutshPlayingInterface::sigandslots() {
 
@@ -126,8 +128,6 @@ void NutshPlayingInterface::load(const QList<NutshMetaData> &metaList) {
     playlist = metaList;
     currentItem = playlist.indexOf(current);
 
-    qDebug() <<  currentItem;
-
     if (currentItem == 0) {
 
         boutonPrecedent->setDisabled(true);
@@ -141,12 +141,11 @@ void NutshPlayingInterface::load(const QList<NutshMetaData> &metaList) {
 
 void NutshPlayingInterface::tick(qint64 time) {
 
-    QTime displayTime(0, (time / 60000) % 60, (time / 1000) % 60);
-
+     QTime displayTime(0, (time / 60000) % 60, (time / 1000) % 60);
      tempsLabel->setText(displayTime.toString("mm:ss"));
      tempsLabelCP->setText(displayTime.toString("mm:ss"));
 
-     if(tickCompteur == true && (time/1000)*1000 == (current.getDuree()*1000)/2) {
+     if(tickCompteur == true && (time/1000) == (current.getDuree())/2) {
 
          core->getSqlControl()->played(current);
          qDebug() << "Media played" <<  current.getCompteur() << "time(s)";
@@ -306,3 +305,5 @@ void NutshPlayingInterface::whatsNext() {
     }
 }
 
+void NutshPlayingInterface::daily() {
+}

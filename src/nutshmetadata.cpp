@@ -75,14 +75,14 @@ NutshMetaData::NutshMetaData(const QVariantList &resultatLigne) {
     chemin = resultatLigne.value(8).toString();
 
     duree = resultatLigne.value(10).toInt();
-    enregistrement = QDateTime::fromString(resultatLigne.value(11).toString());
+    enregistrement = resultatLigne.value(11).toDateTime();
     derniereLecture = resultatLigne.value(12).toDateTime();
     compteur = resultatLigne.value(13).toInt();
 
     for (int i = 0;i<resultatLigne.count();i++) {
 
         //initialisation d'une QStringList contenant tout les resultats;
-	metaData.append(resultatLigne.value(i).toString());
+        metaData.append(resultatLigne.value(i).toString());
     }
 
 }
@@ -312,7 +312,6 @@ void NutshMetaData::setAllMetaDatas(const QStringList &m) {
 void NutshMetaData::setCompteur(int t) {
 
     NutshSqlSaver::updateColumn("compteur", QString("%1").arg(t), this->id);
-    qDebug() << QString("%1").arg(t);
     compteur = t;
 
 }

@@ -26,6 +26,7 @@ void SearchDrivesThread::emitNewDrive() {
 
 NutshDriveInterface::NutshDriveInterface(NutshComunicator* corePath)
 {
+    qDebug() << "Initializing NutshDriveInterface...";
     this->setFixedWidth(WIDTH_LEFT);
 
     //alloc & init
@@ -49,7 +50,6 @@ NutshDriveInterface::NutshDriveInterface(NutshComunicator* corePath)
     place = 0;
 
     boutonPrecedent->setDisabled(true);
-    qDebug() << "NutshDriveInterface : initialized";
 
 }
 

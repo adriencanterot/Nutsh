@@ -19,6 +19,7 @@ NutshMainWindow::NutshMainWindow(QWidget *parent)
     this->show();
     path->scanFolders();
     this->show();
+    path->metadatainterface()->setStyleSheet("min-width : 440px;");
     qDebug("NutshMainWindow : Fin de l'initialisation de l'interface");
 }
 

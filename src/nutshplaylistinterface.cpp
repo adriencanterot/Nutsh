@@ -3,14 +3,13 @@
 
 NutshPlayListInterface::NutshPlayListInterface(NutshComunicator* corePath, QWidget *parent) : QWidget(parent)
 {
+    qDebug() << "Initializing NutshPlayListInterface...";
 
     core = corePath;
     this->setFixedWidth(WIDTH_LEFT);
     liste = new NutshPlaylistList(core, this);
     refresh();
     initButtons();
-
-    qDebug() << "NutshPlaylistInterface : initialized";
 }
 
 void NutshPlayListInterface::refresh(){

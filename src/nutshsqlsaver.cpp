@@ -140,7 +140,7 @@ bool NutshSqlSaver::connect() {
 
     QSqlQuery requete;
 
-    requete.exec("create table bibliotheque ( id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, artiste text, album text, titre text, date text, genre text, description text, track text, chemin text, playlists text, duree text, enregistrement text, derniereLecture text, compteur text)");
+    requete.exec("create table bibliotheque ( id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, artiste text, album text, titre text, date date, genre text, description text, track integer, chemin text, playlists text, duree text, enregistrement date, derniereLecture date, compteur integer)");
 
 
     requete.exec("CREATE TABLE listeDeLecture (name text, ordre text)");
@@ -205,14 +205,15 @@ QList<NutshMetaData> NutshSqlSaver::getMetaDatas(const QString &listName) {
         REQUETE("SELECT * FROM bibliotheque");
 
     if(listName == "bibliotheque"){
-
+        int o = 0;
         while(requete.next()) {
 
             for(int i = 0;i<NB_CHAMPS_DATABASE;i++) {
 
                 cache.append(requete.value(i));
             }
-
+            o++;
+            qDebug() << o;
             metaList.append(NutshMetaData(cache));
             cache.clear();
         }

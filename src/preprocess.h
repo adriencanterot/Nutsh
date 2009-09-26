@@ -7,7 +7,7 @@
 #define NB_CHAMPS_DATABASE 14
 #define FORMATS_SUPPORTES "*.mp3" << "*.m4a" << "*.wma" << "*.ogg";
 #define D(bug) qDebug() << bug;
-#define WIDTH_LEFT 200
+#define WIDTH_LEFT 400
 
 enum ContentType {
 

@@ -8,7 +8,11 @@
 #include "preprocess.h"
 
 #if defined(Q_WS_X11) || defined(Q_WS_MAC)
-#include <phonon>
+#include <QtMultimedia>
+#include <mediaobject.h>
+#include <seekslider.h>
+#include <audiooutput.h>
+
 /* Cree un lecteur heritant du media object (pour lui rajouter des options) */
 class NutshLecteur : public Phonon::MediaObject
 {

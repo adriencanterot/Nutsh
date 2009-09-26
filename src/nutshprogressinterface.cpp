@@ -3,6 +3,7 @@
 
 NutshProgressInterface::NutshProgressInterface(NutshComunicator* corePath)
 {
+    qDebug() << "Initializing NutshProgressInterface...";
     core = corePath;
     //Widgets
 
@@ -12,8 +13,6 @@ NutshProgressInterface::NutshProgressInterface(NutshComunicator* corePath)
     m_cancel = new QPushButton("", this);
     m_cancel->setProperty("cancelButton", true);
     m_cancel->setToolTip("Arrêter l'importation");
-
-    qDebug() << "NutshProgressInterface : initialized";
 
 }
 

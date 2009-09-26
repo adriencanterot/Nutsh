@@ -1,8 +1,10 @@
 # -------------------------------------------------
 # Project created by QtCreator 2009-01-24T16:01:49
 # -------------------------------------------------
+QT += phonon multimedia
 QT += sql \
-    network
+    network \
+    xml
 ICON += nutsh.icns
 CONFIG += qt \
     debug
@@ -21,7 +23,7 @@ macx {
     INCLUDEPATH += 3rdparty/mac/include
     LIBS += -L3rdparty/mac/lib \
         -ltag
-    QT += phonon
+    QT += phonon opengl
     OTHER_FILES += style.css
 }
 linux-g++ { 
@@ -51,7 +53,8 @@ SOURCES += src/main.cpp \
     src/nutshinstallationwizard.cpp \
     src/nutshlabel.cpp \
     src/nutshsubinterfaces.cpp \
-    src/nutshstyle.cpp
+    src/nutshstyle.cpp \
+    src/dailysonginterface.cpp
 HEADERS += src/nutshmainwindow.h \
     src/nutshlecteur.h \
     src/nutshindexer.h \
@@ -72,7 +75,10 @@ HEADERS += src/nutshmainwindow.h \
     src/nutshinstallationwizard.h \
     src/nutshlabel.h \
     src/nutshsubinterfaces.h \
-    src/nutshstyle.h
+    src/nutshstyle.h \
+    src/dailysonginterface.h
 RESOURCES += nutsh.qrc
 OBJECTS_DIR = obj/
 MOC_DIR = moc/
+
+CONFIG += x86

@@ -48,15 +48,18 @@ void NutshComunicator::afterLaunch() {
 
     m_progressinterface->setParent(m_central);
 
-    m_playinginterface->hide();
+    m_metadatainterface->hide();
     m_progressinterface->hide();
 
-    m_updater = new NutshUpdater(this);
+//    m_updater = new NutshUpdater(this);
 
-    m_updater->setParent(m_central);
-    m_updater->hide();
+//    m_updater->setParent(m_central);
+//    m_updater->hide();
 
     m_playinginterface->sigandslots();
+
+    qDebug() << 'NutshMetaDataInterface' << m_metadatainterface->size();
+    qDebug() << 'NutshPlaylistInterface' << m_playlistinterface->size();
 
     this->place(1);
 }
@@ -88,13 +91,13 @@ void NutshComunicator::swapInterface(InterfaceName name) {
 void NutshComunicator::place(float coef) {
 
     coef = 1;
-
+    m_metadatainterface->place(0);
     m_progressinterface->move(190, 310);
     m_progressinterface->resize(400, 40);
     m_metadatainterface->move(161, 115);
 
     m_playinginterface->place(coef);
-    m_metadatainterface->place(coef);
+
     m_progressinterface->place(coef);
     m_playlistinterface->place(coef);
     m_searchlineinterface->place(coef);
@@ -103,8 +106,10 @@ void NutshComunicator::place(float coef) {
 
 void NutshComunicator::scanFolders() {
 
+#ifndef STAGING
     NutshIndexer* indexer = new NutshIndexer(this->getSqlControl()->getFolderList(), this);
     indexer->start();
+#endif
 }
 /* ----------Fonctions retournant les interfaces pour communiquer entre les différentes parties du programme -------*/
 NutshMetaDataInterface* NutshComunicator::metadatainterface() {

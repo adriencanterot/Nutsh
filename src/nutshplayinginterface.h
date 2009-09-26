@@ -9,6 +9,9 @@
 #include "nutshmetadata.h"
 #include <QMouseEvent>
 #include <QDrag>
+#include <QXmlStreamReader>
+#include <QHttp>
+#include <QBuffer>
 #include "nutshlabel.h"
 #include "nutshlecteur.h"
 
@@ -36,6 +39,7 @@ public slots:
     void stop();
     void random();
     void repeat();
+    void daily();
 
 
 private:
@@ -67,6 +71,8 @@ private:
     bool tickCompteur;
     NutshMetaData current;
     NutshLecteur *media;
+
+    QBuffer to;
 
     Action nextAction;
 };

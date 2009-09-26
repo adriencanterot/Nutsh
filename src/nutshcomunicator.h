@@ -1,5 +1,6 @@
 #ifndef NUTSHCOMUNICATOR_H
 #define NUTSHCOMUNICATOR_H
+#define STAGING
 
 //core
 #include "nutshsqlsaver.h"
@@ -20,6 +21,7 @@
 #include "nutshprogressinterface.h"
 #include "nutshupdater.h"
 #include "nutshsubinterfaces.h"
+#include "dailysonginterface.h"
 
 class NutshComunicator : public QObject
 {
@@ -64,7 +66,7 @@ private:
     NutshMetaDataInterface *m_metadatainterface;
     NutshPlayingInterface *m_playinginterface;
     NutshProgressInterface *m_progressinterface;
-    NutshUpdater *m_updater;
+//    NutshUpdater *m_updater;
     NutshBoutonRevenir *m_boutonrevenir;
 
 };

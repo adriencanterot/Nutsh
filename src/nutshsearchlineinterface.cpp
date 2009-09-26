@@ -4,6 +4,8 @@
 
 NutshSearchLineInterface::NutshSearchLineInterface(NutshComunicator* corePath)
 {
+
+    qDebug() << "Initializing NutshSearchLineInterface...";
     core = corePath;
 
     searchLine = new QLineEdit(this);
@@ -15,8 +17,6 @@ NutshSearchLineInterface::NutshSearchLineInterface(NutshComunicator* corePath)
 
     actionsPlus = new QMenu(this);
     nouvelleListe->setMenu(actionsPlus); // mise en place du menu pour le bouton "+"
-
-    qDebug() << "NutshSearchLineInterface : initialized";
 }
 
 void NutshSearchLineInterface::sigandslots() {

@@ -3,6 +3,7 @@
 
 NutshMetaDataInterface::NutshMetaDataInterface(NutshComunicator* corePath)
 {
+    qDebug() << "Initializing NutshMetaDataInterface...";
     //init & alloc
     core = corePath;
     contentType = Entire;
@@ -11,14 +12,12 @@ NutshMetaDataInterface::NutshMetaDataInterface(NutshComunicator* corePath)
     metadatas = new NutshMetaDataList(core);
     metadatas->setParent(this);
     importer = new QPushButton("Importer", this);
-    this->setStyleSheet("min-height : 240px;");
+    this->setStyleSheet("min-height : 180px;");
 
     //placement
     importer->hide();
 
-    this->load(core->getSqlControl()->getMetaDatas("bibliotheque"));
-
-    qDebug() << "NutshMetaDataInterface : initialized";
+//    this->load(core->getSqlControl()->getMetaDatas("bibliotheque"));
 }
 
 
@@ -214,9 +213,8 @@ void NutshMetaDataInterface::navigateByKey(QKeyEvent *event) {
 
 void NutshMetaDataInterface::place(float coef) {
 
-    this->move(160, 90);
     this->setStyleSheet("min-width : 440px;");
-    this->setMinimumWidth(440);
+    this->setMinimumWidth(430);
 }
 
 QList<NutshMetaData> NutshMetaDataInterface::totalContent() const {

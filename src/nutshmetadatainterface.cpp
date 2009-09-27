@@ -17,7 +17,7 @@ NutshMetaDataInterface::NutshMetaDataInterface(NutshComunicator* corePath)
     //placement
     importer->hide();
 
-//    this->load(core->getSqlControl()->getMetaDatas("bibliotheque"));
+    this->load(core->getSqlControl()->getMetaDatas("bibliotheque"));
 }
 
 
@@ -213,8 +213,7 @@ void NutshMetaDataInterface::navigateByKey(QKeyEvent *event) {
 
 void NutshMetaDataInterface::place(float coef) {
 
-    this->setStyleSheet("min-width : 440px;");
-    this->setMinimumWidth(430);
+    this->setStyleSheet("min-width : 140px;");
 }
 
 QList<NutshMetaData> NutshMetaDataInterface::totalContent() const {

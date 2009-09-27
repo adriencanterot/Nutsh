@@ -7,7 +7,6 @@ NutshSearchLineInterface::NutshSearchLineInterface(NutshComunicator* corePath)
 
     qDebug() << "Initializing NutshSearchLineInterface...";
     core = corePath;
-
     searchLine = new QLineEdit(this);
     searchLine->setProperty("searchLine", true);
     nouvelleListe = new QPushButton("", this);
@@ -76,7 +75,6 @@ void NutshSearchLineInterface::threatCommand(const QString& command) {
     else if(command == "listened") {
         core->metadatainterface()->load(core->getSqlControl()->getMostReaden(1));
     } else {
-        qDebug() << command;
     }
 }
 

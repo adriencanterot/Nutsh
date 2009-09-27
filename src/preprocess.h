@@ -5,9 +5,13 @@
 #define REQUETE(q) QSqlQuery requete; if(!requete.exec(q)) { qDebug() << requete.lastError() << " | Q = " << requete.lastQuery(); }
 #define QUERY(q) if(!query.exec(q)) { qDebug() << query.lastError() << " | \n\nQ = " << query.lastQuery() << "\n\n"; }
 #define NB_CHAMPS_DATABASE 14
+#ifdef Q_OS_WIN
+#define FORMATS_SUPPORTES "*.mp3" << "*.wma" << "*.ogg";
+#elif
 #define FORMATS_SUPPORTES "*.mp3" << "*.m4a" << "*.wma" << "*.ogg";
+#endif
 #define D(bug) qDebug() << bug;
-#define WIDTH_LEFT 400
+#define WIDTH_LEFT 200
 
 enum ContentType {
 

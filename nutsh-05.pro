@@ -1,13 +1,12 @@
 # -------------------------------------------------
 # Project created by QtCreator 2009-01-24T16:01:49
 # -------------------------------------------------
-QT += phonon multimedia
 QT += sql \
     network \
     xml
 ICON += nutsh.icns
 CONFIG += qt \
-    debug
+    release
 DESTDIR += bin
 win32 { 
     INCLUDEPATH += . \
@@ -23,7 +22,8 @@ macx {
     INCLUDEPATH += 3rdparty/mac/include
     LIBS += -L3rdparty/mac/lib \
         -ltag
-    QT += phonon opengl
+    QT += phonon \
+        opengl
     OTHER_FILES += style.css
 }
 linux-g++ { 
@@ -80,5 +80,5 @@ HEADERS += src/nutshmainwindow.h \
 RESOURCES += nutsh.qrc
 OBJECTS_DIR = obj/
 MOC_DIR = moc/
-
 CONFIG += x86
+RC_FILE += icon.rc

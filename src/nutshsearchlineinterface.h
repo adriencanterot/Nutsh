@@ -18,6 +18,7 @@ public:
     void sigandslots();
     void activate();
     void place(float coef);
+    void threatCommand(const QString&);
 
 protected:
     void keyPressEvent(QKeyEvent*);

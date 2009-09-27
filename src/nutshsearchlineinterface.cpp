@@ -33,8 +33,13 @@ void NutshSearchLineInterface::showResults(QString query) {
     
     if(searchLine->text() != "") { //affiche la liste des morceaux uniquement si il y a du texte entré
 
-        core->metadatainterface()->getWordMetaData(query);
-        core->swapInterface(MetaDataInterface);
+        if(searchLine->text().startsWith(":")) {
+            this->threatCommand(searchLine->text().right(searchLine->text().count()-1));
+        } else {
+
+            core->metadatainterface()->getWordMetaData(query);
+            core->swapInterface(MetaDataInterface);
+        }
 
 
     } else { // sinon, affichage de l'interface "Play"
@@ -62,5 +67,16 @@ void NutshSearchLineInterface::place(float coef) {
 
     searchLine->move(240, 26);
     nouvelleListe->move(490, 26);
+}
+
+void NutshSearchLineInterface::threatCommand(const QString& command) {
+    if(command == "last") {
+        core->metadatainterface()->load(core->getSqlControl()->getLastReaden(1));
+    }
+    else if(command == "listened") {
+        core->metadatainterface()->load(core->getSqlControl()->getMostReaden(1));
+    } else {
+        qDebug() << command;
+    }
 }
 

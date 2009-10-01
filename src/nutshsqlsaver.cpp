@@ -113,7 +113,7 @@ bool NutshSqlSaver::connect() {
     QDir verification(MusicDir);
     bool wizard = false;
 
-    if(!verification.exists("NutshConfig")) {
+    if(!verification.exists("NutshConfig")|| !QFile::exists(MusicDir+"/NutshConfig/NutshDB")) {
 
         verification.mkdir("NutshConfig");
         wizard = true;

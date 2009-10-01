@@ -58,17 +58,17 @@ void NutshStyle::drawPrimitive(PrimitiveElement element, const QStyleOption *opt
                         painter->save();
                         painter->setBrush(QBrush(gradient));
                         painter->setPen(Qt::NoPen);
-                        painter->drawRoundedRect(rectX, rectY, rectLong, rectLarg, rd, rd, Qt::AbsoluteSize);
+                        painter->drawRoundedRect(rectX, rectY, rectLong, rectLarg+8, rd, rd, Qt::AbsoluteSize);
                 }
                 else
                 {
                         painter->save();
                         painter->setPen(QColor(173, 178, 181));
                         painter->setBrush(QBrush(QColor(244, 244, 244)));
-                        painter->drawRect(rectX, rectY, rectLong, rectLarg);
+                        painter->drawRect(rectX, rectY, rectLong, rectLarg+8);
                         painter->restore();
                         painter->setPen(Qt::NoPen);
-                        painter->drawRoundedRect(rectX, rectY, rectLong, rectLarg, rd, rd, Qt::AbsoluteSize);
+                        painter->drawRoundedRect(rectX, rectY, rectLong, rectLarg+8, rd, rd, Qt::AbsoluteSize);
                 }
                 if(option->state & State_MouseOver)
                 {
@@ -83,7 +83,7 @@ void NutshStyle::drawPrimitive(PrimitiveElement element, const QStyleOption *opt
                         painter->save();
                         painter->setBrush(QBrush(gradient));
                         painter->setPen(Qt::NoPen);
-                        painter->drawRoundedRect(rectX, rectY, rectLong, rectLarg, rd, rd, Qt::AbsoluteSize);
+                        painter->drawRoundedRect(rectX, rectY, rectLong, rectLarg+8, rd, rd, Qt::AbsoluteSize);
                 }
                 if(option->state & (State_Sunken | State_On))
                 {
@@ -98,7 +98,7 @@ void NutshStyle::drawPrimitive(PrimitiveElement element, const QStyleOption *opt
                         painter->save();
                         painter->setBrush(QBrush(gradient));
                         painter->setPen(Qt::NoPen);
-                        painter->drawRoundedRect(rectX, rectY, rectLong, rectLarg, rd, rd, Qt::AbsoluteSize);
+                        painter->drawRoundedRect(rectX, rectY, rectLong, rectLarg+8, rd, rd, Qt::AbsoluteSize);
                 }
         }
 }

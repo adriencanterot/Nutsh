@@ -24,7 +24,6 @@ class PageImportMedia : public QWizardPage
 
     public:
         PageImportMedia();
-
     public slots:
         void getDirName();
         void updateBar(int, int);
@@ -39,6 +38,7 @@ class PageImportMedia : public QWizardPage
         QVBoxLayout *principal;
         QProgressBar *progression;
         QString dirName;
+        bool complete;
 };
 
 class PageConclusion : public QWizardPage
@@ -53,10 +53,10 @@ class PageConclusion : public QWizardPage
 
 class NutshInstallationWizard : public QWizard
 {
-
 public:
     NutshInstallationWizard();
     void accept();
+    void reject();
 };
 
 #endif // NUTSHINSTALLATIONWIZARD_H

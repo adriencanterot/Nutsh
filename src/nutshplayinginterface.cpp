@@ -164,6 +164,11 @@ void NutshPlayingInterface::next() {
         boutonSuivant->setEnabled(true);
     }
 
+    if(nextAction == Random) {
+        whatsNext();
+        return;
+    }
+
     int cacheCurrentItem = this->currentItem+1;
     boutonPrecedent->setEnabled(true);
 

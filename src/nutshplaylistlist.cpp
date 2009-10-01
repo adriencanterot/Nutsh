@@ -35,7 +35,7 @@ void NutshPlaylistList::dragMoveEvent(QDragMoveEvent *event) {
 void NutshPlaylistList::dropEvent(QDropEvent* event) {
     //insère les metadonnées séléctionnées dans la liste à la position du curseur
 
-    if(this->itemAt(event->pos()) != NULL && this->itemAt(event->pos())->data(0).toInt() > 3) {
+    if(this->itemAt(event->pos()) != NULL && this->row(this->itemAt(event->pos())) > 3) {
 
         core->getSqlControl()->inserer(
                 core->metadatainterface()->getListWidget()->selectedMetadatas(),
@@ -44,7 +44,7 @@ void NutshPlaylistList::dropEvent(QDropEvent* event) {
         event->accept();
 
     } else {
-
+        qDebug() << this->row(this->itemAt(event->pos()));
         event->ignore();
     }
 }

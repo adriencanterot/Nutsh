@@ -8,7 +8,6 @@
 #include "preprocess.h"
 
 #if defined(Q_WS_X11) || defined(Q_WS_MAC)
-#include <QtMultimedia>
 #include <mediaobject.h>
 #include <seekslider.h>
 #include <audiooutput.h>

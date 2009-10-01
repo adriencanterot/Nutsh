@@ -7,7 +7,7 @@
 #define NB_CHAMPS_DATABASE 14
 #ifdef Q_OS_WIN
 #define FORMATS_SUPPORTES "*.mp3" << "*.wma" << "*.ogg";
-#elif
+#else
 #define FORMATS_SUPPORTES "*.mp3" << "*.m4a" << "*.wma" << "*.ogg";
 #endif
 #define D(bug) qDebug() << bug;

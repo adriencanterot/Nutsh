@@ -25,7 +25,7 @@ class Indexer: public QThread {
     signals:
         void stopper(bool);
         void fatalError(QString);
-        void updateBar(int, int);
+        void updateBar(ProgressionInfo);
         void loopEnded();
 
     private:

@@ -89,9 +89,9 @@ void NutshComunicator::place(float coef) {
 
     coef = 1;
     m_metadatainterface->place(0);
-    m_progressinterface->move(190, 310);
-    m_progressinterface->resize(400, 40);
-    m_metadatainterface->move(161, 115);
+    m_progressinterface->move(190, 290);
+    m_progressinterface->resize(400, 60);
+    m_metadatainterface->move(161, 90);
 
     m_playinginterface->place(coef);
 

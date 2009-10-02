@@ -17,7 +17,10 @@ void Indexer::run() {
 
     int total = 0;
     QStringList filePaths;
-    emit updateBar(1, 0) ;
+    ProgressionInfo informations;
+    informations.style = searching;
+    informations.phrase = QString("Recherche de morceaux en cours...");
+    emit updateBar(informations);
 
     iterator = new QDirIterator(chemin, filtre, QDir::NoFilter, QDirIterator::Subdirectories);
 
@@ -25,8 +28,10 @@ void Indexer::run() {
 
         filePaths.append(iterator->next());
         total++;
-
-        emit updateBar(total, 0);
+        ProgressionInfo informations;
+        informations.phrase = QString("%1 morceaux trouvés").arg(total);
+        informations.style = searching;
+        emit updateBar(informations);
 
         if(loopRunning == false) {
 
@@ -39,15 +44,16 @@ void Indexer::run() {
         emit fatalError("Aucun fichier trouvé dans le dossier spécifié");
     }
 
-    emit updateBar(0, 0);
-
-
-
     for(int i = 0;i<filePaths.count();i++) {
 
+        ProgressionInfo informations;
+        informations.progression = i+1;
+        informations.maximum = total;
+        informations.phrase = QString("%1 morceaux importés sur %2").arg(i+1).arg(total);
+        informations.style = progression;
         NutshMetaData data(filePaths.value(i));
         saver->inserer(data);
-        emit updateBar(i+1, total);
+        emit updateBar(informations);
 
         if(loopRunning == false || filePaths.count() == 0 || i == filePaths.count()) {
 

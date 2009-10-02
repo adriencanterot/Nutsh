@@ -2,6 +2,7 @@
 #define NUTSHINSTALLATIONWIZARD_H
 
 #include <QWizard>
+#include "preprocess.h"
 class QLabel;
 class QPushButton;
 class QProgressBar;
@@ -26,7 +27,7 @@ class PageImportMedia : public QWizardPage
         PageImportMedia();
     public slots:
         void getDirName();
-        void updateBar(int, int);
+        void updateBar(ProgressionInfo informations);
         void resetAction(QString);
 
     private:
@@ -36,7 +37,7 @@ class PageImportMedia : public QWizardPage
 
         QPushButton* parcourir;
         QVBoxLayout *principal;
-        QProgressBar *progression;
+        QProgressBar *m_progression;
         QString dirName;
         bool complete;
 };

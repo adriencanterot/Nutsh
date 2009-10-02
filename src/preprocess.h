@@ -33,4 +33,15 @@ enum Action {
     Repeat, Random, Normal
 };
 
+enum progressionStyle {
+    progression, searching
+};
+
+struct ProgressionInfo {
+    int progression;
+    int maximum;
+    QString phrase;
+    progressionStyle style;
+};
+
 #endif // PREPROCESS_H

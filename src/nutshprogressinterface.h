@@ -21,6 +21,7 @@ public:
 
     void setMaximum(int);
     void setValue(int);
+    void setText(const QString&);
 
     bool isActive();
 
@@ -30,7 +31,7 @@ public:
     void place(float coef);
 
 public slots:
-    void updateWidget(int, int);
+    void updateWidget(ProgressionInfo);
     void reset();
     void stopWhy(const QString& why);
 
@@ -38,6 +39,7 @@ private:
     NutshComunicator* core;
 
     QObject *m_receiver;
+    QLabel *m_label;
     const char* m_member;
 
     QProgressBar *m_progress;

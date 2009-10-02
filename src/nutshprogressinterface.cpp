@@ -9,8 +9,9 @@ NutshProgressInterface::NutshProgressInterface(NutshComunicator* corePath)
 
 
     m_progress = new QProgressBar(this);
-
+    qRegisterMetaType<ProgressionInfo>("ProgressionInfo");
     m_cancel = new QPushButton("", this);
+    m_label = new QLabel("                                                                                  ", this);
     m_cancel->setProperty("cancelButton", true);
     m_cancel->setToolTip("Arrêter l'importation");
 
@@ -56,24 +57,19 @@ void NutshProgressInterface::swapToProgress() {
     active = true;
 }
 
-void NutshProgressInterface::updateWidget(int current, int total) {
+void NutshProgressInterface::updateWidget(ProgressionInfo informations) {
     // met à jour le widget (à chaque tour de boucle du thread
 
-    if(total == 0 && current != 0) {
-
+    if(informations.style == searching) {
+        this->setValue(informations.progression);
         this->setMaximum(0);
-        this->setValue(current);
 
-    } else if(total == 0 && current == 0) {
-        this->setValue(0);
+    } else if( informations.style == progression) {
+        this->setValue(informations.progression);
+        this->setMaximum(informations.maximum);
 
-    } else {
-
-        this->setMaximum(total);
-        this->setValue(current);
     }
-
-
+    this->setText(informations.phrase);
 
 }
 
@@ -81,7 +77,7 @@ void NutshProgressInterface::import(const QString& path) {
 
     scan = new Indexer(path);
     connect(scan, SIGNAL(loopEnded()), core->metadatainterface(), SLOT(reload()));
-    connect(scan, SIGNAL(updateBar(int, int)), this, SLOT(updateWidget(int, int)));
+    connect(scan, SIGNAL(updateBar(ProgressionInfo)), this, SLOT(updateWidget(ProgressionInfo)));
     connect(scan, SIGNAL(fatalError(QString)), this, SLOT(stopWhy(QString)));
     connect(m_cancel, SIGNAL(clicked()), scan, SLOT(forceQuit()));
     scan->start();
@@ -114,6 +110,9 @@ void NutshProgressInterface::reset() {
 void NutshProgressInterface::place(float coef) {
 
     m_cancel->move(360, 3);
+    m_label->move(0, 20);
 }
 
-
+void NutshProgressInterface::setText(const QString& text) {
+    m_label->setText(text);
+}

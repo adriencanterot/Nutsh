@@ -79,7 +79,7 @@ void NutshProgressInterface::import(const QString& path) {
     connect(scan, SIGNAL(loopEnded()), core->metadatainterface(), SLOT(reload()));
     connect(scan, SIGNAL(updateBar(ProgressionInfo)), this, SLOT(updateWidget(ProgressionInfo)));
     connect(scan, SIGNAL(fatalError(QString)), this, SLOT(stopWhy(QString)));
-    connect(m_cancel, SIGNAL(clicked()), scan, SLOT(forceQuit()));
+    connect(m_cancel, SIGNAL(clicked()), this, SLOT(cancel()));
     scan->start();
 
     this->show();
@@ -105,6 +105,13 @@ void NutshProgressInterface::reset() {
 
     m_progress->setValue(0);
     this->hide();
+}
+
+void NutshProgressInterface::cancel() {
+    if(scan != NULL) {
+        scan->forceQuit();
+    }
+    this->reset();
 }
 
 void NutshProgressInterface::place(float coef) {

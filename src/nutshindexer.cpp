@@ -13,9 +13,8 @@ Indexer::Indexer(const QString& path) {
     connect(qApp, SIGNAL(aboutToQuit()), this, SLOT(forceQuit()));
 }
 
-void Indexer::run() {
-
-    int total = 0;
+void Indexer::import() {
+        int total = 0;
     QStringList filePaths;
     ProgressionInfo informations;
     informations.style = searching;
@@ -26,17 +25,21 @@ void Indexer::run() {
 
     while(iterator->hasNext()) {
 
+        if(loopRunning == false) {
+            return;
+
+        }
+
         filePaths.append(iterator->next());
         total++;
         ProgressionInfo informations;
         informations.phrase = QString("%1 morceaux trouvés").arg(total);
         informations.style = searching;
         emit updateBar(informations);
+    }
 
-        if(loopRunning == false) {
-
-            break;
-        }
+    if(loopRunning == false) {
+        return;
     }
 
     if(filePaths.count() == 0) {
@@ -45,6 +48,11 @@ void Indexer::run() {
     }
 
     for(int i = 0;i<filePaths.count();i++) {
+
+        if(loopRunning == false || filePaths.count() == 0 || i == filePaths.count()) {
+
+            return;
+        }
 
         ProgressionInfo informations;
         informations.progression = i+1;
@@ -55,20 +63,17 @@ void Indexer::run() {
         saver->inserer(data);
         emit updateBar(informations);
 
-        if(loopRunning == false || filePaths.count() == 0 || i == filePaths.count()) {
-
-            break;
-        }
-
     }
     emit loopEnded();
+}
 
-    this->exec();
+void Indexer::run() {
+
+    import();    
+
 }
 void Indexer::forceQuit() {
-
     loopRunning = false;
-    this->terminate();
 }
 
 NutshIndexer::NutshIndexer(const QStringList& pathList, NutshComunicator* corePath) {

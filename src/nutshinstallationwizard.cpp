@@ -3,7 +3,6 @@
 #include <QLayout>
 #include <QProgressBar>
 #include <QFileDialog>
-#include <QMacStyle>
 #include "nutshinstallationwizard.h"
 #include "nutshindexer.h"
 

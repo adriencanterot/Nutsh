@@ -213,7 +213,7 @@ void NutshMetaDataInterface::navigateByKey(QKeyEvent *event) {
 
 void NutshMetaDataInterface::place(float coef) {
 
-    this->setStyleSheet("min-width : 140px;");
+    this->setStyleSheet("min-width : 200px;");
 }
 
 QList<NutshMetaData> NutshMetaDataInterface::totalContent() const {

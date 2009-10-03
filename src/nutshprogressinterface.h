@@ -26,15 +26,15 @@ public:
     bool isActive();
 
     void swapToProgress();
-    void finished();
 
     void place(float coef);
 
 public slots:
+    void finished();
     void updateWidget(ProgressionInfo);
     void reset();
     void stopWhy(const QString& why);
-
+    void cancel();
 private:
     NutshComunicator* core;
 

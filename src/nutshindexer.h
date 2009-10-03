@@ -18,6 +18,7 @@ class Indexer: public QThread {
     public:
         Indexer(const QString&);
         void run();
+        void import();
 
     public slots:
         void forceQuit();

@@ -59,6 +59,11 @@ void NutshComunicator::afterLaunch() {
     m_playinginterface->sigandslots();
 
     this->place(1);
+    m_metadatainterface->setFixedWidth(100);
+    m_metadatainterface->getListWidget()->setFixedWidth(
+            m_metadatainterface->getListWidget()->width()-100
+            );
+    qDebug() << m_metadatainterface->width();
 }
 QWidget *NutshComunicator::initInterfaces() {
     //mise en places dans les layouts et envoi dans la fenêtre principale.

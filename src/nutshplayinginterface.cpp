@@ -236,7 +236,7 @@ void NutshPlayingInterface::playPause() {
 void NutshPlayingInterface::stop() {
 
     media->stop();
-    boutonPlayPause->setProperty("boutonPlayPause", true);
+    boutonPlayPause->setStyleSheet("background-image: url(\":/img/images/play.png\")");
 }
 
 void NutshPlayingInterface::place(float coef){

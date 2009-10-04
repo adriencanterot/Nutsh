@@ -6,8 +6,6 @@ NutshMetaDataList::NutshMetaDataList(NutshComunicator* corePath) {
     this->setColumnCount(4);
     core = corePath;
 
-    qDebug() << this->width();
-
     QStringList headerMetaData;
     headerMetaData << "Titre" << "Artiste" << "Album" << "Annee" << "chemin";
 

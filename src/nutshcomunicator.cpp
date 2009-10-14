@@ -1,11 +1,15 @@
  #include "nutshcomunicator.h"
 
-NutshComunicator::NutshComunicator()
+NutshComunicator::NutshComunicator(QMainWindow *parent = 0)
 {
 
     m_bar = new QStatusBar;
-
+    m_parent = parent;
     m_central = new QWidget;
+    m_tray = new NutshSystemTrayIcon(this->getParent());
+    m_tray->setIcon(qApp->windowIcon());
+    m_tray->show();
+
 
     //création de l'objet de control sur la base de donnée
     sqlControl = new NutshSqlSaver;
@@ -157,3 +161,13 @@ NutshSqlSaver* NutshComunicator::getSqlControl() {
 
     return sqlControl;
 }
+
+QMainWindow* NutshComunicator::getParent() {
+    return m_parent;
+}
+
+NutshSystemTrayIcon* NutshComunicator::systemtrayicon() {
+    return m_tray;
+}
+
+

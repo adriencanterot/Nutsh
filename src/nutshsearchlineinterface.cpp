@@ -78,3 +78,7 @@ void NutshSearchLineInterface::threatCommand(const QString& command) {
     }
 }
 
+QString NutshSearchLineInterface::value() {
+    return searchLine->text();
+}
+

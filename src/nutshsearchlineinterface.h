@@ -19,6 +19,7 @@ public:
     void activate();
     void place(float coef);
     void threatCommand(const QString&);
+    QString value();
 
 protected:
     void keyPressEvent(QKeyEvent*);

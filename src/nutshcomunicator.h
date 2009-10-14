@@ -6,8 +6,10 @@
 #include "nutshsqlsaver.h"
 #include "nutshindexer.h"
 #include <QLayout>
+#include <QMainWindow>
 #include <QSplitter>
 #include <QStatusBar>
+#include <QSystemTrayIcon>
 
 //macros
 #include "preprocess.h"
@@ -22,6 +24,7 @@
 #include "nutshupdater.h"
 #include "nutshsubinterfaces.h"
 #include "dailysonginterface.h"
+#include "nutshsystemtrayicon.h"
 
 class NutshComunicator : public QObject
 {
@@ -30,7 +33,7 @@ class NutshComunicator : public QObject
 
 public:
 
-    NutshComunicator();
+    NutshComunicator(QMainWindow*);
 
     QWidget *initInterfaces();
 
@@ -40,6 +43,7 @@ public:
     NutshSearchLineInterface *searchlineinterface();
     NutshPlayingInterface *playinginterface();
     NutshProgressInterface *progressinterface();
+    NutshSystemTrayIcon *systemtrayicon();
     NutshUpdater *updater();
     NutshSqlSaver* getSqlControl();
     void place(float coef);
@@ -48,6 +52,7 @@ public:
     void setStatus(const QString&);
     QStatusBar* bar();
     void scanFolders();
+    QMainWindow* getParent();
 
 public slots:
     void swapInterface(InterfaceName);
@@ -56,7 +61,9 @@ public slots:
 private:
 
     QWidget *m_central;
+    QMainWindow *m_parent;
     QStatusBar* m_bar;
+    NutshSystemTrayIcon *m_tray;
 
     NutshSqlSaver *sqlControl;
 

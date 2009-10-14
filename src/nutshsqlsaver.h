@@ -27,6 +27,9 @@ class NutshSqlSaver
         void update(const NutshMetaData&, const QString&);
         void savePath(const QString& path);
         void played(NutshMetaData&);
+        void remove(const QString&);
+        void rename(const QString&, const QString&);
+        QStringList getPlaylists();
 
 
         static void updateColumn(const QString &key, const QString &value, int it);

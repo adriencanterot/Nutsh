@@ -10,6 +10,7 @@
 #if defined(Q_WS_X11) || defined(Q_WS_MAC)
 #include <mediaobject.h>
 #include <seekslider.h>
+#include <volumeslider.h>
 #include <audiooutput.h>
 
 /* Cree un lecteur heritant du media object (pour lui rajouter des options) */
@@ -27,11 +28,13 @@ public:
     void setSource(const NutshMetaData&);
     void setSources(const QList<NutshMetaData>&);
     Phonon::SeekSlider *getPosSlider();
+    Phonon::VolumeSlider *getVolumeSlider();
 
 private :
     Phonon::AudioOutput *sortieAudio;
     Phonon::AudioOutput *sortieVideo;
     Phonon::SeekSlider *avancement;
+    Phonon::VolumeSlider *volume;
 };
 #endif
 #if defined(Q_WS_WIN)

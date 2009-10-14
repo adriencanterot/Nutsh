@@ -15,17 +15,13 @@ NutshPlayListInterface::NutshPlayListInterface(NutshComunicator* corePath, QWidg
 void NutshPlayListInterface::refresh(){
     //ajoute les playlist dans la liste de lecture (enlève les anciennes).
 
-    REQUETE("SELECT name FROM listeDeLecture");
     liste->clear();
 
     liste->addItem("Bibliothèque");
     liste->addItem("Les plus écoutées");
     liste->addItem("Les dernières ajoutées");
     liste->addItem("Écoutées récemment");
-        while(requete.next()){
-    liste->addItem(NutshSqlSaver::normalStringFormat(requete.value(0).toString()));
-    //ajout au format normal dans la liste
-        }
+    liste->addItems(core->getSqlControl()->getPlaylists());
 
 }
 
@@ -40,29 +36,13 @@ void NutshPlayListInterface::initButtons() {
     importer->setProperty("importButton", true);
 }
 
-void NutshPlayListInterface::addListe() {
-    //nouvelle liste de lecture avec nom.
-
-    nommerListe = new QDialog(this);
-    layoutNommerListe = new QVBoxLayout;
-    ok = new QPushButton("ok");
-    nomTable = new QLineEdit;
-
-    layoutNommerListe->addWidget(nomTable);
-    layoutNommerListe->addWidget(ok);
-    nommerListe->setLayout(layoutNommerListe);
-
-    connect(ok, SIGNAL(clicked()), nommerListe, SLOT(accept()));
-    connect(nommerListe, SIGNAL(accepted()), this, SLOT(nouvelleTable()));
-
-    nommerListe->exec();
-}
 
 void NutshPlayListInterface::nouvelleTable() {
     //nouvelle liste de lecture.
+    bool ok;
+    QString nom = QInputDialog::getText(this, "Nouvelle Liste", "Le nom de votre liste", QLineEdit::Normal, QString(), &ok);
+    if(!ok) { return; }
 
-    QString nom = nomTable->text();
-    
     if(nom.isEmpty()) {
 
         setNewName(nom); //si le nom est vide, nouveau nom
@@ -74,7 +54,7 @@ void NutshPlayListInterface::nouvelleTable() {
 
 void NutshPlayListInterface::sigandslots() {
 
-    connect(nouvelleListe, SIGNAL(clicked()), this, SLOT(addListe()));
+    connect(nouvelleListe, SIGNAL(clicked()), this, SLOT(nouvelleTable()));
     connect(importer, SIGNAL(clicked()), this, SLOT(importWindow()));
 }
 
@@ -88,9 +68,9 @@ void NutshPlayListInterface::importWindow() {
 
 void NutshPlayListInterface::addListeFromSearch() {
     //ajoute les résultats de la recherche dans une nouvelle playlsit
-
-    QString listName = QInputDialog::getText(this, "Nouvelle Liste", "Le nom de votre liste");
-
+    bool ok;
+    QString listName = QInputDialog::getText(this, "Nouvelle Liste", "Le nom de votre liste", QLineEdit::Normal, core->searchlineinterface()->value(), &ok);
+    if(!ok) { return; }
     if(listName.isEmpty()) {
 
         setNewName(listName); // si le nom est vide, nouveau nom.
@@ -103,8 +83,9 @@ void NutshPlayListInterface::addListeFromSearch() {
 
 void NutshPlayListInterface::addLastRead() {
     //rajoute les derniers morceaux lu dans une nouvelle playlist
-
-    QString listName = QInputDialog::getText(this, "Nouvelle Liste", "Le nom de votre liste");
+    bool ok;
+    QString listName = QInputDialog::getText(this, "Nouvelle Liste", "Le nom de votre liste", QLineEdit::Normal, QString(), &ok);
+    if(!ok) { return; }
 
     if(listName.isEmpty()) {
 

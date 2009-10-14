@@ -6,6 +6,10 @@ NutshPlaylistList::NutshPlaylistList(NutshComunicator* corePath, QWidget *parent
     this->setAcceptDrops(true);
     core = corePath;
     connect(this, SIGNAL(clicked(QModelIndex)), this, SLOT(showContent(QModelIndex)));
+    popup = new QMenu;
+    popup->addAction("Supprimer", this, SLOT(remove()));
+    popup->addAction("Renommer", this, SLOT(rename()));
+
 
 }
 
@@ -73,3 +77,34 @@ void NutshPlaylistList::showContent(const QModelIndex &index) {
 
     core->metadatainterface()->refreshInterface(Playlist);
 }
+
+void NutshPlaylistList::mouseReleaseEvent(QMouseEvent *event) {
+
+    if(event->button() == Qt::RightButton) {
+        if(this->row(this->itemAt(event->pos())) > 3) {
+            popup->popup(QWidget::mapToGlobal(event->pos()));
+            event->accept();
+        } else {
+            event->ignore();
+        }
+    } else {
+        emit clicked(QModelIndex(this->indexAt(event->pos())));
+        event->accept();
+    }
+}
+
+void NutshPlaylistList::remove() {
+    core->getSqlControl()->remove(this->currentItem()->text());
+    core->playlistinterface()->refresh();
+}
+
+void NutshPlaylistList::rename() {
+    bool ok;
+    QString nom = QInputDialog::getText(this, "Renommer ", "Nouveau nom",
+                                        QLineEdit::Normal, this->currentItem()->text(), &ok);
+    if(ok == false) { return; }
+
+    core->getSqlControl()->rename(nom, this->currentItem()->text());
+    core->playlistinterface()->refresh();
+}
+

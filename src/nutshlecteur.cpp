@@ -8,6 +8,7 @@ NutshLecteur::NutshLecteur() {
 
     Phonon::createPath(this, sortieAudio);
     avancement = new Phonon::SeekSlider(this);
+    volume = new Phonon::VolumeSlider(sortieAudio);
 }
 /*    //Jouer une musique directement
     this->setCurrentSource(source);
@@ -101,6 +102,11 @@ bool NutshLecteur::isPaused() {
 Phonon::SeekSlider* NutshLecteur::getPosSlider() {
 
     return avancement;
+}
+
+Phonon::VolumeSlider *NutshLecteur::getVolumeSlider() {
+
+    return volume;
 }
 
 #endif

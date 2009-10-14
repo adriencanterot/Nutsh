@@ -8,6 +8,7 @@
 #include <QSplitter>
 #include "nutshmetadata.h"
 #include <QMouseEvent>
+#include <QSystemTrayIcon>
 #include <QDrag>
 #include <QXmlStreamReader>
 #include <QHttp>

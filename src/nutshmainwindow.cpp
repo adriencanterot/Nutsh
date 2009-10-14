@@ -5,7 +5,7 @@ NutshMainWindow::NutshMainWindow(QWidget *parent)
     : QMainWindow(parent) {
 
     //création du core
-    path = new NutshComunicator;
+    path = new NutshComunicator(this);
 
     //this->setupMenus();
     this->setCentralWidget(path->initInterfaces()); // affichage du widget Central

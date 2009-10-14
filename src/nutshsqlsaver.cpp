@@ -95,7 +95,7 @@ bool NutshSqlSaver::nouvelleListe(const QString &tableName) {
 
     QSqlQuery requete;
 
-    if(!requete.exec("INSERT INTO listeDeLecture VALUES (\""+NutshSqlSaver::sqlStringFormat(tableName)+"\", \"\")")){
+    if(!requete.exec("INSERT INTO listeDeLecture (name) VALUES (\""+NutshSqlSaver::sqlStringFormat(tableName)+"\")")){
 
         qDebug() << requete.lastError() << " | Q = " << requete.lastQuery();
         etat = false;
@@ -143,7 +143,7 @@ bool NutshSqlSaver::connect() {
     requete.exec("create table bibliotheque ( id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, artiste text, album text, titre text, date date, genre text, description text, track integer, chemin text, playlists text, duree text, enregistrement date, derniereLecture date, compteur integer)");
 
 
-    requete.exec("CREATE TABLE listeDeLecture (name text, ordre text)");
+    requete.exec("CREATE TABLE listeDeLecture (id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, name text, ordre text)");
     requete.exec("CREATE TABLE path_list (id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, path text)");
 
 
@@ -460,4 +460,75 @@ void NutshSqlSaver::played(NutshMetaData& meta) {
 
     meta.setCompteur(meta.getCompteur()+1);
     meta.setDerniereLecture(QDateTime::currentDateTime());
+}
+
+QStringList NutshSqlSaver::getPlaylists() {
+
+
+    QStringList playlists;
+    QSqlQuery requete;
+    requete.exec("SELECT * FROM listeDeLecture");
+
+    while(requete.next()) {
+        playlists.append(NutshSqlSaver::normalStringFormat(requete.value(1).toString()));
+    }
+
+    return playlists;
+}
+
+void NutshSqlSaver::rename(const QString& nouveau, const QString& ancien) {
+
+    QSqlQuery requete;
+    QString allLists;
+
+    if(!requete.exec(QString("SELECT playlists, id FROM bibliotheque"))) {
+
+        qDebug() << requete.lastError() << requete.lastQuery();
+    }
+
+    while(requete.next()) {
+
+        if(requete.value(0).toString().contains(crypt(ancien))) {
+            allLists = requete.value(0).toString();
+            while(allLists.contains(QString(";%1;").arg(crypt(ancien)))) {
+                allLists.replace(QString(";%1;").arg(crypt(ancien)), QString(";%1;").arg(crypt(nouveau)));
+            }
+            this->updateColumn("playlists", allLists, requete.value(1).toInt());
+        }
+    }
+
+    if(!requete.exec(QString("UPDATE listeDeLecture SET name = \"%1\" WHERE name = \"%2\"")
+        .arg(NutshSqlSaver::sqlStringFormat(nouveau))
+        .arg(NutshSqlSaver::sqlStringFormat(ancien)))) {
+        qDebug() << requete.lastError() << requete.lastQuery();
+    }
+
+}
+
+void NutshSqlSaver::remove(const QString& name) {
+
+    QSqlQuery requete;
+    QString allLists;
+
+    if(!requete.exec(QString("SELECT playlists, id FROM bibliotheque"))) {
+
+        qDebug() << requete.lastError() << requete.lastQuery();
+    }
+
+    while(requete.next()) {
+
+        if(requete.value(0).toString().contains(crypt(name))) {
+            allLists = requete.value(0).toString();
+            while(allLists.contains(QString(";%1;").arg(crypt(name)))) {
+                allLists.remove(QString(";%1;").arg(crypt(name)));
+            }
+            qDebug() << requete.value(0) << allLists;
+            this->updateColumn("playlists", allLists, requete.value(1).toInt());
+        }
+    }
+
+    if(!requete.exec(QString("DELETE FROM listeDeLecture WHERE name = \"%1\"").arg(NutshSqlSaver::sqlStringFormat(name)))) {
+        qDebug() << requete.lastError() << requete.lastQuery();
+    }
+
 }

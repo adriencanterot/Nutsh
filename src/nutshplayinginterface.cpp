@@ -66,6 +66,7 @@ NutshPlayingInterface::NutshPlayingInterface(NutshComunicator* corePath)
     core->bar()->addPermanentWidget(tempsLabelCP);
 
     media->getPosSlider()->setParent(this);
+    media->getVolumeSlider()->setParent(this);
 
     QHttp *request = new QHttp;
     connect(request, SIGNAL(done(bool)), this, SLOT(daily()));
@@ -88,6 +89,8 @@ void NutshPlayingInterface::sigandslots() {
 }
 void NutshPlayingInterface::load(const NutshMetaData &data) {
 
+    this->random();
+    this->repeat();
     currentItem = 0;
     tickCompteur = true;
     artwork->setPixmap(data.getArtwork());
@@ -114,7 +117,8 @@ void NutshPlayingInterface::load(const NutshMetaData &data) {
     lastRead.append(data);
     if(lastRead.count() >= 5) lastRead.removeLast();
 
-    currentItem = 0;
+    currentItem = this->playlist.indexOf(current);
+    if (this->playlist.value(currentItem+1) == NutshMetaData()) nextAction = Nothing;
     media->setSource(data);
     media->play();
     boutonPlayPause->setStyleSheet("background-image: url(\":/img/images/pause.png\");");
@@ -126,7 +130,6 @@ void NutshPlayingInterface::load(const QList<NutshMetaData> &metaList) {
     boutonPrecedent->setEnabled(true);
     boutonSuivant->setEnabled(true);
     playlist = metaList;
-    currentItem = playlist.indexOf(current);
 
     if (currentItem == 0) {
 
@@ -168,12 +171,10 @@ void NutshPlayingInterface::next() {
         whatsNext();
         return;
     }
-
-    int cacheCurrentItem = this->currentItem+1;
     boutonPrecedent->setEnabled(true);
 
-    this->load(playlist.value(cacheCurrentItem));
-    this->currentItem = cacheCurrentItem;
+    this->currentItem = this->playlist.indexOf(current)+1;
+    this->load(playlist.value(this->currentItem));
 }
 
 void NutshPlayingInterface::previous() {
@@ -262,6 +263,7 @@ void NutshPlayingInterface::place(float coef){
     actionsButtons->resize(200, 100);
     media->getPosSlider()->move(40, 150);
     media->getPosSlider()->resize(330, 15);
+    media->getVolumeSlider()->move(180, 110);
 }
 
 void NutshPlayingInterface::random() {
@@ -307,7 +309,15 @@ void NutshPlayingInterface::whatsNext() {
         case Normal:
         this->next();
         break;
+
+        case Nothing:
+        qDebug() << "on...";
+        core->swapInterface(MetaDataInterface);
+        break;
     }
+
+    core->systemtrayicon()->showMessage(current.getTitre(), current.getAlbum()+" - "+current.getArtiste(), QSystemTrayIcon::NoIcon);
+    qDebug() << current.getTitre() << current.getArtiste() << current.getAlbum();
 }
 
 void NutshPlayingInterface::daily() {

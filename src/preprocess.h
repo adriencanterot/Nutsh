@@ -30,7 +30,7 @@ enum InterfaceName {
 
 enum Action {
 
-    Repeat, Random, Normal
+    Repeat, Random, Normal, Nothing
 };
 
 enum progressionStyle {

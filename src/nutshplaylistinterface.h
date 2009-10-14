@@ -32,7 +32,6 @@ public:
 
 public slots :
 
-    void addListe();
     void nouvelleTable();
     void importWindow();
     void addListeFromSearch();
@@ -49,7 +48,6 @@ private :
     QSqlQuery superQuery;
 
     //dialogues.
-    QDialog *nommerListe;
     QVBoxLayout *layoutNommerListe;
     QPushButton *ok;
     QLineEdit *nomTable;

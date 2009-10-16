@@ -256,7 +256,7 @@ bool NutshSqlSaver::tableExists(const QString &tblName) {
     return ok;
 }
 
-void NutshSqlSaver::inserer(NutshMetaData meta) {
+insertError NutshSqlSaver::inserer(NutshMetaData meta) {
 
         //completion des metadata, pour la date.
     QSqlQuery requete;
@@ -267,7 +267,7 @@ void NutshSqlSaver::inserer(NutshMetaData meta) {
 
         if(!meta.isValid()) {
 
-            return;
+            return CantDecodeTag;
         }
 
         if(meta.getArtiste().isEmpty()) {
@@ -297,12 +297,12 @@ void NutshSqlSaver::inserer(NutshMetaData meta) {
 
 
         query = QString("INSERT INTO bibliotheque (artiste, album, titre, date, genre, description, track, chemin, duree, enregistrement, derniereLecture, compteur) VALUES(\"%1\", \"%2\", \"%3\", \"\", \"%4\", \"%5\", \"\", \"%6\", \"%7\", \"%8\", \"\", \"%9\")")
-                .arg(meta.getArtiste())
-                .arg(meta.getAlbum())
-                .arg(meta.getTitre())
+                .arg(addSlashes(meta.getArtiste()))
+                .arg(addSlashes(meta.getAlbum()))
+                .arg(addSlashes(meta.getTitre()))
                 .arg(meta.getGenre())
-                .arg(meta.getDescription())
-                .arg(meta.getChemin())
+                .arg(addSlashes(meta.getDescription()))
+                .arg(addSlashes(meta.getChemin()))
                 .arg(meta.getDuree())
                 .arg(meta.getDateEnregistrement().toString())
                 .arg(meta.getCompteur()
@@ -313,12 +313,15 @@ void NutshSqlSaver::inserer(NutshMetaData meta) {
 
             if(!requete.exec(query)) {
                 qDebug() << requete.lastError() << "  \nQ= " << requete.lastQuery() << " ou alors la metadonnee existe deja dans la table";
+                return SqlError;
             }
+            metadatas.append(meta.getArtiste()+meta.getAlbum()+meta.getTitre());
 
         } else {
-
-            metadatas.append(meta.getArtiste()+meta.getAlbum()+meta.getTitre());
+            return AlreadyExists;
         }
+
+        return NoError;
    }
 
 QVariantList NutshSqlSaver::modelNutshMetaData(const NutshMetaData& meta) {
@@ -531,4 +534,12 @@ void NutshSqlSaver::remove(const QString& name) {
         qDebug() << requete.lastError() << requete.lastQuery();
     }
 
+}
+
+QString NutshSqlSaver::addSlashes(const QString &withslashes) {
+
+    QString replaced = withslashes;
+    replaced.replace('\"', "");
+    replaced.replace("'", "");
+    return replaced;
 }

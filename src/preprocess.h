@@ -30,11 +30,15 @@ enum InterfaceName {
 
 enum Action {
 
-    Repeat, Random, Normal, Nothing
+    Repeat, Random, Normal
 };
 
 enum progressionStyle {
     progression, searching
+};
+
+enum insertError {
+    AlreadyExists, CantDecodeTag, SqlError, NoError
 };
 
 struct ProgressionInfo {

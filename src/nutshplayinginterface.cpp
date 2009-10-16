@@ -89,40 +89,44 @@ void NutshPlayingInterface::sigandslots() {
 }
 void NutshPlayingInterface::load(const NutshMetaData &data) {
 
-    this->random();
-    this->repeat();
-    currentItem = 0;
-    tickCompteur = true;
-    artwork->setPixmap(data.getArtwork());
-    titre->setText("Sans Titre");
-    album->setText("Sans Album");
-    artiste->setText("Sans Artiste");
+    if(data.getId() != -1) { // si la métadonnée n'est pas vide
 
-    if(!data.getTitre().isEmpty()) {
+        currentItem = 0;
+        qDebug() << data.getId();
 
-        titre->setText(data.getTitre().left(30));
+        tickCompteur = true;
+        artwork->setPixmap(data.getArtwork());
+        titre->setText("Sans Titre");
+        album->setText("Sans Album");
+        artiste->setText("Sans Artiste");
+
+        if(!data.getTitre().isEmpty()) {
+
+            titre->setText(data.getTitre().left(30));
+        }
+
+        if(!data.getAlbum().isEmpty()) {
+
+            album->setText(data.getAlbum().left(30));
+        }
+
+        if(!data.getArtiste().isEmpty()) {
+
+            artiste->setText(data.getArtiste().left(30));
+        }
+
+        current = data;
+        lastRead.append(data);
+        if(lastRead.count() >= 5) lastRead.removeLast();
+
+        currentItem = this->playlist.indexOf(current);
+        media->setSource(data);
+        media->play();
+        boutonPlayPause->setStyleSheet("background-image: url(\":/img/images/pause.png\");");
+        this->setStatus();
+    } else {
+        core->swapInterface(MetaDataInterface);
     }
-
-    if(!data.getAlbum().isEmpty()) {
-
-        album->setText(data.getAlbum().left(30));
-    }
-
-    if(!data.getArtiste().isEmpty()) {
-
-        artiste->setText(data.getArtiste().left(30));
-    }
-
-    current = data;
-    lastRead.append(data);
-    if(lastRead.count() >= 5) lastRead.removeLast();
-
-    currentItem = this->playlist.indexOf(current);
-    if (this->playlist.value(currentItem+1) == NutshMetaData()) nextAction = Nothing;
-    media->setSource(data);
-    media->play();
-    boutonPlayPause->setStyleSheet("background-image: url(\":/img/images/pause.png\");");
-    this->setStatus();
 }
 
 void NutshPlayingInterface::load(const QList<NutshMetaData> &metaList) {
@@ -310,14 +314,7 @@ void NutshPlayingInterface::whatsNext() {
         this->next();
         break;
 
-        case Nothing:
-        qDebug() << "on...";
-        core->swapInterface(MetaDataInterface);
-        break;
     }
-
-    core->systemtrayicon()->showMessage(current.getTitre(), current.getAlbum()+" - "+current.getArtiste(), QSystemTrayIcon::NoIcon);
-    qDebug() << current.getTitre() << current.getArtiste() << current.getAlbum();
 }
 
 void NutshPlayingInterface::daily() {

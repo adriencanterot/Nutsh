@@ -31,6 +31,7 @@ class Indexer: public QThread {
 
     private:
         NutshSqlSaver* saver;
+        insertError errorcode;
         QDirIterator* iterator;
         QString chemin;
         QStringList filtre;

@@ -11,7 +11,7 @@ NutshProgressInterface::NutshProgressInterface(NutshComunicator* corePath)
     m_progress = new QProgressBar(this);
     qRegisterMetaType<ProgressionInfo>("ProgressionInfo");
     m_cancel = new QPushButton("", this);
-    m_label = new QLabel("                                                                                  ", this);
+    m_label = new QLabel("                                                                                                                                    ", this);
     m_cancel->setProperty("cancelButton", true);
     m_cancel->setToolTip("Arrêter l'importation");
 

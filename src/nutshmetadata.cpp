@@ -5,8 +5,8 @@ using namespace TagLib;
 NutshMetaData::NutshMetaData()
 {
 
-    compteur = 0;
-    id = 0;
+    compteur = -1;
+    id = -1;
 }
 
 NutshMetaData::NutshMetaData(const NutshMetaData &m) {

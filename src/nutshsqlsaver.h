@@ -23,7 +23,7 @@ class NutshSqlSaver
         void completeMetaData(NutshMetaData&);
         void inserer(QList<NutshMetaData>, const QString&);
         void inserer(NutshMetaData, const QString&);
-        void inserer(NutshMetaData);
+        insertError inserer(NutshMetaData);
         void update(const NutshMetaData&, const QString&);
         void savePath(const QString& path);
         void played(NutshMetaData&);
@@ -33,6 +33,7 @@ class NutshSqlSaver
 
 
         static void updateColumn(const QString &key, const QString &value, int it);
+        static QString addSlashes(const QString&);
         static QString sqlStringFormat(const QString&);
         static QString normalStringFormat(const QString&);
 

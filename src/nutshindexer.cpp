@@ -47,6 +47,9 @@ void Indexer::import() {
         emit fatalError("Aucun fichier trouvé dans le dossier spécifié");
     }
 
+    QString noerror("0 medias importés"), alreadyexists("0 existent déjà"), error("aucune erreur");
+    int o = 0; //nombre d'erreurs
+    int a = 0;
     for(int i = 0;i<filePaths.count();i++) {
 
         if(loopRunning == false || filePaths.count() == 0 || i == filePaths.count()) {
@@ -54,13 +57,40 @@ void Indexer::import() {
             return;
         }
 
+        NutshMetaData data(filePaths.value(i));
+        errorcode = saver->inserer(data);
+
+
+        switch(errorcode) {
+
+            case NoError:
+                qDebug() << "NoError";
+                noerror = QString("%1 medias importés").arg(i-a-o);
+            break;
+            case SqlError:
+                qDebug() << "SqlError";
+                o = o+1;
+                error = QString("%1 erreurs").arg(o);
+            break;
+            case CantDecodeTag:
+                qDebug() << "CantDecodeTag";
+                o = o+1;
+                error = QString("%1 erreurs").arg(o);
+            break;
+            case AlreadyExists:
+                qDebug() << "AlreadyExists";
+                a = a+1;
+                qDebug() << a;
+                alreadyexists = QString("%1 doublons").arg(a);
+            break;
+        }
         ProgressionInfo informations;
         informations.progression = i+1;
         informations.maximum = total;
-        informations.phrase = QString("%1 morceaux importés sur %2").arg(i+1).arg(total);
+        informations.phrase = QString("%1, %2").arg(noerror).arg(alreadyexists);
+        qDebug() << informations.phrase;
         informations.style = progression;
-        NutshMetaData data(filePaths.value(i));
-        saver->inserer(data);
+
         emit updateBar(informations);
 
     }

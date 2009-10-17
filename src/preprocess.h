@@ -5,7 +5,7 @@
 #define REQUETE(q) QSqlQuery requete; if(!requete.exec(q)) { qDebug() << requete.lastError() << " | Q = " << requete.lastQuery(); }
 #define QUERY(q) if(!query.exec(q)) { qDebug() << query.lastError() << " | \n\nQ = " << query.lastQuery() << "\n\n"; }
 #define NB_CHAMPS_DATABASE 14
-#ifdef Q_OS_WIN
+#ifdef Q_WS_WIN
 #define FORMATS_SUPPORTES "*.mp3" << "*.wma" << "*.ogg";
 #else
 #define FORMATS_SUPPORTES "*.mp3" << "*.m4a" << "*.wma" << "*.ogg";

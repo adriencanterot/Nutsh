@@ -119,6 +119,8 @@ NutshLecteur::NutshLecteur() {
     FSOUND_Init(44100, 64, 0);
     m_channel = FSOUND_ALL;
     avancement = new QSlider(Qt::Horizontal);
+    volume = new QSlider(Qt::Horizontal);
+    volume->setValue(100);
     time = new QTimer;
     m_state = Stopped;
     m_media = NULL;
@@ -126,6 +128,7 @@ NutshLecteur::NutshLecteur() {
 
     connect(time, SIGNAL(timeout()), this, SLOT(updateSlider()));
     connect(avancement, SIGNAL(valueChanged(int)), this, SLOT(setPos(int)));
+    connect(volume, SIGNAL(valueChanged(int)), this, SLOT(setVolume(int)));
 }
 
 void NutshLecteur::setSource(const NutshMetaData& source) {
@@ -150,6 +153,7 @@ void NutshLecteur::setSource(const NutshMetaData& source) {
     avancement->setMaximum(FSOUND_Stream_GetLengthMs(m_media));
     time->start(m_updateFrequency);
     m_source = source.getChemin();
+    FSOUND_SetVolume(FSOUND_ALL, volume->value()*2.55);
 }
 
 bool NutshLecteur::isPaused() {
@@ -189,6 +193,7 @@ void NutshLecteur::play() {
 
     m_state = Playing;
     time->start(m_updateFrequency);
+    FSOUND_SetVolume(FSOUND_ALL, volume->value()*2.55);
 }
 
 void NutshLecteur::pause() {
@@ -234,6 +239,17 @@ void NutshLecteur::updateSlider() {
 void NutshLecteur::setPos(int pos) {
 
     FSOUND_Stream_SetTime(m_media, pos);
+}
+
+QSlider *NutshLecteur::getVolumeSlider() {
+
+    return volume;
+}
+
+void NutshLecteur::setVolume(int volume) {
+
+    qDebug() << volume*2.55;
+    FSOUND_SetVolume(FSOUND_ALL, volume*2.55);
 }
 
 #endif

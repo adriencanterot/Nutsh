@@ -5,10 +5,10 @@
 ; NOTE: The value of AppId uniquely identifies this application.
 ; Do not use the same AppId value in installers for other applications.
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
-AppId={{5E6A53D0-7137-4F27-A268-A3BB954131CE}
+AppId={{C5621F7D-1A03-4DC7-AD4F-A004DC050E66}
 AppName=Nutsh
-AppVerName=Nutsh 1.0.5
-AppPublisher=Adrien Cantérort
+AppVerName=Nutsh 1.0.6
+AppPublisher=Adrien Cantérot
 AppPublisherURL=http://nutsh.com/
 AppSupportURL=http://nutsh.com/
 AppUpdatesURL=http://nutsh.com/
@@ -16,12 +16,11 @@ DefaultDirName={pf}\Nutsh
 DefaultGroupName=Nutsh
 LicenseFile=C:\Users\Adrien\Nutsh\license.rtf.rtf
 OutputDir=C:\Users\Adrien\Nutsh\bin
-OutputBaseFilename=setup
+OutputBaseFilename=NutshInstaller
 Compression=lzma
 SolidCompression=yes
 
 [Languages]
-Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "french"; MessagesFile: "compiler:Languages\French.isl"
 
 [Tasks]
@@ -37,9 +36,7 @@ Source: "C:\Users\Adrien\Nutsh\bin\QtCore4.dll"; DestDir: "{app}"; Flags: ignore
 Source: "C:\Users\Adrien\Nutsh\bin\QtGui4.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\Adrien\Nutsh\bin\QtNetwork4.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\Adrien\Nutsh\bin\QtSql4.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Qt\2009.03\qt\plugins\sqldrivers\libqsqlite4.a"; DestDir: "{app}\sqldrivers"; Flags: ignoreversion
-Source: "C:\Qt\2009.03\qt\plugins\sqldrivers\qsqlite4.dll"; DestDir: "{app}\sqldrivers"; Flags: ignoreversion
-
+Source: "C:\Users\Adrien\Nutsh\bin\sqldrivers\*"; DestDir: "{app}\sqldrivers\"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]

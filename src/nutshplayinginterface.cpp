@@ -267,7 +267,7 @@ void NutshPlayingInterface::place(float coef){
     actionsButtons->resize(200, 100);
     media->getPosSlider()->move(40, 150);
     media->getPosSlider()->resize(330, 15);
-    media->getVolumeSlider()->move(180, 110);
+    media->getVolumeSlider()->move(190, 115);
 }
 
 void NutshPlayingInterface::random() {

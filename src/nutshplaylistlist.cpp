@@ -88,8 +88,12 @@ void NutshPlaylistList::mouseReleaseEvent(QMouseEvent *event) {
             event->ignore();
         }
     } else {
-        emit clicked(QModelIndex(this->indexAt(event->pos())));
-        event->accept();
+        if(this->itemAt(event->pos())) {
+            emit clicked(QModelIndex(this->indexAt(event->pos())));
+            event->accept();
+        } else {
+            event->ignore();        
+        }
     }
 }
 

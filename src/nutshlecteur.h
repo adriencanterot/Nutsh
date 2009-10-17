@@ -56,6 +56,7 @@ public:
     bool isPaused();
     void setSource(const NutshMetaData&);
     QSlider *getPosSlider();
+    QSlider *getVolumeSlider();
 
 public slots:
     void play();
@@ -65,6 +66,7 @@ public slots:
 private slots:
     void setPos(int);
     void updateSlider();
+    void setVolume(int);
 
 signals:
     qint64 tick(qint64);
@@ -78,6 +80,7 @@ private :
     QString m_source;
     QTimer* time;
     QSlider *avancement;
+    QSlider *volume;
     int m_updateFrequency;
     State m_state;
 

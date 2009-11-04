@@ -351,9 +351,9 @@ QPixmap NutshMetaData::getArtwork() const {
         image.loadFromData((const unsigned char *) f->picture().data(), f->picture().size());
 
         if(image.isNull())
-            return QPixmap(":/img/images/sans-image.png", "png");
+            return QPixmap(":/img/images/sans-image.png", "png").scaled(240, 240);
         else
-            return QPixmap::fromImage(image).scaled(130, 130);
+            return QPixmap::fromImage(image).scaled(240, 240);
 
     } else {
 
@@ -373,4 +373,13 @@ void NutshMetaData::setId(int newId) {
 bool NutshMetaData::isValid() {
 
     return !file.isNull();
+}
+
+bool NutshMetaData::isDefault() {
+
+    if(this->titre == "Sans titre" && this->album == "Sans album" && this->artiste == "Sans artiste") {
+        return true;
+    } else {
+        return false;
+    }
 }

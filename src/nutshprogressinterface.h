@@ -25,7 +25,7 @@ public:
 
     bool isActive();
 
-    void swapToProgress();
+    void visible(bool visible);
 
     void place(float coef);
 

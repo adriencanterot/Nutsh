@@ -3,29 +3,41 @@
 
 NutshMetaDataList::NutshMetaDataList(NutshComunicator* corePath) {
 
-    this->setColumnCount(4);
     core = corePath;
-
-    QStringList headerMetaData;
-    headerMetaData << "Titre" << "Artiste" << "Album" << "Annee" << "chemin";
-
-    this->setHeaderLabels(headerMetaData);
+    property = true;
+    this->setProperty("leftside", false);
+    this->setAlternatingRowColors(true);
 
     connect(this, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(emitSignal(QModelIndex)));
     this->setDragEnabled(true);
     this->setSelectionMode(QAbstractItemView::ExtendedSelection);
     this->setEditTriggers(QAbstractItemView::AllEditTriggers);
+    this->setIconSize(QSize(30,30));
+    this->resize(440, 253);
 
 }
 
 void NutshMetaDataList::append(NutshMetaData data) {
 
-    QStringList viewCacheItem;
-    viewCacheItem << data.getTitre() << data.getArtiste() << data.getAlbum() << data.getDate() << data.getChemin();
+    if(property == true) property = false; else property = true;
+    QString titre = data.getTitre();
+    if(titre.size() > CHAR_NUM_LIST) { titre.resize(CHAR_NUM_LIST);titre.append("..."); }
+    QString artistealbum = data.getArtiste() + " | " + data.getAlbum();
+    if(artistealbum.size() > CHAR_NUM_LIST) { artistealbum.resize(CHAR_NUM_LIST);artistealbum.append("..."); }
 
-    QTreeWidgetItem* cacheItem = new QTreeWidgetItem(viewCacheItem);
-    cacheItem->setExpanded(true);
-    this->addTopLevelItem(cacheItem);
+    QString sdata = QString("%1 \n %3")
+                    .arg(titre)
+                    .arg(artistealbum);
+    QListWidgetItem* item = new QListWidgetItem(QIcon(":img/images/sans-image.png"), sdata);
+    if(this->count() < 5) {
+        item->setIcon(data.getArtwork());
+    } else {
+        this->setIconSize(QSize(30,30));
+    }
+    QFont font;
+    font.setBold(true);
+    item->setFont(font);
+    this->addItem(item);
 
     items.append(data);
 }
@@ -49,7 +61,6 @@ void NutshMetaDataList::load(QList<NutshMetaData> liste) {
 
     this->indexSelected = 0;
     this->clearList();
-    this->setColumnHidden(4, true);
 
     for(int i = 0;i<liste.count();i++) {
 
@@ -58,8 +69,8 @@ void NutshMetaDataList::load(QList<NutshMetaData> liste) {
 
     if(liste.count() != 0) {
 
-        this->topLevelItem(0)->setSelected(true);
-        this->setCurrentItem(this->topLevelItem(0));
+        this->item(0)->setSelected(true);
+        this->setCurrentItem(this->item(0));
     }
 }
 void NutshMetaDataList::clearList() {
@@ -79,7 +90,7 @@ QList<NutshMetaData> NutshMetaDataList::selectedMetadatas() const{
 
     for(int i = 0;i<items.count();i++) {
 
-        if(this->topLevelItem(i)->isSelected()) {
+        if(this->item(i)->isSelected()) {
 
             itemsToReturn.append(items.value(i));
         }

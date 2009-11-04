@@ -27,6 +27,7 @@ public:
     //depuis un fichier
     NutshMetaData(const QString&);
     bool contains(const QString&);
+    bool isDefault();
     NutshMetaData(const NutshMetaData &m);
     NutshMetaData operator=(const NutshMetaData &m);
     //Charger a partir d'un QVariantList

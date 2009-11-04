@@ -6,9 +6,10 @@ NutshPlaylistList::NutshPlaylistList(NutshComunicator* corePath, QWidget *parent
     this->setAcceptDrops(true);
     core = corePath;
     connect(this, SIGNAL(clicked(QModelIndex)), this, SLOT(showContent(QModelIndex)));
+    this->setProperty("leftside", true);
     popup = new QMenu;
-    popup->addAction("Supprimer", this, SLOT(remove()));
-    popup->addAction("Renommer", this, SLOT(rename()));
+    popup->addAction(tr("Supprimer"), this, SLOT(remove()));
+    popup->addAction(tr("Renommer"), this, SLOT(rename()));
 
 
 }
@@ -43,7 +44,7 @@ void NutshPlaylistList::dropEvent(QDropEvent* event) {
 
         core->getSqlControl()->inserer(
                 core->metadatainterface()->getListWidget()->selectedMetadatas(),
-                this->itemAt(event->pos())->text()
+                listIds.value(this->row(this->itemAt(event->pos()))-4)
                 );
         event->accept();
 
@@ -58,6 +59,9 @@ void NutshPlaylistList::showContent(const QModelIndex &index) {
     switch(index.row()) {
         case 0 :
         core->metadatainterface()->reset();
+        if(core->searchlineinterface()->value() != "") {
+            core->metadatainterface()->getWordMetaData(core->searchlineinterface()->value());
+        }
         break;
         case 1 :
         core->metadatainterface()->load(core->getSqlControl()->getMostReaden(30));
@@ -70,7 +74,7 @@ void NutshPlaylistList::showContent(const QModelIndex &index) {
         break;
         default:
         core->metadatainterface()->load(
-            core->getSqlControl()->getMetaDatas(NutshSqlSaver::sqlStringFormat(index.data().toString()))
+            core->getSqlControl()->getMetaDatas(this->currentElementId())
         );
         break;
     }
@@ -98,17 +102,27 @@ void NutshPlaylistList::mouseReleaseEvent(QMouseEvent *event) {
 }
 
 void NutshPlaylistList::remove() {
-    core->getSqlControl()->remove(this->currentItem()->text());
+    core->getSqlControl()->remove(this->currentElementId());
     core->playlistinterface()->refresh();
 }
 
 void NutshPlaylistList::rename() {
     bool ok;
-    QString nom = QInputDialog::getText(this, "Renommer ", "Nouveau nom",
+    QString nom = QInputDialog::getText(this, tr("Renommer "), tr("Nouveau nom"),
                                         QLineEdit::Normal, this->currentItem()->text(), &ok);
     if(ok == false) { return; }
 
-    core->getSqlControl()->rename(nom, this->currentItem()->text());
+    core->getSqlControl()->rename(nom, this->currentElementId());
     core->playlistinterface()->refresh();
+}
+
+void NutshPlaylistList::addItems(const QMap<int, QString>& datas) {
+    for(int i = 0;i<datas.count();i++) {
+        this->addItem(datas.values().value(i));
+        listIds.append(datas.keys().value(i));
+    }
+}
+int NutshPlaylistList::currentElementId() {
+    return listIds.value(this->currentRow()-4);
 }
 

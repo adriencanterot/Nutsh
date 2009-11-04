@@ -84,3 +84,4 @@ OBJECTS_DIR = obj/
 MOC_DIR = moc/
 CONFIG += x86
 RC_FILE += icon.rc
+TRANSLATIONS += Translations/nutsh_en.ts

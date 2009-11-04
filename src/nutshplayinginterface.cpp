@@ -95,10 +95,10 @@ void NutshPlayingInterface::load(const NutshMetaData &data) {
         qDebug() << data.getId();
 
         tickCompteur = true;
-        artwork->setPixmap(data.getArtwork());
-        titre->setText("Sans Titre");
-        album->setText("Sans Album");
-        artiste->setText("Sans Artiste");
+        artwork->setPixmap(data.getArtwork().scaled(130, 130));
+        titre->setText(tr("Sans Titre"));
+        album->setText(tr("Sans Album"));
+        artiste->setText(tr("Sans Artiste"));
 
         if(!data.getTitre().isEmpty()) {
 

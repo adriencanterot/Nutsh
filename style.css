@@ -34,14 +34,14 @@ QMainWindow{
     background-image: url(":/img/images/fond.png");
 }
 
-QListWidget{
+QListWidget[leftside=true]{
     max-width: 160px;
     max-height: 190px;
     background-color: transparent;
     border: none;
 }
 
-QListWidget::item{
+QListWidget[leftside=true]::item{
     max-width: 160px;
     min-height: 16px;
     padding-left: 20px;
@@ -52,13 +52,36 @@ QListWidget::item{
     color: rgb(247, 148, 30);
 }
 
-QListWidget::item:focus{
+QListWidget[leftside=true]::item:focus{
     background-image: url(":/img/images/playlist-item-over.png") no-repeat;
     background-repeat: no-repeat;
     color: rgb(77, 77, 79);
 }
 
-QListWidget::item::selected {
+QListWidget[leftside=false]::item, QListWidget[leftside=false]::item:active,
+QListWidget[leftside=false]::item:!active{
+
+    border: none;
+    padding-top : 10px;
+    padding-bottom:10px;
+    background-color : #E2DBC6;
+    color : black;
+
+}
+QListWidget[leftside=false]::item:alternate{
+
+    border: none;
+    background-color : #BAAD96;
+    color : black;
+}
+
+QListWidget[leftside=false]::item:focus:active{
+
+    background-color : #202615;
+    color : white;
+}
+
+QListWidget[leftside=true]::item::selected {
     background-image: url(":/img/images/playlist-item-over.png") no-repeat;
     background-repeat: no-repeat;
     color: rgb(77, 77, 79);

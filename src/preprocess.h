@@ -12,6 +12,7 @@
 #endif
 #define D(bug) qDebug() << bug;
 #define WIDTH_LEFT 200
+#define CHAR_NUM_LIST 52
 
 enum ContentType {
 

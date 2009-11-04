@@ -1,8 +1,8 @@
 <RCC>
-    <qresource prefix="/css" >
+    <qresource prefix="/css">
         <file>style.css</file>
     </qresource>
-    <qresource prefix="/img" >
+    <qresource prefix="/img">
         <file>images/fond.png</file>
         <file>images/normal.png</file>
         <file>images/over.png</file>
@@ -22,5 +22,8 @@
         <file>images/random.png</file>
         <file>images/repeat.png</file>
         <file>images/sans-image.png</file>
+    </qresource>
+    <qresource prefix="/translations">
+        <file alias="nutsh_en.qm">translations/nutsh_en.qm</file>
     </qresource>
 </RCC>

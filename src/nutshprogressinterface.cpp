@@ -13,7 +13,7 @@ NutshProgressInterface::NutshProgressInterface(NutshComunicator* corePath)
     m_cancel = new QPushButton("", this);
     m_label = new QLabel("                                                                                                                                    ", this);
     m_cancel->setProperty("cancelButton", true);
-    m_cancel->setToolTip("Arrêter l'importation");
+    m_cancel->setToolTip(tr("Arrêter l'importation"));
 
 }
 
@@ -50,11 +50,17 @@ void NutshProgressInterface::setMaximum(int i) {
     m_progress->setMaximum(i);
 }
 
-void NutshProgressInterface::swapToProgress() {
+void NutshProgressInterface::visible(bool visible) {
     //affiche cette interface au lieu de nutshdriveinterface
 
-    this->show();
-    active = true;
+    if(visible) {
+        this->show();
+        core->metadatainterface()->getListWidget()->resize(core->metadatainterface()->getListWidget()->width(), 210);
+        active = true;
+    } else {
+        core->metadatainterface()->getListWidget()->resize(core->metadatainterface()->getListWidget()->width(), 260);
+        this->hide();
+    }
 }
 
 void NutshProgressInterface::updateWidget(ProgressionInfo informations) {
@@ -82,7 +88,7 @@ void NutshProgressInterface::import(const QString& path) {
     connect(m_cancel, SIGNAL(clicked()), this, SLOT(cancel()));
     scan->start();
 
-    this->show();
+    this->visible(true);
 }
 
 void NutshProgressInterface::finished() {
@@ -97,14 +103,14 @@ void NutshProgressInterface::finished() {
 void NutshProgressInterface::stopWhy(const QString &why) {
 
     scan->forceQuit();
-    QMessageBox::critical(core->initInterfaces(), "Erreur", why);
+    QMessageBox::critical(core->initInterfaces(), tr("Erreur"), why);
     this->reset();
 }
 
 void NutshProgressInterface::reset() {
 
     m_progress->setValue(0);
-    this->hide();
+    this->visible(false);
 }
 
 void NutshProgressInterface::cancel() {

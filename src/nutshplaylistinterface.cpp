@@ -17,10 +17,10 @@ void NutshPlayListInterface::refresh(){
 
     liste->clear();
 
-    liste->addItem("Bibliothèque");
-    liste->addItem("Les plus écoutées");
-    liste->addItem("Les dernières ajoutées");
-    liste->addItem("Écoutées récemment");
+    liste->addItem(tr("Bibliothèque"));
+    liste->addItem(tr("Les plus écoutées"));
+    liste->addItem(tr("Les dernières ajoutées"));
+    liste->addItem(tr("Écoutées récemment"));
     liste->addItems(core->getSqlControl()->getPlaylists());
 
 }
@@ -28,11 +28,11 @@ void NutshPlayListInterface::refresh(){
 void NutshPlayListInterface::initButtons() {
 
     nouvelleListe = new QPushButton("", this);
-    nouvelleListe->setToolTip("Créer une playlist");
+    nouvelleListe->setToolTip(tr("Créer une playlist"));
     nouvelleListe->setProperty("newPlaylistButton", true);
 
     importer = new QPushButton("", this);
-    importer->setToolTip("Importer un dossier musical");
+    importer->setToolTip(tr("Importer un dossier musical"));
     importer->setProperty("importButton", true);
 }
 
@@ -40,7 +40,7 @@ void NutshPlayListInterface::initButtons() {
 void NutshPlayListInterface::nouvelleTable() {
     //nouvelle liste de lecture.
     bool ok;
-    QString nom = QInputDialog::getText(this, "Nouvelle Liste", "Le nom de votre liste", QLineEdit::Normal, QString(), &ok);
+    QString nom = QInputDialog::getText(this, tr("Nouvelle Liste"), tr("Le nom de votre liste"), QLineEdit::Normal, QString(), &ok);
     if(!ok) { return; }
 
     if(nom.isEmpty()) {
@@ -69,7 +69,7 @@ void NutshPlayListInterface::importWindow() {
 void NutshPlayListInterface::addListeFromSearch() {
     //ajoute les résultats de la recherche dans une nouvelle playlsit
     bool ok;
-    QString listName = QInputDialog::getText(this, "Nouvelle Liste", "Le nom de votre liste", QLineEdit::Normal, core->searchlineinterface()->value(), &ok);
+    QString listName = QInputDialog::getText(this, tr("Nouvelle Liste"), tr("Le nom de votre liste"), QLineEdit::Normal, core->searchlineinterface()->value(), &ok);
     if(!ok) { return; }
     if(listName.isEmpty()) {
 
@@ -77,14 +77,14 @@ void NutshPlayListInterface::addListeFromSearch() {
     }
 
     core->getSqlControl()->nouvelleListe(listName);
-    core->getSqlControl()->inserer(core->metadatainterface()->getListWidget()->getItems(), listName);
+    core->getSqlControl()->inserer(core->metadatainterface()->getListWidget()->getItems(), core->getSqlControl()->getListId(listName));
     this->refresh();
 }
 
 void NutshPlayListInterface::addLastRead() {
     //rajoute les derniers morceaux lu dans une nouvelle playlist
     bool ok;
-    QString listName = QInputDialog::getText(this, "Nouvelle Liste", "Le nom de votre liste", QLineEdit::Normal, QString(), &ok);
+    QString listName = QInputDialog::getText(this, tr("Nouvelle Liste"), tr("Le nom de votre liste"), QLineEdit::Normal, QString(), &ok);
     if(!ok) { return; }
 
     if(listName.isEmpty()) {
@@ -94,7 +94,7 @@ void NutshPlayListInterface::addLastRead() {
 
     core->getSqlControl()->nouvelleListe(listName);
 
-    core->getSqlControl()->inserer(core->playinginterface()->getLastRead(), listName);
+    core->getSqlControl()->inserer(core->playinginterface()->getLastRead(), core->getSqlControl()->getListId(listName));
     this->refresh();
 }
 
@@ -105,13 +105,13 @@ void NutshPlayListInterface::setNewName(QString &old) {
 
     for(int i =0;i<liste->count();i++) {
 
-        if(liste->item(i)->text().contains("sans titre", Qt::CaseInsensitive)) {
+        if(liste->item(i)->text().contains(tr("sans titre"), Qt::CaseInsensitive)) {
 
             numbAfterList++; //si le morceau trouvé contient "Sans Titre" on rajoute un nombre pour ne pas avoir le même nom
         }
     }
 
-    old = QString("Sans titre %1").arg(numbAfterList);
+    old = QString(tr("Sans titre %1")).arg(numbAfterList);
 }
 
 void NutshPlayListInterface::place(float coef) {

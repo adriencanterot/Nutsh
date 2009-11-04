@@ -11,13 +11,11 @@ NutshMetaDataInterface::NutshMetaDataInterface(NutshComunicator* corePath)
     indexSelected = 0;
     metadatas = new NutshMetaDataList(core);
     metadatas->setParent(this);
-    importer = new QPushButton("Importer", this);
-    this->setStyleSheet("min-height : 180px;");
-
+    importer = new QPushButton(tr("Importer"), this);
     //placement
     importer->hide();
 
-    this->load(core->getSqlControl()->getMetaDatas("bibliotheque"));
+    this->load(core->getSqlControl()->getMetaDatas(-1));
 }
 
 
@@ -58,13 +56,19 @@ void NutshMetaDataInterface::getWordMetaData(const QString &word){
 
         if(metaList.value(i).contains(word)) {
 
+            qDebug() << metadatas->height()*4/(metadatas->count()+1);
+
             metadatas->append(metaList.value(i));
         }
     }
+    if(metadatas->count() < 5 && metadatas->count() != 0) {
+        metadatas->setIconSize(QSize(metadatas->height()/(metadatas->count())-22,metadatas->height()/(metadatas->count())-22));
+        qDebug() << metadatas->count() << metadatas->count()+1;
+    }
     if(!metadatas->isEmpty()) {
 
-        metadatas->topLevelItem(0)->setSelected(true);
-        metadatas->setCurrentItem(metadatas->topLevelItem(0));
+        metadatas->item(0)->setSelected(true);
+        metadatas->setCurrentItem(metadatas->item(0));
     }
 }
 
@@ -125,13 +129,15 @@ void NutshMetaDataInterface::setPath(const QString &chemin) {
 
 void NutshMetaDataInterface::importerContent() {
 
-    core->getSqlControl()->inserer(metaList, "bibliotheque");
+    for(int i = 0;i<metaList.count();i++){
+        core->getSqlControl()->inserer(metaList.value(i));
+    }
 }
 
 void NutshMetaDataInterface::reset() {
 
     metaList.clear();
-    metaList = core->getSqlControl()->getMetaDatas("bibliotheque");
+    metaList = core->getSqlControl()->getMetaDatas(-1);
     this->load(metaList);
     emit contentTypeChanged(Entire);
     contentType = Entire;
@@ -185,12 +191,12 @@ void NutshMetaDataInterface::navigateByKey(QKeyEvent *event) {
 
         case Qt::Key_Down:
 
-            if(this->getListWidget()->topLevelItem(indexSelected+1) != NULL) {
+            if(this->getListWidget()->item(indexSelected+1) != NULL) {
 
-                this->indexSelected = this->getListWidget()->indexOfTopLevelItem(this->getListWidget()->currentItem());
-                this->getListWidget()->topLevelItem(indexSelected)->setSelected(false);
+                this->indexSelected = this->getListWidget()->row(this->getListWidget()->currentItem());
+                this->getListWidget()->item(indexSelected)->setSelected(false);
                 this->indexSelected++;
-                this->getListWidget()->setCurrentItem(this->getListWidget()->topLevelItem(indexSelected));
+                this->getListWidget()->setCurrentItem(this->getListWidget()->item(indexSelected));
                 this->getListWidget()->currentItem()->setSelected(true);
 
             }
@@ -198,12 +204,12 @@ void NutshMetaDataInterface::navigateByKey(QKeyEvent *event) {
 
         case Qt::Key_Up:
 
-            if(this->getListWidget()->topLevelItem(indexSelected-1) != NULL) {
+            if(this->getListWidget()->item(indexSelected-1) != NULL) {
 
-                this->indexSelected = this->getListWidget()->indexOfTopLevelItem(this->getListWidget()->currentItem());
+                this->indexSelected = this->getListWidget()->row(this->getListWidget()->currentItem());
                 this->getListWidget()->currentItem()->setSelected(false);
                 this->indexSelected--;
-                this->getListWidget()->setCurrentItem(this->getListWidget()->topLevelItem(indexSelected));
+                this->getListWidget()->setCurrentItem(this->getListWidget()->item(indexSelected));
                 this->getListWidget()->currentItem()->setSelected(true);
 
             }
@@ -225,7 +231,7 @@ void NutshMetaDataInterface::reload() {
 
     if(contentType == Entire) {
 
-        metaList = core->getSqlControl()->getMetaDatas("bibliotheque");
+        metaList = core->getSqlControl()->getMetaDatas(-1);
     }
 
 }

@@ -17,6 +17,8 @@ class NutshPlaylistList : public QListWidget
 
 public:
     NutshPlaylistList(NutshComunicator*, QWidget *parent = 0);
+    void addItems(const QMap<int, QString>& datas);
+    int currentElementId();
 
 public slots:
 
@@ -33,6 +35,7 @@ protected:
 private:
     NutshComunicator* core;
     QMenu *popup;
+    QList<int> listIds;
 };
 
 #endif // NUTSHPLAYLISTLIST_H

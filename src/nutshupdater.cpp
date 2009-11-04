@@ -8,10 +8,10 @@ NutshUpdater::NutshUpdater(NutshComunicator *corePath)
 
     core = corePath;
 
-    m_nouvelleMaj = new QLabel("Une nouvelle version est disponible");
+    m_nouvelleMaj = new QLabel(tr("Une nouvelle version est disponible"));
     m_dlInfos = new QLabel;
-    m_oui = new QPushButton("Telecharger");
-    m_non = new QPushButton("Plus tard");
+    m_oui = new QPushButton(tr("Telecharger"));
+    m_non = new QPushButton(tr("Plus tard"));
 
     m_principal = new QVBoxLayout;
     m_ouiNon = new QHBoxLayout;

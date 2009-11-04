@@ -21,15 +21,15 @@ class NutshSqlSaver
         bool nouvelleListe(const QString&);
 
         void completeMetaData(NutshMetaData&);
-        void inserer(QList<NutshMetaData>, const QString&);
-        void inserer(NutshMetaData, const QString&);
+        void inserer(QList<NutshMetaData>, int);
+        void inserer(NutshMetaData, int);
         insertError inserer(NutshMetaData);
-        void update(const NutshMetaData&, const QString&);
+        void update(const NutshMetaData&);
         void savePath(const QString& path);
         void played(NutshMetaData&);
-        void remove(const QString&);
-        void rename(const QString&, const QString&);
-        QStringList getPlaylists();
+        void remove(int);
+        void rename(const QString&, int);
+        QMap<int, QString> getPlaylists();
 
 
         static void updateColumn(const QString &key, const QString &value, int it);
@@ -38,7 +38,7 @@ class NutshSqlSaver
         static QString normalStringFormat(const QString&);
 
         QVariantList modelNutshMetaData(const NutshMetaData&);
-        QList<NutshMetaData> getMetaDatas(const QString&);
+        QList<NutshMetaData> getMetaDatas(int id);
         QList<NutshMetaData> getResults(const QString&);
         QList<NutshMetaData> getLastImport(int);
         QList<NutshMetaData> getMostReaden(int);
@@ -46,6 +46,7 @@ class NutshSqlSaver
         QStringList getFolderList();
 
         QString crypt(const QString&);
+        int getListId(const QString& listName);
 
     private:
         QStringList metadatas;

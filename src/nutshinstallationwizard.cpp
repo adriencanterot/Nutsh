@@ -12,10 +12,10 @@ NutshInstallationWizard::NutshInstallationWizard()
     this->addPage(new PageIntro);
     this->addPage(new PageImportMedia);
     this->addPage(new PageConclusion);
-    this->setButtonText(QWizard::NextButton, "Suivant");
-    this->setButtonText(QWizard::BackButton, "Précédent");
-    this->setButtonText(QWizard::FinishButton, "Terminer");
-    this->setButtonText(QWizard::CancelButton, "Annuler");
+    this->setButtonText(QWizard::NextButton, tr("Suivant"));
+    this->setButtonText(QWizard::BackButton, tr("Précédent"));
+    this->setButtonText(QWizard::FinishButton, tr("Terminer"));
+    this->setButtonText(QWizard::CancelButton, tr("Annuler"));
 #ifdef Q_WS_MAC
     this->setWizardStyle(ModernStyle);
 #endif
@@ -28,20 +28,20 @@ void NutshInstallationWizard::accept() {
 
 PageIntro::PageIntro() {
 
-    license = new QLabel("Bienvenue dans l'assistant d'installation de Nutsh! cet assistant va vous guider pour : \n\n- Ajouter des morceaux\n- Apprendre brièvement comment se servir de Nutsh!\n\nCliquez sur suivant pour continuer.", this);
+    license = new QLabel(tr("Bienvenue dans l'assistant d'installation de Nutsh! cet assistant va vous guider pour : \n\n- Ajouter des morceaux\n- Apprendre brièvement comment se servir de Nutsh!\n\nCliquez sur suivant pour continuer."), this);
     license->setWordWrap(true);
 }
 
 PageImportMedia::PageImportMedia() {
 
     principal = new QVBoxLayout(this);
-    import = new QLabel("Pour bien fonctionner, vous devez indiquer à  Nutsh où se trouvent vos médias, choisissez le dossier contenant vos médias : ", this);
+    import = new QLabel(tr("Pour bien fonctionner, vous devez indiquer à  Nutsh où se trouvent vos médias, choisissez le dossier contenant vos médias : "), this);
     import->setWordWrap(true);
 
     enCours = new QLabel;
     attention = new QLabel;
     m_progression = new QProgressBar;
-    parcourir = new QPushButton("Parcourir...");
+    parcourir = new QPushButton(tr("Parcourir..."));
     parcourir->resize(100, parcourir->height());
 
     principal->addWidget(import);
@@ -58,7 +58,7 @@ PageImportMedia::PageImportMedia() {
 
 void PageImportMedia::getDirName() {
 
-    dirName = QFileDialog::getExistingDirectory(this, "Dossier de vos médias", "/");
+    dirName = QFileDialog::getExistingDirectory(this, tr("Dossier de vos médias"), "/");
 
     parcourir->hide();
     attention->hide();
@@ -105,7 +105,7 @@ void PageImportMedia::updateBar(ProgressionInfo informations) {
 
 PageConclusion::PageConclusion() {
 
-    conclusion = new QLabel("Tout vos morceaux ont été importés dans votre bibliothèque\nAppuyez sur Terminer pour commencer à  vous servir de Nutsh", this);
+    conclusion = new QLabel(tr("Tout vos morceaux ont été importés dans votre bibliothèque\nAppuyez sur Terminer pour commencer à  vous servir de Nutsh"), this);
 }
 
 void NutshInstallationWizard::reject() {

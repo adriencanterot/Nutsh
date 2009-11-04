@@ -77,6 +77,7 @@ bool NutshLecteur::isPlaying() {
 void NutshLecteur::setSource(const NutshMetaData& source) {
 
     this->setCurrentSource(Phonon::MediaSource(source.getChemin()));
+    qDebug() << this->errorType() << this->errorString();
 }
 
 void NutshLecteur::setSources(const QList<NutshMetaData> &sources) {

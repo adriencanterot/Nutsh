@@ -53,7 +53,7 @@ void NutshMaJ::telecharger() {
     m_download->setHost(url.host(), mode, url.port() == -1 ? 0 : url.port());
 
     QByteArray path = QUrl::toPercentEncoding(url.path(), "!$&'()*+,;=:@/");
-    core->progressinterface()->swapToProgress();
+    core->progressinterface()->visible(true);
     m_download->get(path, file);
 
     connect(m_download, SIGNAL(dataReadProgress(int,int)), this, SLOT(updProgress(int,int)));

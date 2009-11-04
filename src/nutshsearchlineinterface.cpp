@@ -22,10 +22,10 @@ void NutshSearchLineInterface::sigandslots() {
 
     connect(searchLine, SIGNAL(textChanged(QString)), this, SLOT(showResults(QString)));
 
-    actionsPlus->addAction("Resultats de la recherche dans une playlist", core->playlistinterface(),
+    actionsPlus->addAction(tr("Resultats de la recherche dans une playlist"), core->playlistinterface(),
                            SLOT(addListeFromSearch()));
 
-    actionsPlus->addAction("5 derniers morceaux lu dans une liste de lecture", core->playlistinterface(),
+    actionsPlus->addAction(tr("5 derniers morceaux lu dans une liste de lecture"), core->playlistinterface(),
                            SLOT(addLastRead()));
 }
 void NutshSearchLineInterface::showResults(QString query) {

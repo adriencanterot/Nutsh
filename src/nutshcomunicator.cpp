@@ -63,10 +63,7 @@ void NutshComunicator::afterLaunch() {
     m_playinginterface->sigandslots();
 
     this->place(1);
-    m_metadatainterface->setFixedWidth(100);
-    m_metadatainterface->getListWidget()->setFixedWidth(
-            m_metadatainterface->getListWidget()->width()-100
-            );
+
 }
 QWidget *NutshComunicator::initInterfaces() {
     //mise en places dans les layouts et envoi dans la fenêtre principale.
@@ -99,7 +96,7 @@ void NutshComunicator::place(float coef) {
     m_metadatainterface->place(0);
     m_progressinterface->move(190, 290);
     m_progressinterface->resize(400, 60);
-    m_metadatainterface->move(161, 90);
+    m_metadatainterface->move(161, 76);
 
     m_playinginterface->place(coef);
 

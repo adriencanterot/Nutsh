@@ -18,7 +18,7 @@ void Indexer::import() {
     QStringList filePaths;
     ProgressionInfo informations;
     informations.style = searching;
-    informations.phrase = QString("Recherche de morceaux en cours...");
+    informations.phrase = QString(tr("Recherche de morceaux en cours..."));
     emit updateBar(informations);
 
     iterator = new QDirIterator(chemin, filtre, QDir::NoFilter, QDirIterator::Subdirectories);
@@ -33,7 +33,7 @@ void Indexer::import() {
         filePaths.append(iterator->next());
         total++;
         ProgressionInfo informations;
-        informations.phrase = QString("%1 morceaux trouvés").arg(total);
+        informations.phrase = QString(tr("%1 morceaux trouvés")).arg(total);
         informations.style = searching;
         emit updateBar(informations);
     }
@@ -44,10 +44,10 @@ void Indexer::import() {
 
     if(filePaths.count() == 0) {
 
-        emit fatalError("Aucun fichier trouvé dans le dossier spécifié");
+        emit fatalError(tr("Aucun fichier trouvé dans le dossier spécifié"));
     }
 
-    QString noerror("0 medias importés"), alreadyexists("0 existent déjà"), error("aucune erreur");
+    QString noerror(tr("0 medias importés")), alreadyexists(tr("0 existent déjà")), error(tr("aucune erreur"));
     int o = 0; //nombre d'erreurs
     int a = 0;
     for(int i = 0;i<filePaths.count();i++) {
@@ -65,23 +65,23 @@ void Indexer::import() {
 
             case NoError:
                 qDebug() << "NoError";
-                noerror = QString("%1 medias importés").arg(i-a-o);
+                noerror = QString(tr("%1 medias importés")).arg(i-a-o);
             break;
             case SqlError:
                 qDebug() << "SqlError";
                 o = o+1;
-                error = QString("%1 erreurs").arg(o);
+                error = QString(tr("%1 erreurs")).arg(o);
             break;
             case CantDecodeTag:
                 qDebug() << "CantDecodeTag";
                 o = o+1;
-                error = QString("%1 erreurs").arg(o);
+                error = QString(tr("%1 erreurs")).arg(o);
             break;
             case AlreadyExists:
                 qDebug() << "AlreadyExists";
                 a = a+1;
                 qDebug() << a;
-                alreadyexists = QString("%1 doublons").arg(a);
+                alreadyexists = QString(tr("%1 doublons")).arg(a);
             break;
         }
         ProgressionInfo informations;

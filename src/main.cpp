@@ -23,7 +23,10 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     QApplication::setApplicationName("Nutsh!");
-//    a.setStyle(new QPlastiqueStyle);
+    QTranslator translator;
+    QString locale = QLocale::system().name().section('_', 0, 0);
+    translator.load(":/translations/nutsh_en");
+    a.installTranslator(&translator);
     a.setStyle(new NutshStyle);
     a.setStyleSheet(getFileContent(":/css/style.css"));
 

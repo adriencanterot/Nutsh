@@ -1,7 +1,7 @@
 #ifndef NUTSHMETADATALIST_H
 #define NUTSHMETADATALIST_H
 
-#include <QTreeWidget>
+#include <QListWidget>
 #include <QDir>
 #include <QDirIterator>
 #include "nutshmetadata.h"
@@ -9,7 +9,7 @@
 #include <QKeyEvent>
 #include <QScrollBar>
 class NutshComunicator;
-class NutshMetaDataList : public QTreeWidget
+class NutshMetaDataList : public QListWidget
 {
     Q_OBJECT
 public:
@@ -35,6 +35,7 @@ private:
     QList<NutshMetaData> items;
     int indexSelected;
     NutshComunicator *core;
+    bool property;
 };
 
 #endif // NUTSHMETADATALIST_H

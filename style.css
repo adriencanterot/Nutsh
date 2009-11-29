@@ -301,3 +301,10 @@ QTreeView::branch:selected{
 QTreeView::branch:selected{
     background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 rgb(249, 157, 28), stop:1 rgb(243, 112, 33));
 }
+
+*[playbox=true] {
+    background-color : white;
+    width : 160px;
+    height : 35px;
+    border : 1px solid black;
+ }

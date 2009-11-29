@@ -44,12 +44,11 @@ void NutshPlaylistList::dropEvent(QDropEvent* event) {
 
         core->getSqlControl()->inserer(
                 core->metadatainterface()->getListWidget()->selectedMetadatas(),
-                listIds.value(this->row(this->itemAt(event->pos()))-4)
+                this->itemAt(event->pos())->text()
                 );
         event->accept();
 
     } else {
-        qDebug() << this->row(this->itemAt(event->pos()));
         event->ignore();
     }
 }
@@ -74,7 +73,7 @@ void NutshPlaylistList::showContent(const QModelIndex &index) {
         break;
         default:
         core->metadatainterface()->load(
-            core->getSqlControl()->getMetaDatas(this->currentElementId())
+            core->getSqlControl()->getMetaDatas(this->currentItem()->text())
         );
         break;
     }
@@ -102,8 +101,10 @@ void NutshPlaylistList::mouseReleaseEvent(QMouseEvent *event) {
 }
 
 void NutshPlaylistList::remove() {
-    core->getSqlControl()->remove(this->currentElementId());
+    core->getSqlControl()->remove(this->currentItem()->text());
     core->playlistinterface()->refresh();
+    this->setCurrentItem(this->item(0));
+    core->metadatainterface()->reset();
 }
 
 void NutshPlaylistList::rename() {
@@ -112,17 +113,8 @@ void NutshPlaylistList::rename() {
                                         QLineEdit::Normal, this->currentItem()->text(), &ok);
     if(ok == false) { return; }
 
-    core->getSqlControl()->rename(nom, this->currentElementId());
+    core->getSqlControl()->rename(nom, this->currentItem()->text());
     core->playlistinterface()->refresh();
 }
 
-void NutshPlaylistList::addItems(const QMap<int, QString>& datas) {
-    for(int i = 0;i<datas.count();i++) {
-        this->addItem(datas.values().value(i));
-        listIds.append(datas.keys().value(i));
-    }
-}
-int NutshPlaylistList::currentElementId() {
-    return listIds.value(this->currentRow()-4);
-}
 

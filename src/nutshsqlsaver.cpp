@@ -4,7 +4,7 @@
 NutshSqlSaver::NutshSqlSaver()
 {
 }
-void NutshSqlSaver::inserer(NutshMetaData meta, int id) {
+void NutshSqlSaver::inserer(NutshMetaData meta,  const QString& listName) {
 
     if(meta.getId() < 0) {
 
@@ -16,7 +16,7 @@ void NutshSqlSaver::inserer(NutshMetaData meta, int id) {
 
     if(!requete.exec(QString("INSERT INTO relationships VALUES( %2, %1)")
                  .arg(meta.getId())
-                 .arg(id)
+                 .arg(crypt(listName))
                  )) {
         qDebug() << requete.lastError() << requete.lastQuery();
     }
@@ -24,11 +24,11 @@ void NutshSqlSaver::inserer(NutshMetaData meta, int id) {
     qDebug() << requete.lastQuery();
 }
 
-void NutshSqlSaver::inserer(QList<NutshMetaData> meta, int id) {
+void NutshSqlSaver::inserer(QList<NutshMetaData> meta, const QString& listName) {
     //insertion de multiple metadonnees
     for(unsigned int i = 0;i<static_cast<unsigned int>(meta.count());i++) {
 
-        this->inserer(meta.value(i), id);
+        this->inserer(meta.value(i), listName);
     }
 }
 
@@ -124,7 +124,7 @@ bool NutshSqlSaver::connect() {
 
     requete.exec("CREATE TABLE listeDeLecture (id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, name text, ordre text)");
     requete.exec("CREATE TABLE path_list (id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, path text)");
-    requete.exec("CREATE TABLE relationships (playlist_id INTEGER, music_id INTEGER)");
+    requete.exec("CREATE TABLE relationships (playlist_id text, music_id INTEGER)");
 
     requete.exec("SELECT * FROM bibliotheque");
 
@@ -182,7 +182,7 @@ QString NutshSqlSaver::sqlStringFormat(const QString &param) {
     operation.replace("+", "plus_replaced");
     return operation;
 }
-QList<NutshMetaData> NutshSqlSaver::getMetaDatas(int id) {
+QList<NutshMetaData> NutshSqlSaver::getMetaDatas(const QString& listName) {
 
     //retourne la liste de métadonnée selon une requete
 
@@ -190,8 +190,8 @@ QList<NutshMetaData> NutshSqlSaver::getMetaDatas(int id) {
         QVariantList cache;
 
         QSqlQuery requete;
-    if(id > 0){
-        if(!requete.exec(QString("SELECT * FROM bibliotheque INNER JOIN relationships ON relationships.music_id = bibliotheque.id WHERE (relationships.playlist_id = %1)").arg(id))) {
+    if(listName != QString()){
+        if(!requete.exec(QString("SELECT * FROM bibliotheque INNER JOIN relationships ON relationships.music_id = bibliotheque.id WHERE (relationships.playlist_id = %1)").arg(crypt(listName)))) {
             qDebug() << requete.lastError() << requete.lastQuery();
         }
         qDebug() << requete.lastQuery();
@@ -439,42 +439,41 @@ void NutshSqlSaver::played(NutshMetaData& meta) {
     meta.setDerniereLecture(QDateTime::currentDateTime());
 }
 
-QMap<int, QString> NutshSqlSaver::getPlaylists() {
+QStringList NutshSqlSaver::getPlaylists() {
 
 
-    QMap<int, QString> playlists;
+    QStringList playlists;
     QSqlQuery requete;
     requete.exec("SELECT * FROM listeDeLecture");
 
     while(requete.next()) {
-        playlists.insert(requete.value(0).toInt(), NutshSqlSaver::normalStringFormat(requete.value(1).toString()));
+        playlists.append(NutshSqlSaver::normalStringFormat(requete.value(1).toString()));
     }
 
     return playlists;
 }
 
-void NutshSqlSaver::rename(const QString& nouveau, int id) {
+void NutshSqlSaver::rename(const QString& nouveau, const QString& listName) {
 
     QSqlQuery requete;
     QString allLists;
 
-    if(!requete.exec(QString("UPDATE listeDeLecture SET name = %1 WHERE id = %2").arg(nouveau).arg(id))) {
+    if(!requete.exec(QString("UPDATE listeDeLecture SET name = \"%1\" WHERE name = \"%2\"").arg(NutshSqlSaver::sqlStringFormat(nouveau)).arg(listName))) {
 
         qDebug() << requete.lastError() << requete.lastQuery();
     }
 
 }
 
-void NutshSqlSaver::remove(int id) {
+void NutshSqlSaver::remove(const QString &listName) {
 
     QSqlQuery requete;
-    QString allLists;
 
-    if(!requete.exec(QString("DELETE FROM listeDeLecture WHERE id = %1").arg(id))) {
+    if(!requete.exec(QString("DELETE FROM listeDeLecture WHERE name = \"%1\"").arg(NutshSqlSaver::sqlStringFormat(listName)))) {
 
         qDebug() << requete.lastError() << requete.lastQuery();
     }
-    if(!requete.exec(QString("DELETE FROM relationships WHERE playlist_id = %1").arg(id))) {
+    if(!requete.exec(QString("DELETE FROM relationships WHERE playlist_id = %1").arg(crypt(listName)))) {
 
         qDebug() << requete.lastError() << requete.lastQuery();
     }

@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
     QApplication::setApplicationName("Nutsh!");
     QTranslator translator;
     QString locale = QLocale::system().name().section('_', 0, 0);
-    translator.load(":/translations/nutsh_en");
+    translator.load(":/translations/nutsh_"+locale);
     a.installTranslator(&translator);
     a.setStyle(new NutshStyle);
     a.setStyleSheet(getFileContent(":/css/style.css"));

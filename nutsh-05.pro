@@ -55,7 +55,8 @@ SOURCES += src/main.cpp \
     src/nutshsubinterfaces.cpp \
     src/nutshstyle.cpp \
     src/dailysonginterface.cpp \
-    src/nutshsystemtrayicon.cpp
+    src/nutshsystemtrayicon.cpp \
+    src/nutshplaybox.cpp
 HEADERS += src/nutshmainwindow.h \
     src/nutshlecteur.h \
     src/nutshindexer.h \
@@ -78,7 +79,8 @@ HEADERS += src/nutshmainwindow.h \
     src/nutshsubinterfaces.h \
     src/nutshstyle.h \
     src/dailysonginterface.h \
-    src/nutshsystemtrayicon.h
+    src/nutshsystemtrayicon.h \
+    src/nutshplaybox.h
 RESOURCES += nutsh.qrc
 OBJECTS_DIR = obj/
 MOC_DIR = moc/

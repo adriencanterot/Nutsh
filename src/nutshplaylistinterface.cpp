@@ -77,7 +77,7 @@ void NutshPlayListInterface::addListeFromSearch() {
     }
 
     core->getSqlControl()->nouvelleListe(listName);
-    core->getSqlControl()->inserer(core->metadatainterface()->getListWidget()->getItems(), core->getSqlControl()->getListId(listName));
+    core->getSqlControl()->inserer(core->metadatainterface()->getListWidget()->getItems(), listName);
     this->refresh();
 }
 
@@ -94,7 +94,7 @@ void NutshPlayListInterface::addLastRead() {
 
     core->getSqlControl()->nouvelleListe(listName);
 
-    core->getSqlControl()->inserer(core->playinginterface()->getLastRead(), core->getSqlControl()->getListId(listName));
+    core->getSqlControl()->inserer(core->playinginterface()->getLastRead(), listName);
     this->refresh();
 }
 

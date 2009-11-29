@@ -42,6 +42,8 @@ void NutshComunicator::afterLaunch() {
 
     m_playinginterface = new NutshPlayingInterface(this);
     m_progressinterface = new NutshProgressInterface(this);
+    m_playbox = new NutshPlaybox(this);
+    m_playbox->setParent(m_central);
 
     m_playinginterface->getActionsButtons()->setParent(m_central);
 
@@ -99,6 +101,7 @@ void NutshComunicator::place(float coef) {
     m_metadatainterface->move(161, 76);
 
     m_playinginterface->place(coef);
+    m_playbox->place(coef);
 
     m_progressinterface->place(coef);
     m_playlistinterface->place(coef);
@@ -166,5 +169,7 @@ QMainWindow* NutshComunicator::getParent() {
 NutshSystemTrayIcon* NutshComunicator::systemtrayicon() {
     return m_tray;
 }
-
+NutshPlaybox* NutshComunicator::playbox() {
+    return m_playbox;
+}
 

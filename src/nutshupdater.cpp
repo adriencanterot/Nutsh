@@ -66,7 +66,6 @@ bool NutshUpdater::isUpdate() {
     if (QFile::exists("version.txt")) {
 
         QFile::remove("version.txt");
-        qDebug() << "file removed";
     }
 
     file = new QBuffer;
@@ -96,7 +95,6 @@ bool NutshUpdater::isUpdate() {
 
   } else if(VERSION < numeroVersion) {
 
-      qDebug() <<  VERSION << numeroVersion;
         return true;
     } else {
 
@@ -124,14 +122,10 @@ void NutshUpdater::getResults(bool error) {
         ok = false;
         this->numeroVersion = sansRetourLigne.toInt(ok);
         file->close();
-
-        if(ok) { qDebug() << "great"; }
     }
 }
 
 void NutshUpdater::swapToUpdater() {
-
-    qDebug() << "Hidden";
 
     this->show();
 }

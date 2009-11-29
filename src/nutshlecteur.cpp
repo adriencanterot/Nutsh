@@ -249,7 +249,6 @@ QSlider *NutshLecteur::getVolumeSlider() {
 
 void NutshLecteur::setVolume(int volume) {
 
-    qDebug() << volume*2.55;
     FSOUND_SetVolume(FSOUND_ALL, volume*2.55);
 }
 

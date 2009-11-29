@@ -80,7 +80,6 @@ void Indexer::import() {
             case AlreadyExists:
                 qDebug() << "AlreadyExists";
                 a = a+1;
-                qDebug() << a;
                 alreadyexists = QString(tr("%1 doublons")).arg(a);
             break;
         }
@@ -88,7 +87,6 @@ void Indexer::import() {
         informations.progression = i+1;
         informations.maximum = total;
         informations.phrase = QString("%1, %2").arg(noerror).arg(alreadyexists);
-        qDebug() << informations.phrase;
         informations.style = progression;
 
         emit updateBar(informations);

@@ -99,7 +99,6 @@ void PageImportMedia::updateBar(ProgressionInfo informations) {
 
     }
     enCours->setText(informations.phrase);
-    qDebug() << informations.phrase;
 
 }
 

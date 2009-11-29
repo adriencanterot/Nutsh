@@ -92,7 +92,6 @@ void NutshPlayingInterface::load(const NutshMetaData &data) {
     if(data.getId() != -1) { // si la métadonnée n'est pas vide
 
         currentItem = 0;
-        qDebug() << data.getId();
 
         tickCompteur = true;
         artwork->setPixmap(data.getArtwork().scaled(130, 130));

@@ -25,6 +25,7 @@
 #include "nutshsubinterfaces.h"
 #include "dailysonginterface.h"
 #include "nutshsystemtrayicon.h"
+#include "nutshplaybox.h"
 
 class NutshComunicator : public QObject
 {
@@ -43,6 +44,7 @@ public:
     NutshSearchLineInterface *searchlineinterface();
     NutshPlayingInterface *playinginterface();
     NutshProgressInterface *progressinterface();
+    NutshPlaybox *playbox();
     NutshSystemTrayIcon *systemtrayicon();
     NutshUpdater *updater();
     NutshSqlSaver* getSqlControl();
@@ -75,6 +77,7 @@ private:
     NutshProgressInterface *m_progressinterface;
 //    NutshUpdater *m_updater;
     NutshBoutonRevenir *m_boutonrevenir;
+    NutshPlaybox *m_playbox;
 
 };
 #endif

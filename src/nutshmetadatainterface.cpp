@@ -15,7 +15,7 @@ NutshMetaDataInterface::NutshMetaDataInterface(NutshComunicator* corePath)
     //placement
     importer->hide();
 
-    this->load(core->getSqlControl()->getMetaDatas(-1));
+    this->load(core->getSqlControl()->getMetaDatas());
 }
 
 
@@ -56,14 +56,11 @@ void NutshMetaDataInterface::getWordMetaData(const QString &word){
 
         if(metaList.value(i).contains(word)) {
 
-            qDebug() << metadatas->height()*4/(metadatas->count()+1);
-
             metadatas->append(metaList.value(i));
         }
     }
     if(metadatas->count() < 5 && metadatas->count() != 0) {
         metadatas->setIconSize(QSize(metadatas->height()/(metadatas->count())-22,metadatas->height()/(metadatas->count())-22));
-        qDebug() << metadatas->count() << metadatas->count()+1;
     }
     if(!metadatas->isEmpty()) {
 
@@ -137,7 +134,7 @@ void NutshMetaDataInterface::importerContent() {
 void NutshMetaDataInterface::reset() {
 
     metaList.clear();
-    metaList = core->getSqlControl()->getMetaDatas(-1);
+    metaList = core->getSqlControl()->getMetaDatas();
     this->load(metaList);
     emit contentTypeChanged(Entire);
     contentType = Entire;
@@ -231,7 +228,7 @@ void NutshMetaDataInterface::reload() {
 
     if(contentType == Entire) {
 
-        metaList = core->getSqlControl()->getMetaDatas(-1);
+        metaList = core->getSqlControl()->getMetaDatas();
     }
 
 }

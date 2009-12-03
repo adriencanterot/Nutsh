@@ -55,6 +55,7 @@ public:
     QStatusBar* bar();
     void scanFolders();
     QMainWindow* getParent();
+    QStringList dictionnary();
 
 public slots:
     void swapInterface(InterfaceName);
@@ -65,6 +66,7 @@ private:
     QWidget *m_central;
     QMainWindow *m_parent;
     QStatusBar* m_bar;
+    QStringList m_dictionnary;
     NutshSystemTrayIcon *m_tray;
 
     NutshSqlSaver *sqlControl;

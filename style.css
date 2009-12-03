@@ -64,20 +64,20 @@ QListWidget[leftside=false]::item:!active{
     border: none;
     padding-top : 10px;
     padding-bottom:10px;
-    background-color : #E2DBC6;
+    background-color : #E7E8E9;
     color : black;
 
 }
 QListWidget[leftside=false]::item:alternate{
 
     border: none;
-    background-color : #BAAD96;
+    background-color : #c1c1c1;
     color : black;
 }
 
 QListWidget[leftside=false]::item:focus:active{
 
-    background-color : #202615;
+    background-color : #60301a;
     color : white;
 }
 

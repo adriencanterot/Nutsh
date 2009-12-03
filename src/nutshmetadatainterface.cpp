@@ -7,6 +7,8 @@ NutshMetaDataInterface::NutshMetaDataInterface(NutshComunicator* corePath)
     //init & alloc
     core = corePath;
     contentType = Entire;
+    searchResults = new QLabel;
+    core->bar()->addPermanentWidget(searchResults);
 
     indexSelected = 0;
     metadatas = new NutshMetaDataList(core);
@@ -51,14 +53,24 @@ void NutshMetaDataInterface::getWordMetaData(const QString &word){
 
     metadatas->clearList();
     indexSelected = 0; // remet à zero le comtpeur pour l'index au clavier.
+    int o = 0;
+    QList<NutshMetaData> knowDominant = metaList;
+    searchResultType dominant = dominantType(knowDominant, word);
+    
+    for(int i = 0;i < metaList.count();i++) {
 
-    for(int i = 0;i<metaList.count();i++) {
-
-        if(metaList.value(i).contains(word)) {
-
+        if(metaList.value(i).contains(word) != Nothing) {
+            if(dominant == Song) {
+                o++;
+                if(o > 20) { break; }
+            }
             metadatas->append(metaList.value(i));
         }
     }
+
+
+    searchResults->setText(QString("%1 resultats").arg(metadatas->count()));
+
     if(metadatas->count() < 5 && metadatas->count() != 0) {
         metadatas->setIconSize(QSize(metadatas->height()/(metadatas->count())-22,metadatas->height()/(metadatas->count())-22));
     }
@@ -232,6 +244,34 @@ void NutshMetaDataInterface::reload() {
     }
 
 }
+searchResultType NutshMetaDataInterface::dominantType(QList<NutshMetaData> liste, const QString& word) const {
+    int artists = 0;
+    int albums = 0;
+    int songs = 0;
+    if(word.length() < 4 || core->dictionnary().contains(word, Qt::CaseInsensitive)) {
+        return Song;
+    }
+    for(int i = 0;i<liste.count();i++) {
 
-
-
+        if(liste.value(i).contains(word) == Song) {
+            songs++;
+        }
+        else if(liste.value(i).contains(word) == Album) {
+            albums++;
+        }
+        else if(liste.value(i).contains(word) == Artist) {
+            artists++;
+        }
+    }
+    qDebug() << artists << albums << songs;
+    if(songs <= artists && albums <= artists) {
+        qDebug() << "Artist";
+        return Artist;
+    } else if(songs <= albums) {
+        qDebug() << "Album";
+        return Album;
+    } else {
+        qDebug() << "Song";
+        return Song;
+    }
+}

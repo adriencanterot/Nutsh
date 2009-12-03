@@ -15,6 +15,7 @@
 #include <QPixmap>
 #include <QImage>
 #include <QFile>
+#include "preprocess.h"
 
 class NutshMetaData : public QObject
 {
@@ -26,7 +27,7 @@ public:
     NutshMetaData(const QVariantList&);
     //depuis un fichier
     NutshMetaData(const QString&);
-    bool contains(const QString&);
+    searchResultType contains(const QString&);
     bool isDefault();
     NutshMetaData(const NutshMetaData &m);
     NutshMetaData operator=(const NutshMetaData &m);

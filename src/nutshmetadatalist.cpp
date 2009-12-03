@@ -19,7 +19,8 @@ NutshMetaDataList::NutshMetaDataList(NutshComunicator* corePath) {
 
 void NutshMetaDataList::append(NutshMetaData data) {
 
-    if(property == true) property = false; else property = true;
+
+    /******Redimmensionnement des titres ******/
     QString titre = data.getTitre();
     if(titre.size() > CHAR_NUM_LIST) { titre.resize(CHAR_NUM_LIST);titre.append("..."); }
     QString artistealbum = data.getArtiste() + " | " + data.getAlbum();
@@ -29,8 +30,10 @@ void NutshMetaDataList::append(NutshMetaData data) {
                     .arg(titre)
                     .arg(artistealbum);
     QListWidgetItem* item = new QListWidgetItem(QIcon(":img/images/sans-image.png"), sdata);
+    /***************-----------------********/
     if(this->count() < 5) {
         item->setIcon(data.getArtwork());
+
     } else {
         this->setIconSize(QSize(30,30));
     }
@@ -38,7 +41,6 @@ void NutshMetaDataList::append(NutshMetaData data) {
     font.setBold(true);
     item->setFont(font);
     this->addItem(item);
-
     items.append(data);
 }
 
@@ -63,7 +65,7 @@ void NutshMetaDataList::load(QList<NutshMetaData> liste) {
     this->clearList();
 
     for(int i = 0;i<liste.count();i++) {
-
+        qDebug() << i;
         this->append(liste.value(i));
     }
 

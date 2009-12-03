@@ -93,19 +93,22 @@ void NutshMetaData::setSavingDate(const QDateTime &dateEnregistrement) {
     metaData.append(enregistrement.toString());
 }
 
-bool NutshMetaData::contains(const QString &str) {
+searchResultType NutshMetaData::contains(const QString &str) {
 
-    if(artiste.contains(str, Qt::CaseInsensitive) ||
-       album.contains(str, Qt::CaseInsensitive) ||
-       titre.contains(str, Qt::CaseInsensitive)
-        ) {
+    if(titre.contains(str, Qt::CaseInsensitive)) {
+        return Song;
+    }
+    if(artiste.contains(str, Qt::CaseInsensitive)) {
+         return Artist;
+    }
+    if(album.contains(str, Qt::CaseInsensitive)) {
+        return Album;
+    }
 
-                return true;
+    else {
+        return Nothing;
+    }
 
-            } else {
-
-                return false;
-            }
 }
 
 /* Toute les methodes accesseuses */
@@ -343,7 +346,7 @@ QPixmap NutshMetaData::getArtwork() const {
         QImage image;
 
         if(l.isEmpty())
-            return QPixmap(":/img/images/sans-image.png", "png");
+            return QPixmap(":/img/images/sans-image.png", "png").scaled(130, 130);
 
         ID3v2::AttachedPictureFrame *f =
             static_cast<ID3v2::AttachedPictureFrame *>(l.front());
@@ -351,13 +354,13 @@ QPixmap NutshMetaData::getArtwork() const {
         image.loadFromData((const unsigned char *) f->picture().data(), f->picture().size());
 
         if(image.isNull())
-            return QPixmap(":/img/images/sans-image.png", "png").scaled(240, 240);
+            return QPixmap(":/img/images/sans-image.png", "png").scaled(130, 130);
         else
-            return QPixmap::fromImage(image).scaled(240, 240);
+            return QPixmap::fromImage(image).scaled(130, 130);
 
     } else {
 
-        return QPixmap(":/img/images/sans-image.png", "png");
+        return QPixmap(":/img/images/sans-image.png", "png").scaled(130, 130);
     }
 
 }

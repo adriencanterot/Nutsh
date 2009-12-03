@@ -3,6 +3,7 @@
 NutshComunicator::NutshComunicator(QMainWindow *parent = 0)
 {
 
+    m_dictionnary << "the " << "the";
     m_bar = new QStatusBar;
     m_parent = parent;
     m_central = new QWidget;
@@ -173,3 +174,6 @@ NutshPlaybox* NutshComunicator::playbox() {
     return m_playbox;
 }
 
+QStringList NutshComunicator::dictionnary() {
+    return m_dictionnary;
+}

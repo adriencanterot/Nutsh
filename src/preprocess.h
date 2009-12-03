@@ -13,6 +13,7 @@
 #define D(bug) qDebug() << bug;
 #define WIDTH_LEFT 200
 #define CHAR_NUM_LIST 52
+#define RUNNING_WORDS QString("the ");
 
 enum ContentType {
 
@@ -47,6 +48,9 @@ struct ProgressionInfo {
     int maximum;
     QString phrase;
     progressionStyle style;
+};
+enum searchResultType {
+    Song = 0, Artist =1, Album = 2, Nothing = 3
 };
 
 #endif // PREPROCESS_H

@@ -6,6 +6,7 @@
 #include <QLayout>
 #include <QDir>
 #include <QList>
+#include <QLabel>
 #include <QPushButton>
 #include "nutshmetadata.h"
 #include "nutshmetadatalist.h"
@@ -22,6 +23,7 @@ public:
     void load(QList<NutshMetaData>);
     QList<NutshMetaData> actualContent() const;
     QList<NutshMetaData> totalContent() const;
+    searchResultType dominantType(QList<NutshMetaData>, const QString&) const;
     NutshMetaDataList* getListWidget();
     void setPath(const QString&);
     void refreshInterface(ContentType);
@@ -51,8 +53,10 @@ private:
     QList<NutshMetaData> metaList;
     NutshMetaDataList *metadatas;
     QPushButton *importer;
+    QLabel *searchResults;
     
     int indexSelected;
+    int nbresults;
 
     ContentType contentType;
 

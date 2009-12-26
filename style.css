@@ -36,9 +36,9 @@ QMainWindow{
 
 QListWidget[leftside=true]{
     max-width: 160px;
-    max-height: 190px;
+    max-height: 130px;
     background-color: transparent;
-    border: none;
+    border:none;
 }
 
 QListWidget[leftside=true]::item{

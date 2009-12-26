@@ -14,6 +14,7 @@
 #define WIDTH_LEFT 200
 #define CHAR_NUM_LIST 52
 #define RUNNING_WORDS QString("the ");
+#define PHONON
 
 enum ContentType {
 
@@ -51,6 +52,9 @@ struct ProgressionInfo {
 };
 enum searchResultType {
     Song = 0, Artist =1, Album = 2, Nothing = 3
+};
+enum State{
+    Playing, Paused, Stopped
 };
 
 #endif // PREPROCESS_H

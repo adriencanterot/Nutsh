@@ -7,11 +7,8 @@
 #include <QTimer>
 #include "preprocess.h"
 
-#if defined(Q_WS_X11) || defined(Q_WS_MAC)
-#include <mediaobject.h>
-#include <seekslider.h>
-#include <volumeslider.h>
-#include <audiooutput.h>
+#ifdef PHONON
+#include <Phonon>
 
 /* Cree un lecteur heritant du media object (pour lui rajouter des options) */
 class NutshLecteur : public Phonon::MediaObject
@@ -37,13 +34,8 @@ private :
     Phonon::VolumeSlider *volume;
 };
 #endif
-#if defined(Q_WS_WIN)
+#ifdef FMOD
 #include <fmod.h>
-enum State{
-    Playing, Paused, Stopped
-        };
-
-
 class NutshLecteur : public QObject
 {
     Q_OBJECT
@@ -84,6 +76,44 @@ private :
     int m_updateFrequency;
     State m_state;
 
+};
+#endif
+#ifdef FMODeX
+#include <fmod.hpp>
+class NutshLecteur : public QObject {
+    Q_OBJECT
+public:
+    NutshLecteur();
+    void setSource(const NutshMetaData&);
+    bool isPlaying();
+    bool isPaused();
+    QSlider *getPosSlider();
+    QSlider *getVolumeSlider();
+
+public slots:
+    void play();
+    void pause();
+    void stop();
+
+private slots:
+    void setPos(int);
+    void updateSlider();
+    void setVolume(int);
+
+signals:
+    qint64 tick(qint64);
+    void aboutToFinish();
+    void finished();
+private:
+    FMOD::System* system;
+    FMOD::Channel* channel;
+    FMOD::Sound* sound;
+    FMOD_RESULT result;
+    QSlider* m_avancement;
+    QSlider* m_volume;
+    int m_updatefrequence;
+    QTimer *timer;
+    State m_state;
 };
 #endif
 #endif // NUTSHLECTEUR_H

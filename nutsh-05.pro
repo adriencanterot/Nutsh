@@ -18,12 +18,14 @@ win32 {
         -L3rdparty/win/FMOD3/lib \
         -lfmod
 }
-macx { 
-    INCLUDEPATH += 3rdparty/mac/include
+macx {
+    QT += phonon
+    INCLUDEPATH += 3rdparty/mac/include/taglib \
+                   3rdparty/mac/include/fmodex
     LIBS += -L3rdparty/mac/lib \
-        -ltag
-    QT += phonon \
-        opengl
+        -ltag \
+        -lfmodex
+
     OTHER_FILES += style.css
 }
 linux-g++ { 

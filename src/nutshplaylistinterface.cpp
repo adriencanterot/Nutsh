@@ -117,7 +117,6 @@ void NutshPlayListInterface::setNewName(QString &old) {
 void NutshPlayListInterface::place(float coef) {
 
     coef = 0;
-
     liste->move(0, 100);
 
     int x = 40;

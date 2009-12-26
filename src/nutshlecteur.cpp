@@ -1,5 +1,5 @@
 #include "nutshlecteur.h"
-#if defined(Q_WS_X11)|| defined(Q_WS_MAC)
+#ifdef PHONON
 
 NutshLecteur::NutshLecteur() {
 
@@ -111,7 +111,7 @@ Phonon::VolumeSlider *NutshLecteur::getVolumeSlider() {
 }
 
 #endif
-#if defined(Q_WS_WIN)
+#ifdef FMOD
 
 #include "nutshlecteur.h"
 
@@ -250,6 +250,106 @@ QSlider *NutshLecteur::getVolumeSlider() {
 void NutshLecteur::setVolume(int volume) {
 
     FSOUND_SetVolume(FSOUND_ALL, volume*2.55);
+}
+
+#endif
+#ifdef FMODeX
+NutshLecteur::NutshLecteur() {
+
+    this->result = FMOD::System_Create(&system);
+    this->result = system->init(1, FMOD_INIT_NORMAL, 0);
+
+    m_avancement = new QSlider(Qt::Horizontal);
+    m_volume = new QSlider(Qt::Horizontal);
+
+    timer = new QTimer;
+    this->channel = 0;
+    m_updatefrequence = 1000;
+
+    connect(timer, SIGNAL(timeout()), this, SLOT(updateSlider()));
+    connect(m_avancement, SIGNAL(valueChanged(int)), this, SLOT(setPos(int)));
+    connect(m_volume, SIGNAL(valueChanged(int)), this, SLOT(setVolume(int)));
+}
+void NutshLecteur::setSource(const NutshMetaData& data) {
+
+    this->result = this->system->createSound(data.getChemin().toAscii(), (FMOD_MODE)(FMOD_SOFTWARE | FMOD_2D | FMOD_CREATESTREAM), 0, &sound);
+    this->result = this->system->playSound(FMOD_CHANNEL_FREE, this->sound, false, &channel);
+
+    unsigned int lenght = 0;
+    this->sound->getLength(&lenght, FMOD_TIMEUNIT_MS);
+    m_avancement->setMaximum(lenght);
+}
+
+void NutshLecteur::play() {
+
+    this->channel->setPaused(false);
+    timer->start(m_updatefrequence);
+}
+
+void NutshLecteur::pause() {
+
+    this->channel->setPaused(true);
+    timer->stop();
+}
+
+void NutshLecteur::stop() {
+
+    timer->stop();
+    this->channel->stop();
+    m_avancement->setValue(0);
+}
+
+void NutshLecteur::setPos(int pos) {
+
+    this->channel->setPosition(pos, FMOD_TIMEUNIT_MS);
+}
+
+void NutshLecteur::updateSlider() {
+
+    QObject::disconnect(m_avancement, SIGNAL(valueChanged(int)), this, SLOT(setPos(int)));
+
+    m_avancement->setSliderPosition(m_avancement->sliderPosition()+m_updatefrequence);
+    emit tick(m_avancement->sliderPosition()+m_updatefrequence);
+
+
+    if(m_avancement->sliderPosition() == m_avancement->maximum()) {
+
+        emit finished();
+        emit aboutToFinish();
+    }
+
+    QObject::connect(m_avancement, SIGNAL(valueChanged(int)), this, SLOT(setPos(int)));
+}
+void NutshLecteur::setVolume(int volume) {
+
+    this->channel->setVolume(volume*2.55);
+
+}
+
+bool NutshLecteur::isPlaying() {
+
+    bool playing;
+    channel->getPaused(&playing);
+    qDebug() << !playing;
+    return !playing;
+}
+bool NutshLecteur::isPaused() {
+
+    bool playing;
+    this->result = channel->getPaused(&playing);
+    qDebug() << "called 2";
+
+    return playing;
+}
+
+QSlider* NutshLecteur::getPosSlider() {
+
+    return m_avancement;
+}
+
+QSlider* NutshLecteur::getVolumeSlider() {
+
+    return m_volume;
 }
 
 #endif

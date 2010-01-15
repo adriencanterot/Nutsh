@@ -108,6 +108,8 @@ void NutshComunicator::place(float coef) {
     m_playlistinterface->place(coef);
     m_searchlineinterface->place(coef);
     m_boutonrevenir->place(coef);
+    m_playbox->place(coef);
+
 }
 
 void NutshComunicator::scanFolders() {

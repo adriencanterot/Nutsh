@@ -125,5 +125,7 @@ void NutshPlayListInterface::place(float coef) {
     nouvelleListe->move(x, y);
     importer->move(x + 36, y);
 }
-
+NutshPlaylistList* NutshPlayListInterface::elements() {
+    return liste;
+}
 

@@ -50,6 +50,7 @@ public:
     NutshSqlSaver* getSqlControl();
     void place(float coef);
     void afterLaunch();
+    QString getFileContent(const QString& path);
 
     void setStatus(const QString&);
     QStatusBar* bar();

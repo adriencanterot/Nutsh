@@ -55,6 +55,8 @@ void NutshPlaylistList::dropEvent(QDropEvent* event) {
 
 void NutshPlaylistList::showContent(const QModelIndex &index) {
     // affiche le contenu d'une liste de lecture dans l'interface nutshmetadatainterface
+    core->playbox()->isPlaybox(false);
+
     switch(index.row()) {
         case 0 :
         core->metadatainterface()->reset();

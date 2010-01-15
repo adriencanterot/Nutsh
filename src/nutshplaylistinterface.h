@@ -29,6 +29,7 @@ public:
     void sigandslots();
     void setNewName(QString&);
     void place(float coef);
+    NutshPlaylistList* elements();
 
 public slots :
 

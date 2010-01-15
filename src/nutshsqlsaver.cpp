@@ -119,9 +119,7 @@ bool NutshSqlSaver::connect() {
 
     QSqlQuery requete;
 
-    requete.exec("create table bibliotheque ( id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, artiste text, album text, titre text, date date, genre text, description text, track integer, chemin text, playlists text, duree text, enregistrement date, derniereLecture date, compteur integer)");
-
-
+    requete.exec("create table bibliotheque ( id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, artiste text, album text, titre text, date date, genre text, description text, track integer, chemin text, playlists text, duree text, enregistrement datetime, derniereLecture datetime, compteur integer)");
     requete.exec("CREATE TABLE listeDeLecture (id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, name text, ordre text)");
     requete.exec("CREATE TABLE path_list (id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, path text)");
     requete.exec("CREATE TABLE relationships (playlist_id text, music_id INTEGER)");

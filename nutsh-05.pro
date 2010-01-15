@@ -18,14 +18,13 @@ win32 {
         -L3rdparty/win/FMOD3/lib \
         -lfmod
 }
-macx {
+macx { 
     QT += phonon
     INCLUDEPATH += 3rdparty/mac/include/taglib \
-                   3rdparty/mac/include/fmodex
+        3rdparty/mac/include/fmodex
     LIBS += -L3rdparty/mac/lib \
         -ltag \
         -lfmodex
-
     OTHER_FILES += style.css
 }
 linux-g++ { 
@@ -86,6 +85,7 @@ HEADERS += src/nutshmainwindow.h \
 RESOURCES += nutsh.qrc
 OBJECTS_DIR = obj/
 MOC_DIR = moc/
-CONFIG += x86
+CONFIG -= x86
 RC_FILE += icon.rc
 TRANSLATIONS += Translations/nutsh_en.ts
+OTHER_FILES += 

@@ -12,7 +12,7 @@ NutshMetaDataList::NutshMetaDataList(NutshComunicator* corePath) {
     this->setDragEnabled(true);
     this->setSelectionMode(QAbstractItemView::ExtendedSelection);
     this->setEditTriggers(QAbstractItemView::AllEditTriggers);
-    this->setIconSize(QSize(30,30));
+    this->setIconSize(QSize(34,34));
     this->resize(440, 253);
 
 }
@@ -35,7 +35,7 @@ void NutshMetaDataList::append(NutshMetaData data) {
         item->setIcon(data.getArtwork());
 
     } else {
-        this->setIconSize(QSize(30,30));
+        this->setIconSize(QSize(34,34));
     }
     QFont font;
     font.setBold(true);

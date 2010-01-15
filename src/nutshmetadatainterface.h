@@ -37,7 +37,7 @@ public slots:
     void getDirMetaData(const QString&);
     void getWordMetaData(const QString&);
 
-    void swapWidgets(const NutshMetaData&);
+    void swapWidgets(NutshMetaData);
     void importerContent();
     void changeDisposition(ContentType);
     void reset();

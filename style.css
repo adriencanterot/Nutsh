@@ -62,8 +62,8 @@ QListWidget[leftside=false]::item, QListWidget[leftside=false]::item:active,
 QListWidget[leftside=false]::item:!active{
 
     border: none;
-    padding-top : 10px;
-    padding-bottom:10px;
+    padding-top : 6px;
+    padding-bottom:6px;
     background-color : #E7E8E9;
     color : black;
 

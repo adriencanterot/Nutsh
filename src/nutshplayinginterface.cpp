@@ -87,7 +87,7 @@ void NutshPlayingInterface::sigandslots() {
     connect(boutonRepeat, SIGNAL(clicked()), this, SLOT(repeat()));
     connect(boutonRandom, SIGNAL(clicked()), this, SLOT(random()));
 }
-void NutshPlayingInterface::load(const NutshMetaData &data) {
+void NutshPlayingInterface::load(NutshMetaData data) {
 
     if(data.getId() != -1) { // si la métadonnée n'est pas vide
 
@@ -126,9 +126,14 @@ void NutshPlayingInterface::load(const NutshMetaData &data) {
     } else {
         core->swapInterface(MetaDataInterface);
     }
+
+    qDebug() << data.location() << QString("right here");
+    if(data.location() == fromPlaylist) {
+        core->playbox()->add(data);
+    }
 }
 
-void NutshPlayingInterface::load(const QList<NutshMetaData> &metaList) {
+void NutshPlayingInterface::load(QList<NutshMetaData> metaList) {
 
     boutonPrecedent->setEnabled(true);
     boutonSuivant->setEnabled(true);
@@ -138,7 +143,6 @@ void NutshPlayingInterface::load(const QList<NutshMetaData> &metaList) {
 
         boutonPrecedent->setDisabled(true);
     }
-
     if(currentItem == playlist.count()-1) {
 
         boutonSuivant->setDisabled(true);
@@ -161,7 +165,7 @@ void NutshPlayingInterface::tick(qint64 time) {
 
 void NutshPlayingInterface::next() {
 
-    if(this->currentItem == playlist.count()-2) {
+    if(this->currentItem == playlist.count()-2 && core->playbox()->isEmpty()) {
 
         boutonSuivant->setDisabled(true);
 
@@ -169,6 +173,15 @@ void NutshPlayingInterface::next() {
 
         boutonSuivant->setEnabled(true);
     }
+
+    if(!core->playbox()->isEmpty()) {
+        this->load(core->playbox()->next());
+        if(core->playbox()->isEmpty()) {
+            boutonSuivant->setDisabled(true);
+        }
+        return;
+    }
+    qDebug() << core->playbox()->isEmpty();
 
     if(nextAction == Random) {
         whatsNext();

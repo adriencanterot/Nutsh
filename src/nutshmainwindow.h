@@ -24,10 +24,10 @@ public:
 
     //-----------MENUS------------//
     //void setupMenus();
-
+    NutshComunicator* path;
 private :
 
-    NutshComunicator* path;
+
 /*
 
     //-----------MENUS------------//

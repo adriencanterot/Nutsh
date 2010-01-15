@@ -23,8 +23,8 @@ class NutshPlayingInterface : public QWidget
 public:
     NutshPlayingInterface(NutshComunicator*);
     void sigandslots();
-    void load(const NutshMetaData&);
-    void load(const QList<NutshMetaData>&);
+    void load(NutshMetaData);
+    void load(QList<NutshMetaData>);
     void setStatus();
     QWidget* getActionsButtons();
     void pauseByKey(QKeyEvent*);

@@ -1,6 +1,7 @@
 #ifndef PREPROCESS_H
 #define PREPROCESS_H
 #include <QDebug>
+#include <QFile>
 
 #define REQUETE(q) QSqlQuery requete; if(!requete.exec(q)) { qDebug() << requete.lastError() << " | Q = " << requete.lastQuery(); }
 #define QUERY(q) if(!query.exec(q)) { qDebug() << query.lastError() << " | \n\nQ = " << query.lastQuery() << "\n\n"; }
@@ -12,7 +13,7 @@
 #endif
 #define D(bug) qDebug() << bug;
 #define WIDTH_LEFT 200
-#define CHAR_NUM_LIST 52
+#define CHAR_NUM_LIST 50
 #define RUNNING_WORDS QString("the ");
 #define PHONON
 
@@ -56,5 +57,10 @@ enum searchResultType {
 enum State{
     Playing, Paused, Stopped
 };
+
+enum Provenance {
+    fromPlaybox, fromPlaylist, fromWeb, fromNowhere
+};
+
 
 #endif // PREPROCESS_H

@@ -92,7 +92,7 @@ void NutshMetaDataInterface::sigandslots() {
 
 
 
-void NutshMetaDataInterface::swapWidgets(const NutshMetaData &data) {
+void NutshMetaDataInterface::swapWidgets(NutshMetaData data) {
 
     core->swapInterface(PlayingInterface);
     core->playinginterface()->load(data);
@@ -263,15 +263,11 @@ searchResultType NutshMetaDataInterface::dominantType(QList<NutshMetaData> liste
             artists++;
         }
     }
-    qDebug() << artists << albums << songs;
     if(songs <= artists && albums <= artists) {
-        qDebug() << "Artist";
         return Artist;
     } else if(songs <= albums) {
-        qDebug() << "Album";
         return Album;
     } else {
-        qDebug() << "Song";
         return Song;
     }
 }

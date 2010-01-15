@@ -7,6 +7,7 @@ NutshMetaData::NutshMetaData()
 
     compteur = -1;
     id = -1;
+    m_location = fromNowhere;
 }
 
 NutshMetaData::NutshMetaData(const NutshMetaData &m) {
@@ -31,6 +32,8 @@ NutshMetaData::NutshMetaData(const NutshMetaData &m) {
     compteur = m.compteur;
     derniereLecture = m.derniereLecture;
     file = m.file;
+
+    m_location = m.m_location;
 }
 
 NutshMetaData::NutshMetaData(const QString &source) {
@@ -49,7 +52,7 @@ NutshMetaData::NutshMetaData(const QString &source) {
         track = file.tag()->track();
         duree = file.audioProperties()->length();
         compteur = 0;
-
+        m_location = fromPlaylist;
         chemin = source;
     }
 }
@@ -84,6 +87,8 @@ NutshMetaData::NutshMetaData(const QVariantList &resultatLigne) {
         //initialisation d'une QStringList contenant tout les resultats;
         metaData.append(resultatLigne.value(i).toString());
     }
+
+    m_location = fromPlaylist;
 
 }
 
@@ -188,6 +193,7 @@ NutshMetaData NutshMetaData::operator=(const NutshMetaData &m) {
     compteur = m.compteur;
     derniereLecture = m.derniereLecture;
     file = m.file;
+    m_location = m.m_location;
 
     return *this;
 }
@@ -385,4 +391,16 @@ bool NutshMetaData::isDefault() {
     } else {
         return false;
     }
+}
+
+QDebug NutshMetaData::operator<<(const NutshMetaData& meta) {
+    return QDebug(&QString("NutshMetaData(\"%1\" - \"%2\" - \"%3\")").arg(meta.getTitre()).arg(meta.getAlbum()).arg(meta.getArtiste()));
+}
+
+Provenance NutshMetaData::location() const {
+    return m_location;
+}
+void NutshMetaData::setLocation(Provenance newLocation) {
+    qDebug() << "location set";
+    this->m_location = newLocation;
 }

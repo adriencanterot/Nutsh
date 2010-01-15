@@ -49,7 +49,9 @@ public:
     int getTrack() const;
     int getId() const;
     bool operator==(const NutshMetaData&);
+    QDebug operator<<(const NutshMetaData&);
     bool isValid();
+    Provenance location() const;
 
     virtual ~NutshMetaData();
 
@@ -69,6 +71,8 @@ public:
     void setCompteur(int);
     void setTrack(int);
     void setId(int);
+    void setLocation(const Provenance);
+
 
 private :
         QString artiste,
@@ -89,6 +93,7 @@ private :
             id;
 
         int duree;
+        Provenance m_location;
 
         TagLib::FileRef file;
 

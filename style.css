@@ -75,7 +75,7 @@ QListWidget[leftside=false]::item:alternate{
     color : black;
 }
 
-QListWidget[leftside=false]::item:focus:active{
+QListWidget[leftside=false]::item:focus:active, QListWidget[leftside=false]::item:selected{
 
     background-color : #60301a;
     color : white;

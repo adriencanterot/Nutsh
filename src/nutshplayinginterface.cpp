@@ -331,3 +331,6 @@ void NutshPlayingInterface::whatsNext() {
 
 void NutshPlayingInterface::daily() {
 }
+bool NutshPlayingInterface::isPlaying() {
+    return this->media->isPlaying();
+}

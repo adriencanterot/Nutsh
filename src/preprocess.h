@@ -19,7 +19,7 @@
 
 enum ContentType {
 
-    Dir, Playlist, Entire, Empty
+    Dir, Playlist, Entire, Playbox, Empty
 };
 
 enum ContentTypeForLabel {

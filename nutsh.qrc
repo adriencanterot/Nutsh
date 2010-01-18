@@ -23,7 +23,7 @@
         <file>images/repeat.png</file>
         <file>images/sans-image.png</file>
     </qresource>
-    <qresource prefix="/translations">
-        <file alias="nutsh_en.qm">translations/nutsh_en.qm</file>
+    <qresource prefix="/">
+        <file>translations/nutsh_en.qm</file>
     </qresource>
 </RCC>

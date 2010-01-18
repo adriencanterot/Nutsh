@@ -30,6 +30,7 @@ public:
     void pauseByKey(QKeyEvent*);
     QList<NutshMetaData> getLastRead() const;
     void place(float coef);
+    bool isPlaying();
 
 public slots:
     void next();

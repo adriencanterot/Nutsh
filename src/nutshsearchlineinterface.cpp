@@ -30,21 +30,25 @@ void NutshSearchLineInterface::sigandslots() {
 }
 void NutshSearchLineInterface::showResults(QString query) {
     
-    if(searchLine->text() != "") { //affiche la liste des morceaux uniquement si il y a du texte entré
-
-        if(searchLine->text().startsWith(":")) {
-            this->threatCommand(searchLine->text().right(searchLine->text().count()-1));
+    if(searchLine->text() == "") {
+        if(core->playinginterface()->isPlaying()) {
+            core->swapInterface(PlayingInterface);
+            return;
         } else {
-
-            core->metadatainterface()->getWordMetaData(query);
-            core->swapInterface(MetaDataInterface);
+            return;
         }
 
-
-    } else { // sinon, affichage de l'interface "Play"
-
-        core->swapInterface(PlayingInterface);
     }
+    //affiche la liste des morceaux uniquement si il y a du texte entré
+
+    if(searchLine->text().startsWith(":")) {
+        this->threatCommand(searchLine->text().right(searchLine->text().count()-1));
+    } else {
+
+        core->metadatainterface()->getWordMetaData(query);
+        core->swapInterface(MetaDataInterface);
+    }
+
 }
 
 void NutshSearchLineInterface::keyPressEvent(QKeyEvent* event) {

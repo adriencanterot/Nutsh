@@ -174,8 +174,9 @@ void NutshMetaDataInterface::changeDisposition(ContentType type) {
             importer->hide();
             core->swapInterface(MetaDataInterface);
             break;
-
-
+        case Playbox:
+            core->swapInterface(MetaDataInterface);
+            break;
         case Empty: // si il n'y a pas de contenu
             importer->hide();
             break;

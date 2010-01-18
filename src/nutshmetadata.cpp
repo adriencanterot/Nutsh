@@ -401,6 +401,5 @@ Provenance NutshMetaData::location() const {
     return m_location;
 }
 void NutshMetaData::setLocation(Provenance newLocation) {
-    qDebug() << "location set";
     this->m_location = newLocation;
 }

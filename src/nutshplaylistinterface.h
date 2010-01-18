@@ -30,13 +30,14 @@ public:
     void setNewName(QString&);
     void place(float coef);
     NutshPlaylistList* elements();
-
+    void newListFromContent(QList<NutshMetaData>);
 public slots :
 
     void nouvelleTable();
     void importWindow();
     void addListeFromSearch();
     void addLastRead();
+    void newListFromContent();
 
 private :
 

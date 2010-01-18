@@ -4,9 +4,15 @@
 NutshPlaybox::NutshPlaybox(NutshComunicator* corePath)
 {
     core = corePath;
+    m_numbers_elements = new QLabel(QString("<font color = '#DEDEDE'>0</font>"), this);
+    m_numbers_elements->setProperty("playbox-count", true);
+    m_numbers_elements->setStyleSheet("border :none;");
+    m_numbers_elements->move(68, 3);
     this->setAcceptDrops(true);
     this->setProperty("playbox", true);
     compteur = 0;
+    m_right_click = new QMenu;
+    m_right_click->addAction("Nouvelle liste à partir de la playbox", core->playlistinterface(), SLOT(newListFromContent()));
 }
 void NutshPlaybox::place(float coef) {
     this->resize(160, 35);
@@ -22,6 +28,7 @@ void NutshPlaybox::add(NutshMetaData meta) {
     qDebug() << "Add" << this->compteur << fileattente.count();
     meta.setLocation(fromPlaybox);
     fileattente.append(meta);
+    m_numbers_elements->setText(QString("<font color = '#DEDEDE'>%1</font>").arg(fileattente.count()));
 
 }
 
@@ -34,8 +41,14 @@ void NutshPlaybox::showcontent() {
 
 }
 void NutshPlaybox::mouseReleaseEvent(QMouseEvent *event) {
-    this->showcontent();
-    event->accept();
+    if(event->button() == Qt::LeftButton) {
+        this->showcontent();
+        event->accept();
+    } else if (event->button() == Qt::RightButton) {
+        m_right_click->popup(QWidget::mapToGlobal(event->pos()));
+        event->accept();
+    }
+
 
 }
 void NutshPlaybox::dropEvent(QDropEvent *event) {
@@ -90,4 +103,8 @@ bool NutshPlaybox::isEmpty() {
     } else {
         return false;
     }
+}
+
+QList<NutshMetaData> NutshPlaybox::getFileattente() const {
+    return fileattente;
 }

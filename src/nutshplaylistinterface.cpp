@@ -129,3 +129,20 @@ NutshPlaylistList* NutshPlayListInterface::elements() {
     return liste;
 }
 
+void NutshPlayListInterface::newListFromContent(QList<NutshMetaData> liste) {
+    bool ok;
+    QString listName = QInputDialog::getText(this, tr("Nouvelle Liste"), tr("Le nom de votre liste"), QLineEdit::Normal, QString(), &ok);
+    if(!ok) { return; }
+
+    if(listName.isEmpty()) {
+
+        setNewName(listName); // si le nom est vide, nouveau nom.
+    }
+
+    core->getSqlControl()->nouvelleListe(listName);
+    core->getSqlControl()->inserer(liste, listName);
+    this->refresh();
+}
+void NutshPlayListInterface::newListFromContent() {
+    this->newListFromContent(core->playbox()->getFileattente());
+}

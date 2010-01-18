@@ -308,3 +308,7 @@ QTreeView::branch:selected{
     height : 35px;
     border : 1px solid black;
  }
+*[playbox-count=true] {
+position:relative;
+font-size : 25px;
+}

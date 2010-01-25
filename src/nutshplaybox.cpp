@@ -42,6 +42,7 @@ void NutshPlaybox::showcontent() {
 }
 void NutshPlaybox::mouseReleaseEvent(QMouseEvent *event) {
     if(event->button() == Qt::LeftButton) {
+        qDebug() << "clicked";
         this->showcontent();
         event->accept();
     } else if (event->button() == Qt::RightButton) {

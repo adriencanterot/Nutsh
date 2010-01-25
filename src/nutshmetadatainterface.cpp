@@ -16,8 +16,8 @@ NutshMetaDataInterface::NutshMetaDataInterface(NutshComunicator* corePath)
     importer = new QPushButton(tr("Importer"), this);
     //placement
     importer->hide();
-
-    this->load(core->getSqlControl()->getMetaDatas());
+    entireList = core->getSqlControl()->getMetaDatas();
+    this->load(entireList);
 }
 
 
@@ -54,18 +54,18 @@ void NutshMetaDataInterface::getWordMetaData(const QString &word){
     metadatas->clearList();
     indexSelected = 0; // remet à zero le comtpeur pour l'index au clavier.
     int o = 0;
-    QList<NutshMetaData> knowDominant = metaList;
+    QList<NutshMetaData> knowDominant = entireList;
     QList<NutshMetaData> results;
     searchResultType dominant = dominantType(knowDominant, word);
     
-    for(int i = 0;i < metaList.count();i++) {
+    for(int i = 0;i < entireList.count();i++) {
 
-        if(metaList.value(i).contains(word) != Nothing) {
+        if(entireList.value(i).contains(word) != Nothing) {
             if(dominant == Song) {
                 o++;
                 if(o > 20) { break; }
             }
-            results.append(metaList.value(i));
+            results.append(entireList.value(i));
         }
     }
 

@@ -57,6 +57,7 @@ public:
     void scanFolders();
     QMainWindow* getParent();
     QStringList dictionnary();
+    InterfaceName interface() const;
 
 public slots:
     void swapInterface(InterfaceName);
@@ -81,6 +82,7 @@ private:
 //    NutshUpdater *m_updater;
     NutshBoutonRevenir *m_boutonrevenir;
     NutshPlaybox *m_playbox;
+    InterfaceName m_interface;
 
 };
 #endif

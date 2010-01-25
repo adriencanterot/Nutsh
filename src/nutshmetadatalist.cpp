@@ -63,6 +63,7 @@ void NutshMetaDataList::load(QList<NutshMetaData> liste) {
 
     this->indexSelected = 0;
     this->clearList();
+    this->wheelPosition = 0;
     items = liste;
 
     for(int i = 0;i<liste.count();i++) {
@@ -83,6 +84,7 @@ void NutshMetaDataList::clearList() {
 
     this->clear();
     items.clear();
+    this->setIconSize(QSize(34, 34));
 }
 
 NutshMetaData NutshMetaDataList::getItem(int index) const {
@@ -113,13 +115,11 @@ void NutshMetaDataList::keyPressEvent(QKeyEvent* event) {
 }
 void NutshMetaDataList::loadNext(int value) {
     qDebug() << "value" << value << this->verticalScrollBar()->maximum();
-    if(value == this->verticalScrollBar()->maximum()) {
+    if(value >= this->verticalScrollBar()->maximum()) {
         this->append(this->items.mid(this->count(), MAX_ELEMENT_SHOWN));
     }
 }
 void NutshMetaDataList::append(QList<NutshMetaData> liste ) {
-
-    qDebug() << "bravo!";
 
     for(int i = 0;i<liste.count();i++) {
         qDebug() << i;
@@ -130,12 +130,18 @@ void NutshMetaDataList::append(QList<NutshMetaData> liste ) {
 }
 void NutshMetaDataList::wheelEvent(QWheelEvent *event) {
 
-    if(event->orientation() == Qt::Vertical) {
+    if(core->interface() != MetaDataInterface) {
+        return;
+    }
 
-        if(this->wheelPosition <= this->verticalScrollBar()->maximum() && this->wheelPosition >= this->verticalScrollBar()->minimum()) {
-            this->wheelPosition -= (event->delta()/8)/15;
-            this->verticalScrollBar()->setValue((this->wheelPosition-10));
+    if(event->orientation() == Qt::Vertical) {
+        if(event->delta() < 0) {
+            if(this->wheelPosition < this->verticalScrollBar()->maximum()) this->wheelPosition += (this->count()/50)+1; else this->loadNext(this->verticalScrollBar()->maximum());
+
+        } else {
+            if(this->wheelPosition > this->verticalScrollBar()->minimum()) this->wheelPosition -= (this->count()/50)+1;
         }
+            this->verticalScrollBar()->setValue((this->wheelPosition));
     }
         qDebug() << this->wheelPosition;
 

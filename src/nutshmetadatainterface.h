@@ -51,6 +51,7 @@ private:
 
     NutshComunicator* core;
     QList<NutshMetaData> metaList;
+    QList<NutshMetaData> entireList;
     NutshMetaDataList *metadatas;
     QPushButton *importer;
     QLabel *searchResults;

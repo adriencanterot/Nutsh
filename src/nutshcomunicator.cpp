@@ -10,6 +10,7 @@ NutshComunicator::NutshComunicator(QMainWindow *parent = 0)
     m_tray = new NutshSystemTrayIcon(this->getParent());
     m_tray->setIcon(qApp->windowIcon());
     m_tray->show();
+    this->m_interface = MetaDataInterface;
 
 
     //création de l'objet de control sur la base de donnée
@@ -74,6 +75,8 @@ QWidget *NutshComunicator::initInterfaces() {
 }
 
 void NutshComunicator::swapInterface(InterfaceName name) {
+
+    this->m_interface = name;
 
     switch(name) {
 
@@ -178,4 +181,8 @@ NutshPlaybox* NutshComunicator::playbox() {
 
 QStringList NutshComunicator::dictionnary() {
     return m_dictionnary;
+}
+
+InterfaceName NutshComunicator::interface() const {
+    return m_interface;
 }

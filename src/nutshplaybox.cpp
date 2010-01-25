@@ -53,6 +53,7 @@ void NutshPlaybox::mouseReleaseEvent(QMouseEvent *event) {
 }
 void NutshPlaybox::dropEvent(QDropEvent *event) {
 
+
     this->add(core->metadatainterface()->getListWidget()->selectedMetadatas());
     qDebug() << "dropEvent" << this->compteur << fileattente.count();
 

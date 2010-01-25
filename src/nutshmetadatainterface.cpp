@@ -55,6 +55,7 @@ void NutshMetaDataInterface::getWordMetaData(const QString &word){
     indexSelected = 0; // remet à zero le comtpeur pour l'index au clavier.
     int o = 0;
     QList<NutshMetaData> knowDominant = metaList;
+    QList<NutshMetaData> results;
     searchResultType dominant = dominantType(knowDominant, word);
     
     for(int i = 0;i < metaList.count();i++) {
@@ -64,9 +65,11 @@ void NutshMetaDataInterface::getWordMetaData(const QString &word){
                 o++;
                 if(o > 20) { break; }
             }
-            metadatas->append(metaList.value(i));
+            results.append(metaList.value(i));
         }
     }
+
+    metadatas->load(results);
 
 
     searchResults->setText(QString("%1 resultats").arg(metadatas->count()));

@@ -9,6 +9,7 @@ NutshMetaDataList::NutshMetaDataList(NutshComunicator* corePath) {
     this->setAlternatingRowColors(true);
 
     connect(this, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(emitSignal(QModelIndex)));
+    connect(this->verticalScrollBar(), SIGNAL(sliderMoved(int)), this, SLOT(loadNext(int)));
     this->setDragEnabled(true);
     this->setSelectionMode(QAbstractItemView::ExtendedSelection);
     this->setEditTriggers(QAbstractItemView::AllEditTriggers);
@@ -41,7 +42,6 @@ void NutshMetaDataList::append(NutshMetaData data) {
     font.setBold(true);
     item->setFont(font);
     this->addItem(item);
-    items.append(data);
 }
 
 void NutshMetaDataList::emitSignal(QModelIndex metaIndex) {
@@ -63,10 +63,14 @@ void NutshMetaDataList::load(QList<NutshMetaData> liste) {
 
     this->indexSelected = 0;
     this->clearList();
+    items = liste;
 
     for(int i = 0;i<liste.count();i++) {
         qDebug() << i;
         this->append(liste.value(i));
+        if(this->count() >= MAX_ELEMENT_SHOWN) {
+            break;
+        }
     }
 
     if(liste.count() != 0) {
@@ -90,7 +94,7 @@ QList<NutshMetaData> NutshMetaDataList::selectedMetadatas() const{
 
     QList<NutshMetaData> itemsToReturn;
 
-    for(int i = 0;i<items.count();i++) {
+    for(int i = 0;i<this->count();i++) {
 
         if(this->item(i)->isSelected()) {
 
@@ -107,4 +111,32 @@ void NutshMetaDataList::keyPressEvent(QKeyEvent* event) {
     core->metadatainterface()->navigateByKey(event);
 
 }
+void NutshMetaDataList::loadNext(int value) {
+    qDebug() << "value" << value << this->verticalScrollBar()->maximum();
+    if(value == this->verticalScrollBar()->maximum()) {
+        this->append(this->items.mid(this->count(), MAX_ELEMENT_SHOWN));
+    }
+}
+void NutshMetaDataList::append(QList<NutshMetaData> liste ) {
 
+    qDebug() << "bravo!";
+
+    for(int i = 0;i<liste.count();i++) {
+        qDebug() << i;
+        this->append(liste.value(i));
+
+    }
+
+}
+void NutshMetaDataList::wheelEvent(QWheelEvent *event) {
+
+    if(event->orientation() == Qt::Vertical) {
+
+        if(this->wheelPosition <= this->verticalScrollBar()->maximum() && this->wheelPosition >= this->verticalScrollBar()->minimum()) {
+            this->wheelPosition -= (event->delta()/8)/15;
+            this->verticalScrollBar()->setValue((this->wheelPosition-10));
+        }
+    }
+        qDebug() << this->wheelPosition;
+
+}

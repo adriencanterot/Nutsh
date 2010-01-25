@@ -9,13 +9,11 @@ CONFIG += qt \
     release
 DESTDIR += bin
 win32 { 
-    INCLUDEPATH += . \
-        ./3rdparty/win \
-        ./3rdparty/win/FMOD3/inc \
+    INCLUDEPATH += ./3rdparty/win/FMOD3/inc \
         ./3rdparty/win/taglib/include/taglib
     LIBS += -L3rdparty/win/taglib/lib \
         -ltag \
-        -L3rdparty/win/FMOD3/lib \
+        -L3rdparty\win\FMOD3\lib \
         -lfmod
 }
 macx { 

@@ -15,7 +15,8 @@
 #define WIDTH_LEFT 200
 #define CHAR_NUM_LIST 50
 #define RUNNING_WORDS QString("the ");
-#define PHONON
+#define MAX_ELEMENT_SHOWN 500
+#define FMOD
 
 enum ContentType {
 

@@ -4,10 +4,7 @@
 NutshPlaybox::NutshPlaybox(NutshComunicator* corePath)
 {
     core = corePath;
-    m_numbers_elements = new QLabel(QString(tr("<font color = '#DEDEDE'>&nbsp;Vide&nbsp;</font>")), this);
-    m_numbers_elements->setProperty("playbox-count", true);
-    m_numbers_elements->setStyleSheet("border :none;");
-    m_numbers_elements->move(46, 3);
+    this->setText("<font color = '#DEDEDE'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Vide&nbsp;</font>");
     this->setAcceptDrops(true);
     this->setProperty("playbox", true);
     compteur = 0;
@@ -28,7 +25,7 @@ void NutshPlaybox::add(NutshMetaData meta) {
     qDebug() << "Add" << this->compteur << fileattente.count();
     meta.setLocation(fromPlaybox);
     fileattente.append(meta);
-    m_numbers_elements->setText(QString("<font color = '#DEDEDE'>&nbsp;&nbsp;    %1</font>").arg(fileattente.count()));
+    this->setText(QString("<font color = '#DEDEDE'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    %1</font>").arg(fileattente.count()));
 
 }
 

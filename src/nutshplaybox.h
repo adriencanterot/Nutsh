@@ -9,7 +9,7 @@
 #include "nutshmetadata.h"
 
 class NutshComunicator;
-class NutshPlaybox : public QWidget
+class NutshPlaybox : public QLabel
 {
 public:
     NutshPlaybox(NutshComunicator*);
@@ -32,7 +32,6 @@ private:
     NutshComunicator* core;
     QList<NutshMetaData> fileattente;
     int compteur;
-    QLabel* m_numbers_elements;
     QMenu* m_right_click;
 };
 

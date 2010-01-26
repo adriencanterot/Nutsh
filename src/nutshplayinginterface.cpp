@@ -127,10 +127,7 @@ void NutshPlayingInterface::load(NutshMetaData data) {
         core->swapInterface(MetaDataInterface);
     }
 
-    qDebug() << data.location() << QString("right here");
-    if(data.location() == fromPlaylist) {
-        core->playbox()->add(data);
-    }
+    core->playbox()->playing(data);
 }
 
 void NutshPlayingInterface::load(QList<NutshMetaData> metaList) {
@@ -165,50 +162,33 @@ void NutshPlayingInterface::tick(qint64 time) {
 
 void NutshPlayingInterface::next() {
 
-    if(this->currentItem == playlist.count()-2 && core->playbox()->isEmpty()) {
-
-        boutonSuivant->setDisabled(true);
-
-    } else {
-
-        boutonSuivant->setEnabled(true);
-    }
-
     if(!core->playbox()->isEmpty()) {
         this->load(core->playbox()->next());
-        if(core->playbox()->isEmpty()) {
-            boutonSuivant->setDisabled(true);
-        }
+
         return;
     }
-    qDebug() << core->playbox()->isEmpty();
 
     if(nextAction == Random) {
         whatsNext();
         return;
     }
-    boutonPrecedent->setEnabled(true);
-
     this->currentItem = this->playlist.indexOf(current)+1;
     this->load(playlist.value(this->currentItem));
 }
 
 void NutshPlayingInterface::previous() {
 
-    if(this->currentItem == 1) {
 
-        boutonPrecedent->setDisabled(true);
-    } else {
-
-        boutonPrecedent->setEnabled(true);
+    if(!core->playbox()->isEmpty()) {
+        qDebug() << "non empty";
+        this->load(core->playbox()->previous());
+        return;
     }
 
     int cacheCurrentItem = this->currentItem-1;
 
     this->load(playlist.value(cacheCurrentItem));
     this->currentItem = cacheCurrentItem;
-
-    boutonSuivant->setEnabled(true);
 }
 
 void NutshPlayingInterface::setStatus() {

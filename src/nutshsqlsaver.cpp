@@ -454,12 +454,17 @@ QStringList NutshSqlSaver::getPlaylists() {
 void NutshSqlSaver::rename(const QString& nouveau, const QString& listName) {
 
     QSqlQuery requete;
-    QString allLists;
 
-    if(!requete.exec(QString("UPDATE listeDeLecture SET name = \"%1\" WHERE name = \"%2\"").arg(NutshSqlSaver::sqlStringFormat(nouveau)).arg(listName))) {
+    if(!requete.exec(QString("UPDATE relationships SET playlist_id = \"%1\" WHERE playlist_id = \"%2\"").arg(NutshSqlSaver::sqlStringFormat(crypt(nouveau))).arg(NutshSqlSaver::sqlStringFormat(crypt(listName))))) {
+        qDebug() << requete.lastError() << requete.lastQuery();
+    }
+
+    if(!requete.exec(QString("UPDATE listeDeLecture SET name = \"%1\" WHERE name = \"%2\"").arg(NutshSqlSaver::sqlStringFormat(nouveau)).arg(NutshSqlSaver::sqlStringFormat(listName)))) {
 
         qDebug() << requete.lastError() << requete.lastQuery();
     }
+
+    qDebug() << "here";
 
 }
 

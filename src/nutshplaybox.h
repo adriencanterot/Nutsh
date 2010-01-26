@@ -25,6 +25,7 @@ public:
     void isPlaybox(bool);
     void playing(NutshMetaData&);
     NutshMetaData next();
+    NutshMetaData previous();
     QList<NutshMetaData> getFileattente() const;
     bool isEmpty();
 

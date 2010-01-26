@@ -10,6 +10,7 @@ NutshPlaybox::NutshPlaybox(NutshComunicator* corePath)
     compteur = 0;
     m_right_click = new QMenu;
     m_right_click->addAction(tr("Nouvelle liste à partir de la playbox"), core->playlistinterface(), SLOT(newListFromContent()));
+    m_right_click->addAction(tr("Ajouter à la playlist..."));
 }
 void NutshPlaybox::place(float coef) {
     this->resize(160, 35);
@@ -22,7 +23,6 @@ void NutshPlaybox::add(QList<NutshMetaData> liste) {
     }
 }
 void NutshPlaybox::add(NutshMetaData meta) {
-    qDebug() << "Add" << this->compteur << fileattente.count();
     meta.setLocation(fromPlaybox);
     fileattente.append(meta);
     this->setText(QString("<font color = '#DEDEDE'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    %1</font>").arg(fileattente.count()));
@@ -33,13 +33,11 @@ void NutshPlaybox::showcontent() {
     this->isPlaybox(true);
     core->metadatainterface()->refreshInterface(Playbox);
     core->metadatainterface()->load(fileattente);
-    qDebug() << "showContent" << this->compteur << fileattente.count();
 
 
 }
 void NutshPlaybox::mouseReleaseEvent(QMouseEvent *event) {
     if(event->button() == Qt::LeftButton) {
-        qDebug() << "clicked";
         this->showcontent();
         event->accept();
     } else if (event->button() == Qt::RightButton) {
@@ -53,8 +51,6 @@ void NutshPlaybox::dropEvent(QDropEvent *event) {
 
 
     this->add(core->metadatainterface()->getListWidget()->selectedMetadatas());
-    qDebug() << "dropEvent" << this->compteur << fileattente.count();
-
     this->setStyleSheet("background-color : white; border : 1px solid black");
     event->accept();
 }
@@ -81,21 +77,29 @@ void NutshPlaybox::isPlaybox(bool yon) {
     }
 }
 void NutshPlaybox::playing(NutshMetaData &meta) {
-    compteur++;
-    qDebug() << "Playing" << this->compteur << fileattente.count();
+
+    if(meta.location() == fromPlaylist) {
+        meta.setLocation(fromPlaybox);
+        fileattente.insert(compteur+1, meta);
+        compteur = fileattente.lastIndexOf(meta);
+        this->setText(QString("<font color = '#DEDEDE'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    %1</font>").arg(fileattente.count()));
+    } else if (meta.location() == fromPlaybox) {
+        compteur = fileattente.indexOf(meta);
+    }
 
 }
 
 NutshMetaData NutshPlaybox::next() {
     compteur++;
-    for(int i = 0;i<fileattente.count();i++) {
-        qDebug() << fileattente.value(i).getTitre();
-    }
-    qDebug() << "Titre" << fileattente.value(compteur-1).getTitre();
-    qDebug() << "Next" << this->compteur << fileattente.count();
-
     return fileattente.value(compteur);
 }
+
+
+NutshMetaData NutshPlaybox::previous() {
+    compteur--;
+    return fileattente.value(compteur);
+}
+
 bool NutshPlaybox::isEmpty() {
     if(compteur == fileattente.count()) {
         return true;

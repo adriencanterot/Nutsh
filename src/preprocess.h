@@ -16,7 +16,11 @@
 #define CHAR_NUM_LIST 50
 #define RUNNING_WORDS QString("the ");
 #define MAX_ELEMENT_SHOWN 500
+#ifdef Q_OS_WIN
 #define FMOD
+#else
+#define PHONON
+#endif
 
 enum ContentType {
 

@@ -192,7 +192,6 @@ QList<NutshMetaData> NutshSqlSaver::getMetaDatas(const QString& listName) {
         if(!requete.exec(QString("SELECT * FROM bibliotheque INNER JOIN relationships ON relationships.music_id = bibliotheque.id WHERE (relationships.playlist_id = %1)").arg(crypt(listName)))) {
             qDebug() << requete.lastError() << requete.lastQuery();
         }
-        qDebug() << requete.lastQuery();
     } else {
         if(!requete.exec(QString("SELECT * FROM bibliotheque"))) {
             qDebug() << requete.lastError() << requete.lastQuery();
@@ -496,4 +495,27 @@ int NutshSqlSaver::getListId(const QString &listName) {
     requete.exec(QString("SELECT id FROM listDeLecture WHERE name = \"%1\""));
     while(requete.next()) retour = requete.value(0).toInt();
     return retour;
+}
+
+void NutshSqlSaver::destroy(NutshMetaData data) {
+    QSqlQuery requete;
+    if(!requete.exec(QString("DELETE FROM bibliotheque WHERE id = %1 LIMIT 0, 1").arg(data.getId()))) {
+
+        qDebug() << requete.lastError() << requete.lastQuery();
+    }
+
+    if(!requete.exec(QString("DELETE FROM relationships WHERE music_id = %1").arg(data.getId()))) {
+
+        qDebug() << requete.lastError() << requete.lastQuery();
+    }
+}
+
+void NutshSqlSaver::destroyFromList(NutshMetaData data, const QString& listname) {
+
+    QSqlQuery requete;
+
+    if(!requete.exec(QString("DELETE FROM relationships WHERE music_id = %1 AND playlist_id = %2").arg(data.getId()).arg(crypt(listname)))) {
+
+        qDebug() << requete.lastError() << requete.lastQuery();
+    }
 }

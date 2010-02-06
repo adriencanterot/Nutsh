@@ -48,6 +48,7 @@ public:
     int getCompteur() const;
     int getTrack() const;
     int getId() const;
+    int getlocalid() const;
     bool operator==(const NutshMetaData&);
     QDebug operator<<(const NutshMetaData&);
     bool isValid();
@@ -72,6 +73,7 @@ public:
     void setTrack(int);
     void setId(int);
     void setLocation(const Provenance);
+    void setLocalid(int);
 
 
 private :
@@ -90,7 +92,8 @@ private :
 
         int compteur,
             track,
-            id;
+            id,
+            local_id;
 
         int duree;
         Provenance m_location;

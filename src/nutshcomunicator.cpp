@@ -19,6 +19,7 @@ NutshComunicator::NutshComunicator(QMainWindow *parent = 0)
     m_searchlineinterface = new NutshSearchLineInterface(this);
     m_playlistinterface = new NutshPlayListInterface(this);
     m_metadatainterface = new NutshMetaDataInterface(this);
+    m_editinterface = new NutshEditInterface(this);
 //    m_driveinterface = new NutshDriveInterface(this);
 
     m_metadatainterface->setParent(m_central);
@@ -55,9 +56,11 @@ void NutshComunicator::afterLaunch() {
     connect(m_boutonrevenir, SIGNAL(clicked(InterfaceName)), this, SLOT(swapInterface(InterfaceName)));
 
     m_progressinterface->setParent(m_central);
+    m_editinterface->setParent(m_central);
 
     m_playinginterface->hide();
     m_progressinterface->hide();
+    m_editinterface->hide();
 
 //    m_updater = new NutshUpdater(this);
 
@@ -112,6 +115,7 @@ void NutshComunicator::place(float coef) {
     m_searchlineinterface->place(coef);
     m_boutonrevenir->place(coef);
     m_playbox->place(coef);
+    m_editinterface->place(coef);
 
 }
 
@@ -185,4 +189,8 @@ QStringList NutshComunicator::dictionnary() {
 
 InterfaceName NutshComunicator::interface() const {
     return m_interface;
+}
+
+NutshEditInterface* NutshComunicator::editinterface() {
+    return m_editinterface;
 }

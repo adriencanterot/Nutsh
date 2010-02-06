@@ -26,13 +26,15 @@ public:
     void playing(NutshMetaData&);
     NutshMetaData next();
     NutshMetaData previous();
+    NutshMetaData random();
     QList<NutshMetaData> getFileattente() const;
     bool isEmpty();
+
 
 private:
     NutshComunicator* core;
     QList<NutshMetaData> fileattente;
-    int compteur;
+    int o;
     QMenu* m_right_click;
 };
 

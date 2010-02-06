@@ -77,7 +77,6 @@ bool NutshLecteur::isPlaying() {
 void NutshLecteur::setSource(const NutshMetaData& source) {
 
     this->setCurrentSource(Phonon::MediaSource(source.getChemin()));
-    qDebug() << this->errorType() << this->errorString();
 }
 
 void NutshLecteur::setSources(const QList<NutshMetaData> &sources) {
@@ -330,14 +329,12 @@ bool NutshLecteur::isPlaying() {
 
     bool playing;
     channel->getPaused(&playing);
-    qDebug() << !playing;
     return !playing;
 }
 bool NutshLecteur::isPaused() {
 
     bool playing;
     this->result = channel->getPaused(&playing);
-    qDebug() << "called 2";
 
     return playing;
 }

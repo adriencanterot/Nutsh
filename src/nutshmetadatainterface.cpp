@@ -153,12 +153,14 @@ void NutshMetaDataInterface::reset() {
     this->load(metaList);
     emit contentTypeChanged(Entire);
     contentType = Entire;
+    metadatas->setContenttype(Entire);
 }
 
 NutshMetaDataList* NutshMetaDataInterface::getListWidget() {
 
     return metadatas;
 }
+
 
 void NutshMetaDataInterface::changeDisposition(ContentType type) {
 
@@ -184,12 +186,16 @@ void NutshMetaDataInterface::changeDisposition(ContentType type) {
             importer->hide();
             break;
         }
+
+    metadatas->setContenttype(type);
 }
 
 void NutshMetaDataInterface::refreshInterface(ContentType type) {
 
     emit this->contentTypeChanged(type);
     contentType = type;
+    metadatas->setContenttype(type);
+
 }
 
 void NutshMetaDataInterface::navigateByKey(QKeyEvent *event) {
@@ -244,7 +250,9 @@ void NutshMetaDataInterface::reload() {
 
     if(contentType == Entire) {
 
+
         metaList = core->getSqlControl()->getMetaDatas();
+        entireList = metaList;
     }
 
 }
@@ -252,9 +260,11 @@ searchResultType NutshMetaDataInterface::dominantType(QList<NutshMetaData> liste
     int artists = 0;
     int albums = 0;
     int songs = 0;
+
     if(word.length() < 4 || core->dictionnary().contains(word, Qt::CaseInsensitive)) {
         return Song;
     }
+
     for(int i = 0;i<liste.count();i++) {
 
         if(liste.value(i).contains(word) == Song) {
@@ -267,11 +277,15 @@ searchResultType NutshMetaDataInterface::dominantType(QList<NutshMetaData> liste
             artists++;
         }
     }
+
     if(songs <= artists && albums <= artists) {
         return Artist;
+
     } else if(songs <= albums) {
         return Album;
+
     } else {
         return Song;
     }
 }
+

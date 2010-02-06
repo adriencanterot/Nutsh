@@ -59,6 +59,24 @@
     </message>
 </context>
 <context>
+    <name>NutshEditInterface</name>
+    <message>
+        <location filename="../src/nutsheditinterface.cpp" line="8"/>
+        <source>Artiste : </source>
+        <translation>Artist : </translation>
+    </message>
+    <message>
+        <location filename="../src/nutsheditinterface.cpp" line="9"/>
+        <source>Album : </source>
+        <translation>Album : </translation>
+    </message>
+    <message>
+        <location filename="../src/nutsheditinterface.cpp" line="10"/>
+        <source>Titre : </source>
+        <translation>Title : </translation>
+    </message>
+</context>
+<context>
     <name>NutshInstallationWizard</name>
     <message>
         <location filename="../src/nutshinstallationwizard.cpp" line="15"/>
@@ -123,6 +141,16 @@
     <message>
         <source>chemin</source>
         <translation type="obsolete">path</translation>
+    </message>
+    <message>
+        <location filename="../src/nutshmetadatalist.cpp" line="97"/>
+        <source>Supprimer</source>
+        <translation>Delete</translation>
+    </message>
+    <message>
+        <location filename="../src/nutshmetadatalist.cpp" line="99"/>
+        <source>Supprimer de la liste</source>
+        <translation>Delete from playlist</translation>
     </message>
 </context>
 <context>
@@ -198,23 +226,23 @@
     <message>
         <location filename="../src/nutshplaybox.cpp" line="13"/>
         <source>Ajouter à la playlist...</source>
-        <translation type="unfinished"></translation>
+        <translation>Add to playlist...</translation>
     </message>
 </context>
 <context>
     <name>NutshPlayingInterface</name>
     <message>
-        <location filename="../src/nutshplayinginterface.cpp" line="98"/>
+        <location filename="../src/nutshplayinginterface.cpp" line="95"/>
         <source>Sans Titre</source>
         <translation>No Title</translation>
     </message>
     <message>
-        <location filename="../src/nutshplayinginterface.cpp" line="99"/>
+        <location filename="../src/nutshplayinginterface.cpp" line="96"/>
         <source>Sans Album</source>
         <translation>No Album</translation>
     </message>
     <message>
-        <location filename="../src/nutshplayinginterface.cpp" line="100"/>
+        <location filename="../src/nutshplayinginterface.cpp" line="97"/>
         <source>Sans Artiste</source>
         <translation>No Artist</translation>
     </message>
@@ -232,12 +260,12 @@
         <translation>Rename</translation>
     </message>
     <message>
-        <location filename="../src/nutshplaylistlist.cpp" line="114"/>
+        <location filename="../src/nutshplaylistlist.cpp" line="121"/>
         <source>Renommer </source>
         <translation>Rename</translation>
     </message>
     <message>
-        <location filename="../src/nutshplaylistlist.cpp" line="114"/>
+        <location filename="../src/nutshplaylistlist.cpp" line="121"/>
         <source>Nouveau nom</source>
         <translation>New name</translation>
     </message>
@@ -335,27 +363,27 @@ Click &quot;Next&quot; to continue.</translation>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/nutshsqlsaver.cpp" line="246"/>
+        <location filename="../src/nutshsqlsaver.cpp" line="245"/>
         <source>Sans artiste</source>
         <translation>No artist</translation>
     </message>
     <message>
-        <location filename="../src/nutshsqlsaver.cpp" line="250"/>
+        <location filename="../src/nutshsqlsaver.cpp" line="249"/>
         <source>Sans album</source>
         <translation>No album</translation>
     </message>
     <message>
-        <location filename="../src/nutshsqlsaver.cpp" line="254"/>
+        <location filename="../src/nutshsqlsaver.cpp" line="253"/>
         <source>Sans titre</source>
         <translation>No title</translation>
     </message>
     <message>
-        <location filename="../src/nutshsqlsaver.cpp" line="258"/>
+        <location filename="../src/nutshsqlsaver.cpp" line="257"/>
         <source>Sans Date</source>
         <translation>No Date</translation>
     </message>
     <message>
-        <location filename="../src/nutshsqlsaver.cpp" line="262"/>
+        <location filename="../src/nutshsqlsaver.cpp" line="261"/>
         <source>Sans genre</source>
         <translation>No genre</translation>
     </message>

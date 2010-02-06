@@ -146,3 +146,7 @@ void NutshPlayListInterface::newListFromContent(QList<NutshMetaData> liste) {
 void NutshPlayListInterface::newListFromContent() {
     this->newListFromContent(core->playbox()->getFileattente());
 }
+
+QString NutshPlayListInterface::current() const {
+    return liste->currentItem()->text();
+}

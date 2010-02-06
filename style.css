@@ -30,6 +30,8 @@
     background-position: bottom right;
 }
 
+
+
 QMainWindow{
     background-image: url(":/img/images/fond.png");
 }
@@ -310,3 +312,6 @@ QTreeView::branch:selected{
     font-size : 25px;
  }
 
+*[editinterface=true] {
+    background-color : white;
+}

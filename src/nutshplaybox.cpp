@@ -7,10 +7,9 @@ NutshPlaybox::NutshPlaybox(NutshComunicator* corePath)
     this->setText("<font color = '#DEDEDE'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Vide&nbsp;</font>");
     this->setAcceptDrops(true);
     this->setProperty("playbox", true);
-    compteur = 0;
+    o = 0;
     m_right_click = new QMenu;
     m_right_click->addAction(tr("Nouvelle liste à partir de la playbox"), core->playlistinterface(), SLOT(newListFromContent()));
-    m_right_click->addAction(tr("Ajouter à la playlist..."));
 }
 void NutshPlaybox::place(float coef) {
     this->resize(160, 35);
@@ -23,6 +22,12 @@ void NutshPlaybox::add(QList<NutshMetaData> liste) {
     }
 }
 void NutshPlaybox::add(NutshMetaData meta) {
+
+    if(fileattente.contains(meta)) {
+
+        fileattente.removeOne(meta); // supression du morceau si il existe deja, pour eviter les confusions
+    }
+
     meta.setLocation(fromPlaybox);
     fileattente.append(meta);
     this->setText(QString("<font color = '#DEDEDE'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    %1</font>").arg(fileattente.count()));
@@ -79,33 +84,53 @@ void NutshPlaybox::isPlaybox(bool yon) {
 void NutshPlaybox::playing(NutshMetaData &meta) {
 
     if(meta.location() == fromPlaylist) {
+
+        if(fileattente.contains(meta)) {
+
+            fileattente.removeOne(meta);
+        }
         meta.setLocation(fromPlaybox);
-        fileattente.insert(compteur+1, meta);
-        compteur = fileattente.lastIndexOf(meta);
+        fileattente.append(meta);
+        o = fileattente.lastIndexOf(core->playinginterface()->current());
         this->setText(QString("<font color = '#DEDEDE'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    %1</font>").arg(fileattente.count()));
+
     } else if (meta.location() == fromPlaybox) {
-        compteur = fileattente.indexOf(meta);
+
+        o = fileattente.lastIndexOf(core->playinginterface()->current());
+
     }
 
 }
 
 NutshMetaData NutshPlaybox::next() {
-    compteur++;
-    return fileattente.value(compteur);
+
+    if(o == fileattente.count()-1) {
+
+        return NutshMetaData();
+    }
+    o = fileattente.lastIndexOf(core->playinginterface()->current())+1;
+    return fileattente.value(o); // base de 0 donc équivalent à o +1
 }
 
 
 NutshMetaData NutshPlaybox::previous() {
-    compteur--;
-    return fileattente.value(compteur);
+
+    if(o == 0) {
+
+        return NutshMetaData();
+    }
+
+    o = fileattente.lastIndexOf(core->playinginterface()->current())-1;
+    return fileattente.value(o); // base de 0 donc équivalent à o -1
+}
+
+NutshMetaData NutshPlaybox::random() {
+    return fileattente.value((qrand() % (fileattente.count() - 1 +1) + 0));
 }
 
 bool NutshPlaybox::isEmpty() {
-    if(compteur == fileattente.count()) {
-        return true;
-    } else {
-        return false;
-    }
+
+    return false;
 }
 
 QList<NutshMetaData> NutshPlaybox::getFileattente() const {

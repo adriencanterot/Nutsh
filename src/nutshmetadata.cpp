@@ -7,6 +7,7 @@ NutshMetaData::NutshMetaData()
 
     compteur = -1;
     id = -1;
+    local_id = -1;
     m_location = fromNowhere;
 }
 
@@ -16,6 +17,7 @@ NutshMetaData::NutshMetaData(const NutshMetaData &m) {
     album = m.album;
     titre = m.titre;
     id = m.id;
+    local_id = m.local_id;
 
     date = m.date;
     genre = m.genre;
@@ -34,6 +36,7 @@ NutshMetaData::NutshMetaData(const NutshMetaData &m) {
     file = m.file;
 
     m_location = m.m_location;
+
 }
 
 NutshMetaData::NutshMetaData(const QString &source) {
@@ -89,6 +92,7 @@ NutshMetaData::NutshMetaData(const QVariantList &resultatLigne) {
     }
 
     m_location = fromPlaylist;
+    local_id = -1;
 
 }
 
@@ -179,6 +183,9 @@ NutshMetaData NutshMetaData::operator=(const NutshMetaData &m) {
     album = m.album;
     titre = m.titre;
     id = m.id;
+    local_id = m.local_id;
+
+    qDebug() << m.local_id;
 
     date = m.date;
     genre = m.genre;
@@ -402,4 +409,13 @@ Provenance NutshMetaData::location() const {
 }
 void NutshMetaData::setLocation(Provenance newLocation) {
     this->m_location = newLocation;
+}
+
+void NutshMetaData::setLocalid(int id) {
+    this->local_id = id;
+    qDebug() << local_id;
+}
+
+int NutshMetaData::getlocalid() const {
+    return this->local_id;
 }

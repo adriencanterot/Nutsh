@@ -23,6 +23,8 @@ class NutshSqlSaver
         void completeMetaData(NutshMetaData&);
         void inserer(QList<NutshMetaData>, const QString&);
         void inserer(NutshMetaData, const QString&);
+        void destroy(NutshMetaData);
+        void destroyFromList(NutshMetaData, const QString&);
         insertError inserer(NutshMetaData);
         void update(const NutshMetaData&);
         void savePath(const QString& path);

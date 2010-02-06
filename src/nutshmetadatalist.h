@@ -8,6 +8,7 @@
 #include "preprocess.h"
 #include <QKeyEvent>
 #include <QScrollBar>
+#include <QMenu>
 class NutshComunicator;
 class NutshMetaDataList : public QListWidget
 {
@@ -23,6 +24,8 @@ public:
     bool isEmpty();
     void navigateByKey(QKeyEvent *event);
     void wheelEvent(QWheelEvent *);
+    void mouseReleaseEvent(QMouseEvent *e);
+    void setContenttype(ContentType);
 
 protected:
     void keyPressEvent(QKeyEvent *event);
@@ -31,15 +34,20 @@ public slots:
     void emitSignal(QModelIndex);
     void append(NutshMetaData);
     void loadNext(int value);
+    void destroy();
+    void destroyFromList();
 
 signals:
     NutshMetaData clicked(NutshMetaData);
 private:
+    QMenu *context;
     QList<NutshMetaData> items;
     int indexSelected;
     NutshComunicator *core;
     bool property;
     int wheelPosition;
+    QPoint eventpos;
+    ContentType contenttype;
 };
 
 #endif // NUTSHMETADATALIST_H

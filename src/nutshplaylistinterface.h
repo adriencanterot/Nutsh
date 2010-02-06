@@ -31,6 +31,7 @@ public:
     void place(float coef);
     NutshPlaylistList* elements();
     void newListFromContent(QList<NutshMetaData>);
+    QString current() const;
 public slots :
 
     void nouvelleTable();

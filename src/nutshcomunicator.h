@@ -26,6 +26,7 @@
 #include "dailysonginterface.h"
 #include "nutshsystemtrayicon.h"
 #include "nutshplaybox.h"
+#include "nutsheditinterface.h"
 
 class NutshComunicator : public QObject
 {
@@ -48,6 +49,7 @@ public:
     NutshSystemTrayIcon *systemtrayicon();
     NutshUpdater *updater();
     NutshSqlSaver* getSqlControl();
+    NutshEditInterface* editinterface();
     void place(float coef);
     void afterLaunch();
     QString getFileContent(const QString& path);
@@ -82,6 +84,7 @@ private:
 //    NutshUpdater *m_updater;
     NutshBoutonRevenir *m_boutonrevenir;
     NutshPlaybox *m_playbox;
+    NutshEditInterface *m_editinterface;
     InterfaceName m_interface;
 
 };

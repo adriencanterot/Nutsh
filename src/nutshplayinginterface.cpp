@@ -4,10 +4,11 @@
 NutshPlayingInterface::NutshPlayingInterface(NutshComunicator* corePath)
 {
     qDebug() << "Initializing NutshPlayingInterface...";
+
     core = corePath;
     tickCompteur = true;
 
-    currentItem = 0;
+    currentId = 0;
     nextAction = Normal;
     //init media
     media = new NutshLecteur;
@@ -29,7 +30,6 @@ NutshPlayingInterface::NutshPlayingInterface(NutshComunicator* corePath)
     boutonRandom = new QPushButton("", actionsButtons);
     boutonRandom->setProperty("boutonRandom", true);
     boutonRandom->setCheckable(true);
-
 
     boutonRepeat = new QPushButton("", actionsButtons);
     boutonRepeat->setProperty("boutonRepeat", true);
@@ -68,9 +68,6 @@ NutshPlayingInterface::NutshPlayingInterface(NutshComunicator* corePath)
     media->getPosSlider()->setParent(this);
     media->getVolumeSlider()->setParent(this);
 
-    QHttp *request = new QHttp;
-    connect(request, SIGNAL(done(bool)), this, SLOT(daily()));
-    request->get("http://www.freezik.fr/journalier.php", &to);
 }
 void NutshPlayingInterface::sigandslots() {
 
@@ -81,17 +78,17 @@ void NutshPlayingInterface::sigandslots() {
     connect(boutonPrecedent, SIGNAL(clicked()), this, SLOT(previous()));
     connect(boutonSuivant, SIGNAL(clicked()), this, SLOT(next()));
     connect(media, SIGNAL(finished()), this, SLOT(whatsNext()));
-    connect(artiste, SIGNAL(returnPressed(QString)), &current, SLOT(setArtiste(QString)));
-    connect(album, SIGNAL(returnPressed(QString)), &current, SLOT(setAlbum(QString)));
-    connect(titre, SIGNAL(returnPressed(QString)), &current, SLOT(setTitre(QString)));
+    connect(artiste, SIGNAL(returnPressed(QString)), &currentMeta, SLOT(setArtiste(QString)));
+    connect(album, SIGNAL(returnPressed(QString)), &currentMeta, SLOT(setAlbum(QString)));
+    connect(titre, SIGNAL(returnPressed(QString)), &currentMeta, SLOT(setTitre(QString)));
     connect(boutonRepeat, SIGNAL(clicked()), this, SLOT(repeat()));
     connect(boutonRandom, SIGNAL(clicked()), this, SLOT(random()));
 }
-void NutshPlayingInterface::load(NutshMetaData data) {
+bool NutshPlayingInterface::load(NutshMetaData data) {
 
     if(data.getId() != -1) { // si la métadonnée n'est pas vide
 
-        currentItem = 0;
+        currentId = 0;
 
         tickCompteur = true;
         artwork->setPixmap(data.getArtwork().scaled(130, 130));
@@ -114,20 +111,23 @@ void NutshPlayingInterface::load(NutshMetaData data) {
             artiste->setText(data.getArtiste().left(30));
         }
 
-        current = data;
+        currentMeta = data;
         lastRead.append(data);
         if(lastRead.count() >= 5) lastRead.removeLast();
 
-        currentItem = this->playlist.indexOf(current);
+        currentId = this->playlist.indexOf(currentMeta);
         media->setSource(data);
         media->play();
         boutonPlayPause->setStyleSheet("background-image: url(\":/img/images/pause.png\");");
         this->setStatus();
+
+        //playbox
+        core->playbox()->playing(data);
+        return true;
     } else {
         core->swapInterface(MetaDataInterface);
+        return false;
     }
-
-    core->playbox()->playing(data);
 }
 
 void NutshPlayingInterface::load(QList<NutshMetaData> metaList) {
@@ -136,11 +136,11 @@ void NutshPlayingInterface::load(QList<NutshMetaData> metaList) {
     boutonSuivant->setEnabled(true);
     playlist = metaList;
 
-    if (currentItem == 0) {
+    if (currentId == 0) {
 
         boutonPrecedent->setDisabled(true);
     }
-    if(currentItem == playlist.count()-1) {
+    if(currentId == playlist.count()-1) {
 
         boutonSuivant->setDisabled(true);
     }
@@ -152,43 +152,55 @@ void NutshPlayingInterface::tick(qint64 time) {
      tempsLabel->setText(displayTime.toString("mm:ss"));
      tempsLabelCP->setText(displayTime.toString("mm:ss"));
 
-     if(tickCompteur == true && (time/1000) == (current.getDuree())/2) {
+     if(tickCompteur == true && (time/1000) == (currentMeta.getDuree())/2) {
 
-         core->getSqlControl()->played(current);
-         qDebug() << "Media played" <<  current.getCompteur() << "time(s)";
+         core->getSqlControl()->played(currentMeta);
+         qDebug() << "Media played" <<  currentMeta .getCompteur() << "time(s)";
          tickCompteur = false;
      }
  }
 
 void NutshPlayingInterface::next() {
 
-    if(!core->playbox()->isEmpty()) {
-        this->load(core->playbox()->next());
+    if(this->nextAction == Random) {
 
-        return;
+        if(core->playbox()->getFileattente().count() <= 2) {
+
+            this->load(this->playlist.value(
+                    (qrand() % (playlist.count() - 1 +1) + 0)
+                    ));
+        } else {
+
+            this->load(core->playbox()->random());
+        }
+        
     }
 
-    if(nextAction == Random) {
-        whatsNext();
-        return;
+    if(this->load(core->playbox()->next()) == false) {
+
+        this->currentId = this->playlist.indexOf(currentMeta)+1;
+
+        if(this->load(playlist.value(this->currentId)) == false) {
+
+        }
     }
-    this->currentItem = this->playlist.indexOf(current)+1;
-    this->load(playlist.value(this->currentItem));
+
+
 }
 
 void NutshPlayingInterface::previous() {
 
 
     if(!core->playbox()->isEmpty()) {
-        qDebug() << "non empty";
+
         this->load(core->playbox()->previous());
         return;
     }
 
-    int cacheCurrentItem = this->currentItem-1;
-
-    this->load(playlist.value(cacheCurrentItem));
-    this->currentItem = cacheCurrentItem;
+//    int cacheCurrentId = this->currentId-1;
+//
+//    this->load(playlist.value(cacheCurrentId));
+//    this->currentId = cacheCurrentId;
 }
 
 void NutshPlayingInterface::setStatus() {
@@ -293,13 +305,18 @@ void NutshPlayingInterface::whatsNext() {
     switch(nextAction) {
 
         case Repeat:
-        this->load(current);
+        this->load(currentMeta);
         break;
 
         case Random:
-        this->load(core->metadatainterface()->totalContent().value(
-                (qrand() % (core->metadatainterface()->totalContent().count() - 0 +1) + 0)
-                ));
+        if(core->playbox()->getFileattente().count() <= 2) {
+            this->load(this->playlist.value(
+                    (qrand() % (playlist.count() - 1 +1) + 0)
+                    ));
+        } else {
+
+            this->load(core->playbox()->random());
+        }
         break;
 
         case Normal:
@@ -311,6 +328,12 @@ void NutshPlayingInterface::whatsNext() {
 
 void NutshPlayingInterface::daily() {
 }
+
 bool NutshPlayingInterface::isPlaying() {
+
     return this->media->isPlaying();
+}
+
+NutshMetaData NutshPlayingInterface::current() {
+    return currentMeta;
 }

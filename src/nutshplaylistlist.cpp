@@ -66,21 +66,28 @@ void NutshPlaylistList::showContent(const QModelIndex &index) {
         break;
         case 1 :
         core->metadatainterface()->load(core->getSqlControl()->getMostReaden(30));
+        core->metadatainterface()->changeDisposition(Entire);
         break;
         case 2 :
         core->metadatainterface()->load(core->getSqlControl()->getLastImport(30));
+        core->metadatainterface()->changeDisposition(Entire);
+
         break;
         case 3 :
         core->metadatainterface()->load(core->getSqlControl()->getLastReaden(30));
+        core->metadatainterface()->changeDisposition(Entire);
+
         break;
         default:
+        core->metadatainterface()->changeDisposition(Playlist);
+
         core->metadatainterface()->load(
             core->getSqlControl()->getMetaDatas(this->currentItem()->text())
         );
+
         break;
     }
 
-    core->metadatainterface()->refreshInterface(Playlist);
 }
 
 void NutshPlaylistList::mouseReleaseEvent(QMouseEvent *event) {

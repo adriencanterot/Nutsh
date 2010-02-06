@@ -23,12 +23,13 @@ class NutshPlayingInterface : public QWidget
 public:
     NutshPlayingInterface(NutshComunicator*);
     void sigandslots();
-    void load(NutshMetaData);
+    bool load(NutshMetaData);
     void load(QList<NutshMetaData>);
     void setStatus();
     QWidget* getActionsButtons();
     void pauseByKey(QKeyEvent*);
     QList<NutshMetaData> getLastRead() const;
+    NutshMetaData current();
     void place(float coef);
     bool isPlaying();
 
@@ -69,9 +70,9 @@ private:
     QList<NutshMetaData> playlist;
     QList<NutshMetaData> lastRead;
     
-    int currentItem;
+    int currentId;
     bool tickCompteur;
-    NutshMetaData current;
+    NutshMetaData currentMeta;
     NutshLecteur *media;
 
     QBuffer to;

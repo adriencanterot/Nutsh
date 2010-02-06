@@ -5,8 +5,7 @@ QT += sql \
     network \
     xml
 ICON += nutsh.icns
-CONFIG += qt \
-    release
+CONFIG += release
 DESTDIR += bin
 win32 { 
     INCLUDEPATH += ./3rdparty/win/FMOD3/inc \
@@ -21,8 +20,7 @@ macx {
     INCLUDEPATH += 3rdparty/mac/include/taglib \
         3rdparty/mac/include/fmodex
     LIBS += -L3rdparty/mac/lib \
-        -ltag \
-        -lfmodex
+        -ltag
     OTHER_FILES += style.css
 }
 linux-g++ { 
@@ -55,7 +53,8 @@ SOURCES += src/main.cpp \
     src/nutshstyle.cpp \
     src/dailysonginterface.cpp \
     src/nutshsystemtrayicon.cpp \
-    src/nutshplaybox.cpp
+    src/nutshplaybox.cpp \
+    src/nutsheditinterface.cpp
 HEADERS += src/nutshmainwindow.h \
     src/nutshlecteur.h \
     src/nutshindexer.h \
@@ -79,12 +78,12 @@ HEADERS += src/nutshmainwindow.h \
     src/nutshstyle.h \
     src/dailysonginterface.h \
     src/nutshsystemtrayicon.h \
-    src/nutshplaybox.h
+    src/nutshplaybox.h \
+    src/nutsheditinterface.h
 RESOURCES += nutsh.qrc
 OBJECTS_DIR = obj/
 MOC_DIR = moc/
-CONFIG -= x86
 RC_FILE += icon.rc
 TRANSLATIONS += Translations/nutsh_en.ts \
-                Translations/nutsh_es.ts
+    Translations/nutsh_es.ts
 OTHER_FILES += 

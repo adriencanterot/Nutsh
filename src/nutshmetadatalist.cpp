@@ -7,6 +7,7 @@ NutshMetaDataList::NutshMetaDataList(NutshComunicator* corePath) {
     property = true;
     this->setProperty("leftside", false);
     this->setAlternatingRowColors(true);
+    contenttype = Entire;
 
     connect(this, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(emitSignal(QModelIndex)));
     connect(this->verticalScrollBar(), SIGNAL(sliderMoved(int)), this, SLOT(loadNext(int)));
@@ -15,6 +16,9 @@ NutshMetaDataList::NutshMetaDataList(NutshComunicator* corePath) {
     this->setEditTriggers(QAbstractItemView::AllEditTriggers);
     this->setIconSize(QSize(34,34));
     this->resize(440, 253);
+    context = new QMenu(this);
+
+    eventpos = QPoint();
 
 }
 
@@ -42,6 +46,9 @@ void NutshMetaDataList::append(NutshMetaData data) {
     font.setBold(true);
     item->setFont(font);
     this->addItem(item);
+
+
+
 }
 
 void NutshMetaDataList::emitSignal(QModelIndex metaIndex) {
@@ -64,10 +71,15 @@ void NutshMetaDataList::load(QList<NutshMetaData> liste) {
     this->indexSelected = 0;
     this->clearList();
     this->wheelPosition = 0;
-    items = liste;
+    for(int i = 0;i<liste.count();i++) {
+        items.append(liste.value(i));
+        items.last().setLocalid(i);
+    }
 
     for(int i = 0;i<liste.count();i++) {
-        qDebug() << i;
+
+        liste.value(i).setLocalid(i);
+
         this->append(liste.value(i));
         if(this->count() >= MAX_ELEMENT_SHOWN) {
             break;
@@ -79,6 +91,14 @@ void NutshMetaDataList::load(QList<NutshMetaData> liste) {
         this->item(0)->setSelected(true);
         this->setCurrentItem(this->item(0));
     }
+
+    context->clear();
+    if(this->contenttype == Entire) {
+        context->addAction(tr("Supprimer"), this, SLOT(destroy()));
+    } else if(this->contenttype == Playlist) {
+        context->addAction(tr("Supprimer de la liste"), this, SLOT(destroyFromList()));
+    }
+
 }
 void NutshMetaDataList::clearList() {
 
@@ -114,15 +134,17 @@ void NutshMetaDataList::keyPressEvent(QKeyEvent* event) {
 
 }
 void NutshMetaDataList::loadNext(int value) {
-    qDebug() << "value" << value << this->verticalScrollBar()->maximum();
+
     if(value >= this->verticalScrollBar()->maximum()) {
+
         this->append(this->items.mid(this->count(), MAX_ELEMENT_SHOWN));
     }
 }
 void NutshMetaDataList::append(QList<NutshMetaData> liste ) {
 
     for(int i = 0;i<liste.count();i++) {
-        qDebug() << i;
+
+        liste.value(i).setLocalid(i);
         this->append(liste.value(i));
 
     }
@@ -143,6 +165,29 @@ void NutshMetaDataList::wheelEvent(QWheelEvent *event) {
         }
             this->verticalScrollBar()->setValue((this->wheelPosition));
     }
-        qDebug() << this->wheelPosition;
 
+}
+
+void NutshMetaDataList::mouseReleaseEvent(QMouseEvent *event) {
+
+    eventpos = event->pos();
+    if(event->button() == Qt::RightButton) {
+        context->popup(QWidget::mapToGlobal(event->pos()));
+    }
+}
+
+void NutshMetaDataList::destroy() {
+    core->getSqlControl()->destroy(items.value(this->row(this->itemAt(eventpos))));
+    this->takeItem(this->row(this->itemAt(eventpos)));
+    items.removeOne(items.value(this->row(this->itemAt(eventpos))));
+}
+
+void NutshMetaDataList::destroyFromList() {
+    core->getSqlControl()->destroyFromList(items.value(this->row(this->itemAt(eventpos))), core->playlistinterface()->current());
+    this->takeItem(this->row(this->itemAt(eventpos)));
+    items.removeOne(items.value(this->row(this->itemAt(eventpos))));
+}
+
+void NutshMetaDataList::setContenttype(ContentType type) {
+    this->contenttype = type;
 }

@@ -185,8 +185,6 @@ NutshMetaData NutshMetaData::operator=(const NutshMetaData &m) {
     id = m.id;
     local_id = m.local_id;
 
-    qDebug() << m.local_id;
-
     date = m.date;
     genre = m.genre;
     description = m.description;
@@ -413,7 +411,6 @@ void NutshMetaData::setLocation(Provenance newLocation) {
 
 void NutshMetaData::setLocalid(int id) {
     this->local_id = id;
-    qDebug() << local_id;
 }
 
 int NutshMetaData::getlocalid() const {

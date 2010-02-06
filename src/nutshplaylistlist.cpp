@@ -59,23 +59,25 @@ void NutshPlaylistList::showContent(const QModelIndex &index) {
 
     switch(index.row()) {
         case 0 :
+        core->metadatainterface()->changeDisposition(Entire);
         core->metadatainterface()->reset();
         if(core->searchlineinterface()->value() != "") {
             core->metadatainterface()->getWordMetaData(core->searchlineinterface()->value());
         }
         break;
         case 1 :
+        core->metadatainterface()->changeDisposition(Playlist);
         core->metadatainterface()->load(core->getSqlControl()->getMostReaden(30));
-        core->metadatainterface()->changeDisposition(Entire);
+
         break;
         case 2 :
+        core->metadatainterface()->changeDisposition(Playlist);
         core->metadatainterface()->load(core->getSqlControl()->getLastImport(30));
-        core->metadatainterface()->changeDisposition(Entire);
 
         break;
         case 3 :
+        core->metadatainterface()->changeDisposition(Playlist);
         core->metadatainterface()->load(core->getSqlControl()->getLastReaden(30));
-        core->metadatainterface()->changeDisposition(Entire);
 
         break;
         default:

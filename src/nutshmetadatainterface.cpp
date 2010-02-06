@@ -149,11 +149,11 @@ void NutshMetaDataInterface::importerContent() {
 void NutshMetaDataInterface::reset() {
 
     metaList.clear();
+    metadatas->setContenttype(Entire);
     metaList = core->getSqlControl()->getMetaDatas();
     this->load(metaList);
     emit contentTypeChanged(Entire);
     contentType = Entire;
-    metadatas->setContenttype(Entire);
 }
 
 NutshMetaDataList* NutshMetaDataInterface::getListWidget() {
@@ -173,6 +173,7 @@ void NutshMetaDataInterface::changeDisposition(ContentType type) {
 
         case Entire: //si le contenu est toute la bibliotheque
             importer->hide();
+            core->swapInterface(MetaDataInterface);
             break;
 
         case Playlist: //si le contenu vient d'une playlist

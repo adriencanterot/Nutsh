@@ -499,7 +499,7 @@ int NutshSqlSaver::getListId(const QString &listName) {
 
 void NutshSqlSaver::destroy(NutshMetaData data) {
     QSqlQuery requete;
-    if(!requete.exec(QString("DELETE FROM bibliotheque WHERE id = %1 LIMIT 0, 1").arg(data.getId()))) {
+    if(!requete.exec(QString("DELETE FROM bibliotheque WHERE id = %1").arg(data.getId()))) {
 
         qDebug() << requete.lastError() << requete.lastQuery();
     }

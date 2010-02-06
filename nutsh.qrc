@@ -22,7 +22,6 @@
         <file>images/random.png</file>
         <file>images/repeat.png</file>
         <file>images/sans-image.png</file>
-        <file>images/fondedit.png</file>
     </qresource>
     <qresource prefix="/">
         <file>translations/nutsh_en.qm</file>

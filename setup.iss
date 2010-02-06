@@ -8,7 +8,7 @@
 AppId={{C5621F7D-1A03-4DC7-AD4F-A004DC050E66}
 AppName=Nutsh
 AppVerName=Nutsh 1.0.6
-AppPublisher=Adrien Cantérot
+AppPublisher=Nutsh Software Team
 AppPublisherURL=http://nutsh.com/
 AppSupportURL=http://nutsh.com/
 AppUpdatesURL=http://nutsh.com/
@@ -32,6 +32,7 @@ Source: "C:\Users\Adrien\Nutsh\bin\Nutsh.exe"; DestDir: "{app}"; Flags: ignoreve
 Source: "C:\Users\Adrien\Nutsh\bin\fmod.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\Adrien\Nutsh\bin\libtag.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\Adrien\Nutsh\bin\mingwm10.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Adrien\Nutsh\bin\libgcc_s_dw2-1.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\Adrien\Nutsh\bin\QtCore4.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\Adrien\Nutsh\bin\QtGui4.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\Adrien\Nutsh\bin\QtNetwork4.dll"; DestDir: "{app}"; Flags: ignoreversion

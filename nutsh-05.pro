@@ -3,7 +3,9 @@
 # -------------------------------------------------
 QT += sql \
     network \
-    xml
+    xml \
+    declarative
+
 ICON += nutsh.icns
 CONFIG += release
 DESTDIR += bin
@@ -86,4 +88,7 @@ MOC_DIR = moc/
 RC_FILE += icon.rc
 TRANSLATIONS += Translations/nutsh_en.ts \
     Translations/nutsh_es.ts
-OTHER_FILES += 
+OTHER_FILES += \
+    qml/EditInterface.qml \
+    qml/MetaInput.qml \
+    Interface.qml

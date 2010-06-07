@@ -5,12 +5,15 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QLineEdit>
+#include <QDeclarativeEngine>
+#include <QDeclarativeComponent>
+#include <QDeclarativeView>
 #include "nutshmetadata.h"
 #include "nutshmetadata.h"
 
 class NutshComunicator;
 
-class NutshEditInterface : public QWidget
+class NutshEditInterface : public QDeclarativeView
 {
 Q_OBJECT
 public:
@@ -21,23 +24,13 @@ signals:
 
 public slots:
     void edit(NutshMetaData);
+    void edit();
     void finish();
 
 private:
 
     NutshComunicator* core;
-    QLabel *m_artiste,
-           *m_album,
-           *m_titre;
-
-    QLineEdit *m_editartiste,
-              *m_editalbum,
-              *m_edittitre;
-
     NutshMetaData m_meta;
-
-    QPushButton *m_confirm,
-                *m_cancel;
 
 };
 

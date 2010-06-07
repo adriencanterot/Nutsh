@@ -26,5 +26,6 @@
     <qresource prefix="/">
         <file>translations/nutsh_en.qm</file>
         <file>translations/nutsh_es.qm</file>
+        <file>qml/editinterface.qml</file>
     </qresource>
 </RCC>

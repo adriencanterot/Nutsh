@@ -95,6 +95,7 @@ void NutshMetaDataList::load(QList<NutshMetaData> liste) {
     context->clear();
     if(this->contenttype == Entire) {
         context->addAction(tr("Supprimer"), this, SLOT(destroy()));
+        context->addAction("Editer", core->editinterface(), SLOT(edit()));
     } else if(this->contenttype == Playlist) {
         context->addAction(tr("Supprimer de la liste"), this, SLOT(destroyFromList()));
     }

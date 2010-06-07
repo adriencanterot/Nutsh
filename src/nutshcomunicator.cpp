@@ -18,8 +18,8 @@ NutshComunicator::NutshComunicator(QMainWindow *parent = 0)
     sqlControl->connect();
     m_searchlineinterface = new NutshSearchLineInterface(this);
     m_playlistinterface = new NutshPlayListInterface(this);
-    m_metadatainterface = new NutshMetaDataInterface(this);
     m_editinterface = new NutshEditInterface(this);
+    m_metadatainterface = new NutshMetaDataInterface(this);
 //    m_driveinterface = new NutshDriveInterface(this);
 
     m_metadatainterface->setParent(m_central);

@@ -33,14 +33,6 @@ void NutshPlaybox::add(NutshMetaData meta) {
     this->setText(QString("<font color = '#DEDEDE'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    %1</font>").arg(fileattente.count()));
 
 }
-
-void NutshPlaybox::showcontent() {
-    this->isPlaybox(true);
-    core->metadatainterface()->refreshInterface(Playbox);
-    core->metadatainterface()->load(fileattente);
-
-
-}
 void NutshPlaybox::mouseReleaseEvent(QMouseEvent *event) {
     if(event->button() == Qt::LeftButton) {
         this->showcontent();
@@ -52,6 +44,14 @@ void NutshPlaybox::mouseReleaseEvent(QMouseEvent *event) {
 
 
 }
+void NutshPlaybox::showcontent() {
+    this->isPlaybox(true);
+    core->metadatainterface()->refreshInterface(Playbox);
+    core->metadatainterface()->load(fileattente);
+
+
+}
+
 void NutshPlaybox::dropEvent(QDropEvent *event) {
 
 

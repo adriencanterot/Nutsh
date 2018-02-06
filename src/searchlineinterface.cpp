@@ -1,11 +1,11 @@
-#include "nutshsearchlineinterface.h"
-#include "nutshcomunicator.h"
+#include "searchlineinterface.h"
+#include "core.h"
 #include <QDebug>
 
-NutshSearchLineInterface::NutshSearchLineInterface(NutshComunicator* corePath)
+SearchlineInterface::SearchlineInterface(Core* corePath)
 {
 
-    qDebug() << "Initializing NutshSearchLineInterface...";
+    qDebug() << "Initializing SearchlineInterface...";
     core = corePath;
     searchLine = new QLineEdit(this);
     searchLine->setProperty("searchLine", true);
@@ -18,7 +18,7 @@ NutshSearchLineInterface::NutshSearchLineInterface(NutshComunicator* corePath)
     nouvelleListe->setMenu(actionsPlus); // mise en place du menu pour le bouton "+"
 }
 
-void NutshSearchLineInterface::sigandslots() {
+void SearchlineInterface::sigandslots() {
 
     connect(searchLine, SIGNAL(textChanged(QString)), this, SLOT(showResults(QString)));
 
@@ -28,7 +28,7 @@ void NutshSearchLineInterface::sigandslots() {
     actionsPlus->addAction(tr("5 derniers morceaux lu dans une liste de lecture"), core->playlistinterface(),
                            SLOT(addLastRead()));
 }
-void NutshSearchLineInterface::showResults(QString query) {
+void SearchlineInterface::showResults(QString query) {
     
     if(searchLine->text() == "") {
         if(core->playinginterface()->isPlaying()) {
@@ -51,7 +51,7 @@ void NutshSearchLineInterface::showResults(QString query) {
 
 }
 
-void NutshSearchLineInterface::keyPressEvent(QKeyEvent* event) {
+void SearchlineInterface::keyPressEvent(QKeyEvent* event) {
 
     core->metadatainterface()->navigateByKey(event);
 
@@ -61,18 +61,18 @@ void NutshSearchLineInterface::keyPressEvent(QKeyEvent* event) {
     }
 }
 
-void NutshSearchLineInterface::activate() {
+void SearchlineInterface::activate() {
 
     searchLine->setFocus();
 }
 
-void NutshSearchLineInterface::place(float coef) {
+void SearchlineInterface::place(float coef) {
 
     searchLine->move(240, 26);
     nouvelleListe->move(490, 26);
 }
 
-void NutshSearchLineInterface::threatCommand(const QString& command) {
+void SearchlineInterface::threatCommand(const QString& command) {
     if(command == "last") {
         core->metadatainterface()->load(core->getSqlControl()->getLastReaden(1));
     }
@@ -82,7 +82,7 @@ void NutshSearchLineInterface::threatCommand(const QString& command) {
     }
 }
 
-QString NutshSearchLineInterface::value() {
+QString SearchlineInterface::value() {
     return searchLine->text();
 }
 

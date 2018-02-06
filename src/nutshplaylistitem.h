@@ -3,12 +3,12 @@
 
 #include <QListWidgetItem>
 
-class NutshPlaylistItem : public QListWidgetItem
+class PlaylistItem : public QListWidgetItem
 {
 public:
-    NutshPlaylistItem(QListWidget* parent = 0);
-    NutshPlaylistItem(const QVariantList&, QListWidget* parent = 0);
-    NutshPlaylistItem(const QString&, QListWidget* parent = 0);
+    PlaylistItem(QListWidget* parent = 0);
+    PlaylistItem(const QVariantList&, QListWidget* parent = 0);
+    PlaylistItem(const QString&, QListWidget* parent = 0);
 
 private:
     int id;

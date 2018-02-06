@@ -4,18 +4,18 @@
 #include <QWidget>
 #include <QProgressBar>
 #include <QPushButton>
-#include "nutshmetadata.h"
-#include "nutshsqlsaver.h"
-#include "nutshindexer.h"
+#include "metadata.h"
+#include "sqlmanager.h"
+#include "indexer.h"
 
-class NutshComunicator;
-class NutshProgressInterface : public QWidget
+class Core;
+class ProgressInterface : public QWidget
 {
     Q_OBJECT
 
 public:
 
-    NutshProgressInterface(NutshComunicator*);
+    ProgressInterface(Core*);
 
     void import(const QString& path);
 
@@ -36,7 +36,7 @@ public slots:
     void stopWhy(const QString& why);
     void cancel();
 private:
-    NutshComunicator* core;
+    Core* core;
 
     QObject *m_receiver;
     QLabel *m_label;

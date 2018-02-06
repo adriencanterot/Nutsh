@@ -4,10 +4,10 @@
 #include <QSystemTrayIcon>
 #include <QMenu>
 
-class NutshSystemTrayIcon : public QSystemTrayIcon
+class SystemtrayIcon : public QSystemTrayIcon
 {
 public:
-    NutshSystemTrayIcon(QObject* parent = 0);
+    SystemtrayIcon(QObject* parent = 0);
 
 private:
     QMenu* menu;

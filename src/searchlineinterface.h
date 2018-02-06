@@ -7,14 +7,14 @@
 #include <QtSql>
 #include <QPushButton>
 #include <QMenu>
-#include "nutshmetadata.h"
+#include "metadata.h"
 
-class NutshComunicator;
-class NutshSearchLineInterface : public QWidget
+class Core;
+class SearchlineInterface : public QWidget
 {
     Q_OBJECT
 public:
-    NutshSearchLineInterface(NutshComunicator*);
+    SearchlineInterface(Core*);
     void sigandslots();
     void activate();
     void place(float coef);
@@ -29,7 +29,7 @@ public slots:
 
 private :
         QLineEdit* searchLine;
-        NutshComunicator* core;
+        Core* core;
         QPushButton *nouvelleListe;
         QMenu* actionsPlus;
 };

@@ -1,8 +1,8 @@
-#include "nutshmetadata.h"
-#include "nutshsqlsaver.h"
+#include "metadata.h"
+#include "sqlmanager.h"
 using namespace TagLib;
 
-NutshMetaData::NutshMetaData()
+Metadata::Metadata()
 {
 
     compteur = -1;
@@ -11,7 +11,7 @@ NutshMetaData::NutshMetaData()
     m_location = fromNowhere;
 }
 
-NutshMetaData::NutshMetaData(const NutshMetaData &m) {
+Metadata::Metadata(const Metadata &m) {
 
     artiste = m.artiste;
     album = m.album;
@@ -39,7 +39,7 @@ NutshMetaData::NutshMetaData(const NutshMetaData &m) {
 
 }
 
-NutshMetaData::NutshMetaData(const QString &source) {
+Metadata::Metadata(const QString &source) {
 
 
     file = FileRef(source.toAscii().constData());
@@ -60,7 +60,7 @@ NutshMetaData::NutshMetaData(const QString &source) {
     }
 }
 
-NutshMetaData::NutshMetaData(const QVariantList &resultatLigne) {
+Metadata::Metadata(const QVariantList &resultatLigne) {
 
     /* Initialisation depuis un resulat SQL
       generalement depuis une sortie,
@@ -96,13 +96,13 @@ NutshMetaData::NutshMetaData(const QVariantList &resultatLigne) {
 
 }
 
-void NutshMetaData::setSavingDate(const QDateTime &dateEnregistrement) {
+void Metadata::setSavingDate(const QDateTime &dateEnregistrement) {
 
     enregistrement = dateEnregistrement;
     metaData.append(enregistrement.toString());
 }
 
-searchResultType NutshMetaData::contains(const QString &str) {
+searchResultType Metadata::contains(const QString &str) {
 
     if(titre.contains(str, Qt::CaseInsensitive)) {
         return Song;
@@ -122,62 +122,62 @@ searchResultType NutshMetaData::contains(const QString &str) {
 
 /* Toute les methodes accesseuses */
 
-QString NutshMetaData::getArtiste() const {
+QString Metadata::getArtiste() const {
 
     return artiste;
 }
 
-QString NutshMetaData::getAlbum() const {
+QString Metadata::getAlbum() const {
 
     return album;
 }
 
-QString NutshMetaData::getTitre() const {
+QString Metadata::getTitre() const {
 
     return titre;
 }
 
-QString NutshMetaData::getDate() const {
+QString Metadata::getDate() const {
 
     return date;
 }
 
-QString NutshMetaData::getGenre() const {
+QString Metadata::getGenre() const {
 
     return genre;
 }
 
-QString NutshMetaData::getDescription() const {
+QString Metadata::getDescription() const {
 
     return description;
 }
 
-QDateTime NutshMetaData::getDateEnregistrement() const {
+QDateTime Metadata::getDateEnregistrement() const {
 
     return enregistrement;
 }
 
-QString NutshMetaData::getChemin() const {
+QString Metadata::getChemin() const {
 
     return chemin;
 }
 
-int NutshMetaData::getCompteur() const {
+int Metadata::getCompteur() const {
 
     return compteur;
 }
 
-int NutshMetaData::getDuree() const {
+int Metadata::getDuree() const {
 
     return duree;
 }
 
-//QString NutshMetaData::getCheminImage() const {
+//QString Metadata::getCheminImage() const {
 //
 //    return cheminImage;
 //}
 
-NutshMetaData NutshMetaData::operator=(const NutshMetaData &m) {
+Metadata Metadata::operator=(const Metadata &m) {
 
     artiste = m.artiste;
     album = m.album;
@@ -203,7 +203,7 @@ NutshMetaData NutshMetaData::operator=(const NutshMetaData &m) {
     return *this;
 }
 
-QStringList NutshMetaData::getAllMetaDatas() {
+QStringList Metadata::getAllMetaDatas() {
 
     metaData.append(artiste);
     metaData.append(album);
@@ -220,18 +220,18 @@ QStringList NutshMetaData::getAllMetaDatas() {
     return metaData;
 }
 
-int NutshMetaData::getTrack() const {
+int Metadata::getTrack() const {
 
     return track;
 }
 
-QDateTime NutshMetaData::getDerniereLecture() const {
+QDateTime Metadata::getDerniereLecture() const {
 
     return derniereLecture;
 }
 
 
-bool NutshMetaData::operator==(const NutshMetaData& m) {
+bool Metadata::operator==(const Metadata& m) {
     
     if(id == m.id) {
       return true;
@@ -241,11 +241,11 @@ bool NutshMetaData::operator==(const NutshMetaData& m) {
 }
 
 
-void NutshMetaData::setArtiste(const QString &a) {
+void Metadata::setArtiste(const QString &a) {
 
     artiste = a;
 
-    NutshSqlSaver::updateColumn("artiste", artiste, id);
+    SqlManager::updateColumn("artiste", artiste, id);
 
     FileRef f(chemin.toAscii().constData());
     Tag *t = f.file()->tag();
@@ -255,10 +255,10 @@ void NutshMetaData::setArtiste(const QString &a) {
     f.save();
 }
 
-void NutshMetaData::setAlbum(const QString &a) {
+void Metadata::setAlbum(const QString &a) {
 
     album = a;
-    NutshSqlSaver::updateColumn("album", album, id);
+    SqlManager::updateColumn("album", album, id);
 
     FileRef f(chemin.toAscii().constData());
     Tag *t = f.file()->tag();
@@ -268,10 +268,10 @@ void NutshMetaData::setAlbum(const QString &a) {
     f.save();
 }
 
-void NutshMetaData::setTitre(const QString &nt) { //nt -> new title
+void Metadata::setTitre(const QString &nt) { //nt -> new title
 
     titre = nt;
-    NutshSqlSaver::updateColumn("titre", titre, id);
+    SqlManager::updateColumn("titre", titre, id);
 
     FileRef f(chemin.toAscii().constData());
     Tag *t = f.file()->tag(); // t -> tag
@@ -281,72 +281,72 @@ void NutshMetaData::setTitre(const QString &nt) { //nt -> new title
     f.save();
 }
 
-void NutshMetaData::setDate(const QString &d) {
+void Metadata::setDate(const QString &d) {
 
     date = d;
 }
 
-void NutshMetaData::setGenre(const QString &g) {
+void Metadata::setGenre(const QString &g) {
 
     genre = g;
 }
 
-void NutshMetaData::setDescription(const QString &d) {
+void Metadata::setDescription(const QString &d) {
 
     description = d;
 }
 
-void NutshMetaData::setDateEnregistrement(const QDateTime &d) {
+void Metadata::setDateEnregistrement(const QDateTime &d) {
 
     enregistrement = d;
 
 }
 
-void NutshMetaData::setChemin(const QString &c) {
+void Metadata::setChemin(const QString &c) {
 
     chemin = c;
 
     //ajoute le chemin en plus de celui existant [a faire]
 }
 
-void NutshMetaData::setArtwork(const QPixmap &c) {
+void Metadata::setArtwork(const QPixmap &c) {
 
 }
 
-void NutshMetaData::setDuree(const int d) {
+void Metadata::setDuree(const int d) {
 
     duree = d;
 }
 
-void NutshMetaData::setAllMetaDatas(const QStringList &m) {
+void Metadata::setAllMetaDatas(const QStringList &m) {
 
     metaData = m;
 }
 
-void NutshMetaData::setCompteur(int t) {
+void Metadata::setCompteur(int t) {
 
-    NutshSqlSaver::updateColumn("compteur", QString("%1").arg(t), this->id);
+    SqlManager::updateColumn("compteur", QString("%1").arg(t), this->id);
     compteur = t;
 
 }
 
-void NutshMetaData::setTrack(int t) {
+void Metadata::setTrack(int t) {
 
     track = t;
 }
 
-void NutshMetaData::setDerniereLecture(const QDateTime& date) {
+void Metadata::setDerniereLecture(const QDateTime& date) {
 
-    NutshSqlSaver::updateColumn("derniereLecture", date.toString(), this->id);
+    SqlManager::updateColumn("derniereLecture", date.toString(), this->id);
     derniereLecture = date;
 }
 
-int NutshMetaData::getId() const {
+int Metadata::getId() const {
 
     return id;
 }
 
-QPixmap NutshMetaData::getArtwork() const {
+QPixmap Metadata::getArtwork() const {
 
     if(QFile::exists(this->getChemin())) {
 
@@ -376,20 +376,20 @@ QPixmap NutshMetaData::getArtwork() const {
 
 }
 
-NutshMetaData::~NutshMetaData() {
+Metadata::~Metadata() {
 }
 
-void NutshMetaData::setId(int newId) {
+void Metadata::setId(int newId) {
 
     id = newId;
 }
 
-bool NutshMetaData::isValid() {
+bool Metadata::isValid() {
 
     return !file.isNull();
 }
 
-bool NutshMetaData::isDefault() {
+bool Metadata::isDefault() {
 
     if(this->titre == "Sans titre" && this->album == "Sans album" && this->artiste == "Sans artiste") {
         return true;
@@ -398,21 +398,21 @@ bool NutshMetaData::isDefault() {
     }
 }
 
-QDebug NutshMetaData::operator<<(const NutshMetaData& meta) {
-    return QDebug(&QString("NutshMetaData(\"%1\" - \"%2\" - \"%3\")").arg(meta.getTitre()).arg(meta.getAlbum()).arg(meta.getArtiste()));
+QDebug Metadata::operator<<(const Metadata& meta) {
+    //return QDebug(&QString("Metadata(\"%1\" - \"%2\" - \"%3\")").arg(meta.getTitre()).arg(meta.getAlbum()).arg(meta.getArtiste()));
 }
 
-Provenance NutshMetaData::location() const {
+Provenance Metadata::location() const {
     return m_location;
 }
-void NutshMetaData::setLocation(Provenance newLocation) {
+void Metadata::setLocation(Provenance newLocation) {
     this->m_location = newLocation;
 }
 
-void NutshMetaData::setLocalid(int id) {
+void Metadata::setLocalid(int id) {
     this->local_id = id;
 }
 
-int NutshMetaData::getlocalid() const {
+int Metadata::getlocalid() const {
     return this->local_id;
 }

@@ -1,18 +1,18 @@
-#include "nutshcomunicator.h"
+#include "core.h"
 #include "nutshplaylistinterface.h"
 
-NutshPlayListInterface::NutshPlayListInterface(NutshComunicator* corePath, QWidget *parent) : QWidget(parent)
+PlaylistInterface::PlaylistInterface(Core* corePath, QWidget *parent) : QWidget(parent)
 {
-    qDebug() << "Initializing NutshPlayListInterface...";
+    qDebug() << "Initializing PlaylistInterface...";
 
     core = corePath;
     this->setFixedWidth(WIDTH_LEFT);
-    liste = new NutshPlaylistList(core, this);
+    liste = new PlaylistList(core, this);
     refresh();
     initButtons();
 }
 
-void NutshPlayListInterface::refresh(){
+void PlaylistInterface::refresh(){
     //ajoute les playlist dans la liste de lecture (enlève les anciennes).
 
     liste->clear();
@@ -25,7 +25,7 @@ void NutshPlayListInterface::refresh(){
 
 }
 
-void NutshPlayListInterface::initButtons() {
+void PlaylistInterface::initButtons() {
 
     nouvelleListe = new QPushButton("", this);
     nouvelleListe->setToolTip(tr("Créer une playlist"));
@@ -37,7 +37,7 @@ void NutshPlayListInterface::initButtons() {
 }
 
 
-void NutshPlayListInterface::nouvelleTable() {
+void PlaylistInterface::nouvelleTable() {
     //nouvelle liste de lecture.
     bool ok;
     QString nom = QInputDialog::getText(this, tr("Nouvelle Liste"), tr("Le nom de votre liste"), QLineEdit::Normal, QString(), &ok);
@@ -52,13 +52,13 @@ void NutshPlayListInterface::nouvelleTable() {
     this->refresh();
 }
 
-void NutshPlayListInterface::sigandslots() {
+void PlaylistInterface::sigandslots() {
 
     connect(nouvelleListe, SIGNAL(clicked()), this, SLOT(nouvelleTable()));
     connect(importer, SIGNAL(clicked()), this, SLOT(importWindow()));
 }
 
-void NutshPlayListInterface::importWindow() {
+void PlaylistInterface::importWindow() {
     //importation de médias dans la bibliothèque
 
     QString path = QFileDialog::getExistingDirectory(this, "", "/");
@@ -66,7 +66,7 @@ void NutshPlayListInterface::importWindow() {
     core->progressinterface()->import(path);
 }
 
-void NutshPlayListInterface::addListeFromSearch() {
+void PlaylistInterface::addListeFromSearch() {
     //ajoute les résultats de la recherche dans une nouvelle playlsit
     bool ok;
     QString listName = QInputDialog::getText(this, tr("Nouvelle Liste"), tr("Le nom de votre liste"), QLineEdit::Normal, core->searchlineinterface()->value(), &ok);
@@ -81,7 +81,7 @@ void NutshPlayListInterface::addListeFromSearch() {
     this->refresh();
 }
 
-void NutshPlayListInterface::addLastRead() {
+void PlaylistInterface::addLastRead() {
     //rajoute les derniers morceaux lu dans une nouvelle playlist
     bool ok;
     QString listName = QInputDialog::getText(this, tr("Nouvelle Liste"), tr("Le nom de votre liste"), QLineEdit::Normal, QString(), &ok);
@@ -98,7 +98,7 @@ void NutshPlayListInterface::addLastRead() {
     this->refresh();
 }
 
-void NutshPlayListInterface::setNewName(QString &old) {
+void PlaylistInterface::setNewName(QString &old) {
     // si la liste n'a pas de nom le nom est Sans titre + i
 
     int numbAfterList = 0;
@@ -114,7 +114,7 @@ void NutshPlayListInterface::setNewName(QString &old) {
     old = QString(tr("Sans titre %1")).arg(numbAfterList);
 }
 
-void NutshPlayListInterface::place(float coef) {
+void PlaylistInterface::place(float coef) {
 
     coef = 0;
     liste->move(0, 100);
@@ -125,11 +125,11 @@ void NutshPlayListInterface::place(float coef) {
     nouvelleListe->move(x, y);
     importer->move(x + 36, y);
 }
-NutshPlaylistList* NutshPlayListInterface::elements() {
+PlaylistList* PlaylistInterface::elements() {
     return liste;
 }
 
-void NutshPlayListInterface::newListFromContent(QList<NutshMetaData> liste) {
+void PlaylistInterface::newListFromContent(QList<Metadata> liste) {
     bool ok;
     QString listName = QInputDialog::getText(this, tr("Nouvelle Liste"), tr("Le nom de votre liste"), QLineEdit::Normal, QString(), &ok);
     if(!ok) { return; }
@@ -143,10 +143,10 @@ void NutshPlayListInterface::newListFromContent(QList<NutshMetaData> liste) {
     core->getSqlControl()->inserer(liste, listName);
     this->refresh();
 }
-void NutshPlayListInterface::newListFromContent() {
+void PlaylistInterface::newListFromContent() {
     this->newListFromContent(core->playbox()->getFileattente());
 }
 
-QString NutshPlayListInterface::current() const {
+QString PlaylistInterface::current() const {
     return liste->currentItem()->text();
 }

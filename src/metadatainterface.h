@@ -8,23 +8,23 @@
 #include <QList>
 #include <QLabel>
 #include <QPushButton>
-#include "nutshmetadata.h"
-#include "nutshmetadatalist.h"
+#include "metadata.h"
+#include "metadatalist.h"
 #include <QtSql>
 #include "preprocess.h"
-class NutshComunicator;
-class NutshMetaDataInterface : public QWidget
+class Core;
+class MetadataInterface : public QWidget
 {
     Q_OBJECT
 
 public:
-    NutshMetaDataInterface(NutshComunicator*);
+    MetadataInterface(Core*);
     void sigandslots();
-    void load(QList<NutshMetaData>);
-    QList<NutshMetaData> actualContent() const;
-    QList<NutshMetaData> totalContent() const;
-    searchResultType dominantType(QList<NutshMetaData>, const QString&) const;
-    NutshMetaDataList* getListWidget();
+    void load(QList<Metadata>);
+    QList<Metadata> actualContent() const;
+    QList<Metadata> totalContent() const;
+    searchResultType dominantType(QList<Metadata>, const QString&) const;
+    MetadataList* getListWidget();
     void setPath(const QString&);
     void refreshInterface(ContentType);
     void navigateByKey(QKeyEvent *event);
@@ -37,7 +37,7 @@ public slots:
     void getDirMetaData(const QString&);
     void getWordMetaData(const QString&);
 
-    void swapWidgets(NutshMetaData);
+    void swapWidgets(Metadata);
     void importerContent();
     void changeDisposition(ContentType);
     void reset();
@@ -49,10 +49,10 @@ signals:
 
 private:
 
-    NutshComunicator* core;
-    QList<NutshMetaData> metaList;
-    QList<NutshMetaData> entireList;
-    NutshMetaDataList *metadatas;
+    Core* core;
+    QList<Metadata> metaList;
+    QList<Metadata> entireList;
+    MetadataList *metadatas;
     QPushButton *importer;
     QLabel *searchResults;
     

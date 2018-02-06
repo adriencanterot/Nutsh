@@ -2,15 +2,15 @@
 #define DAILYSONGINTERFACE_H
 
 #include <QWidget>
-class NutshComunicator;
+class Core;
 
 class DailySongInterface : public QWidget
 {
 public:
-    DailySongInterface(NutshComunicator*);
+    DailySongInterface(Core*);
 
 private:
-    NutshComunicator* core;
+    Core* core;
 };
 
 #endif // DAILYSONGINTERFACE_H

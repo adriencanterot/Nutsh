@@ -1,10 +1,10 @@
-#include "nutshsqlsaver.h"
+#include "sqlmanager.h"
 #define d(bug) qDebug(bug)
 
-NutshSqlSaver::NutshSqlSaver()
+SqlManager::SqlManager()
 {
 }
-void NutshSqlSaver::inserer(NutshMetaData meta,  const QString& listName) {
+void SqlManager::inserer(Metadata meta,  const QString& listName) {
 
     if(meta.getId() < 0) {
 
@@ -24,7 +24,7 @@ void NutshSqlSaver::inserer(NutshMetaData meta,  const QString& listName) {
     qDebug() << requete.lastQuery();
 }
 
-void NutshSqlSaver::inserer(QList<NutshMetaData> meta, const QString& listName) {
+void SqlManager::inserer(QList<Metadata> meta, const QString& listName) {
     //insertion de multiple metadonnees
     for(unsigned int i = 0;i<static_cast<unsigned int>(meta.count());i++) {
 
@@ -32,7 +32,7 @@ void NutshSqlSaver::inserer(QList<NutshMetaData> meta, const QString& listName) 
     }
 }
 
-bool NutshSqlSaver::trouverDansTable(const NutshMetaData &recherche) {
+bool SqlManager::trouverDansTable(const Metadata &recherche) {
     //Rechercher une valeur dans un table :
 
     if(metadatas.contains(recherche.getChemin(), Qt::CaseSensitive)) {
@@ -46,13 +46,13 @@ bool NutshSqlSaver::trouverDansTable(const NutshMetaData &recherche) {
 
 
 }
-void NutshSqlSaver::completeMetaData(NutshMetaData &incomplete) {
+void SqlManager::completeMetaData(Metadata &incomplete) {
 
     //enregistrement de la date avant l'enregistrement;
     incomplete.setSavingDate(QDateTime::currentDateTime());
 }
 
-void NutshSqlSaver::update(const NutshMetaData &nouveau) {
+void SqlManager::update(const Metadata &nouveau) {
     //Mise a jour d'une metadonnee
     QSqlQuery requete;
 
@@ -68,13 +68,13 @@ void NutshSqlSaver::update(const NutshMetaData &nouveau) {
 
     }
 }
-bool NutshSqlSaver::nouvelleListe(const QString &tableName) {
+bool SqlManager::nouvelleListe(const QString &tableName) {
     //cree une nouvelle liste
     bool etat = true;
 
     QSqlQuery requete;
 
-    if(!requete.exec("INSERT INTO listeDeLecture (name) VALUES (\""+NutshSqlSaver::sqlStringFormat(tableName)+"\")")){
+    if(!requete.exec("INSERT INTO listeDeLecture (name) VALUES (\""+SqlManager::sqlStringFormat(tableName)+"\")")){
 
         qDebug() << requete.lastError() << " | Q = " << requete.lastQuery();
         etat = false;
@@ -83,7 +83,7 @@ bool NutshSqlSaver::nouvelleListe(const QString &tableName) {
     return etat;
 }
 
-bool NutshSqlSaver::connect() {
+bool SqlManager::connect() {
     //connexion à la base de donnée (ne doit être exécuté qu'une seule fois dans le code.
 
     QString MusicDir = QDesktopServices::storageLocation(QDesktopServices::MusicLocation);
@@ -110,7 +110,7 @@ bool NutshSqlSaver::connect() {
 
     if(!NutshDB.open()) { // si il n'arrive pas à ouvrir la base de donnée
 
-        qDebug() << "NutshSqlSaver : " << NutshDB.lastError();
+        qDebug() << "SqlManager : " << NutshDB.lastError();
 
     }
 
@@ -134,14 +134,14 @@ bool NutshSqlSaver::connect() {
 
     if(wizard == true) { // affichage de l'assistant d'installation si le dossier n'était pas créé
 
-        NutshInstallationWizard Wizard;
+        InstallationWizard Wizard;
         Wizard.exec();
     }
 
     return NutshDB.open();
 }
 
-QString NutshSqlSaver::normalStringFormat(const QString &param) {
+QString SqlManager::normalStringFormat(const QString &param) {
     // converstion des chaines de caractères au format SQL vers normal
     QString operation = param;
     operation.replace("__replaced", " ");
@@ -161,7 +161,7 @@ QString NutshSqlSaver::normalStringFormat(const QString &param) {
     return operation;
 }
 
-QString NutshSqlSaver::sqlStringFormat(const QString &param) {
+QString SqlManager::sqlStringFormat(const QString &param) {
     // convertion des chaines de caractères au format normal vers SQL (pour insertion dans les tables)
     QString operation(param);
     operation.replace(" ", "__replaced");
@@ -180,11 +180,11 @@ QString NutshSqlSaver::sqlStringFormat(const QString &param) {
     operation.replace("+", "plus_replaced");
     return operation;
 }
-QList<NutshMetaData> NutshSqlSaver::getMetaDatas(const QString& listName) {
+QList<Metadata> SqlManager::getMetaDatas(const QString& listName) {
 
     //retourne la liste de métadonnée selon une requete
 
-        QList<NutshMetaData> metaList;
+        QList<Metadata> metaList;
         QVariantList cache;
 
         QSqlQuery requete;
@@ -203,14 +203,14 @@ QList<NutshMetaData> NutshSqlSaver::getMetaDatas(const QString& listName) {
 
            cache.append(requete.value(i));
        }
-       metaList.append(NutshMetaData(cache));
+       metaList.append(Metadata(cache));
        cache.clear();
    }
 
    return metaList;
 }
 
-bool NutshSqlSaver::tableExists(const QString &tblName) {
+bool SqlManager::tableExists(const QString &tblName) {
     // vérifie si une table existe
     bool ok = false;
     QString q = "SELECT tbl_name FROM sqlite_master";
@@ -227,7 +227,7 @@ bool NutshSqlSaver::tableExists(const QString &tblName) {
     return ok;
 }
 
-insertError NutshSqlSaver::inserer(NutshMetaData meta) {
+insertError SqlManager::inserer(Metadata meta) {
 
         //completion des metadata, pour la date.
     QSqlQuery requete;
@@ -295,7 +295,7 @@ insertError NutshSqlSaver::inserer(NutshMetaData meta) {
         return NoError;
    }
 
-QVariantList NutshSqlSaver::modelNutshMetaData(const NutshMetaData& meta) {
+QVariantList SqlManager::modelMetadata(const Metadata& meta) {
 
     // retourne en forme de ligne de résultat SQL une métadonnée
 
@@ -312,7 +312,7 @@ QVariantList NutshSqlSaver::modelNutshMetaData(const NutshMetaData& meta) {
     return model;
 }
 
-QString NutshSqlSaver::crypt(const QString& toCrypt) {
+QString SqlManager::crypt(const QString& toCrypt) {
 
     //retourne le hash d'un QString
 
@@ -322,7 +322,7 @@ QString NutshSqlSaver::crypt(const QString& toCrypt) {
     return QString("%1").arg(qHash(crypted));
 }
 
-void NutshSqlSaver::updateColumn(const QString& key, const QString& value, int id) {
+void SqlManager::updateColumn(const QString& key, const QString& value, int id) {
 
     QSqlQuery requete;
 
@@ -337,7 +337,7 @@ void NutshSqlSaver::updateColumn(const QString& key, const QString& value, int i
     }
 }
 
-void NutshSqlSaver::savePath(const QString& path) {
+void SqlManager::savePath(const QString& path) {
 
     QSqlQuery requete;
     QStringList pathList = this->getFolderList();
@@ -351,7 +351,7 @@ void NutshSqlSaver::savePath(const QString& path) {
     }
 }
 
-QStringList NutshSqlSaver::getFolderList() {
+QStringList SqlManager::getFolderList() {
 
     QSqlQuery requete;
     QStringList pathList;
@@ -368,10 +368,10 @@ QStringList NutshSqlSaver::getFolderList() {
     return pathList;
 }
 
-QList<NutshMetaData> NutshSqlSaver::getLastImport(int display) {
+QList<Metadata> SqlManager::getLastImport(int display) {
 
     QSqlQuery requete;
-    QList<NutshMetaData> liste;
+    QList<Metadata> liste;
     QVariantList cache;
     if(!requete.exec(QString("SELECT * FROM bibliotheque ORDER BY enregistrement LIMIT 0, %1").arg(display))) {
         qDebug() << requete.lastError()<< requete.lastQuery();
@@ -381,16 +381,16 @@ QList<NutshMetaData> NutshSqlSaver::getLastImport(int display) {
         for(int i = 0;i<NB_CHAMPS_DATABASE;i++) {
             cache.append(requete.value(i));
         }
-        liste.append(NutshMetaData(cache));
+        liste.append(Metadata(cache));
         cache.clear();
     }
 
     return liste;
 }
 
-QList<NutshMetaData> NutshSqlSaver::getMostReaden(int display) {
+QList<Metadata> SqlManager::getMostReaden(int display) {
 
-        QList<NutshMetaData> metaList;
+        QList<Metadata> metaList;
         QVariantList cache;
 
         REQUETE(QString("SELECT * FROM bibliotheque ORDER BY compteur  DESC LIMIT 0, %1").arg(display));
@@ -402,17 +402,17 @@ QList<NutshMetaData> NutshSqlSaver::getMostReaden(int display) {
                 cache.append(requete.value(i));
             }
 
-            metaList.append(NutshMetaData(cache));
+            metaList.append(Metadata(cache));
             cache.clear();
         }
 
         return metaList;
 }
 
-QList<NutshMetaData> NutshSqlSaver::getLastReaden(int display) {
+QList<Metadata> SqlManager::getLastReaden(int display) {
 
     QSqlQuery requete;
-    QList<NutshMetaData> liste;
+    QList<Metadata> liste;
     QVariantList cache;
     if(!requete.exec(QString("SELECT * FROM bibliotheque ORDER BY derniereLecture DESC LIMIT 0, %1").arg(display))) {
         qDebug() << requete.lastError()<< requete.lastQuery();
@@ -422,7 +422,7 @@ QList<NutshMetaData> NutshSqlSaver::getLastReaden(int display) {
         for(int i = 0;i<NB_CHAMPS_DATABASE;i++) {
             cache.append(requete.value(i));
         }
-        liste.append(NutshMetaData(cache));
+        liste.append(Metadata(cache));
         cache.clear();
     }
 
@@ -430,13 +430,13 @@ QList<NutshMetaData> NutshSqlSaver::getLastReaden(int display) {
 }
 
 
-void NutshSqlSaver::played(NutshMetaData& meta) {
+void SqlManager::played(Metadata& meta) {
 
     meta.setCompteur(meta.getCompteur()+1);
     meta.setDerniereLecture(QDateTime::currentDateTime());
 }
 
-QStringList NutshSqlSaver::getPlaylists() {
+QStringList SqlManager::getPlaylists() {
 
 
     QStringList playlists;
@@ -444,21 +444,21 @@ QStringList NutshSqlSaver::getPlaylists() {
     requete.exec("SELECT * FROM listeDeLecture");
 
     while(requete.next()) {
-        playlists.append(NutshSqlSaver::normalStringFormat(requete.value(1).toString()));
+        playlists.append(SqlManager::normalStringFormat(requete.value(1).toString()));
     }
 
     return playlists;
 }
 
-void NutshSqlSaver::rename(const QString& nouveau, const QString& listName) {
+void SqlManager::rename(const QString& nouveau, const QString& listName) {
 
     QSqlQuery requete;
 
-    if(!requete.exec(QString("UPDATE relationships SET playlist_id = \"%1\" WHERE playlist_id = \"%2\"").arg(NutshSqlSaver::sqlStringFormat(crypt(nouveau))).arg(NutshSqlSaver::sqlStringFormat(crypt(listName))))) {
+    if(!requete.exec(QString("UPDATE relationships SET playlist_id = \"%1\" WHERE playlist_id = \"%2\"").arg(SqlManager::sqlStringFormat(crypt(nouveau))).arg(SqlManager::sqlStringFormat(crypt(listName))))) {
         qDebug() << requete.lastError() << requete.lastQuery();
     }
 
-    if(!requete.exec(QString("UPDATE listeDeLecture SET name = \"%1\" WHERE name = \"%2\"").arg(NutshSqlSaver::sqlStringFormat(nouveau)).arg(NutshSqlSaver::sqlStringFormat(listName)))) {
+    if(!requete.exec(QString("UPDATE listeDeLecture SET name = \"%1\" WHERE name = \"%2\"").arg(SqlManager::sqlStringFormat(nouveau)).arg(SqlManager::sqlStringFormat(listName)))) {
 
         qDebug() << requete.lastError() << requete.lastQuery();
     }
@@ -467,11 +467,11 @@ void NutshSqlSaver::rename(const QString& nouveau, const QString& listName) {
 
 }
 
-void NutshSqlSaver::remove(const QString &listName) {
+void SqlManager::remove(const QString &listName) {
 
     QSqlQuery requete;
 
-    if(!requete.exec(QString("DELETE FROM listeDeLecture WHERE name = \"%1\"").arg(NutshSqlSaver::sqlStringFormat(listName)))) {
+    if(!requete.exec(QString("DELETE FROM listeDeLecture WHERE name = \"%1\"").arg(SqlManager::sqlStringFormat(listName)))) {
 
         qDebug() << requete.lastError() << requete.lastQuery();
     }
@@ -482,14 +482,14 @@ void NutshSqlSaver::remove(const QString &listName) {
 
 }
 
-QString NutshSqlSaver::addSlashes(const QString &withslashes) {
+QString SqlManager::addSlashes(const QString &withslashes) {
 
     QString replaced = withslashes;
     replaced.replace('\"', "");
     replaced.replace("'", "");
     return replaced;
 }
-int NutshSqlSaver::getListId(const QString &listName) {
+int SqlManager::getListId(const QString &listName) {
     QSqlQuery requete;
     int retour = 0;
     requete.exec(QString("SELECT id FROM listDeLecture WHERE name = \"%1\""));
@@ -497,7 +497,7 @@ int NutshSqlSaver::getListId(const QString &listName) {
     return retour;
 }
 
-void NutshSqlSaver::destroy(NutshMetaData data) {
+void SqlManager::destroy(Metadata data) {
     QSqlQuery requete;
     if(!requete.exec(QString("DELETE FROM bibliotheque WHERE id = %1").arg(data.getId()))) {
 
@@ -510,7 +510,7 @@ void NutshSqlSaver::destroy(NutshMetaData data) {
     }
 }
 
-void NutshSqlSaver::destroyFromList(NutshMetaData data, const QString& listname) {
+void SqlManager::destroyFromList(Metadata data, const QString& listname) {
 
     QSqlQuery requete;
 

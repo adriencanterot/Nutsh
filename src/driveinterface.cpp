@@ -1,5 +1,5 @@
-#include "nutshdriveinterface.h"
-#include "nutshcomunicator.h"
+#include "driveinterface.h"
+#include "core.h"
 
 
 SearchDrivesThread::SearchDrivesThread() {
@@ -24,9 +24,9 @@ void SearchDrivesThread::emitNewDrive() {
     emit newDrive();
 }
 
-NutshDriveInterface::NutshDriveInterface(NutshComunicator* corePath)
+DriveInterface::DriveInterface(Core* corePath)
 {
-    qDebug() << "Initializing NutshDriveInterface...";
+    qDebug() << "Initializing DriveInterface...";
     this->setFixedWidth(WIDTH_LEFT);
 
     //alloc & init
@@ -53,13 +53,13 @@ NutshDriveInterface::NutshDriveInterface(NutshComunicator* corePath)
 
 }
 
-void NutshDriveInterface::refresh() {
+void DriveInterface::refresh() {
 
     deviceList->clear();
     deviceList->addItems(dir->entryList(QDir::AllDirs|QDir::NoDotAndDotDot));
 }
 
-void NutshDriveInterface::changeDir(QModelIndex item) {
+void DriveInterface::changeDir(QModelIndex item) {
 
     QString itemValue = item.data().toString();
 
@@ -73,7 +73,7 @@ void NutshDriveInterface::changeDir(QModelIndex item) {
 
 }
 
-void NutshDriveInterface::precedent(){
+void DriveInterface::precedent(){
 
     dir->cdUp();
 
@@ -90,24 +90,24 @@ void NutshDriveInterface::precedent(){
     core->metadatainterface()->getDirMetaData(dir->path());
 }
 
-QListWidget* NutshDriveInterface::getDeviceList() {
+QListWidget* DriveInterface::getDeviceList() {
 
     return deviceList;
 }
 
-void NutshDriveInterface::sigandslots() {
+void DriveInterface::sigandslots() {
 
     connect(deviceList, SIGNAL(clicked(QModelIndex)), core->metadatainterface(), SLOT(getDirMetaData(QModelIndex)));
     connect(deviceList, SIGNAL(clicked(QModelIndex)), this, SLOT(changeDir(QModelIndex)));
     connect(boutonPrecedent, SIGNAL(clicked()), this, SLOT(precedent()));
 }
 
-QDir* NutshDriveInterface::getDir() {
+QDir* DriveInterface::getDir() {
 
     return dir;
 }
 
-void NutshDriveInterface::swapToDrives() {
+void DriveInterface::swapToDrives() {
 
     core->progressinterface()->hide();
     core->progressinterface()->reset();

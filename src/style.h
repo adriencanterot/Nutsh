@@ -8,11 +8,11 @@
 #include <QWidget>
 #include <QPushButton>
 
-class NutshStyle : public QPlastiqueStyle
+class Style : public QPlastiqueStyle
 {
         Q_OBJECT
         public:
-                NutshStyle();
+                Style();
                 void drawPrimitive(PrimitiveElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget) const;
                 void polish(QWidget *widget);
                 void unpolish(QWidget *widget);

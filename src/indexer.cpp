@@ -1,5 +1,5 @@
-#include "nutshindexer.h"
-#include "nutshcomunicator.h"
+#include "indexer.h"
+#include "core.h"
 
 Indexer::Indexer(const QString& path) {
 
@@ -7,7 +7,7 @@ Indexer::Indexer(const QString& path) {
     filtre << FORMATS_SUPPORTES;
     this->setTerminationEnabled(true);
     loopRunning = true;
-    saver = new NutshSqlSaver;
+    saver = new SqlManager;
     saver->savePath(path);
     connect(this, SIGNAL(finished()), this, SLOT(quit()));
     connect(qApp, SIGNAL(aboutToQuit()), this, SLOT(forceQuit()));
@@ -47,7 +47,7 @@ void Indexer::import() {
         emit fatalError(tr("Aucun fichier trouvé dans le dossier spécifié"));
     }
 
-    QString noerror(tr("0 medias importés")), alreadyexists(tr("0 existent déjà")), error(tr("aucune erreur"));
+    QString noerror(tr("0 medias importés")), error(tr("aucune erreur"));
     int o = 0; //nombre d'erreurs
     int a = 0;
     for(int i = 0;i<filePaths.count();i++) {
@@ -57,7 +57,7 @@ void Indexer::import() {
             return;
         }
 
-        NutshMetaData data(filePaths.value(i));
+        Metadata data(filePaths.value(i));
         errorcode = saver->inserer(data);
 
 
@@ -77,16 +77,11 @@ void Indexer::import() {
                 o = o+1;
                 error = QString(tr("%1 erreurs")).arg(o);
             break;
-            case AlreadyExists:
-                qDebug() << "AlreadyExists";
-                a = a+1;
-                alreadyexists = QString(tr("%1 doublons")).arg(a);
-            break;
         }
         ProgressionInfo informations;
         informations.progression = i+1;
         informations.maximum = total;
-        informations.phrase = QString("%1, %2").arg(noerror).arg(alreadyexists);
+        informations.phrase = QString("%1, %2").arg(NoError).arg(AlreadyExists);
         informations.style = progression;
 
         emit updateBar(informations);
@@ -104,14 +99,14 @@ void Indexer::forceQuit() {
     loopRunning = false;
 }
 
-NutshIndexer::NutshIndexer(const QStringList& pathList, NutshComunicator* corePath) {
+TIndexer::TIndexer(const QStringList& pathList, Core* corePath) {
 
     m_pathList = pathList;
     core = corePath;
     connect(this, SIGNAL(finished()), this, SLOT(quit()));
 }
 
-void NutshIndexer::run() {
+void TIndexer::run() {
 
     for(int i = 0; i<m_pathList.count();i++) {
 

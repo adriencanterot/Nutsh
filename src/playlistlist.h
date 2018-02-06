@@ -6,17 +6,17 @@
 #include <QDragEnterEvent>
 #include <QDropEvent>
 #include <QModelIndex>
-#include "nutshsqlsaver.h"
+#include "sqlmanager.h"
 #include "preprocess.h"
 #include <QMenu>
 
-class NutshComunicator;
-class NutshPlaylistList : public QListWidget
+class Core;
+class PlaylistList : public QListWidget
 {
     Q_OBJECT
 
 public:
-    NutshPlaylistList(NutshComunicator*, QWidget *parent = 0);
+    PlaylistList(Core*, QWidget *parent = 0);
     int currentElementId();
 
 public slots:
@@ -32,7 +32,7 @@ protected:
     void mouseReleaseEvent(QMouseEvent* event);
 
 private:
-    NutshComunicator* core;
+    Core* core;
     QMenu *popup;
 };
 

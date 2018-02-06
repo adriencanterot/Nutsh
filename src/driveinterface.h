@@ -28,13 +28,13 @@ private:
 
 };
 
-class NutshComunicator;
-class NutshDriveInterface : public QWidget
+class Core;
+class DriveInterface : public QWidget
 {
     Q_OBJECT
 public:
 
-    NutshDriveInterface(NutshComunicator* corePath);
+    DriveInterface(Core* corePath);
 
     QListWidget* getDeviceList();
     QDir* getDir();
@@ -50,7 +50,7 @@ public slots :
 
 private :
 
-    NutshComunicator* core;
+    Core* core;
 
     QListWidget* deviceList;
     QDir* dir;

@@ -1,7 +1,7 @@
-#include "nutshmaj.h"
-#include "nutshcomunicator.h"
+#include "maj.h"
+#include "core.h"
 
-NutshMaJ::NutshMaJ(NutshComunicator* corePath)
+NutshMaJ::NutshMaJ(Core* corePath)
 {
     core = corePath;
     m_cancel = new QPushButton("Arreter");

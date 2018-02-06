@@ -1,10 +1,12 @@
 # -------------------------------------------------
 # Project created by QtCreator 2009-01-24T16:01:49
 # -------------------------------------------------
-QT += sql \
+QT += gui \
+    sql \
     network \
     xml \
-    declarative
+    declarative 
+
 
 ICON += nutsh.icns
 CONFIG += release
@@ -18,11 +20,8 @@ win32 {
         -lfmod
 }
 macx { 
-    QT += phonon
-    INCLUDEPATH += 3rdparty/mac/include/taglib \
-        3rdparty/mac/include/fmodex
-    LIBS += -L3rdparty/mac/lib \
-        -ltag
+    LIBS += -L/usr/local/lib -ltag
+    INCLUDEPATH += /usr/local/include/taglib
     OTHER_FILES += style.css
 }
 linux-g++ { 
@@ -33,55 +32,56 @@ linux-g++ {
 TARGET = Nutsh
 TEMPLATE = app
 SOURCES += src/main.cpp \
-    src/nutshmainwindow.cpp \
-    src/nutshlecteur.cpp \
-    src/nutshindexer.cpp \
-    src/nutshsqlsaver.cpp \
-    src/nutshmetadata.cpp \
-    src/nutshplaylistinterface.cpp \
-    src/nutshcomunicator.cpp \
-    src/nutshsearchlineinterface.cpp \
-    src/nutshdriveinterface.cpp \
-    src/nutshmetadatainterface.cpp \
-    src/nutshmetadatalist.cpp \
-    src/nutshplayinginterface.cpp \
     src/nutshupdater.cpp \
-    src/nutshmaj.cpp \
-    src/nutshprogressinterface.cpp \
-    src/nutshplaylistlist.cpp \
-    src/nutshinstallationwizard.cpp \
-    src/nutshlabel.cpp \
-    src/nutshsubinterfaces.cpp \
-    src/nutshstyle.cpp \
     src/dailysonginterface.cpp \
-    src/nutshsystemtrayicon.cpp \
-    src/nutshplaybox.cpp \
-    src/nutsheditinterface.cpp
-HEADERS += src/nutshmainwindow.h \
-    src/nutshlecteur.h \
-    src/nutshindexer.h \
-    src/nutshsqlsaver.h \
-    src/nutshmetadata.h \
-    src/nutshplaylistinterface.h \
-    src/nutshcomunicator.h \
-    src/nutshsearchlineinterface.h \
-    src/nutshdriveinterface.h \
+    src/core.cpp \
+    src/driveinterface.cpp \
+    src/editinterface.cpp \
+    src/indexer.cpp \
+    src/installationwizard.cpp \
+    src/label.cpp \
+    src/mainwindow.cpp \
+    src/maj.cpp \
+    src/metadata.cpp \
+    src/metadatainterface.cpp \
+    src/metadatalist.cpp \
+    src/playbox.cpp \
+    src/playlistinterface.cpp \
+    src/playinginterface.cpp \
+    src/playlistlist.cpp \
+    src/searchlineinterface.cpp \
+    src/style.cpp \
+    src/progressinterface.cpp \
+    src/systemtrayicon.cpp \
+    src/subinterfaces.cpp \
+    src/sqlmanager.cpp \
+    src/player.cpp
+HEADERS += \
     src/preprocess.h \
-    src/nutshmetadatainterface.h \
-    src/nutshmetadatalist.h \
-    src/nutshplayinginterface.h \
-    src/nutshupdater.h \
-    src/nutshmaj.h \
-    src/nutshprogressinterface.h \
-    src/nutshplaylistlist.h \
-    src/nutshinstallationwizard.h \
-    src/nutshlabel.h \
-    src/nutshsubinterfaces.h \
-    src/nutshstyle.h \
     src/dailysonginterface.h \
-    src/nutshsystemtrayicon.h \
-    src/nutshplaybox.h \
-    src/nutsheditinterface.h
+    src/core.h \
+    src/driveinterface.h \
+    src/editinterface.h \
+    src/indexer.h \
+    src/installationwizard.h \
+    src/label.h \
+    src/mainwindow.h \
+    src/maj.h \
+    src/metadata.h \
+    src/metadatainterface.h \
+    src/metadatalist.h \
+    src/playbox.h \
+    src/playinginterface.h \
+    src/playlistinterface.h \
+    src/playlistlist.h \
+    src/progressinterface.h \
+    src/searchlineinterface.h \
+    src/style.h \
+    src/subinterfaces.h \
+    src/updater.h \
+    src/systemtrayicon.h \
+    src/sqlmanager.h \
+    src/player.h
 RESOURCES += nutsh.qrc
 OBJECTS_DIR = obj/
 MOC_DIR = moc/

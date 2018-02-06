@@ -6,30 +6,32 @@
 #include <QPushButton>
 #include <QLabel>
 #include <QSplitter>
-#include "nutshmetadata.h"
+#include "metadata.h"
 #include <QMouseEvent>
 #include <QSystemTrayIcon>
 #include <QDrag>
 #include <QXmlStreamReader>
 #include <QHttp>
 #include <QBuffer>
-#include "nutshlabel.h"
-#include "nutshlecteur.h"
+#include "label.h"
+#include "player.h"
 
-class NutshComunicator;
-class NutshPlayingInterface : public QWidget
+class Core;
+class Label;
+class NutshEditLabel;
+class PlayingInterface : public QWidget
 {
     Q_OBJECT
 public:
-    NutshPlayingInterface(NutshComunicator*);
+    PlayingInterface(Core*);
     void sigandslots();
-    bool load(NutshMetaData);
-    void load(QList<NutshMetaData>);
+    bool load(Metadata);
+    void load(QList<Metadata>);
     void setStatus();
     QWidget* getActionsButtons();
     void pauseByKey(QKeyEvent*);
-    QList<NutshMetaData> getLastRead() const;
-    NutshMetaData current();
+    QList<Metadata> getLastRead() const;
+    Metadata current();
     void place(float coef);
     bool isPlaying();
 
@@ -46,7 +48,7 @@ public slots:
 
 
 private:
-    NutshComunicator* core;
+    Core* core;
 
     QPushButton *boutonPlayPause,
                 *boutonStop,
@@ -55,11 +57,11 @@ private:
                 *boutonRepeat,
                 *boutonRandom;
 
-    NutshEditLabel *artiste,
+    class NutshEditLabel *artiste,
            *album,
            *titre;
 
-    NutshLabel *tempsLabel,
+    class Label *tempsLabel,
            *tempsLabelCP,
            *artisteCP,
            *titreCP,
@@ -67,13 +69,13 @@ private:
 
     QWidget *actionsButtons;
 
-    QList<NutshMetaData> playlist;
-    QList<NutshMetaData> lastRead;
+    QList<Metadata> playlist;
+    QList<Metadata> lastRead;
     
     int currentId;
     bool tickCompteur;
-    NutshMetaData currentMeta;
-    NutshLecteur *media;
+    Metadata currentMeta;
+    Player *media;
 
     QBuffer to;
 

@@ -1,9 +1,9 @@
 #define VERSION 4
 
-#include "nutshupdater.h"
-#include "nutshcomunicator.h"
+#include "updater.h"
+#include "core.h"
 
-NutshUpdater::NutshUpdater(NutshComunicator *corePath)
+Updater::Updater(Core *corePath)
 {
 
     core = corePath;
@@ -34,14 +34,14 @@ NutshUpdater::NutshUpdater(NutshComunicator *corePath)
     }
 }
 
-void NutshUpdater::launchUpdater() {
+void Updater::launchUpdater() {
 
     m_download = new NutshMaJ(core);
 
     this->close();
 }
 
-bool NutshUpdater::waitForSignal(QObject *object, const char *signal)
+bool Updater::waitForSignal(QObject *object, const char *signal)
 {
 
     QTimer timer;
@@ -57,7 +57,7 @@ bool NutshUpdater::waitForSignal(QObject *object, const char *signal)
     return timer.isActive();
 }
 
-bool NutshUpdater::isUpdate() {
+bool Updater::isUpdate() {
 
     QUrl url("http://nutsh.googlecode.com/svn/trunk/src/nutshupdater.cpp");
     QFileInfo fileInfo(url.path());
@@ -103,7 +103,7 @@ bool NutshUpdater::isUpdate() {
 
 }
 
-void NutshUpdater::getResults(bool error) {
+void Updater::getResults(bool error) {
 
     if(error) {
 
@@ -125,7 +125,7 @@ void NutshUpdater::getResults(bool error) {
     }
 }
 
-void NutshUpdater::swapToUpdater() {
+void Updater::swapToUpdater() {
 
     this->show();
 }

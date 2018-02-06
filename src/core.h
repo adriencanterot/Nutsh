@@ -3,8 +3,8 @@
 #define STAGING
 
 //core
-#include "nutshsqlsaver.h"
-#include "nutshindexer.h"
+#include "sqlmanager.h"
+#include "indexer.h"
 #include <QLayout>
 #include <QMainWindow>
 #include <QSplitter>
@@ -15,41 +15,41 @@
 #include "preprocess.h"
 
 //Interfaces
-#include "nutshplaylistinterface.h"
-#include "nutshsearchlineinterface.h"
-#include "nutshmetadatainterface.h"
-#include "nutshdriveinterface.h"
-#include "nutshplayinginterface.h"
-#include "nutshprogressinterface.h"
-#include "nutshupdater.h"
-#include "nutshsubinterfaces.h"
+#include "playlistinterface.h"
+#include "searchlineinterface.h"
+#include "metadatainterface.h"
+#include "driveinterface.h"
+#include "playinginterface.h"
+#include "progressinterface.h"
+#include "updater.h"
+#include "subinterfaces.h"
 #include "dailysonginterface.h"
-#include "nutshsystemtrayicon.h"
-#include "nutshplaybox.h"
-#include "nutsheditinterface.h"
+#include "systemtrayicon.h"
+#include "playbox.h"
+#include "editinterface.h"
 
-class NutshComunicator : public QObject
+class Core : public QObject
 {
 
     Q_OBJECT
 
 public:
 
-    NutshComunicator(QMainWindow*);
+    Core(QMainWindow*);
 
     QWidget *initInterfaces();
 
-    NutshMetaDataInterface *metadatainterface();
-    //NutshDriveInterface *driveinterface();
-    NutshPlayListInterface *playlistinterface();
-    NutshSearchLineInterface *searchlineinterface();
-    NutshPlayingInterface *playinginterface();
-    NutshProgressInterface *progressinterface();
-    NutshPlaybox *playbox();
-    NutshSystemTrayIcon *systemtrayicon();
-    NutshUpdater *updater();
-    NutshSqlSaver* getSqlControl();
-    NutshEditInterface* editinterface();
+    MetadataInterface *metadatainterface();
+    //DriveInterface *driveinterface();
+    PlaylistInterface *playlistinterface();
+    SearchlineInterface *searchlineinterface();
+    class PlayingInterface *playinginterface();
+    class ProgressInterface *progressinterface();
+    class Playbox *playbox();
+    SystemtrayIcon *systemtrayicon();
+    Updater *updater();
+    SqlManager* getSqlControl();
+    EditInterface* editinterface();
     void place(float coef);
     void afterLaunch();
     QString getFileContent(const QString& path);
@@ -71,20 +71,20 @@ private:
     QMainWindow *m_parent;
     QStatusBar* m_bar;
     QStringList m_dictionnary;
-    NutshSystemTrayIcon *m_tray;
+    SystemtrayIcon *m_tray;
 
-    NutshSqlSaver *sqlControl;
+    SqlManager *sqlControl;
 
-    NutshPlayListInterface *m_playlistinterface;
-    NutshSearchLineInterface *m_searchlineinterface;
-    //NutshDriveInterface *m_driveinterface;
-    NutshMetaDataInterface *m_metadatainterface;
-    NutshPlayingInterface *m_playinginterface;
-    NutshProgressInterface *m_progressinterface;
-//    NutshUpdater *m_updater;
+    PlaylistInterface *m_playlistinterface;
+    SearchlineInterface *m_searchlineinterface;
+    //DriveInterface *m_driveinterface;
+    MetadataInterface *m_metadatainterface;
+    class PlayingInterface *m_playinginterface;
+    class ProgressInterface *m_progressinterface;
+//    Updater *m_updater;
     NutshBoutonRevenir *m_boutonrevenir;
-    NutshPlaybox *m_playbox;
-    NutshEditInterface *m_editinterface;
+    class Playbox *m_playbox;
+    EditInterface *m_editinterface;
     InterfaceName m_interface;
 
 };

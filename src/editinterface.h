@@ -8,29 +8,29 @@
 #include <QDeclarativeEngine>
 #include <QDeclarativeComponent>
 #include <QDeclarativeView>
-#include "nutshmetadata.h"
-#include "nutshmetadata.h"
+#include "metadata.h"
+#include "metadata.h"
 
-class NutshComunicator;
+class Core;
 
-class NutshEditInterface : public QDeclarativeView
+class EditInterface : public QDeclarativeView
 {
 Q_OBJECT
 public:
-    explicit NutshEditInterface(NutshComunicator*);
+    explicit EditInterface(Core*);
     void place(float);
 
 signals:
 
 public slots:
-    void edit(NutshMetaData);
+    void edit(Metadata);
     void edit();
     void finish();
 
 private:
 
-    NutshComunicator* core;
-    NutshMetaData m_meta;
+    Core* core;
+    Metadata m_meta;
 
 };
 

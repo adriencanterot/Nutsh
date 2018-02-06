@@ -10,16 +10,16 @@
 #include <QLayout>
 #include <QLabel>
 #include <QPushButton>
-#include "nutshmaj.h"
+#include "maj.h"
 #include <QBuffer>
 #include <QVariant>
 
-class NutshComunicator;
-class NutshUpdater : public QWidget
+class Core;
+class Updater : public QWidget
 {
     Q_OBJECT
 public:
-    NutshUpdater(NutshComunicator*);
+    Updater(Core*);
     bool isUpdate();
     bool waitForSignal(QObject*, const char*);
     void swapToUpdater();
@@ -30,7 +30,7 @@ public slots:
 
 
 private:
-    NutshComunicator* core;
+    Core* core;
 
     QLabel *m_nouvelleMaj,
            *m_dlInfos;

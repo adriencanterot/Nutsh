@@ -3,7 +3,7 @@
 #include <QMessageBox>
 #include <QtDebug>
 #include <QSlider>
-#include "nutshmetadata.h"
+#include "metadata.h"
 #include <QTimer>
 #include "preprocess.h"
 
@@ -11,19 +11,19 @@
 #include <Phonon>
 
 /* Cree un lecteur heritant du media object (pour lui rajouter des options) */
-class NutshLecteur : public Phonon::MediaObject
+class Player : public Phonon::MediaObject
 {
 public:
-    NutshLecteur();
+    Player();
     //void setSourceMusique(Phonon::MediaSource source);
     //void setSourceVideo(Phonon::MediaSource source, Phonon::VideoWidget *widget);
     /*void jouerMusiqueOuVideo(Phonon::MediaSource adresse, Phonon::VideoWidget *widget);*/
-    bool isMusique(NutshMetaData&);
-    bool isVideo(NutshMetaData&);
+    bool isMusique(Metadata&);
+    bool isVideo(Metadata&);
     bool isPlaying();
     bool isPaused();
-    void setSource(const NutshMetaData&);
-    void setSources(const QList<NutshMetaData>&);
+    void setSource(const Metadata&);
+    void setSources(const QList<Metadata>&);
     Phonon::SeekSlider *getPosSlider();
     Phonon::VolumeSlider *getVolumeSlider();
 
@@ -36,17 +36,17 @@ private :
 #endif
 #ifdef FMOD
 #include <fmod.h>
-class NutshLecteur : public QObject
+class Player : public QObject
 {
     Q_OBJECT
 public:
-    NutshLecteur();
+    Player();
     //void setSourceMusique(Phonon::MediaSource source);
     //void setSourceVideo(Phonon::MediaSource source, Phonon::VideoWidget *widget);
     /*void jouerMusiqueOuVideo(Phonon::MediaSource adresse, Phonon::VideoWidget *widget);*/
     bool isPlaying();
     bool isPaused();
-    void setSource(const NutshMetaData&);
+    void setSource(const Metadata&);
     QSlider *getPosSlider();
     QSlider *getVolumeSlider();
 
@@ -80,11 +80,11 @@ private :
 #endif
 #ifdef FMODeX
 #include <fmod.hpp>
-class NutshLecteur : public QObject {
+class Player : public QObject {
     Q_OBJECT
 public:
-    NutshLecteur();
-    void setSource(const NutshMetaData&);
+    Player();
+    void setSource(const Metadata&);
     bool isPlaying();
     bool isPaused();
     QSlider *getPosSlider();

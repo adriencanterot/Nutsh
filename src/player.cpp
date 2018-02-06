@@ -1,7 +1,7 @@
-#include "nutshlecteur.h"
+#include "player.h"
 #ifdef PHONON
 
-NutshLecteur::NutshLecteur() {
+Player::Player() {
 
     sortieAudio = new Phonon::AudioOutput(Phonon::MusicCategory);
     sortieVideo = new Phonon::AudioOutput(Phonon::VideoCategory);
@@ -14,7 +14,7 @@ NutshLecteur::NutshLecteur() {
     this->setCurrentSource(source);
     this->play();
 }
-void NutshLecteur::setSourceVideo(Phonon::MediaSource source, Phonon::VideoWidget *widget) {
+void Player::setSourceVideo(Phonon::MediaSource source, Phonon::VideoWidget *widget) {
     //Joue une video directement (le widgetVideo doit etre initialise)
     this->stop();
     this->setCurrentSource(source);
@@ -22,7 +22,7 @@ void NutshLecteur::setSourceVideo(Phonon::MediaSource source, Phonon::VideoWidge
     Phonon::createPath(this, widget);
     this->play();
 }
-void NutshLecteur::jouerMusiqueOuVideo(Phonon::MediaSource adresse, Phonon::VideoWidget *widget) {
+void Player::jouerMusiqueOuVideo(Phonon::MediaSource adresse, Phonon::VideoWidget *widget) {
     //Determine de quel type est le fichier, et le joue
     if(this->isMusique(Phonon::MediaSource(adresse)))
         this->setSourceMusique(Phonon::MediaSource(adresse));
@@ -32,7 +32,7 @@ void NutshLecteur::jouerMusiqueOuVideo(Phonon::MediaSource adresse, Phonon::Vide
 	qDebug() << "Impossible de definir le type de fichier";
 }*/
 
-bool NutshLecteur::isMusique(NutshMetaData& data) {
+bool Player::isMusique(Metadata& data) {
 
     //return false si la mediasource est une video
     Phonon::MediaObject music0video;
@@ -47,7 +47,7 @@ bool NutshLecteur::isMusique(NutshMetaData& data) {
         return false;
 }
 
-bool NutshLecteur::isVideo(NutshMetaData& data) {
+bool Player::isVideo(Metadata& data) {
 
     //return false si la mediasource est une video
     Phonon::MediaObject music0video;
@@ -62,7 +62,7 @@ bool NutshLecteur::isVideo(NutshMetaData& data) {
         return false;
 }
 
-bool NutshLecteur::isPlaying() {
+bool Player::isPlaying() {
 
     if(this->state() == Phonon::PlayingState) {
 
@@ -74,12 +74,12 @@ bool NutshLecteur::isPlaying() {
     }
 }
 
-void NutshLecteur::setSource(const NutshMetaData& source) {
+void Player::setSource(const Metadata& source) {
 
     this->setCurrentSource(Phonon::MediaSource(source.getChemin()));
 }
 
-void NutshLecteur::setSources(const QList<NutshMetaData> &sources) {
+void Player::setSources(const QList<Metadata> &sources) {
 
     for(int i = 0;i<sources.count();i++) {
 
@@ -87,7 +87,7 @@ void NutshLecteur::setSources(const QList<NutshMetaData> &sources) {
     }
 }
 
-bool NutshLecteur::isPaused() {
+bool Player::isPaused() {
 
     if(this->state() == Phonon::PausedState) {
 
@@ -99,12 +99,12 @@ bool NutshLecteur::isPaused() {
     }
 }
 
-Phonon::SeekSlider* NutshLecteur::getPosSlider() {
+Phonon::SeekSlider* Player::getPosSlider() {
 
     return avancement;
 }
 
-Phonon::VolumeSlider *NutshLecteur::getVolumeSlider() {
+Phonon::VolumeSlider *Player::getVolumeSlider() {
 
     return volume;
 }
@@ -112,9 +112,9 @@ Phonon::VolumeSlider *NutshLecteur::getVolumeSlider() {
 #endif
 #ifdef FMOD
 
-#include "nutshlecteur.h"
+#include "player.h"
 
-NutshLecteur::NutshLecteur() {
+Player::Player() {
 
     FSOUND_Init(44100, 64, 0);
     m_channel = FSOUND_ALL;
@@ -131,7 +131,7 @@ NutshLecteur::NutshLecteur() {
     connect(volume, SIGNAL(valueChanged(int)), this, SLOT(setVolume(int)));
 }
 
-void NutshLecteur::setSource(const NutshMetaData& source) {
+void Player::setSource(const Metadata& source) {
 
     if(m_media != NULL) {
 
@@ -156,7 +156,7 @@ void NutshLecteur::setSource(const NutshMetaData& source) {
     FSOUND_SetVolume(FSOUND_ALL, volume->value()*2.55);
 }
 
-bool NutshLecteur::isPaused() {
+bool Player::isPaused() {
 
     if(m_state == Paused) {
 
@@ -168,7 +168,7 @@ bool NutshLecteur::isPaused() {
     }
 }
 
-bool NutshLecteur::isPlaying() {
+bool Player::isPlaying() {
 
     if(m_state == Playing) {
 
@@ -180,7 +180,7 @@ bool NutshLecteur::isPlaying() {
     }
 }
 
-void NutshLecteur::play() {
+void Player::play() {
 
     if(m_state == Paused) {
 
@@ -196,7 +196,7 @@ void NutshLecteur::play() {
     FSOUND_SetVolume(FSOUND_ALL, volume->value()*2.55);
 }
 
-void NutshLecteur::pause() {
+void Player::pause() {
 
     time->stop();
 
@@ -205,7 +205,7 @@ void NutshLecteur::pause() {
     m_state = Paused;
 }
 
-void NutshLecteur::stop() {
+void Player::stop() {
 
     FSOUND_Stream_Stop(m_media);
 
@@ -214,12 +214,12 @@ void NutshLecteur::stop() {
     avancement->setSliderPosition(0);
 }
 
-QSlider* NutshLecteur::getPosSlider() {
+QSlider* Player::getPosSlider() {
 
     return avancement;
 }
 
-void NutshLecteur::updateSlider() {
+void Player::updateSlider() {
 
     QObject::disconnect(avancement, SIGNAL(valueChanged(int)), this, SLOT(setPos(int)));
     avancement->setSliderPosition(avancement->sliderPosition()+m_updateFrequency);
@@ -236,24 +236,24 @@ void NutshLecteur::updateSlider() {
 
 }
 
-void NutshLecteur::setPos(int pos) {
+void Player::setPos(int pos) {
 
     FSOUND_Stream_SetTime(m_media, pos);
 }
 
-QSlider *NutshLecteur::getVolumeSlider() {
+QSlider *Player::getVolumeSlider() {
 
     return volume;
 }
 
-void NutshLecteur::setVolume(int volume) {
+void Player::setVolume(int volume) {
 
     FSOUND_SetVolume(FSOUND_ALL, volume*2.55);
 }
 
 #endif
 #ifdef FMODeX
-NutshLecteur::NutshLecteur() {
+Player::Player() {
 
     this->result = FMOD::System_Create(&system);
     this->result = system->init(1, FMOD_INIT_NORMAL, 0);
@@ -269,7 +269,7 @@ NutshLecteur::NutshLecteur() {
     connect(m_avancement, SIGNAL(valueChanged(int)), this, SLOT(setPos(int)));
     connect(m_volume, SIGNAL(valueChanged(int)), this, SLOT(setVolume(int)));
 }
-void NutshLecteur::setSource(const NutshMetaData& data) {
+void Player::setSource(const Metadata& data) {
 
     this->result = this->system->createSound(data.getChemin().toAscii(), (FMOD_MODE)(FMOD_SOFTWARE | FMOD_2D | FMOD_CREATESTREAM), 0, &sound);
     this->result = this->system->playSound(FMOD_CHANNEL_FREE, this->sound, false, &channel);
@@ -279,31 +279,31 @@ void NutshLecteur::setSource(const NutshMetaData& data) {
     m_avancement->setMaximum(lenght);
 }
 
-void NutshLecteur::play() {
+void Player::play() {
 
     this->channel->setPaused(false);
     timer->start(m_updatefrequence);
 }
 
-void NutshLecteur::pause() {
+void Player::pause() {
 
     this->channel->setPaused(true);
     timer->stop();
 }
 
-void NutshLecteur::stop() {
+void Player::stop() {
 
     timer->stop();
     this->channel->stop();
     m_avancement->setValue(0);
 }
 
-void NutshLecteur::setPos(int pos) {
+void Player::setPos(int pos) {
 
     this->channel->setPosition(pos, FMOD_TIMEUNIT_MS);
 }
 
-void NutshLecteur::updateSlider() {
+void Player::updateSlider() {
 
     QObject::disconnect(m_avancement, SIGNAL(valueChanged(int)), this, SLOT(setPos(int)));
 
@@ -319,19 +319,19 @@ void NutshLecteur::updateSlider() {
 
     QObject::connect(m_avancement, SIGNAL(valueChanged(int)), this, SLOT(setPos(int)));
 }
-void NutshLecteur::setVolume(int volume) {
+void Player::setVolume(int volume) {
 
     this->channel->setVolume(volume*2.55);
 
 }
 
-bool NutshLecteur::isPlaying() {
+bool Player::isPlaying() {
 
     bool playing;
     channel->getPaused(&playing);
     return !playing;
 }
-bool NutshLecteur::isPaused() {
+bool Player::isPaused() {
 
     bool playing;
     this->result = channel->getPaused(&playing);
@@ -339,12 +339,12 @@ bool NutshLecteur::isPaused() {
     return playing;
 }
 
-QSlider* NutshLecteur::getPosSlider() {
+QSlider* Player::getPosSlider() {
 
     return m_avancement;
 }
 
-QSlider* NutshLecteur::getVolumeSlider() {
+QSlider* Player::getVolumeSlider() {
 
     return m_volume;
 }

@@ -9,10 +9,10 @@
 #include <QtCore/QDirIterator>
 #include <QtCore/QStringList>
 #include <QThread>
-#include "nutshmetadata.h"
-#include "nutshsqlsaver.h"
+#include "metadata.h"
+#include "sqlmanager.h"
 #include "preprocess.h"
-class NutshComunicator;
+class Core;
 class Indexer: public QThread {
     Q_OBJECT
     public:
@@ -30,7 +30,7 @@ class Indexer: public QThread {
         void loopEnded();
 
     private:
-        NutshSqlSaver* saver;
+        SqlManager* saver;
         insertError errorcode;
         QDirIterator* iterator;
         QString chemin;
@@ -39,16 +39,16 @@ class Indexer: public QThread {
 
 };
 
-class NutshIndexer : public QThread {
+class TIndexer : public QThread {
 
     public:
-    NutshIndexer(const QStringList& pathList, NutshComunicator*);
+    TIndexer(const QStringList& pathList, Core*);
     void run();
 
     private:
     QStringList m_pathList;
     QList<Indexer*> threadList;
-    NutshComunicator* core;
+    Core* core;
 };
 
 

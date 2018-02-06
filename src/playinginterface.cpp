@@ -1,9 +1,9 @@
-#include "nutshplayinginterface.h"
-#include "nutshcomunicator.h"
+#include "playinginterface.h"
+#include "core.h"
 
-NutshPlayingInterface::NutshPlayingInterface(NutshComunicator* corePath)
+PlayingInterface::PlayingInterface(Core* corePath)
 {
-    qDebug() << "Initializing NutshPlayingInterface...";
+    qDebug() << "Initializing PlayingInterface...";
 
     core = corePath;
     tickCompteur = true;
@@ -11,7 +11,7 @@ NutshPlayingInterface::NutshPlayingInterface(NutshComunicator* corePath)
     currentId = 0;
     nextAction = Normal;
     //init media
-    media = new NutshLecteur;
+    media = new Player;
     //init & alloc widgets
 
     actionsButtons = new QWidget;
@@ -40,7 +40,7 @@ NutshPlayingInterface::NutshPlayingInterface(NutshComunicator* corePath)
     boutonPlayPause->setProperty("boutonPlay", true);
 
     //init & alloc controls
-    tempsLabel = new NutshLabel(core, "00:00");
+    tempsLabel = new Label(core, "00:00");
     tempsLabel->setParent(this);
     tempsLabel->setStyleSheet("font-size: 22px;");
 
@@ -53,13 +53,13 @@ NutshPlayingInterface::NutshPlayingInterface(NutshComunicator* corePath)
     artiste->setStyleSheet("font-size: 20px;");
     album->setStyleSheet("font-size: 20px;");
 
-    artwork = new NutshLabel(core);
+    artwork = new Label(core);
     artwork->setStyleSheet("min-width: 130px; min-height: 130px;");
     artwork->setParent(this);
 
-    artisteCP = new NutshLabel(core, "");
-    titreCP = new NutshLabel(core, "");
-    tempsLabelCP = new NutshLabel(core, "");
+    artisteCP = new Label(core, "");
+    titreCP = new Label(core, "");
+    tempsLabelCP = new Label(core, "");
 
     core->bar()->addPermanentWidget(artisteCP);
     core->bar()->addPermanentWidget(titreCP);
@@ -69,7 +69,7 @@ NutshPlayingInterface::NutshPlayingInterface(NutshComunicator* corePath)
     media->getVolumeSlider()->setParent(this);
 
 }
-void NutshPlayingInterface::sigandslots() {
+void PlayingInterface::sigandslots() {
 
     connect(boutonPlayPause, SIGNAL(clicked()), this, SLOT(playPause()));
     connect(boutonStop, SIGNAL(clicked()), this, SLOT(stop()));
@@ -84,7 +84,7 @@ void NutshPlayingInterface::sigandslots() {
     connect(boutonRepeat, SIGNAL(clicked()), this, SLOT(repeat()));
     connect(boutonRandom, SIGNAL(clicked()), this, SLOT(random()));
 }
-bool NutshPlayingInterface::load(NutshMetaData data) {
+bool PlayingInterface::load(Metadata data) {
 
     if(data.getId() != -1) { // si la métadonnée n'est pas vide
 
@@ -130,7 +130,7 @@ bool NutshPlayingInterface::load(NutshMetaData data) {
     }
 }
 
-void NutshPlayingInterface::load(QList<NutshMetaData> metaList) {
+void PlayingInterface::load(QList<Metadata> metaList) {
 
     boutonPrecedent->setEnabled(true);
     boutonSuivant->setEnabled(true);
@@ -146,7 +146,7 @@ void NutshPlayingInterface::load(QList<NutshMetaData> metaList) {
     }
 }
 
-void NutshPlayingInterface::tick(qint64 time) {
+void PlayingInterface::tick(qint64 time) {
 
      QTime displayTime(0, (time / 60000) % 60, (time / 1000) % 60);
      tempsLabel->setText(displayTime.toString("mm:ss"));
@@ -160,7 +160,7 @@ void NutshPlayingInterface::tick(qint64 time) {
      }
  }
 
-void NutshPlayingInterface::next() {
+void PlayingInterface::next() {
 
     if(this->nextAction == Random) {
 
@@ -188,7 +188,7 @@ void NutshPlayingInterface::next() {
 
 }
 
-void NutshPlayingInterface::previous() {
+void PlayingInterface::previous() {
 
 
     if(!core->playbox()->isEmpty()) {
@@ -203,14 +203,14 @@ void NutshPlayingInterface::previous() {
 //    this->currentId = cacheCurrentId;
 }
 
-void NutshPlayingInterface::setStatus() {
+void PlayingInterface::setStatus() {
 
     artisteCP->setText(artiste->text());
     titreCP->setText(titre->text());
 
 }
 
-void NutshPlayingInterface::pauseByKey(QKeyEvent* event) {
+void PlayingInterface::pauseByKey(QKeyEvent* event) {
 
     if(event->key() == Qt::Key_Space) {
 
@@ -218,17 +218,17 @@ void NutshPlayingInterface::pauseByKey(QKeyEvent* event) {
     }
 }
 
-QList<NutshMetaData> NutshPlayingInterface::getLastRead() const{
+QList<Metadata> PlayingInterface::getLastRead() const{
 
     return lastRead;
 }
 
-QWidget* NutshPlayingInterface::getActionsButtons() {
+QWidget* PlayingInterface::getActionsButtons() {
 
     return actionsButtons;
 }
 
-void NutshPlayingInterface::playPause() {
+void PlayingInterface::playPause() {
 
     if(media->isPlaying()) {
 
@@ -242,13 +242,13 @@ void NutshPlayingInterface::playPause() {
     }
 }
 
-void NutshPlayingInterface::stop() {
+void PlayingInterface::stop() {
 
     media->stop();
     boutonPlayPause->setStyleSheet("background-image: url(\":/img/images/play.png\")");
 }
 
-void NutshPlayingInterface::place(float coef){
+void PlayingInterface::place(float coef){
 
     coef = 0;
 
@@ -274,7 +274,7 @@ void NutshPlayingInterface::place(float coef){
     media->getVolumeSlider()->move(190, 115);
 }
 
-void NutshPlayingInterface::random() {
+void PlayingInterface::random() {
 
     if(boutonRandom->isChecked()) {
 
@@ -287,7 +287,7 @@ void NutshPlayingInterface::random() {
     }
 }
 
-void NutshPlayingInterface::repeat() {
+void PlayingInterface::repeat() {
 
     if(boutonRepeat->isChecked()) {
 
@@ -300,7 +300,7 @@ void NutshPlayingInterface::repeat() {
     }
 }
 
-void NutshPlayingInterface::whatsNext() {
+void PlayingInterface::whatsNext() {
 
     switch(nextAction) {
 
@@ -326,14 +326,14 @@ void NutshPlayingInterface::whatsNext() {
     }
 }
 
-void NutshPlayingInterface::daily() {
+void PlayingInterface::daily() {
 }
 
-bool NutshPlayingInterface::isPlaying() {
+bool PlayingInterface::isPlaying() {
 
     return this->media->isPlaying();
 }
 
-NutshMetaData NutshPlayingInterface::current() {
+Metadata PlayingInterface::current() {
     return currentMeta;
 }

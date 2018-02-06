@@ -11,26 +11,26 @@
 #include <QFileDialog>
 #include <QInputDialog>
 #include "preprocess.h"
-#include "nutshmetadata.h"
-#include "nutshplaylistlist.h"
+#include "metadata.h"
+#include "playlistlist.h"
 
-class NutshComunicator;
+class Core;
 
-class NutshPlayListInterface : public QWidget
+class PlaylistInterface : public QWidget
 {
 
     Q_OBJECT
 
 public:
 
-    NutshPlayListInterface(NutshComunicator* corePath, QWidget* parent = 0);
+    PlaylistInterface(Core* corePath, QWidget* parent = 0);
     void refresh();
     void initButtons();
     void sigandslots();
     void setNewName(QString&);
     void place(float coef);
-    NutshPlaylistList* elements();
-    void newListFromContent(QList<NutshMetaData>);
+    PlaylistList* elements();
+    void newListFromContent(QList<Metadata>);
     QString current() const;
 public slots :
 
@@ -46,8 +46,8 @@ private :
                 *nouvelleListeMagique,
                 *importer;
 
-    NutshPlaylistList *liste;
-    NutshComunicator *core;
+    PlaylistList *liste;
+    Core *core;
     QSqlQuery superQuery;
 
     //dialogues.

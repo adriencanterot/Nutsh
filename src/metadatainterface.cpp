@@ -1,9 +1,9 @@
-#include "nutshmetadatainterface.h"
-#include "nutshcomunicator.h"
+#include "metadatainterface.h"
+#include "core.h"
 
-NutshMetaDataInterface::NutshMetaDataInterface(NutshComunicator* corePath)
+MetadataInterface::MetadataInterface(Core* corePath)
 {
-    qDebug() << "Initializing NutshMetaDataInterface...";
+    qDebug() << "Initializing MetadataInterface...";
     //init & alloc
     core = corePath;
     contentType = Entire;
@@ -11,7 +11,7 @@ NutshMetaDataInterface::NutshMetaDataInterface(NutshComunicator* corePath)
     core->bar()->addPermanentWidget(searchResults);
 
     indexSelected = 0;
-    metadatas = new NutshMetaDataList(core);
+    metadatas = new MetadataList(core);
     metadatas->setParent(this);
     importer = new QPushButton(tr("Importer"), this);
     //placement
@@ -21,7 +21,7 @@ NutshMetaDataInterface::NutshMetaDataInterface(NutshComunicator* corePath)
 }
 
 
-void NutshMetaDataInterface::getDirMetaData(const QModelIndex &directory) {
+void MetadataInterface::getDirMetaData(const QModelIndex &directory) {
 
     QStringList filtre;
     filtre << FORMATS_SUPPORTES;
@@ -33,7 +33,7 @@ void NutshMetaDataInterface::getDirMetaData(const QModelIndex &directory) {
 //    }
 }
 
-void NutshMetaDataInterface::getDirMetaData(const QString &directory) {
+void MetadataInterface::getDirMetaData(const QString &directory) {
 
     QStringList filtre;
     filtre << FORMATS_SUPPORTES;
@@ -49,13 +49,13 @@ void NutshMetaDataInterface::getDirMetaData(const QString &directory) {
     }
 }
 
-void NutshMetaDataInterface::getWordMetaData(const QString &word){
+void MetadataInterface::getWordMetaData(const QString &word){
 
     metadatas->clearList();
     indexSelected = 0; // remet à zero le comtpeur pour l'index au clavier.
     int o = 0;
-    QList<NutshMetaData> knowDominant = entireList;
-    QList<NutshMetaData> results;
+    QList<Metadata> knowDominant = entireList;
+    QList<Metadata> results;
     searchResultType dominant = dominantType(knowDominant, word);
     
     for(int i = 0;i < entireList.count();i++) {
@@ -86,23 +86,23 @@ void NutshMetaDataInterface::getWordMetaData(const QString &word){
 
 
 
-void NutshMetaDataInterface::sigandslots() {
+void MetadataInterface::sigandslots() {
 
-    connect(metadatas, SIGNAL(clicked(NutshMetaData)), this, SLOT(swapWidgets(NutshMetaData)));
+    connect(metadatas, SIGNAL(clicked(Metadata)), this, SLOT(swapWidgets(Metadata)));
     connect(importer, SIGNAL(clicked()), this, SLOT(importerContent()));
     connect(this, SIGNAL(contentTypeChanged(ContentType)), this, SLOT(changeDisposition(ContentType)));
 }
 
 
 
-void NutshMetaDataInterface::swapWidgets(NutshMetaData data) {
+void MetadataInterface::swapWidgets(Metadata data) {
 
     core->swapInterface(PlayingInterface);
     core->playinginterface()->load(data);
     core->playinginterface()->load(metadatas->getItems());
 }
 
-void NutshMetaDataInterface::load(QList<NutshMetaData> liste) {
+void MetadataInterface::load(QList<Metadata> liste) {
 
     metaList = liste;
 
@@ -110,12 +110,12 @@ void NutshMetaDataInterface::load(QList<NutshMetaData> liste) {
     metadatas->load(liste);
 }
 
-QList<NutshMetaData> NutshMetaDataInterface::actualContent() const {
+QList<Metadata> MetadataInterface::actualContent() const {
 
     return metadatas->getItems();
 }
 
-void NutshMetaDataInterface::setPath(const QString &chemin) {
+void MetadataInterface::setPath(const QString &chemin) {
 
     QStringList filter;
     filter << FORMATS_SUPPORTES;
@@ -124,7 +124,7 @@ void NutshMetaDataInterface::setPath(const QString &chemin) {
 
     while(path.hasNext()) {
 
-        NutshMetaData cache(path.next());
+        Metadata cache(path.next());
         metaList.append(cache);
     }
 
@@ -139,14 +139,14 @@ void NutshMetaDataInterface::setPath(const QString &chemin) {
     metadatas->load(metaList);
 }
 
-void NutshMetaDataInterface::importerContent() {
+void MetadataInterface::importerContent() {
 
     for(int i = 0;i<metaList.count();i++){
         core->getSqlControl()->inserer(metaList.value(i));
     }
 }
 
-void NutshMetaDataInterface::reset() {
+void MetadataInterface::reset() {
 
     metaList.clear();
     metadatas->setContenttype(Entire);
@@ -156,13 +156,13 @@ void NutshMetaDataInterface::reset() {
     contentType = Entire;
 }
 
-NutshMetaDataList* NutshMetaDataInterface::getListWidget() {
+MetadataList* MetadataInterface::getListWidget() {
 
     return metadatas;
 }
 
 
-void NutshMetaDataInterface::changeDisposition(ContentType type) {
+void MetadataInterface::changeDisposition(ContentType type) {
 
     switch(type) {
 
@@ -191,7 +191,7 @@ void NutshMetaDataInterface::changeDisposition(ContentType type) {
     metadatas->setContenttype(type);
 }
 
-void NutshMetaDataInterface::refreshInterface(ContentType type) {
+void MetadataInterface::refreshInterface(ContentType type) {
 
     emit this->contentTypeChanged(type);
     contentType = type;
@@ -199,7 +199,7 @@ void NutshMetaDataInterface::refreshInterface(ContentType type) {
 
 }
 
-void NutshMetaDataInterface::navigateByKey(QKeyEvent *event) {
+void MetadataInterface::navigateByKey(QKeyEvent *event) {
 
     switch(event->key()) {
 
@@ -237,17 +237,17 @@ void NutshMetaDataInterface::navigateByKey(QKeyEvent *event) {
         }
     }
 
-void NutshMetaDataInterface::place(float coef) {
+void MetadataInterface::place(float coef) {
 
     this->setStyleSheet("min-width : 200px;");
 }
 
-QList<NutshMetaData> NutshMetaDataInterface::totalContent() const {
+QList<Metadata> MetadataInterface::totalContent() const {
 
     return metaList;
 }
 
-void NutshMetaDataInterface::reload() {
+void MetadataInterface::reload() {
 
     if(contentType == Entire) {
 
@@ -257,7 +257,7 @@ void NutshMetaDataInterface::reload() {
     }
 
 }
-searchResultType NutshMetaDataInterface::dominantType(QList<NutshMetaData> liste, const QString& word) const {
+searchResultType MetadataInterface::dominantType(QList<Metadata> liste, const QString& word) const {
     int artists = 0;
     int albums = 0;
     int songs = 0;

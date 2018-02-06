@@ -1,19 +1,19 @@
-#include "nutshlabel.h"
-#include "nutshcomunicator.h"
+#include "label.h"
+#include "core.h"
 
 
-NutshLabel::NutshLabel(NutshComunicator* corePath, const QString& text)
+Label::Label(Core* corePath, const QString& text)
 {
     this->setText(text);
     core = corePath;
 }
 
-void NutshLabel::setType(ContentTypeForLabel newType) {
+void Label::setType(ContentTypeForLabel newType) {
 
     contentType = newType;
 }
 
-void NutshLabel::mousePressEvent(QMouseEvent *event) {
+void Label::mousePressEvent(QMouseEvent *event) {
 
     if(event->button() == Qt::LeftButton && text() != "") {
 

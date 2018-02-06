@@ -33,13 +33,13 @@
 #ifdef Q_WS_X11
 #define PLATFORM_PATH QDir::currentPath() // +? : regarde les modeles au dessus, ils indiquent pour chaque plateforme le chemin absolu de l'executable (avec QDir enfin tu sauras reconnaitre :)
 #endif
-class NutshComunicator;
+class Core;
 class NutshMaJ : public QWidget
 {
     Q_OBJECT
 
 public:
-    NutshMaJ(NutshComunicator*);
+    NutshMaJ(Core*);
 public slots:
     void telecharger();
     void quitAndStartNutsh();
@@ -48,7 +48,7 @@ public slots:
 
 private:
 
-    NutshComunicator* core;
+    Core* core;
     QPushButton *m_cancel;
     QHttp* m_download;
     QFile* file;

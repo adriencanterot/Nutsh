@@ -6,16 +6,16 @@
 #include <QMenu>
 #include <QObject>
 #include "preprocess.h"
-#include "nutshmetadata.h"
+#include "metadata.h"
 
-class NutshComunicator;
-class NutshPlaybox : public QLabel
+class Core;
+class Playbox : public QLabel
 {
 public:
-    NutshPlaybox(NutshComunicator*);
+    Playbox(Core*);
     void place(float);
-    void add(const QList<NutshMetaData>);
-    void add(NutshMetaData);
+    void add(const QList<Metadata>);
+    void add(Metadata);
     void showcontent();
     void mouseReleaseEvent(QMouseEvent *);
     void dropEvent(QDropEvent *);
@@ -23,17 +23,17 @@ public:
     void dragMoveEvent(QDragMoveEvent *);
     void dragLeaveEvent(QDragLeaveEvent *);
     void isPlaybox(bool);
-    void playing(NutshMetaData&);
-    NutshMetaData next();
-    NutshMetaData previous();
-    NutshMetaData random();
-    QList<NutshMetaData> getFileattente() const;
+    void playing(Metadata&);
+    Metadata next();
+    Metadata previous();
+    Metadata random();
+    QList<Metadata> getFileattente() const;
     bool isEmpty();
 
 
 private:
-    NutshComunicator* core;
-    QList<NutshMetaData> fileattente;
+    Core* core;
+    QList<Metadata> fileattente;
     int o;
     QMenu* m_right_click;
 };

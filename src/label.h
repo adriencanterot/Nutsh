@@ -3,24 +3,24 @@
 
 #include <QWidget>
 #include "preprocess.h"
-#include "nutshmetadata.h"
+#include "metadata.h"
 #include <QLabel>
 #include <QLineEdit>
 #include <QHBoxLayout>
 #include <QPushButton>
 
-class NutshComunicator;
-class NutshLabel : public QLabel
+class Core;
+class Label : public QLabel
 {
 public:
-    NutshLabel(NutshComunicator*, const QString& text = "");
+    Label(Core*, const QString& text = "");
     void setType(ContentTypeForLabel);
     void mousePressEvent(QMouseEvent* event);
 
 private:
 
     ContentTypeForLabel contentType;
-    NutshComunicator* core;
+    Core* core;
 };
 
 class NutshEditLabel : public QWidget {

@@ -52,10 +52,10 @@ class PageConclusion : public QWizardPage
         QLabel *conclusion;
 };
 
-class NutshInstallationWizard : public QWizard
+class InstallationWizard : public QWizard
 {
 public:
-    NutshInstallationWizard();
+    InstallationWizard();
     void accept();
     void reject();
 };

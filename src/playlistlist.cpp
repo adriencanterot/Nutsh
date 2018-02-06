@@ -1,7 +1,7 @@
-#include "nutshplaylistlist.h"
-#include "nutshcomunicator.h"
+#include "playlistlist.h"
+#include "core.h"
 
-NutshPlaylistList::NutshPlaylistList(NutshComunicator* corePath, QWidget *parent) : QListWidget(parent) {
+PlaylistList::PlaylistList(Core* corePath, QWidget *parent) : QListWidget(parent) {
 
     this->setAcceptDrops(true);
     core = corePath;
@@ -14,7 +14,7 @@ NutshPlaylistList::NutshPlaylistList(NutshComunicator* corePath, QWidget *parent
 
 }
 
- void NutshPlaylistList::dragEnterEvent(QDragEnterEvent *event) {
+ void PlaylistList::dragEnterEvent(QDragEnterEvent *event) {
      //accepte l'évènement quand la souris entre dans la liste
 
      event->accept();
@@ -22,7 +22,7 @@ NutshPlaylistList::NutshPlaylistList(NutshComunicator* corePath, QWidget *parent
 
 
 
-void NutshPlaylistList::dragMoveEvent(QDragMoveEvent *event) {
+void PlaylistList::dragMoveEvent(QDragMoveEvent *event) {
     // séléctionne l'élément à la position du curseur
 
 
@@ -37,7 +37,7 @@ void NutshPlaylistList::dragMoveEvent(QDragMoveEvent *event) {
     }
 }
 
-void NutshPlaylistList::dropEvent(QDropEvent* event) {
+void PlaylistList::dropEvent(QDropEvent* event) {
     //insère les metadonnées séléctionnées dans la liste à la position du curseur
 
     if(this->itemAt(event->pos()) != NULL && this->row(this->itemAt(event->pos())) > 3) {
@@ -53,7 +53,7 @@ void NutshPlaylistList::dropEvent(QDropEvent* event) {
     }
 }
 
-void NutshPlaylistList::showContent(const QModelIndex &index) {
+void PlaylistList::showContent(const QModelIndex &index) {
     // affiche le contenu d'une liste de lecture dans l'interface nutshmetadatainterface
     core->playbox()->isPlaybox(false);
 
@@ -92,7 +92,7 @@ void NutshPlaylistList::showContent(const QModelIndex &index) {
 
 }
 
-void NutshPlaylistList::mouseReleaseEvent(QMouseEvent *event) {
+void PlaylistList::mouseReleaseEvent(QMouseEvent *event) {
 
     if(event->button() == Qt::RightButton) {
         if(this->row(this->itemAt(event->pos())) > 3) {
@@ -111,14 +111,14 @@ void NutshPlaylistList::mouseReleaseEvent(QMouseEvent *event) {
     }
 }
 
-void NutshPlaylistList::remove() {
+void PlaylistList::remove() {
     core->getSqlControl()->remove(this->currentItem()->text());
     core->playlistinterface()->refresh();
     this->setCurrentItem(this->item(0));
     core->metadatainterface()->reset();
 }
 
-void NutshPlaylistList::rename() {
+void PlaylistList::rename() {
     bool ok;
     QString nom = QInputDialog::getText(this, tr("Renommer "), tr("Nouveau nom"),
                                         QLineEdit::Normal, this->currentItem()->text(), &ok);

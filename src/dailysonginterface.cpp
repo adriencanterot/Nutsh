@@ -1,7 +1,7 @@
 #include "dailysonginterface.h"
-#include "nutshcomunicator.h"
+#include "core.h"
 
-DailySongInterface::DailySongInterface(NutshComunicator* corePath)
+DailySongInterface::DailySongInterface(Core* corePath)
 {
     core = corePath;
 }

@@ -10,21 +10,21 @@
 #include <QThread>
 #include <QFile>
 #include <QtGui>
-#include "nutshlecteur.h"
-#include "nutshindexer.h"
-#include "nutshcomunicator.h"
-#include "nutshinstallationwizard.h"
+#include "player.h"
+#include "indexer.h"
+#include "core.h"
+#include "installationwizard.h"
 
-class NutshMainWindow : public QMainWindow
+class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    NutshMainWindow(QWidget *parent = 0);
+    MainWindow(QWidget *parent = 0);
 
     //-----------MENUS------------//
     //void setupMenus();
-    NutshComunicator* path;
+    Core* path;
 private :
 
 

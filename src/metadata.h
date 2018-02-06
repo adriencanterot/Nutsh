@@ -17,20 +17,20 @@
 #include <QFile>
 #include "preprocess.h"
 
-class NutshMetaData : public QObject
+class Metadata : public QObject
 {
     Q_OBJECT
 
 public:
-    NutshMetaData();
+    Metadata();
     //depuis une requete SQL
-    NutshMetaData(const QVariantList&);
+    Metadata(const QVariantList&);
     //depuis un fichier
-    NutshMetaData(const QString&);
+    Metadata(const QString&);
     searchResultType contains(const QString&);
     bool isDefault();
-    NutshMetaData(const NutshMetaData &m);
-    NutshMetaData operator=(const NutshMetaData &m);
+    Metadata(const Metadata &m);
+    Metadata operator=(const Metadata &m);
     //Charger a partir d'un QVariantList
     void setSavingDate(const QDateTime&);
     QString getArtiste() const;
@@ -49,12 +49,12 @@ public:
     int getTrack() const;
     int getId() const;
     int getlocalid() const;
-    bool operator==(const NutshMetaData&);
-    QDebug operator<<(const NutshMetaData&);
+    bool operator==(const Metadata&);
+    QDebug operator<<(const Metadata&);
     bool isValid();
     Provenance location() const;
 
-    virtual ~NutshMetaData();
+    virtual ~Metadata();
 
     public slots:
     void setArtiste(const QString&);

@@ -1,6 +1,6 @@
-#include "nutshsystemtrayicon.h"
+#include "systemtrayicon.h"
 
-NutshSystemTrayIcon::NutshSystemTrayIcon(QObject *parent) : QSystemTrayIcon(parent)
+SystemtrayIcon::SystemtrayIcon(QObject *parent) : QSystemTrayIcon(parent)
 {
     menu = new QMenu;
     this->setContextMenu(menu);

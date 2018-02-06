@@ -1,4 +1,4 @@
-#include "nutshsubinterfaces.h"
+#include "subinterfaces.h"
 
 NutshBoutonRevenir::NutshBoutonRevenir(QWidget* parent) : QPushButton(parent) {
 

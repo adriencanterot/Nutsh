@@ -1,8 +1,8 @@
-#include "nutsheditinterface.h"
-#include "nutshcomunicator.h"
+#include "editinterface.h"
+#include "core.h"
 
 
-NutshEditInterface::NutshEditInterface(NutshComunicator *corePath)
+EditInterface::EditInterface(Core *corePath)
 {
     core = corePath;
 
@@ -12,27 +12,27 @@ NutshEditInterface::NutshEditInterface(NutshComunicator *corePath)
 
 }
 
-void NutshEditInterface::place(float coef) {
+void EditInterface::place(float coef) {
     this->setFixedSize(440, 280);
     this->move(160, 72);
 
 }
 
-void NutshEditInterface::edit(NutshMetaData meta) {
+void EditInterface::edit(Metadata meta) {
     m_meta = meta;
 
     this->show();
 
 }
 
-void NutshEditInterface::finish() {
+void EditInterface::finish() {
 
     this->hide();
     core->metadatainterface()->load(core->metadatainterface()->getListWidget()->getItems());
     core->metadatainterface()->getListWidget()->scrollToItem(core->metadatainterface()->getListWidget()->item(this->m_meta.getlocalid()));
 }
 
-void NutshEditInterface::edit() {
+void EditInterface::edit() {
 
     this->edit(core->metadatainterface()->getListWidget()->getItem(core->metadatainterface()->getListWidget()->row(core->metadatainterface()->getListWidget()->currentItem()))); // get metadata to edit
 }

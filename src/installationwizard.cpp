@@ -3,10 +3,10 @@
 #include <QLayout>
 #include <QProgressBar>
 #include <QFileDialog>
-#include "nutshinstallationwizard.h"
-#include "nutshindexer.h"
+#include "installationwizard.h"
+#include "indexer.h"
 
-NutshInstallationWizard::NutshInstallationWizard()
+InstallationWizard::InstallationWizard()
 {
     qRegisterMetaType<ProgressionInfo>("ProgressionInfo");
     this->addPage(new PageIntro);
@@ -21,7 +21,7 @@ NutshInstallationWizard::NutshInstallationWizard()
 #endif
 }
 
-void NutshInstallationWizard::accept() {
+void InstallationWizard::accept() {
 
     QDialog::accept();
 }
@@ -107,6 +107,6 @@ PageConclusion::PageConclusion() {
     conclusion = new QLabel(tr("Tout vos morceaux ont été importés dans votre bibliothèque\nAppuyez sur Terminer pour commencer à  vous servir de Nutsh"), this);
 }
 
-void NutshInstallationWizard::reject() {
+void InstallationWizard::reject() {
     qApp->quit();
 }

@@ -1,22 +1,22 @@
-#include "nutshstyle.h"
+#include "style.h"
 
-NutshStyle::NutshStyle()
+Style::Style()
 {
 }
 
-void NutshStyle::polish(QWidget *widget)
+void Style::polish(QWidget *widget)
 {
         if (qobject_cast<QPushButton *>(widget))
         widget->setAttribute(Qt::WA_Hover, true);
 }
 
-void NutshStyle::unpolish(QWidget *widget)
+void Style::unpolish(QWidget *widget)
 {
         if (qobject_cast<QPushButton *>(widget))
         widget->setAttribute(Qt::WA_Hover, false);
 }
 
-void NutshStyle::drawItemText(QPainter *painter, const QRect &rectangle, int alignment, const QPalette &palette, bool enabled, const QString &text, QPalette::ColorRole textRole) const
+void Style::drawItemText(QPainter *painter, const QRect &rectangle, int alignment, const QPalette &palette, bool enabled, const QString &text, QPalette::ColorRole textRole) const
 {
     QRect r(rectangle);
     if(enabled){
@@ -32,7 +32,7 @@ void NutshStyle::drawItemText(QPainter *painter, const QRect &rectangle, int ali
         painter->drawText(r, alignment, text);
 }
 
-void NutshStyle::drawPrimitive(PrimitiveElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget) const
+void Style::drawPrimitive(PrimitiveElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget) const
 {
         int rectX, rectY, rectLong, rectLarg, rd;
         option->rect.getRect(&rectX, &rectY, &rectLong, &rectLarg);

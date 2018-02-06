@@ -1,26 +1,26 @@
- #include "nutshcomunicator.h"
+ #include "core.h"
 
-NutshComunicator::NutshComunicator(QMainWindow *parent = 0)
+Core::Core(QMainWindow *parent)
 {
 
     m_dictionnary << "the " << "the";
     m_bar = new QStatusBar;
     m_parent = parent;
     m_central = new QWidget;
-    m_tray = new NutshSystemTrayIcon(this->getParent());
+    m_tray = new SystemtrayIcon(this->getParent());
     m_tray->setIcon(qApp->windowIcon());
     m_tray->show();
     this->m_interface = MetaDataInterface;
 
 
     //création de l'objet de control sur la base de donnée
-    sqlControl = new NutshSqlSaver;
+    sqlControl = new SqlManager;
     sqlControl->connect();
-    m_searchlineinterface = new NutshSearchLineInterface(this);
-    m_playlistinterface = new NutshPlayListInterface(this);
-    m_editinterface = new NutshEditInterface(this);
-    m_metadatainterface = new NutshMetaDataInterface(this);
-//    m_driveinterface = new NutshDriveInterface(this);
+    m_searchlineinterface = new SearchlineInterface(this);
+    m_playlistinterface = new PlaylistInterface(this);
+    m_editinterface = new EditInterface(this);
+    m_metadatainterface = new MetadataInterface(this);
+//    m_driveinterface = new DriveInterface(this);
 
     m_metadatainterface->setParent(m_central);
     m_searchlineinterface->setParent(m_central);
@@ -38,14 +38,14 @@ NutshComunicator::NutshComunicator(QMainWindow *parent = 0)
     //création du scanner pour les médias
 
     afterLaunch();
-    qDebug() << "NutshComunicator : Transimission de toutes les interfaces a NutshMainWindow";
+    qDebug() << "Core : Transimission de toutes les interfaces a MainWindow";
 }
 
-void NutshComunicator::afterLaunch() {
+void Core::afterLaunch() {
 
-    m_playinginterface = new NutshPlayingInterface(this);
-    m_progressinterface = new NutshProgressInterface(this);
-    m_playbox = new NutshPlaybox(this);
+    m_playinginterface = new class PlayingInterface(this);
+    m_progressinterface = new class ProgressInterface(this);
+    m_playbox = new class Playbox(this);
     m_playbox->setParent(m_central);
 
     m_playinginterface->getActionsButtons()->setParent(m_central);
@@ -62,7 +62,7 @@ void NutshComunicator::afterLaunch() {
     m_progressinterface->hide();
     m_editinterface->hide();
 
-//    m_updater = new NutshUpdater(this);
+//    m_updater = new Updater(this);
 
 //    m_updater->setParent(m_central);
 //    m_updater->hide();
@@ -72,12 +72,12 @@ void NutshComunicator::afterLaunch() {
     this->place(1);
 
 }
-QWidget *NutshComunicator::initInterfaces() {
+QWidget *Core::initInterfaces() {
     //mise en places dans les layouts et envoi dans la fenêtre principale.
     return m_central;
 }
 
-void NutshComunicator::swapInterface(InterfaceName name) {
+void Core::swapInterface(InterfaceName name) {
 
     this->m_interface = name;
 
@@ -99,7 +99,7 @@ void NutshComunicator::swapInterface(InterfaceName name) {
     }
 }
 
-void NutshComunicator::place(float coef) {
+void Core::place(float coef) {
 
     coef = 1;
     m_metadatainterface->place(0);
@@ -119,78 +119,78 @@ void NutshComunicator::place(float coef) {
 
 }
 
-void NutshComunicator::scanFolders() {
+void Core::scanFolders() {
 
 #ifndef STAGING
-    NutshIndexer* indexer = new NutshIndexer(this->getSqlControl()->getFolderList(), this);
+    Indexer* indexer = new Indexer(this->getSqlControl()->getFolderList(), this);
     indexer->start();
 #endif
 }
 /* ----------Fonctions retournant les interfaces pour communiquer entre les différentes parties du programme -------*/
-NutshMetaDataInterface* NutshComunicator::metadatainterface() {
+MetadataInterface* Core::metadatainterface() {
 
     return m_metadatainterface;
 }
 
-//NutshDriveInterface* NutshComunicator::driveinterface() {
+//DriveInterface* Core::driveinterface() {
 //
 //    return m_driveinterface;
 //}
 
-NutshSearchLineInterface* NutshComunicator::searchlineinterface() {
+SearchlineInterface* Core::searchlineinterface() {
 
     return m_searchlineinterface;
 }
 
-NutshPlayListInterface* NutshComunicator::playlistinterface() {
+PlaylistInterface* Core::playlistinterface() {
 
     return m_playlistinterface;
 }
 
-NutshPlayingInterface* NutshComunicator::playinginterface() {
+class PlayingInterface* Core::playinginterface() {
 
     return m_playinginterface;
 }
 
-NutshProgressInterface* NutshComunicator::progressinterface() {
+class ProgressInterface* Core::progressinterface() {
 
     return m_progressinterface;
 }
 
-void NutshComunicator::setStatus(const QString &status) {
+void Core::setStatus(const QString &status) {
 
     m_bar->showMessage(status);
 }
 
-QStatusBar* NutshComunicator::bar() {
+QStatusBar* Core::bar() {
 
     return m_bar;
 }
 
-NutshSqlSaver* NutshComunicator::getSqlControl() {
+SqlManager* Core::getSqlControl() {
 
     return sqlControl;
 }
 
-QMainWindow* NutshComunicator::getParent() {
+QMainWindow* Core::getParent() {
     return m_parent;
 }
 
-NutshSystemTrayIcon* NutshComunicator::systemtrayicon() {
+SystemtrayIcon* Core::systemtrayicon() {
     return m_tray;
 }
-NutshPlaybox* NutshComunicator::playbox() {
+class Playbox* Core::playbox() {
     return m_playbox;
 }
 
-QStringList NutshComunicator::dictionnary() {
+QStringList Core::dictionnary() {
     return m_dictionnary;
 }
 
-InterfaceName NutshComunicator::interface() const {
+InterfaceName Core::interface() const {
     return m_interface;
 }
 
-NutshEditInterface* NutshComunicator::editinterface() {
+EditInterface* Core::editinterface() {
     return m_editinterface;
 }

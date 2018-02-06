@@ -1,7 +1,7 @@
-#include "nutshplaybox.h"
-#include "nutshcomunicator.h"
+#include "playbox.h"
+#include "core.h"
 
-NutshPlaybox::NutshPlaybox(NutshComunicator* corePath)
+Playbox::Playbox(Core* corePath)
 {
     core = corePath;
     this->setText("<font color = '#DEDEDE'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Vide&nbsp;</font>");
@@ -11,17 +11,17 @@ NutshPlaybox::NutshPlaybox(NutshComunicator* corePath)
     m_right_click = new QMenu;
     m_right_click->addAction(tr("Nouvelle liste à partir de la playbox"), core->playlistinterface(), SLOT(newListFromContent()));
 }
-void NutshPlaybox::place(float coef) {
+void Playbox::place(float coef) {
     this->resize(160, 35);
     this->move(0, 240);
 }
-void NutshPlaybox::add(QList<NutshMetaData> liste) {
+void Playbox::add(QList<Metadata> liste) {
 
     for(int i = 0;i<liste.count();i++) {
         this->add(liste.value(i));
     }
 }
-void NutshPlaybox::add(NutshMetaData meta) {
+void Playbox::add(Metadata meta) {
 
     if(fileattente.contains(meta)) {
 
@@ -33,7 +33,7 @@ void NutshPlaybox::add(NutshMetaData meta) {
     this->setText(QString("<font color = '#DEDEDE'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    %1</font>").arg(fileattente.count()));
 
 }
-void NutshPlaybox::mouseReleaseEvent(QMouseEvent *event) {
+void Playbox::mouseReleaseEvent(QMouseEvent *event) {
     if(event->button() == Qt::LeftButton) {
         this->showcontent();
         event->accept();
@@ -44,34 +44,34 @@ void NutshPlaybox::mouseReleaseEvent(QMouseEvent *event) {
 
 
 }
-void NutshPlaybox::showcontent() {
+void Playbox::showcontent() {
     this->isPlaybox(true);
-    core->metadatainterface()->refreshInterface(Playbox);
+    core->metadatainterface()->refreshInterface(ContentType::Playbox);
     core->metadatainterface()->load(fileattente);
 
 
 }
 
-void NutshPlaybox::dropEvent(QDropEvent *event) {
+void Playbox::dropEvent(QDropEvent *event) {
 
 
     this->add(core->metadatainterface()->getListWidget()->selectedMetadatas());
     this->setStyleSheet("background-color : white; border : 1px solid black");
     event->accept();
 }
-void NutshPlaybox::dragEnterEvent(QDragEnterEvent *event) {
+void Playbox::dragEnterEvent(QDragEnterEvent *event) {
     this->setStyleSheet("background-color : #93CB8E; border : 1px solid green");
     event->accept();
 }
-void NutshPlaybox::dragMoveEvent(QDragMoveEvent *event) {
+void Playbox::dragMoveEvent(QDragMoveEvent *event) {
     event->accept();
 }
-void NutshPlaybox::dragLeaveEvent(QDragLeaveEvent *event) {
+void Playbox::dragLeaveEvent(QDragLeaveEvent *event) {
     this->setStyleSheet("background-color : white; border : 1px solid black");
     event->accept();
 
 }
-void NutshPlaybox::isPlaybox(bool yon) {
+void Playbox::isPlaybox(bool yon) {
     if(yon) {
         this->setStyleSheet("background-color : #6BB7E5; border : 1px solid blue");
 
@@ -81,7 +81,7 @@ void NutshPlaybox::isPlaybox(bool yon) {
 
     }
 }
-void NutshPlaybox::playing(NutshMetaData &meta) {
+void Playbox::playing(Metadata &meta) {
 
     if(meta.location() == fromPlaylist) {
 
@@ -102,37 +102,37 @@ void NutshPlaybox::playing(NutshMetaData &meta) {
 
 }
 
-NutshMetaData NutshPlaybox::next() {
+Metadata Playbox::next() {
 
     if(o == fileattente.count()-1) {
 
-        return NutshMetaData();
+        return Metadata();
     }
     o = fileattente.lastIndexOf(core->playinginterface()->current())+1;
     return fileattente.value(o); // base de 0 donc équivalent à o +1
 }
 
 
-NutshMetaData NutshPlaybox::previous() {
+Metadata Playbox::previous() {
 
     if(o == 0) {
 
-        return NutshMetaData();
+        return Metadata();
     }
 
     o = fileattente.lastIndexOf(core->playinginterface()->current())-1;
     return fileattente.value(o); // base de 0 donc équivalent à o -1
 }
 
-NutshMetaData NutshPlaybox::random() {
+Metadata Playbox::random() {
     return fileattente.value((qrand() % (fileattente.count() - 1 +1) + 0));
 }
 
-bool NutshPlaybox::isEmpty() {
+bool Playbox::isEmpty() {
 
     return false;
 }
 
-QList<NutshMetaData> NutshPlaybox::getFileattente() const {
+QList<Metadata> Playbox::getFileattente() const {
     return fileattente;
 }

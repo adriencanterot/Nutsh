@@ -1,9 +1,9 @@
-#include "nutshprogressinterface.h"
-#include "nutshcomunicator.h"
+#include "progressinterface.h"
+#include "core.h"
 
-NutshProgressInterface::NutshProgressInterface(NutshComunicator* corePath)
+ProgressInterface::ProgressInterface(Core* corePath)
 {
-    qDebug() << "Initializing NutshProgressInterface...";
+    qDebug() << "Initializing ProgressInterface...";
     core = corePath;
     //Widgets
 
@@ -18,7 +18,7 @@ NutshProgressInterface::NutshProgressInterface(NutshComunicator* corePath)
 }
 
 
-bool NutshProgressInterface::isActive() {
+bool ProgressInterface::isActive() {
     //est actif si il y a une importation en cours
 
     if(m_progress->value() != 0) {
@@ -34,7 +34,7 @@ bool NutshProgressInterface::isActive() {
     return active;
 }
 
-void NutshProgressInterface::setValue(int i) {
+void ProgressInterface::setValue(int i) {
 
     m_progress->setValue(i);
 
@@ -45,12 +45,12 @@ void NutshProgressInterface::setValue(int i) {
 
 }
 
-void NutshProgressInterface::setMaximum(int i) {
+void ProgressInterface::setMaximum(int i) {
 
     m_progress->setMaximum(i);
 }
 
-void NutshProgressInterface::visible(bool visible) {
+void ProgressInterface::visible(bool visible) {
     //affiche cette interface au lieu de nutshdriveinterface
 
     if(visible) {
@@ -63,7 +63,7 @@ void NutshProgressInterface::visible(bool visible) {
     }
 }
 
-void NutshProgressInterface::updateWidget(ProgressionInfo informations) {
+void ProgressInterface::updateWidget(ProgressionInfo informations) {
     // met à jour le widget (à chaque tour de boucle du thread
 
     if(informations.style == searching) {
@@ -79,7 +79,7 @@ void NutshProgressInterface::updateWidget(ProgressionInfo informations) {
 
 }
 
-void NutshProgressInterface::import(const QString& path) {
+void ProgressInterface::import(const QString& path) {
 
     scan = new Indexer(path);
     connect(scan, SIGNAL(loopEnded()), core->metadatainterface(), SLOT(reload()));
@@ -91,7 +91,7 @@ void NutshProgressInterface::import(const QString& path) {
     this->visible(true);
 }
 
-void NutshProgressInterface::finished() {
+void ProgressInterface::finished() {
 
         if(scan != NULL) {
 
@@ -100,32 +100,32 @@ void NutshProgressInterface::finished() {
     connect(m_cancel, SIGNAL(clicked()), this, SLOT(reset()));
 }
 
-void NutshProgressInterface::stopWhy(const QString &why) {
+void ProgressInterface::stopWhy(const QString &why) {
 
     scan->forceQuit();
     QMessageBox::critical(core->initInterfaces(), tr("Erreur"), why);
     this->reset();
 }
 
-void NutshProgressInterface::reset() {
+void ProgressInterface::reset() {
 
     m_progress->setValue(0);
     this->visible(false);
 }
 
-void NutshProgressInterface::cancel() {
+void ProgressInterface::cancel() {
     if(scan != NULL) {
         scan->forceQuit();
     }
     this->reset();
 }
 
-void NutshProgressInterface::place(float coef) {
+void ProgressInterface::place(float coef) {
 
     m_cancel->move(360, 3);
     m_label->move(0, 20);
 }
 
-void NutshProgressInterface::setText(const QString& text) {
+void ProgressInterface::setText(const QString& text) {
     m_label->setText(text);
 }

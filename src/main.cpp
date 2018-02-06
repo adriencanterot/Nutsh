@@ -1,12 +1,12 @@
-#include <QtGui/QApplication>
+#include <QApplication>
 
 #include <QApplication>
 #include <QTextEdit>
 #include <QString>
 #include <QTextStream>
-#include "nutshstyle.h"
+#include "style.h"
 
-#include "nutshmainwindow.h"
+#include "mainwindow.h"
 
 
 
@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
     QString locale = QLocale::system().name().section('_', 0, 0);
     translator.load(":/translations/nutsh_"+locale);
     a.installTranslator(&translator);
-    a.setStyle(new NutshStyle);
+    a.setStyle(new Style);
     QFile file(":/css/style.css");
     file.open(QIODevice::ReadOnly);
     QString styleSheetContent = QLatin1String(file.readAll());
@@ -26,6 +26,6 @@ int main(int argc, char *argv[])
     a.setStyleSheet(styleSheetContent);
 
     //fenêtre principale
-    NutshMainWindow f;
+    MainWindow f;
     return a.exec();
 }

@@ -1,11 +1,11 @@
-#include "nutshmainwindow.h"
+#include "mainwindow.h"
 
 
-NutshMainWindow::NutshMainWindow(QWidget *parent)
+MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent) {
 
     //création du core
-    path = new NutshComunicator(this);
+    path = new Core(this);
 
     //this->setupMenus();
     this->setCentralWidget(path->initInterfaces()); // affichage du widget Central
@@ -20,10 +20,10 @@ NutshMainWindow::NutshMainWindow(QWidget *parent)
     path->scanFolders();
     this->show();
     path->metadatainterface()->setStyleSheet("min-width : 440px;");
-    qDebug("NutshMainWindow : Fin de l'initialisation de l'interface");
+    qDebug("MainWindow : Fin de l'initialisation de l'interface");
 }
 
-/*void NutshMainWindow::setupMenus() {
+/*void MainWindow::setupMenus() {
 
     //FICHIER
     ouvrir = new QAction("Ouvrir", this);

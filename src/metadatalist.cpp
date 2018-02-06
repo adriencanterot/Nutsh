@@ -1,7 +1,7 @@
-#include "nutshmetadatalist.h"
-#include "nutshcomunicator.h"
+#include "metadatalist.h"
+#include "core.h"
 
-NutshMetaDataList::NutshMetaDataList(NutshComunicator* corePath) {
+MetadataList::MetadataList(Core* corePath) {
 
     core = corePath;
     property = true;
@@ -22,7 +22,7 @@ NutshMetaDataList::NutshMetaDataList(NutshComunicator* corePath) {
 
 }
 
-void NutshMetaDataList::append(NutshMetaData data) {
+void MetadataList::append(Metadata data) {
 
 
     /******Redimmensionnement des titres ******/
@@ -51,22 +51,22 @@ void NutshMetaDataList::append(NutshMetaData data) {
 
 }
 
-void NutshMetaDataList::emitSignal(QModelIndex metaIndex) {
+void MetadataList::emitSignal(QModelIndex metaIndex) {
 
     emit clicked(items.value(metaIndex.row()));
 }
 
-QList<NutshMetaData> NutshMetaDataList::getItems() const {
+QList<Metadata> MetadataList::getItems() const {
 
     return items;
 }
 
-bool NutshMetaDataList::isEmpty() {
+bool MetadataList::isEmpty() {
 
     return items.empty(); // empty?
 }
 
-void NutshMetaDataList::load(QList<NutshMetaData> liste) {
+void MetadataList::load(QList<Metadata> liste) {
 
     this->indexSelected = 0;
     this->clearList();
@@ -101,21 +101,21 @@ void NutshMetaDataList::load(QList<NutshMetaData> liste) {
     }
 
 }
-void NutshMetaDataList::clearList() {
+void MetadataList::clearList() {
 
     this->clear();
     items.clear();
     this->setIconSize(QSize(34, 34));
 }
 
-NutshMetaData NutshMetaDataList::getItem(int index) const {
+Metadata MetadataList::getItem(int index) const {
 
     return items.value(index);
 }
 
-QList<NutshMetaData> NutshMetaDataList::selectedMetadatas() const{
+QList<Metadata> MetadataList::selectedMetadatas() const{
 
-    QList<NutshMetaData> itemsToReturn;
+    QList<Metadata> itemsToReturn;
 
     for(int i = 0;i<this->count();i++) {
 
@@ -129,19 +129,19 @@ QList<NutshMetaData> NutshMetaDataList::selectedMetadatas() const{
     return itemsToReturn;
 }
 
-void NutshMetaDataList::keyPressEvent(QKeyEvent* event) {
+void MetadataList::keyPressEvent(QKeyEvent* event) {
 
     core->metadatainterface()->navigateByKey(event);
 
 }
-void NutshMetaDataList::loadNext(int value) {
+void MetadataList::loadNext(int value) {
 
     if(value >= this->verticalScrollBar()->maximum()) {
 
         this->append(this->items.mid(this->count(), MAX_ELEMENT_SHOWN));
     }
 }
-void NutshMetaDataList::append(QList<NutshMetaData> liste ) {
+void MetadataList::append(QList<Metadata> liste ) {
 
     for(int i = 0;i<liste.count();i++) {
 
@@ -151,7 +151,7 @@ void NutshMetaDataList::append(QList<NutshMetaData> liste ) {
     }
 
 }
-void NutshMetaDataList::wheelEvent(QWheelEvent *event) {
+void MetadataList::wheelEvent(QWheelEvent *event) {
 
     if(core->interface() != MetaDataInterface) {
         return;
@@ -169,7 +169,7 @@ void NutshMetaDataList::wheelEvent(QWheelEvent *event) {
 
 }
 
-void NutshMetaDataList::mouseReleaseEvent(QMouseEvent *event) {
+void MetadataList::mouseReleaseEvent(QMouseEvent *event) {
 
     eventpos = event->pos();
     if(event->button() == Qt::RightButton) {
@@ -177,18 +177,18 @@ void NutshMetaDataList::mouseReleaseEvent(QMouseEvent *event) {
     }
 }
 
-void NutshMetaDataList::destroy() {
+void MetadataList::destroy() {
     core->getSqlControl()->destroy(items.value(this->row(this->itemAt(eventpos))));
     this->takeItem(this->row(this->itemAt(eventpos)));
     items.removeOne(items.value(this->row(this->itemAt(eventpos))));
 }
 
-void NutshMetaDataList::destroyFromList() {
+void MetadataList::destroyFromList() {
     core->getSqlControl()->destroyFromList(items.value(this->row(this->itemAt(eventpos))), core->playlistinterface()->current());
     this->takeItem(this->row(this->itemAt(eventpos)));
     items.removeOne(items.value(this->row(this->itemAt(eventpos))));
 }
 
-void NutshMetaDataList::setContenttype(ContentType type) {
+void MetadataList::setContenttype(ContentType type) {
     this->contenttype = type;
 }

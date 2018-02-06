@@ -6,29 +6,29 @@
 #include <QMessageBox>
 #include <QDir>
 #include <QDesktopServices>
-#include "nutshmetadata.h"
+#include "metadata.h"
 #include "preprocess.h"
-#include "nutshinstallationwizard.h"
+#include "installationwizard.h"
 
-class NutshSqlSaver
+class SqlManager
 {
     public:
-	NutshSqlSaver();
+	SqlManager();
 
-        bool trouverDansTable(const NutshMetaData&);
+        bool trouverDansTable(const Metadata&);
         bool tableExists(const QString&);
         bool connect();
         bool nouvelleListe(const QString&);
 
-        void completeMetaData(NutshMetaData&);
-        void inserer(QList<NutshMetaData>, const QString&);
-        void inserer(NutshMetaData, const QString&);
-        void destroy(NutshMetaData);
-        void destroyFromList(NutshMetaData, const QString&);
-        insertError inserer(NutshMetaData);
-        void update(const NutshMetaData&);
+        void completeMetaData(Metadata&);
+        void inserer(QList<Metadata>, const QString&);
+        void inserer(Metadata, const QString&);
+        void destroy(Metadata);
+        void destroyFromList(Metadata, const QString&);
+        insertError inserer(Metadata);
+        void update(const Metadata&);
         void savePath(const QString& path);
-        void played(NutshMetaData&);
+        void played(Metadata&);
         void remove(const QString&);
         void rename(const QString&, const QString&);
         QStringList getPlaylists();
@@ -39,12 +39,12 @@ class NutshSqlSaver
         static QString sqlStringFormat(const QString&);
         static QString normalStringFormat(const QString&);
 
-        QVariantList modelNutshMetaData(const NutshMetaData&);
-        QList<NutshMetaData> getMetaDatas(const QString& listName = QString());
-        QList<NutshMetaData> getResults(const QString&);
-        QList<NutshMetaData> getLastImport(int);
-        QList<NutshMetaData> getMostReaden(int);
-        QList<NutshMetaData> getLastReaden(int);
+        QVariantList modelMetadata(const Metadata&);
+        QList<Metadata> getMetaDatas(const QString& listName = QString());
+        QList<Metadata> getResults(const QString&);
+        QList<Metadata> getLastImport(int);
+        QList<Metadata> getMostReaden(int);
+        QList<Metadata> getLastReaden(int);
         QStringList getFolderList();
 
         QString crypt(const QString&);

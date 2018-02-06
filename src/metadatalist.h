@@ -4,22 +4,22 @@
 #include <QListWidget>
 #include <QDir>
 #include <QDirIterator>
-#include "nutshmetadata.h"
+#include "metadata.h"
 #include "preprocess.h"
 #include <QKeyEvent>
 #include <QScrollBar>
 #include <QMenu>
-class NutshComunicator;
-class NutshMetaDataList : public QListWidget
+class Core;
+class MetadataList : public QListWidget
 {
     Q_OBJECT
 public:
-    NutshMetaDataList(NutshComunicator*);
-    void load(QList<NutshMetaData>);
-    void append(QList<NutshMetaData>);
-    QList<NutshMetaData> getItems() const;
-    QList<NutshMetaData> selectedMetadatas() const;
-    NutshMetaData getItem(int index) const;
+    MetadataList(Core*);
+    void load(QList<Metadata>);
+    void append(QList<Metadata>);
+    QList<Metadata> getItems() const;
+    QList<Metadata> selectedMetadatas() const;
+    Metadata getItem(int index) const;
     void clearList();
     bool isEmpty();
     void navigateByKey(QKeyEvent *event);
@@ -32,18 +32,18 @@ protected:
 
 public slots:
     void emitSignal(QModelIndex);
-    void append(NutshMetaData);
+    void append(Metadata);
     void loadNext(int value);
     void destroy();
     void destroyFromList();
 
 signals:
-    NutshMetaData clicked(NutshMetaData);
+    Metadata clicked(Metadata);
 private:
     QMenu *context;
-    QList<NutshMetaData> items;
+    QList<Metadata> items;
     int indexSelected;
-    NutshComunicator *core;
+    Core *core;
     bool property;
     int wheelPosition;
     QPoint eventpos;
